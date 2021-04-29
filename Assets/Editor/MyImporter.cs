@@ -5,31 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Experimental.AssetImporters;
+
 using System.IO;
 
 namespace Assets.Editor
 {
     public enum MyCubeImporterType
     {
-        FullCube,
+        Cube,
         Top_Front,
     }
 
 
-    [ScriptedImporter(1, "cube")]
-    public class MyImporter : ScriptedImporter
+    [UnityEditor.AssetImporters.ScriptedImporter(1, "cube")]
+    public class MyImporter : UnityEditor.AssetImporters.ScriptedImporter
     {
-        public MyCubeImporterType type = MyCubeImporterType.FullCube;
+        public MyCubeImporterType shape = MyCubeImporterType.Cube;
         [Range(0f, 1f)]
         public float belowPercent = 0.5f;
         public int pixelsPerUnit = 100;
         public Vector3 pivot = new Vector3(0.5f, 0f, 0.5f);
-        public bool needOptimize = true;
+        //public bool needOptimize = true;
         const float SQRT2 = 1.4142135623730951f;
 
-        Mesh CreateFullCube(float xLength, float yLength, float zLength)
+        Mesh CreateCube(float xLength, float yLength, float zLength)
         {
+            //Debug.Log(string.Format("length:{0}*{1}*{2}", xLength, yLength, zLength));
             Mesh mesh = new Mesh();
             var vertices = new Vector3[]
             {
@@ -47,8 +48,13 @@ namespace Assets.Editor
             };
             for (int i = 0; i < vertices.Length; i++)
             {
+                vertices[i].x += (0.5f - pivot.x);
                 vertices[i].x *= xLength;
+
+                vertices[i].y += (0.5f - pivot.y);
                 vertices[i].y *= yLength;
+
+                vertices[i].z += (0.5f - pivot.z);
                 vertices[i].z *= zLength;
             }
 
@@ -90,17 +96,17 @@ namespace Assets.Editor
                 new Vector2(1f, 1f),
             };
 
-            if (this.needOptimize)
-            {
-                MeshUtility.Optimize(mesh);
-            }
+            //if (this.needOptimize)
+            //{
+            //    MeshUtility.Optimize(mesh);
+            //}
             return mesh;
         }
 
         Mesh CreateTopFront(float xLength, float yLength, float zLength)
         {
             Mesh mesh = new Mesh();
-            mesh.vertices = new Vector3[]
+            var vertices = new Vector3[]
             {
                 new Vector3(-0.5f, -0.5f, -0.5f),
                 new Vector3(0.5f, -0.5f, -0.5f),
@@ -111,6 +117,18 @@ namespace Assets.Editor
                 new Vector3(-0.5f, 0.5f, 0.5f),
                 new Vector3(0.5f, 0.5f, 0.5f),
             };
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].x += (0.5f - pivot.x);
+                vertices[i].x *= xLength;
+
+                vertices[i].y += (0.5f - pivot.y);
+                vertices[i].y *= yLength;
+
+                vertices[i].z += (0.5f - pivot.z);
+                vertices[i].z *= zLength;
+            }
+            mesh.vertices = vertices;
             mesh.triangles = new int[]
             {
                 // front
@@ -132,14 +150,29 @@ namespace Assets.Editor
                 new Vector2(1f, 1f),
             };
 
-            if (this.needOptimize)
-            {
-                MeshUtility.Optimize(mesh);
-            }
+            //if (this.needOptimize)
+            //{
+            //    MeshUtility.Optimize(mesh);
+            //}
             return mesh;
         }
+        Mesh CreateMesh(float xLength, float yLength, float zLength)
+        {
+            Mesh mesh = null;
+            switch (this.shape)
+            {
+                case MyCubeImporterType.Cube:
+                    mesh = this.CreateCube(xLength, yLength, zLength);
+                    break;
+                case MyCubeImporterType.Top_Front:
+                    mesh = this.CreateTopFront(xLength, yLength, zLength);
+                    break;
+            }
 
-        public override void OnImportAsset(AssetImportContext ctx)
+            return mesh;
+
+        }
+        public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
         {
             // load texture
             string texturePath = ctx.assetPath.Replace(".cube", ".png");
@@ -159,15 +192,7 @@ namespace Assets.Editor
             float yLength = texHeight * this.belowPercent * SQRT2 / this.pixelsPerUnit;
             float zLength = texHeight * (1f - this.belowPercent) * SQRT2 / this.pixelsPerUnit;
 
-            Mesh mesh = null;
-            if (this.type == MyCubeImporterType.FullCube)
-            {
-                mesh = this.CreateFullCube(xLength, yLength, zLength);
-            }
-            else
-            {
-                mesh = this.CreateTopFront(xLength, yLength, zLength);
-            }
+            Mesh mesh = this.CreateMesh(xLength, yLength, zLength);
             ctx.AddObjectToAsset("my mesh", mesh);
 
             // new gameobject
@@ -182,6 +207,8 @@ namespace Assets.Editor
 
             MeshRenderer renderer = go.AddComponent<MeshRenderer>();
             renderer.material = material;
+
+            go.AddComponent<BoxCollider>();
         }
     }
 }

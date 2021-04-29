@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c6bd5dc0b9cbaba4794bef93d26e349c
+guid: 0e53835df391aa24ab63f5853d4fa5d3
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -9,7 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: e316375b3236f9c4886d4bc91b44964e, type: 3}
   shape: 1
-  belowPercent: 0.56
+  belowPercent: 0.6008584
   pixelsPerUnit: 100
   pivot: {x: 0.5, y: 0, z: 0}
   needOptimize: 0
