@@ -8,8 +8,9 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: e316375b3236f9c4886d4bc91b44964e, type: 3}
-  shape: 1
-  belowPercent: 0.56
   pixelsPerUnit: 100
+  shape: 0
+  belowPercent: 0.56
+  quadDir: 0
   pivot: {x: 0.5, y: 0, z: 0}
-  needOptimize: 0
+  addCollider: 1

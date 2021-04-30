@@ -1,0 +1,209 @@
+
+ahpple.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ahhh
+  rotate: true
+  xy: 284, 286
+  size: 27, 29
+  orig: 27, 29
+  offset: 0, 0
+  index: -1
+angry
+  rotate: true
+  xy: 190, 204
+  size: 24, 10
+  orig: 24, 10
+  offset: 0, 0
+  index: -1
+arm
+  rotate: false
+  xy: 86, 75
+  size: 22, 43
+  orig: 22, 43
+  offset: 0, 0
+  index: -1
+bag
+  rotate: false
+  xy: 202, 251
+  size: 36, 30
+  orig: 36, 30
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 197
+  size: 125, 116
+  orig: 125, 116
+  offset: 0, 0
+  index: -1
+carzy
+  rotate: false
+  xy: 240, 254
+  size: 50, 27
+  orig: 50, 27
+  offset: 0, 0
+  index: -1
+close
+  rotate: true
+  xy: 129, 71
+  size: 44, 13
+  orig: 44, 13
+  offset: 0, 0
+  index: -1
+du
+  rotate: false
+  xy: 236, 192
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: false
+  xy: 129, 230
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+hair_back
+  rotate: true
+  xy: 171, 105
+  size: 52, 39
+  orig: 52, 39
+  offset: 0, 0
+  index: -1
+hair_f
+  rotate: true
+  xy: 129, 159
+  size: 69, 59
+  orig: 69, 59
+  offset: 0, 0
+  index: -1
+half_watch
+  rotate: false
+  xy: 200, 164
+  size: 50, 21
+  orig: 50, 21
+  offset: 0, 0
+  index: -1
+handball
+  rotate: false
+  xy: 202, 219
+  size: 32, 30
+  orig: 32, 30
+  offset: 0, 0
+  index: -1
+handball_b
+  rotate: false
+  xy: 202, 187
+  size: 32, 30
+  orig: 32, 30
+  offset: 0, 0
+  index: -1
+handko
+  rotate: false
+  xy: 44, 78
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+handko_b
+  rotate: false
+  xy: 44, 36
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+handopen
+  rotate: false
+  xy: 2, 28
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+handopen_b
+  rotate: false
+  xy: 129, 117
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+handwo
+  rotate: false
+  xy: 250, 283
+  size: 32, 30
+  orig: 32, 30
+  offset: 0, 0
+  index: -1
+headlines
+  rotate: true
+  xy: 2, 141
+  size: 54, 53
+  orig: 54, 53
+  offset: 0, 0
+  index: -1
+leg
+  rotate: true
+  xy: 236, 208
+  size: 21, 38
+  orig: 21, 38
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 2, 70
+  size: 69, 40
+  orig: 69, 40
+  offset: 0, 0
+  index: -1
+smile
+  rotate: true
+  xy: 44, 121
+  size: 18, 9
+  orig: 18, 9
+  offset: 0, 0
+  index: -1
+unhappy
+  rotate: true
+  xy: 190, 185
+  size: 17, 8
+  orig: 17, 8
+  offset: 0, 0
+  index: -1
+waaaah
+  rotate: true
+  xy: 86, 51
+  size: 22, 13
+  orig: 22, 13
+  offset: 0, 0
+  index: -1
+watch
+  rotate: false
+  xy: 240, 231
+  size: 50, 21
+  orig: 50, 21
+  offset: 0, 0
+  index: -1
+what
+  rotate: false
+  xy: 202, 283
+  size: 46, 30
+  orig: 46, 30
+  offset: 0, 0
+  index: -1
+yaodai_a
+  rotate: false
+  xy: 57, 120
+  size: 52, 75
+  orig: 52, 75
+  offset: 0, 0
+  index: -1
+yaodai_b
+  rotate: true
+  xy: 111, 95
+  size: 100, 16
+  orig: 100, 16
+  offset: 0, 0
+  index: -1

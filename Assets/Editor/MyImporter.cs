@@ -10,26 +10,45 @@ using System.IO;
 
 namespace Assets.Editor
 {
-    public enum MyCubeImporterType
+    public enum MyShape
     {
         Cube,
         Top_Front,
+        Quad,
     }
 
+    public enum MyQuadDir
+    {
+        XZ,
+        XY,
+    }
+
+    public enum MyColliderType
+    {
+        None,
+        Box,
+        Capsule,
+    }
 
     [UnityEditor.AssetImporters.ScriptedImporter(1, "cube")]
     public class MyImporter : UnityEditor.AssetImporters.ScriptedImporter
     {
-        public MyCubeImporterType shape = MyCubeImporterType.Cube;
+        public int pixelsPerUnit = 100;
+        public MyShape shape = MyShape.Cube;
         [Range(0f, 1f)]
         public float belowPercent = 0.5f;
-        public int pixelsPerUnit = 100;
+        public MyQuadDir quadDir = MyQuadDir.XZ;
         public Vector3 pivot = new Vector3(0.5f, 0f, 0.5f);
-        //public bool needOptimize = true;
+        public MyColliderType addCollider = MyColliderType.Box;
+
         const float SQRT2 = 1.4142135623730951f;
 
-        Mesh CreateCube(float xLength, float yLength, float zLength)
+        Mesh CreateCube(float texWidth, float texHeight)
         {
+            float xLength = texWidth / this.pixelsPerUnit;
+            float yLength = texHeight * this.belowPercent * SQRT2 / this.pixelsPerUnit;
+            float zLength = texHeight * (1f - this.belowPercent) * SQRT2 / this.pixelsPerUnit;
+
             //Debug.Log(string.Format("length:{0}*{1}*{2}", xLength, yLength, zLength));
             Mesh mesh = new Mesh();
             var vertices = new Vector3[]
@@ -103,8 +122,12 @@ namespace Assets.Editor
             return mesh;
         }
 
-        Mesh CreateTopFront(float xLength, float yLength, float zLength)
+        Mesh CreateTopFront(float texWidth, float texHeight)
         {
+            float xLength = texWidth / this.pixelsPerUnit;
+            float yLength = texHeight * this.belowPercent * SQRT2 / this.pixelsPerUnit;
+            float zLength = texHeight * (1f - this.belowPercent) * SQRT2 / this.pixelsPerUnit;
+
             Mesh mesh = new Mesh();
             var vertices = new Vector3[]
             {
@@ -156,16 +179,104 @@ namespace Assets.Editor
             //}
             return mesh;
         }
-        Mesh CreateMesh(float xLength, float yLength, float zLength)
+        Mesh CreateXZQuad(float texWidth, float texHeight)
+        {
+            float xLength = texWidth / this.pixelsPerUnit;
+            float zLength = texHeight * SQRT2 / this.pixelsPerUnit;
+
+            Mesh mesh = new Mesh();
+            var vertices = new Vector3[]
+            {
+                new Vector3(-0.5f, 0f, -0.5f),
+                new Vector3(0.5f, 0f, -0.5f),
+                new Vector3(-0.5f, 0f, 0.5f),
+                new Vector3(0.5f, 0f, 0.5f),
+            };
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].x += (0.5f - pivot.x);
+                vertices[i].x *= xLength;
+
+                //vertices[i].y += (0.5f - pivot.y);
+                //vertices[i].y *= yLength;
+
+                vertices[i].z += (0.5f - pivot.z);
+                vertices[i].z *= zLength;
+            }
+            mesh.vertices = vertices;
+            mesh.triangles = new int[]
+            {
+                0,2,1,
+                1,2,3,
+            };
+            mesh.uv = new Vector2[]
+            {
+                new Vector2(0f, 0f),
+                new Vector2(1f, 0f),
+                new Vector2(0f, 1f),
+                new Vector2(1f, 1f),
+            };
+            return mesh;
+        }
+        Mesh CreateXYQuad(float texWidth, float texHeight)
+        {
+            float xLength = texWidth / this.pixelsPerUnit;
+            float yLength = texHeight * SQRT2 / this.pixelsPerUnit;
+
+            Mesh mesh = new Mesh();
+            var vertices = new Vector3[]
+            {
+                new Vector3(-0.5f, -0.5f, 0f),
+                new Vector3(0.5f, -0.5f, 0f),
+                new Vector3(-0.5f, 0.5f, 0f),
+                new Vector3(0.5f, 0.5f, 0f),
+            };
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].x += (0.5f - pivot.x);
+                vertices[i].x *= xLength;
+
+                vertices[i].y += (0.5f - pivot.y);
+                vertices[i].y *= yLength;
+
+                //vertices[i].z += (0.5f - pivot.z);
+                //vertices[i].z *= zLength;
+            }
+            mesh.vertices = vertices;
+            mesh.triangles = new int[]
+            {
+                0,2,1,
+                1,2,3,
+            };
+            mesh.uv = new Vector2[]
+            {
+                new Vector2(0f, 0f),
+                new Vector2(1f, 0f),
+                new Vector2(0f, 1f),
+                new Vector2(1f, 1f),
+            };
+            return mesh;
+        }
+        Mesh CreateMesh(float texWidth, float texHeight)
         {
             Mesh mesh = null;
             switch (this.shape)
             {
-                case MyCubeImporterType.Cube:
-                    mesh = this.CreateCube(xLength, yLength, zLength);
+                case MyShape.Cube:
+                    mesh = this.CreateCube(texWidth, texHeight);
                     break;
-                case MyCubeImporterType.Top_Front:
-                    mesh = this.CreateTopFront(xLength, yLength, zLength);
+
+                case MyShape.Top_Front:
+                    mesh = this.CreateTopFront(texWidth, texHeight);
+                    break;
+
+                case MyShape.Quad:
+                    {
+                        if (this.quadDir == MyQuadDir.XZ)
+                            mesh = this.CreateXZQuad(texWidth, texHeight);
+                        else
+                            mesh = this.CreateXYQuad(texWidth, texHeight);
+                    }
                     break;
             }
 
@@ -188,11 +299,7 @@ namespace Assets.Editor
             float texWidth = texture.width;
             float texHeight = texture.height;
 
-            float xLength = texWidth / this.pixelsPerUnit;
-            float yLength = texHeight * this.belowPercent * SQRT2 / this.pixelsPerUnit;
-            float zLength = texHeight * (1f - this.belowPercent) * SQRT2 / this.pixelsPerUnit;
-
-            Mesh mesh = this.CreateMesh(xLength, yLength, zLength);
+            Mesh mesh = this.CreateMesh(texWidth, texHeight);
             ctx.AddObjectToAsset("my mesh", mesh);
 
             // new gameobject
@@ -208,7 +315,16 @@ namespace Assets.Editor
             MeshRenderer renderer = go.AddComponent<MeshRenderer>();
             renderer.material = material;
 
-            go.AddComponent<BoxCollider>();
+            switch (this.addCollider)
+            {
+                case MyColliderType.Box:
+                    go.AddComponent<BoxCollider>();
+                    break;
+
+                case MyColliderType.Capsule:
+                    go.AddComponent<CapsuleCollider>();
+                    break;
+            }
         }
     }
 }
