@@ -1,0 +1,76 @@
+
+banaBodyGuard.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+banaBodyBullet
+  rotate: false
+  xy: 2, 346
+  size: 162, 163
+  orig: 162, 163
+  offset: 0, 0
+  index: -1
+banaBodyBulletFaceEye_angry
+  rotate: true
+  xy: 65, 8
+  size: 15, 11
+  orig: 15, 11
+  offset: 0, 0
+  index: -1
+banaBodyBulletFaceEye_close
+  rotate: false
+  xy: 48, 2
+  size: 18, 3
+  orig: 18, 3
+  offset: 0, 0
+  index: -1
+banaBodyBulletFaceEye_nor
+  rotate: true
+  xy: 78, 11
+  size: 12, 9
+  orig: 12, 9
+  offset: 0, 0
+  index: -1
+banaBodyBulletFaceEye_shock
+  rotate: true
+  xy: 48, 7
+  size: 16, 15
+  orig: 16, 15
+  offset: 0, 0
+  index: -1
+banaBodyBulletFaceMt_nor
+  rotate: false
+  xy: 48, 25
+  size: 44, 12
+  orig: 44, 12
+  offset: 0, 0
+  index: -1
+banaBodyBulletFaceMt_open
+  rotate: false
+  xy: 2, 19
+  size: 44, 18
+  orig: 44, 18
+  offset: 0, 0
+  index: -1
+banaBodyBulletFaceMt_teeth
+  rotate: false
+  xy: 2, 2
+  size: 44, 15
+  orig: 44, 15
+  offset: 0, 0
+  index: -1
+banaBodyBulletSpinFX_A
+  rotate: true
+  xy: 2, 39
+  size: 145, 142
+  orig: 145, 142
+  offset: 0, 0
+  index: -1
+banaBodyBulletSpinFX_B
+  rotate: true
+  xy: 2, 186
+  size: 158, 146
+  orig: 158, 146
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,62 @@
+
+mini_wm.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 59
+  size: 62, 63
+  orig: 62, 63
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 86, 43
+  size: 17, 16
+  orig: 17, 16
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 89, 62
+  size: 16, 15
+  orig: 16, 15
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: false
+  xy: 66, 96
+  size: 46, 26
+  orig: 46, 26
+  offset: 0, 0
+  index: -1
+leg_nor
+  rotate: false
+  xy: 66, 61
+  size: 21, 17
+  orig: 21, 17
+  offset: 0, 0
+  index: -1
+leg_open
+  rotate: false
+  xy: 66, 80
+  size: 47, 14
+  orig: 47, 14
+  offset: 0, 0
+  index: -1
+leg_run
+  rotate: false
+  xy: 2, 41
+  size: 82, 16
+  orig: 82, 16
+  offset: 0, 0
+  index: -1
+mouth_angry
+  rotate: true
+  xy: 114, 100
+  size: 22, 8
+  orig: 22, 8
+  offset: 0, 0
+  index: -1

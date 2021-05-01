@@ -1,0 +1,55 @@
+
+wutouqishi.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+emoji_alarm
+  rotate: true
+  xy: 112, 180
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+wutouqishi_01
+  rotate: true
+  xy: 197, 224
+  size: 27, 54
+  orig: 27, 54
+  offset: 0, 0
+  index: -1
+wutouqishi_02
+  rotate: true
+  xy: 197, 187
+  size: 35, 45
+  orig: 35, 45
+  offset: 0, 0
+  index: -1
+wutouqishi_03
+  rotate: false
+  xy: 233, 152
+  size: 16, 33
+  orig: 16, 33
+  offset: 0, 0
+  index: -1
+wutouqishi_04
+  rotate: false
+  xy: 197, 167
+  size: 34, 18
+  orig: 34, 18
+  offset: 0, 0
+  index: -1
+wutouqishi_05
+  rotate: false
+  xy: 2, 160
+  size: 108, 91
+  orig: 108, 91
+  offset: 0, 0
+  index: -1
+wutouqishi_05-1
+  rotate: true
+  xy: 112, 152
+  size: 26, 77
+  orig: 26, 77
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,237 @@
+
+treez.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+apple
+  rotate: false
+  xy: 684, 1401
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+bigapple
+  rotate: false
+  xy: 814, 1401
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+blueberry
+  rotate: false
+  xy: 769, 1085
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+bobo_a
+  rotate: false
+  xy: 553, 1440
+  size: 129, 293
+  orig: 129, 293
+  offset: 0, 0
+  index: -1
+bobo_b
+  rotate: false
+  xy: 743, 1215
+  size: 118, 184
+  orig: 118, 184
+  offset: 0, 0
+  index: -1
+camptree_a
+  rotate: true
+  xy: 471, 1095
+  size: 298, 270
+  orig: 298, 270
+  offset: 0, 0
+  index: -1
+camptree_b
+  rotate: false
+  xy: 562, 878
+  size: 205, 215
+  orig: 205, 215
+  offset: 0, 0
+  index: -1
+camptree_c
+  rotate: false
+  xy: 2, 1301
+  size: 298, 362
+  orig: 298, 362
+  offset: 0, 0
+  index: -1
+camptree_d
+  rotate: false
+  xy: 254, 7
+  size: 177, 303
+  orig: 177, 303
+  offset: 0, 0
+  index: -1
+camptree_e
+  rotate: false
+  xy: 254, 1707
+  size: 218, 338
+  orig: 218, 338
+  offset: 0, 0
+  index: -1
+greentree_a
+  rotate: false
+  xy: 300, 979
+  size: 169, 320
+  orig: 169, 320
+  offset: 0, 0
+  index: -1
+greentree_b
+  rotate: false
+  xy: 314, 324
+  size: 169, 320
+  orig: 169, 320
+  offset: 0, 0
+  index: -1
+greentree_c
+  rotate: false
+  xy: 474, 1735
+  size: 162, 310
+  orig: 162, 310
+  offset: 0, 0
+  index: -1
+greentree_s_a
+  rotate: false
+  xy: 684, 1531
+  size: 158, 235
+  orig: 158, 235
+  offset: 0, 0
+  index: -1
+momo_a
+  rotate: false
+  xy: 638, 1768
+  size: 159, 277
+  orig: 159, 277
+  offset: 0, 0
+  index: -1
+momo_b
+  rotate: false
+  xy: 844, 1638
+  size: 141, 182
+  orig: 141, 182
+  offset: 0, 0
+  index: -1
+momo_c
+  rotate: true
+  xy: 799, 1822
+  size: 223, 210
+  orig: 223, 210
+  offset: 0, 0
+  index: -1
+pear
+  rotate: false
+  xy: 863, 1271
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+pine
+  rotate: false
+  xy: 604, 17
+  size: 188, 317
+  orig: 188, 317
+  offset: 0, 0
+  index: -1
+redtree_a
+  rotate: false
+  xy: 433, 2
+  size: 169, 320
+  orig: 169, 320
+  offset: 0, 0
+  index: -1
+sn_tree_a
+  rotate: false
+  xy: 199, 646
+  size: 190, 320
+  orig: 190, 320
+  offset: 0, 0
+  index: -1
+sn_tree_b
+  rotate: false
+  xy: 2, 1665
+  size: 250, 380
+  orig: 250, 380
+  offset: 0, 0
+  index: -1
+sn_tree_c
+  rotate: false
+  xy: 2, 636
+  size: 195, 330
+  orig: 195, 330
+  offset: 0, 0
+  index: -1
+toto_a
+  rotate: true
+  xy: 485, 336
+  size: 319, 310
+  orig: 319, 310
+  offset: 0, 0
+  index: -1
+toto_b
+  rotate: true
+  xy: 2, 6
+  size: 304, 250
+  orig: 304, 250
+  offset: 0, 0
+  index: -1
+toto_c
+  rotate: false
+  xy: 794, 24
+  size: 249, 310
+  orig: 249, 310
+  offset: 0, 0
+  index: -1
+toto_d
+  rotate: true
+  xy: 2, 312
+  size: 322, 310
+  orig: 322, 310
+  offset: 0, 0
+  index: -1
+toto_e
+  rotate: true
+  xy: 2, 968
+  size: 331, 296
+  orig: 331, 296
+  offset: 0, 0
+  index: -1
+toto_f
+  rotate: false
+  xy: 302, 1395
+  size: 249, 310
+  orig: 249, 310
+  offset: 0, 0
+  index: -1
+wallettree
+  rotate: false
+  xy: 722, 677
+  size: 119, 199
+  orig: 119, 199
+  offset: 0, 0
+  index: -1
+whitetree_s_a
+  rotate: false
+  xy: 562, 665
+  size: 158, 211
+  orig: 158, 211
+  offset: 0, 0
+  index: -1
+wm
+  rotate: false
+  xy: 769, 955
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+yellowtree_a
+  rotate: false
+  xy: 391, 657
+  size: 169, 320
+  orig: 169, 320
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,202 @@
+
+petertEgg.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+P_hat
+  rotate: false
+  xy: 2, 183
+  size: 101, 70
+  orig: 101, 70
+  offset: 0, 0
+  index: -1
+P_hat_back
+  rotate: false
+  xy: 82, 74
+  size: 98, 61
+  orig: 98, 61
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 89
+  size: 78, 92
+  orig: 78, 92
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 201, 172
+  size: 52, 33
+  orig: 52, 33
+  offset: 0, 0
+  index: -1
+eye_cat
+  rotate: true
+  xy: 82, 137
+  size: 44, 18
+  orig: 44, 18
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 201, 164
+  size: 51, 6
+  orig: 51, 6
+  offset: 0, 0
+  index: -1
+eye_cry
+  rotate: true
+  xy: 182, 36
+  size: 61, 33
+  orig: 61, 33
+  offset: 0, 0
+  index: -1
+eye_dai
+  rotate: false
+  xy: 194, 144
+  size: 36, 12
+  orig: 36, 12
+  offset: 0, 0
+  index: -1
+eye_half
+  rotate: true
+  xy: 217, 45
+  size: 52, 32
+  orig: 52, 32
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 201, 207
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: -1
+eye_sad
+  rotate: true
+  xy: 40, 35
+  size: 52, 38
+  orig: 52, 38
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 2, 26
+  size: 61, 36
+  orig: 61, 36
+  offset: 0, 0
+  index: -1
+face_b
+  rotate: true
+  xy: 127, 39
+  size: 33, 20
+  orig: 33, 20
+  offset: 0, 0
+  index: -1
+foot
+  rotate: true
+  xy: 149, 142
+  size: 14, 26
+  orig: 14, 26
+  offset: 0, 0
+  index: -1
+hand_ball_nor
+  rotate: false
+  xy: 217, 11
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: -1
+hand_ball_open
+  rotate: true
+  xy: 182, 99
+  size: 41, 38
+  orig: 41, 38
+  offset: 0, 0
+  index: -1
+hand_ball_point
+  rotate: true
+  xy: 80, 41
+  size: 31, 45
+  orig: 31, 45
+  offset: 0, 0
+  index: -1
+mt_ahh
+  rotate: true
+  xy: 177, 142
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+mt_big
+  rotate: true
+  xy: 222, 102
+  size: 40, 25
+  orig: 40, 25
+  offset: 0, 0
+  index: -1
+mt_dot
+  rotate: true
+  xy: 237, 212
+  size: 4, 5
+  orig: 4, 5
+  offset: 0, 0
+  index: -1
+mt_emm
+  rotate: false
+  xy: 80, 29
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+mt_errr
+  rotate: false
+  xy: 122, 140
+  size: 25, 16
+  orig: 25, 16
+  offset: 0, 0
+  index: -1
+mt_happy
+  rotate: true
+  xy: 102, 139
+  size: 17, 18
+  orig: 17, 18
+  offset: 0, 0
+  index: -1
+mt_hehe
+  rotate: true
+  xy: 237, 237
+  size: 16, 11
+  orig: 16, 11
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 149, 137
+  size: 12, 3
+  orig: 12, 3
+  offset: 0, 0
+  index: -1
+mt_p
+  rotate: false
+  xy: 232, 154
+  size: 19, 8
+  orig: 19, 8
+  offset: 0, 0
+  index: -1
+mt_smile
+  rotate: true
+  xy: 237, 218
+  size: 17, 10
+  orig: 17, 10
+  offset: 0, 0
+  index: -1
+shell
+  rotate: true
+  xy: 105, 158
+  size: 95, 94
+  orig: 95, 94
+  offset: 0, 0
+  index: -1

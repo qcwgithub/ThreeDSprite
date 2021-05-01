@@ -1,0 +1,111 @@
+
+pearGod.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+LD
+  rotate: true
+  xy: 402, 870
+  size: 53, 179
+  orig: 53, 179
+  offset: 0, 0
+  index: -1
+LD_alarm
+  rotate: true
+  xy: 88, 892
+  size: 31, 135
+  orig: 31, 135
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 273, 398
+  size: 283, 324
+  orig: 283, 324
+  offset: 0, 0
+  index: -1
+body_dark
+  rotate: true
+  xy: 599, 351
+  size: 283, 324
+  orig: 283, 324
+  offset: 0, 0
+  index: -1
+clothBG
+  rotate: true
+  xy: 220, 757
+  size: 111, 261
+  orig: 111, 261
+  offset: 0, 0
+  index: -1
+clothGG
+  rotate: true
+  xy: 2, 787
+  size: 103, 216
+  orig: 103, 216
+  offset: 0, 0
+  index: -1
+clothGG_alarm
+  rotate: true
+  xy: 692, 829
+  size: 94, 214
+  orig: 94, 214
+  offset: 0, 0
+  index: -1
+foot
+  rotate: true
+  xy: 41, 896
+  size: 27, 45
+  orig: 27, 45
+  offset: 0, 0
+  index: -1
+headCL
+  rotate: true
+  xy: 669, 636
+  size: 191, 226
+  orig: 191, 226
+  offset: 0, 0
+  index: -1
+headCL_alarm
+  rotate: false
+  xy: 483, 683
+  size: 184, 159
+  orig: 184, 159
+  offset: 0, 0
+  index: -1
+headLine
+  rotate: true
+  xy: 225, 876
+  size: 47, 121
+  orig: 47, 121
+  offset: 0, 0
+  index: -1
+mask
+  rotate: false
+  xy: 583, 844
+  size: 107, 79
+  orig: 107, 79
+  offset: 0, 0
+  index: -1
+miniPear
+  rotate: true
+  xy: 2, 897
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: -1
+stoneGG
+  rotate: true
+  xy: 348, 873
+  size: 50, 52
+  orig: 50, 52
+  offset: 0, 0
+  index: -1
+zzzzzz
+  rotate: false
+  xy: 2, 490
+  size: 269, 265
+  orig: 269, 265
+  offset: 0, 0
+  index: -1

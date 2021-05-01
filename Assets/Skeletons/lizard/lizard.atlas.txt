@@ -1,0 +1,69 @@
+
+lizard.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_SPIN
+  rotate: true
+  xy: 72, 70
+  size: 46, 44
+  orig: 46, 44
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 58
+  size: 68, 58
+  orig: 68, 58
+  offset: 0, 0
+  index: -1
+crown
+  rotate: false
+  xy: 31, 35
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+ding
+  rotate: false
+  xy: 72, 39
+  size: 28, 29
+  orig: 28, 29
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 20, 20
+  size: 14, 8
+  orig: 14, 8
+  offset: 0, 0
+  index: -1
+eye_half
+  rotate: true
+  xy: 53, 41
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 53, 24
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+foot
+  rotate: false
+  xy: 2, 36
+  size: 27, 20
+  orig: 27, 20
+  offset: 0, 0
+  index: -1
+hand
+  rotate: true
+  xy: 2, 8
+  size: 26, 16
+  orig: 26, 16
+  offset: 0, 0
+  index: -1

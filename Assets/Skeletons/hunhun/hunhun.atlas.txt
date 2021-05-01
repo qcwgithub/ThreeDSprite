@@ -1,0 +1,118 @@
+
+hunhun.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+emoji_alarm
+  rotate: false
+  xy: 2, 217
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+hunhun_01
+  rotate: false
+  xy: 2, 167
+  size: 29, 48
+  orig: 29, 48
+  offset: 0, 0
+  index: -1
+hunhun_02
+  rotate: false
+  xy: 2, 74
+  size: 30, 41
+  orig: 30, 41
+  offset: 0, 0
+  index: -1
+hunhun_03
+  rotate: false
+  xy: 58, 6
+  size: 21, 31
+  orig: 21, 31
+  offset: 0, 0
+  index: -1
+hunhun_04
+  rotate: false
+  xy: 33, 132
+  size: 29, 13
+  orig: 29, 13
+  offset: 0, 0
+  index: -1
+hunhun_05
+  rotate: false
+  xy: 33, 181
+  size: 16, 34
+  orig: 16, 34
+  offset: 0, 0
+  index: -1
+hunhun_06
+  rotate: false
+  xy: 2, 117
+  size: 29, 48
+  orig: 29, 48
+  offset: 0, 0
+  index: -1
+hunhun_07
+  rotate: true
+  xy: 2, 302
+  size: 99, 93
+  orig: 99, 93
+  offset: 0, 0
+  index: -1
+hunhun_07-1
+  rotate: false
+  xy: 33, 122
+  size: 32, 8
+  orig: 32, 8
+  offset: 0, 0
+  index: -1
+hunhun_07-2
+  rotate: true
+  xy: 33, 147
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+hunhun_08
+  rotate: false
+  xy: 2, 36
+  size: 27, 36
+  orig: 27, 36
+  offset: 0, 0
+  index: -1
+hunhun_08-1
+  rotate: true
+  xy: 2, 6
+  size: 28, 33
+  orig: 28, 33
+  offset: 0, 0
+  index: -1
+hunhun_09
+  rotate: true
+  xy: 2, 2
+  size: 2, 6
+  orig: 2, 6
+  offset: 0, 0
+  index: -1
+hunhun_10
+  rotate: false
+  xy: 37, 2
+  size: 19, 35
+  orig: 19, 35
+  offset: 0, 0
+  index: -1
+hunhun_10-1
+  rotate: false
+  xy: 31, 39
+  size: 28, 33
+  orig: 28, 33
+  offset: 0, 0
+  index: -1
+hunhun_11
+  rotate: false
+  xy: 2, 403
+  size: 96, 107
+  orig: 96, 107
+  offset: 0, 0
+  index: -1

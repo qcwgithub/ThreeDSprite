@@ -1,0 +1,188 @@
+
+Elite_dragon_fruit.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm
+  rotate: true
+  xy: 173, 73
+  size: 18, 29
+  orig: 18, 29
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 84
+  size: 126, 169
+  orig: 126, 169
+  offset: 0, 0
+  index: -1
+df_kid
+  rotate: true
+  xy: 136, 4
+  size: 26, 38
+  orig: 26, 38
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 2, 11
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 173, 59
+  size: 23, 12
+  orig: 23, 12
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: true
+  xy: 173, 33
+  size: 24, 11
+  orig: 24, 11
+  offset: 0, 0
+  index: -1
+eye_hurt
+  rotate: false
+  xy: 130, 168
+  size: 54, 34
+  orig: 54, 34
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 209, 93
+  size: 20, 10
+  orig: 20, 10
+  offset: 0, 0
+  index: -1
+eye_oo
+  rotate: false
+  xy: 186, 184
+  size: 34, 25
+  orig: 34, 25
+  offset: 0, 0
+  index: -1
+eye_ques
+  rotate: true
+  xy: 222, 174
+  size: 35, 11
+  orig: 35, 11
+  offset: 0, 0
+  index: -1
+hand_ball
+  rotate: true
+  xy: 173, 93
+  size: 35, 34
+  orig: 35, 34
+  offset: 0, 0
+  index: -1
+hand_open_b
+  rotate: true
+  xy: 130, 204
+  size: 49, 42
+  orig: 49, 42
+  offset: 0, 0
+  index: -1
+hand_open_f
+  rotate: false
+  xy: 174, 211
+  size: 49, 42
+  orig: 49, 42
+  offset: 0, 0
+  index: -1
+hand_ready
+  rotate: false
+  xy: 130, 130
+  size: 47, 36
+  orig: 47, 36
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 198, 50
+  size: 17, 21
+  orig: 17, 21
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: true
+  xy: 209, 118
+  size: 21, 11
+  orig: 21, 11
+  offset: 0, 0
+  index: -1
+mt_duuu
+  rotate: true
+  xy: 186, 168
+  size: 14, 16
+  orig: 14, 16
+  offset: 0, 0
+  index: -1
+mt_huuuu
+  rotate: false
+  xy: 179, 141
+  size: 46, 25
+  orig: 46, 25
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 2, 6
+  size: 16, 3
+  orig: 16, 3
+  offset: 0, 0
+  index: -1
+mt_ooo
+  rotate: false
+  xy: 204, 75
+  size: 17, 16
+  orig: 17, 16
+  offset: 0, 0
+  index: -1
+mt_unhappy
+  rotate: false
+  xy: 204, 173
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1
+mustache_boost
+  rotate: false
+  xy: 87, 2
+  size: 47, 28
+  orig: 47, 28
+  offset: 0, 0
+  index: -1
+mustache_nor
+  rotate: true
+  xy: 225, 219
+  size: 34, 23
+  orig: 34, 23
+  offset: 0, 0
+  index: -1
+nouse
+  rotate: false
+  xy: 209, 105
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+sun_glass
+  rotate: false
+  xy: 87, 32
+  size: 84, 50
+  orig: 84, 50
+  offset: 0, 0
+  index: -1
+sz
+  rotate: true
+  xy: 130, 91
+  size: 37, 32
+  orig: 37, 32
+  offset: 0, 0
+  index: -1

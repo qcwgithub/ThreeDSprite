@@ -1,0 +1,146 @@
+
+treeMOM.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Downeyelid
+  rotate: true
+  xy: 580, 46
+  size: 224, 105
+  orig: 224, 105
+  offset: 0, 0
+  index: -1
+bodyInside
+  rotate: true
+  xy: 389, 180
+  size: 372, 189
+  orig: 372, 189
+  offset: 0, 0
+  index: -1
+bodyNor
+  rotate: false
+  xy: 2, 546
+  size: 328, 470
+  orig: 328, 470
+  offset: 0, 0
+  index: -1
+bodyPartDown
+  rotate: false
+  xy: 2, 116
+  size: 367, 169
+  orig: 367, 169
+  offset: 0, 0
+  index: -1
+bodyPartUp
+  rotate: false
+  xy: 2, 287
+  size: 385, 257
+  orig: 385, 257
+  offset: 0, 0
+  index: -1
+eyeHalfOpen
+  rotate: false
+  xy: 580, 272
+  size: 250, 146
+  orig: 250, 146
+  offset: 0, 0
+  index: -1
+eyeOpen
+  rotate: true
+  xy: 620, 772
+  size: 244, 251
+  orig: 244, 251
+  offset: 0, 0
+  index: -1
+eyeclose
+  rotate: true
+  xy: 873, 796
+  size: 220, 131
+  orig: 220, 131
+  offset: 0, 0
+  index: -1
+eyedotDead
+  rotate: true
+  xy: 441, 140
+  size: 38, 34
+  orig: 38, 34
+  offset: 0, 0
+  index: -1
+eyedotNor
+  rotate: false
+  xy: 441, 88
+  size: 33, 50
+  orig: 33, 50
+  offset: 0, 0
+  index: -1
+eyedotShock
+  rotate: false
+  xy: 873, 772
+  size: 23, 22
+  orig: 23, 22
+  offset: 0, 0
+  index: -1
+eyelid
+  rotate: false
+  xy: 815, 423
+  size: 201, 109
+  orig: 201, 109
+  offset: 0, 0
+  index: -1
+foot
+  rotate: true
+  xy: 832, 263
+  size: 158, 117
+  orig: 158, 117
+  offset: 0, 0
+  index: -1
+hairleaf
+  rotate: false
+  xy: 332, 759
+  size: 286, 257
+  orig: 286, 257
+  offset: 0, 0
+  index: -1
+hand
+  rotate: true
+  xy: 683, 420
+  size: 350, 130
+  orig: 350, 130
+  offset: 0, 0
+  index: -1
+headbranch
+  rotate: false
+  xy: 332, 554
+  size: 349, 203
+  orig: 349, 203
+  offset: 0, 0
+  index: -1
+rattan
+  rotate: true
+  xy: 815, 534
+  size: 236, 173
+  orig: 236, 173
+  offset: 0, 0
+  index: -1
+seed
+  rotate: true
+  xy: 371, 126
+  size: 52, 68
+  orig: 52, 68
+  offset: 0, 0
+  index: -1
+soil_down
+  rotate: true
+  xy: 634, 441
+  size: 111, 40
+  orig: 111, 40
+  offset: 0, 0
+  index: -1
+soil_up
+  rotate: true
+  xy: 580, 425
+  size: 127, 52
+  orig: 127, 52
+  offset: 0, 0
+  index: -1

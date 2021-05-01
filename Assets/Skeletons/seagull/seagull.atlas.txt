@@ -1,0 +1,111 @@
+
+seagull.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_HIT_A
+  rotate: false
+  xy: 2, 177
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+FX_HIT_B
+  rotate: false
+  xy: 2, 47
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 2, 2
+  size: 43, 50
+  orig: 43, 50
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 168, 276
+  size: 12, 5
+  orig: 12, 5
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 132, 179
+  size: 11, 9
+  orig: 11, 9
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 154, 210
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+fly_winds_a
+  rotate: false
+  xy: 132, 248
+  size: 53, 25
+  orig: 53, 25
+  offset: 0, 0
+  index: -1
+fly_winds_b
+  rotate: true
+  xy: 100, 14
+  size: 31, 39
+  orig: 31, 39
+  offset: 0, 0
+  index: -1
+fly_winds_c
+  rotate: false
+  xy: 54, 6
+  size: 44, 39
+  orig: 44, 39
+  offset: 0, 0
+  index: -1
+foot
+  rotate: false
+  xy: 132, 190
+  size: 25, 15
+  orig: 25, 15
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 132, 275
+  size: 34, 30
+  orig: 34, 30
+  offset: 0, 0
+  index: -1
+mt_F
+  rotate: true
+  xy: 162, 233
+  size: 13, 19
+  orig: 13, 19
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 132, 207
+  size: 20, 17
+  orig: 20, 17
+  offset: 0, 0
+  index: -1
+mt_open
+  rotate: true
+  xy: 132, 226
+  size: 20, 28
+  orig: 20, 28
+  offset: 0, 0
+  index: -1
+winds
+  rotate: false
+  xy: 168, 283
+  size: 24, 22
+  orig: 24, 22
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,209 @@
+
+angrycactus.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_alarm_wave
+  rotate: false
+  xy: 827, 1370
+  size: 382, 381
+  orig: 382, 381
+  offset: 0, 0
+  index: -1
+arm
+  rotate: true
+  xy: 1862, 773
+  size: 1250, 161
+  orig: 1250, 161
+  offset: 0, 0
+  index: -1
+arm_with_thorn
+  rotate: false
+  xy: 2, 1753
+  size: 1250, 270
+  orig: 1250, 270
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 1435, 863
+  size: 364, 501
+  orig: 364, 501
+  offset: 0, 0
+  index: -1
+body_with_thorn
+  rotate: false
+  xy: 1435, 267
+  size: 468, 504
+  orig: 468, 504
+  offset: 0, 0
+  index: -1
+boss_hlg_body
+  rotate: true
+  xy: 1435, 774
+  size: 87, 134
+  orig: 87, 134
+  offset: 0, 0
+  index: -1
+boss_hlg_eye_close
+  rotate: true
+  xy: 1211, 1547
+  size: 25, 11
+  orig: 25, 11
+  offset: 0, 0
+  index: -1
+boss_hlg_eye_nor
+  rotate: true
+  xy: 1211, 1479
+  size: 20, 7
+  orig: 20, 7
+  offset: 0, 0
+  index: -1
+boss_hlg_eye_shock
+  rotate: true
+  xy: 1211, 1625
+  size: 45, 28
+  orig: 45, 28
+  offset: 0, 0
+  index: -1
+boss_hlg_handball
+  rotate: true
+  xy: 1211, 1672
+  size: 37, 32
+  orig: 37, 32
+  offset: 0, 0
+  index: -1
+boss_hlg_mt_ahh
+  rotate: false
+  xy: 1211, 1501
+  size: 9, 23
+  orig: 9, 23
+  offset: 0, 0
+  index: -1
+boss_hlg_mt_nor
+  rotate: true
+  xy: 1211, 1526
+  size: 19, 10
+  orig: 19, 10
+  offset: 0, 0
+  index: -1
+boss_hlg_mt_open
+  rotate: true
+  xy: 1211, 1574
+  size: 23, 12
+  orig: 23, 12
+  offset: 0, 0
+  index: -1
+boss_hlg_mt_teeth
+  rotate: true
+  xy: 1211, 1599
+  size: 24, 12
+  orig: 24, 12
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 1571, 790
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_O
+  rotate: false
+  xy: 583, 707
+  size: 219, 218
+  orig: 219, 218
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 875, 110
+  size: 218, 245
+  orig: 218, 245
+  offset: 0, 0
+  index: -1
+eye_red
+  rotate: true
+  xy: 1304, 47
+  size: 218, 245
+  orig: 218, 245
+  offset: 0, 0
+  index: -1
+fist
+  rotate: true
+  xy: 1254, 1366
+  size: 657, 606
+  orig: 657, 606
+  offset: 0, 0
+  index: -1
+fist_thorn
+  rotate: false
+  xy: 2, 927
+  size: 823, 824
+  orig: 823, 824
+  offset: 0, 0
+  index: -1
+fx_han
+  rotate: true
+  xy: 1211, 1711
+  size: 40, 34
+  orig: 40, 34
+  offset: 0, 0
+  index: -1
+gear_b
+  rotate: true
+  xy: 1122, 28
+  size: 300, 180
+  orig: 300, 180
+  offset: 0, 0
+  index: -1
+gear_f
+  rotate: true
+  xy: 1551, 85
+  size: 180, 260
+  orig: 180, 260
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 827, 707
+  size: 657, 606
+  orig: 657, 606
+  offset: 0, 0
+  index: -1
+head_thorn
+  rotate: true
+  xy: 2, 57
+  size: 868, 579
+  orig: 868, 579
+  offset: 0, 0
+  index: -1
+nose
+  rotate: false
+  xy: 1813, 84
+  size: 151, 181
+  orig: 151, 181
+  offset: 0, 0
+  index: -1
+top_ball_close
+  rotate: true
+  xy: 583, 93
+  size: 266, 290
+  orig: 266, 290
+  offset: 0, 0
+  index: -1
+top_ball_open
+  rotate: false
+  xy: 583, 361
+  size: 428, 344
+  orig: 428, 344
+  offset: 0, 0
+  index: -1
+top_ball_otoc
+  rotate: false
+  xy: 1013, 330
+  size: 329, 375
+  orig: 329, 375
+  offset: 0, 0
+  index: -1

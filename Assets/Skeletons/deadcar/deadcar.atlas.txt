@@ -1,0 +1,69 @@
+
+deadcar.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+door_close
+  rotate: false
+  xy: 455, 234
+  size: 54, 157
+  orig: 54, 157
+  offset: 0, 0
+  index: -1
+door_drop
+  rotate: false
+  xy: 231, 119
+  size: 151, 137
+  orig: 151, 137
+  offset: 0, 0
+  index: -1
+door_open
+  rotate: true
+  xy: 231, 19
+  size: 98, 168
+  orig: 98, 168
+  offset: 0, 0
+  index: -1
+hood
+  rotate: true
+  xy: 455, 393
+  size: 117, 55
+  orig: 117, 55
+  offset: 0, 0
+  index: -1
+inside
+  rotate: false
+  xy: 231, 258
+  size: 222, 252
+  orig: 222, 252
+  offset: 0, 0
+  index: -1
+light
+  rotate: false
+  xy: 2, 25
+  size: 227, 186
+  orig: 227, 186
+  offset: 0, 0
+  index: -1
+outside
+  rotate: false
+  xy: 2, 213
+  size: 227, 297
+  orig: 227, 297
+  offset: 0, 0
+  index: -1
+plus_a
+  rotate: true
+  xy: 401, 46
+  size: 110, 80
+  orig: 110, 80
+  offset: 0, 0
+  index: -1
+tail
+  rotate: false
+  xy: 384, 158
+  size: 117, 74
+  orig: 117, 74
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,111 @@
+
+elite_guava.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm
+  rotate: true
+  xy: 32, 71
+  size: 18, 29
+  orig: 18, 29
+  offset: 0, 0
+  index: -1
+bd
+  rotate: false
+  xy: 226, 33
+  size: 28, 108
+  orig: 28, 108
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 91
+  size: 222, 212
+  orig: 222, 212
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: false
+  xy: 226, 220
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 2, 35
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 54, 56
+  size: 19, 6
+  orig: 19, 6
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 2, 9
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+eye_ooo
+  rotate: true
+  xy: 226, 177
+  size: 41, 40
+  orig: 41, 40
+  offset: 0, 0
+  index: -1
+handball
+  rotate: true
+  xy: 226, 143
+  size: 32, 30
+  orig: 32, 30
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 26, 2
+  size: 21, 31
+  orig: 21, 31
+  offset: 0, 0
+  index: -1
+mouth_angry
+  rotate: false
+  xy: 28, 35
+  size: 54, 14
+  orig: 54, 14
+  offset: 0, 0
+  index: -1
+mouth_duuu
+  rotate: false
+  xy: 32, 51
+  size: 20, 18
+  orig: 20, 18
+  offset: 0, 0
+  index: -1
+mouth_errr
+  rotate: false
+  xy: 63, 74
+  size: 54, 15
+  orig: 54, 15
+  offset: 0, 0
+  index: -1
+mouth_nor
+  rotate: false
+  xy: 63, 64
+  size: 50, 8
+  orig: 50, 8
+  offset: 0, 0
+  index: -1
+mouth_o
+  rotate: false
+  xy: 2, 61
+  size: 28, 28
+  orig: 28, 28
+  offset: 0, 0
+  index: -1

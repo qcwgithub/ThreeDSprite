@@ -1,0 +1,76 @@
+
+grapefruit.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 117
+  size: 87, 82
+  orig: 87, 82
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: false
+  xy: 91, 116
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+emoji_dead
+  rotate: true
+  xy: 2, 57
+  size: 58, 57
+  orig: 58, 57
+  offset: 0, 0
+  index: -1
+emoji_jonh
+  rotate: false
+  xy: 87, 57
+  size: 58, 57
+  orig: 58, 57
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: true
+  xy: 147, 69
+  size: 23, 11
+  orig: 23, 11
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 147, 44
+  size: 23, 10
+  orig: 23, 10
+  offset: 0, 0
+  index: -1
+face
+  rotate: true
+  xy: 2, 2
+  size: 53, 51
+  orig: 53, 51
+  offset: 0, 0
+  index: -1
+hand
+  rotate: true
+  xy: 61, 44
+  size: 28, 24
+  orig: 28, 24
+  offset: 0, 0
+  index: -1
+leaf
+  rotate: false
+  xy: 61, 74
+  size: 24, 41
+  orig: 24, 41
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 147, 94
+  size: 15, 20
+  orig: 15, 20
+  offset: 0, 0
+  index: -1

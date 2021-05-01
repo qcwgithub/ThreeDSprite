@@ -1,0 +1,76 @@
+
+seedBoy.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 68
+  size: 52, 58
+  orig: 52, 58
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 2, 2
+  size: 22, 23
+  orig: 22, 23
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: true
+  xy: 27, 2
+  size: 22, 23
+  orig: 22, 23
+  offset: 0, 0
+  index: -1
+eye_hard
+  rotate: true
+  xy: 52, 2
+  size: 22, 23
+  orig: 22, 23
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 56, 72
+  size: 22, 23
+  orig: 22, 23
+  offset: 0, 0
+  index: -1
+foot_and_hair
+  rotate: true
+  xy: 73, 36
+  size: 5, 20
+  orig: 5, 20
+  offset: 0, 0
+  index: -1
+mt_ahh
+  rotate: true
+  xy: 56, 97
+  size: 29, 26
+  orig: 29, 26
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: true
+  xy: 73, 43
+  size: 27, 12
+  orig: 27, 12
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 73, 29
+  size: 16, 5
+  orig: 16, 5
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 2, 26
+  size: 69, 40
+  orig: 69, 40
+  offset: 0, 0
+  index: -1

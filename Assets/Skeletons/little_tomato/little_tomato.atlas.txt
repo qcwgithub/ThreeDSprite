@@ -1,0 +1,139 @@
+
+little_tomato.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 132, 435
+  size: 58, 72
+  orig: 58, 72
+  offset: 0, 0
+  index: -1
+body_shadow
+  rotate: false
+  xy: 68, 4
+  size: 44, 11
+  orig: 44, 11
+  offset: 0, 0
+  index: -1
+eye_dot
+  rotate: false
+  xy: 114, 4
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+eye_hole
+  rotate: false
+  xy: 94, 126
+  size: 35, 18
+  orig: 35, 18
+  offset: 0, 0
+  index: -1
+eye_shell
+  rotate: true
+  xy: 82, 120
+  size: 24, 10
+  orig: 24, 10
+  offset: 0, 0
+  index: -1
+eye_white
+  rotate: false
+  xy: 56, 120
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+fx_han
+  rotate: false
+  xy: 131, 131
+  size: 40, 34
+  orig: 40, 34
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 132, 353
+  size: 26, 34
+  orig: 26, 34
+  offset: 0, 0
+  index: -1
+hand
+  rotate: true
+  xy: 132, 318
+  size: 33, 31
+  orig: 33, 31
+  offset: 0, 0
+  index: -1
+hand_open
+  rotate: true
+  xy: 132, 389
+  size: 44, 40
+  orig: 44, 40
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 44, 17
+  size: 73, 101
+  orig: 73, 101
+  offset: 0, 0
+  index: -1
+hat_Fx
+  rotate: false
+  xy: 131, 167
+  size: 40, 80
+  orig: 40, 80
+  offset: 0, 0
+  index: -1
+hat_run
+  rotate: false
+  xy: 56, 146
+  size: 73, 101
+  orig: 73, 101
+  offset: 0, 0
+  index: -1
+hat_runs
+  rotate: false
+  xy: 119, 23
+  size: 73, 101
+  orig: 73, 101
+  offset: 0, 0
+  index: -1
+lleg
+  rotate: true
+  xy: 44, 2
+  size: 13, 22
+  orig: 13, 22
+  offset: 0, 0
+  index: -1
+soil_down
+  rotate: true
+  xy: 2, 7
+  size: 111, 40
+  orig: 111, 40
+  offset: 0, 0
+  index: -1
+soil_one
+  rotate: false
+  xy: 2, 379
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+soil_two
+  rotate: false
+  xy: 2, 249
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+soil_up
+  rotate: true
+  xy: 2, 120
+  size: 127, 52
+  orig: 127, 52
+  offset: 0, 0
+  index: -1

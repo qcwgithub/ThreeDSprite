@@ -1,0 +1,209 @@
+
+Ghost_player.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+appleman_gp_cover
+  rotate: false
+  xy: 134, 403
+  size: 89, 104
+  orig: 89, 104
+  offset: 0, 0
+  index: -1
+appleman_gp_cover_BG
+  rotate: true
+  xy: 89, 132
+  size: 75, 61
+  orig: 75, 61
+  offset: 0, 0
+  index: -1
+boborot_speaker
+  rotate: true
+  xy: 2, 27
+  size: 84, 70
+  orig: 84, 70
+  offset: 0, 0
+  index: -1
+emy_gp_ear
+  rotate: true
+  xy: 2, 3
+  size: 22, 55
+  orig: 22, 55
+  offset: 0, 0
+  index: -1
+emy_gp_hair
+  rotate: true
+  xy: 2, 113
+  size: 94, 85
+  orig: 94, 85
+  offset: 0, 0
+  index: -1
+emy_gp_hat
+  rotate: true
+  xy: 74, 32
+  size: 79, 63
+  orig: 79, 63
+  offset: 0, 0
+  index: -1
+flower
+  rotate: true
+  xy: 212, 363
+  size: 38, 35
+  orig: 38, 35
+  offset: 0, 0
+  index: -1
+flower_line
+  rotate: true
+  xy: 72, 2
+  size: 8, 51
+  orig: 8, 51
+  offset: 0, 0
+  index: -1
+ghost_body
+  rotate: false
+  xy: 2, 353
+  size: 63, 154
+  orig: 63, 154
+  offset: 0, 0
+  index: -1
+ghost_eye
+  rotate: false
+  xy: 139, 4
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+ghost_eye_close
+  rotate: false
+  xy: 142, 235
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+ghost_eye_hightlight
+  rotate: false
+  xy: 59, 6
+  size: 11, 19
+  orig: 11, 19
+  offset: 0, 0
+  index: -1
+ghost_eye_makefaces
+  rotate: false
+  xy: 149, 305
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+ghost_mouth
+  rotate: false
+  xy: 72, 12
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+ghost_mouth_happy
+  rotate: false
+  xy: 181, 102
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ghost_mouth_makefaces
+  rotate: false
+  xy: 152, 183
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+ghost_mouth_tooth
+  rotate: false
+  xy: 181, 68
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ghost_mouth_unhappy
+  rotate: true
+  xy: 134, 385
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: -1
+hairDM
+  rotate: false
+  xy: 194, 259
+  size: 36, 44
+  orig: 36, 44
+  offset: 0, 0
+  index: -1
+hat
+  rotate: true
+  xy: 67, 383
+  size: 124, 65
+  orig: 124, 65
+  offset: 0, 0
+  index: -1
+lili_headFlame
+  rotate: false
+  xy: 152, 136
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+little_bamboo_hair
+  rotate: true
+  xy: 100, 357
+  size: 24, 33
+  orig: 24, 33
+  offset: 0, 0
+  index: -1
+little_bamboo_hand
+  rotate: true
+  xy: 67, 356
+  size: 25, 31
+  orig: 25, 31
+  offset: 0, 0
+  index: -1
+ponpon_gp
+  rotate: false
+  xy: 201, 313
+  size: 40, 42
+  orig: 40, 42
+  offset: 0, 0
+  index: -1
+ponpon_gp_cover
+  rotate: false
+  xy: 144, 357
+  size: 66, 44
+  orig: 66, 44
+  offset: 0, 0
+  index: -1
+ponpon_gp_hair
+  rotate: false
+  xy: 108, 287
+  size: 39, 68
+  orig: 39, 68
+  offset: 0, 0
+  index: -1
+tokoroa_gp_hair
+  rotate: false
+  xy: 2, 209
+  size: 104, 142
+  orig: 104, 142
+  offset: 0, 0
+  index: -1
+tokoroa_gp_hat
+  rotate: true
+  xy: 139, 56
+  size: 74, 40
+  orig: 74, 40
+  offset: 0, 0
+  index: -1
+topGearL
+  rotate: false
+  xy: 108, 224
+  size: 32, 61
+  orig: 32, 61
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,97 @@
+
+blue_berry.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ahhhh
+  rotate: false
+  xy: 62, 4
+  size: 24, 15
+  orig: 24, 15
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 47, 21
+  size: 42, 37
+  orig: 42, 37
+  offset: 0, 0
+  index: -1
+body_crash_a
+  rotate: true
+  xy: 2, 14
+  size: 49, 43
+  orig: 49, 43
+  offset: 0, 0
+  index: -1
+body_crash_b
+  rotate: false
+  xy: 2, 65
+  size: 56, 59
+  orig: 56, 59
+  offset: 0, 0
+  index: -1
+close
+  rotate: false
+  xy: 69, 73
+  size: 14, 4
+  orig: 14, 4
+  offset: 0, 0
+  index: -1
+duuu
+  rotate: false
+  xy: 42, 5
+  size: 18, 7
+  orig: 18, 7
+  offset: 0, 0
+  index: -1
+eyenor
+  rotate: false
+  xy: 69, 67
+  size: 9, 4
+  orig: 9, 4
+  offset: 0, 0
+  index: -1
+hey
+  rotate: false
+  xy: 2, 2
+  size: 18, 10
+  orig: 18, 10
+  offset: 0, 0
+  index: -1
+hit
+  rotate: true
+  xy: 60, 98
+  size: 26, 13
+  orig: 26, 13
+  offset: 0, 0
+  index: -1
+nor
+  rotate: false
+  xy: 47, 14
+  size: 13, 5
+  orig: 13, 5
+  offset: 0, 0
+  index: -1
+o
+  rotate: true
+  xy: 60, 79
+  size: 17, 13
+  orig: 17, 13
+  offset: 0, 0
+  index: -1
+smile
+  rotate: true
+  xy: 60, 68
+  size: 9, 7
+  orig: 9, 7
+  offset: 0, 0
+  index: -1
+tooth
+  rotate: false
+  xy: 22, 3
+  size: 18, 9
+  orig: 18, 9
+  offset: 0, 0
+  index: -1

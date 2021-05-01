@@ -1,0 +1,216 @@
+
+aims.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+gunaim_ap
+  rotate: false
+  xy: 188, 322
+  size: 85, 94
+  orig: 85, 94
+  offset: 0, 0
+  index: -1
+gunaim_ap_ani
+  rotate: false
+  xy: 95, 117
+  size: 88, 94
+  orig: 88, 94
+  offset: 0, 0
+  index: -1
+gunaim_ap_fire
+  rotate: true
+  xy: 196, 424
+  size: 85, 94
+  orig: 85, 94
+  offset: 0, 0
+  index: -1
+gunaim_appleman
+  rotate: false
+  xy: 440, 351
+  size: 64, 77
+  orig: 64, 77
+  offset: 0, 0
+  index: -1
+gunaim_appleman_ani
+  rotate: true
+  xy: 292, 424
+  size: 85, 83
+  orig: 85, 83
+  offset: 0, 0
+  index: -1
+gunaim_appleman_fire
+  rotate: false
+  xy: 377, 430
+  size: 67, 79
+  orig: 67, 79
+  offset: 0, 0
+  index: -1
+gunaim_emy
+  rotate: false
+  xy: 95, 21
+  size: 85, 94
+  orig: 85, 94
+  offset: 0, 0
+  index: -1
+gunaim_emy_ani
+  rotate: true
+  xy: 96, 218
+  size: 88, 94
+  orig: 88, 94
+  offset: 0, 0
+  index: -1
+gunaim_emy_fire
+  rotate: false
+  xy: 357, 163
+  size: 79, 85
+  orig: 79, 85
+  offset: 0, 0
+  index: -1
+gunaim_hunter
+  rotate: true
+  xy: 446, 444
+  size: 65, 63
+  orig: 65, 63
+  offset: 0, 0
+  index: -1
+gunaim_hunter_ani
+  rotate: false
+  xy: 438, 219
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+gunaim_hunter_fire
+  rotate: true
+  xy: 104, 418
+  size: 91, 90
+  orig: 91, 90
+  offset: 0, 0
+  index: -1
+gunaim_ll
+  rotate: false
+  xy: 269, 33
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+gunaim_ll_ani
+  rotate: false
+  xy: 361, 345
+  size: 77, 77
+  orig: 77, 77
+  offset: 0, 0
+  index: -1
+gunaim_ll_fire
+  rotate: false
+  xy: 275, 338
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+gunaim_mirai
+  rotate: false
+  xy: 278, 250
+  size: 80, 86
+  orig: 80, 86
+  offset: 0, 0
+  index: -1
+gunaim_mirai_ani
+  rotate: true
+  xy: 2, 308
+  size: 96, 94
+  orig: 96, 94
+  offset: 0, 0
+  index: -1
+gunaim_mirai_fire
+  rotate: false
+  xy: 192, 234
+  size: 84, 86
+  orig: 84, 86
+  offset: 0, 0
+  index: -1
+gunaim_pandaa
+  rotate: false
+  xy: 272, 148
+  size: 83, 84
+  orig: 83, 84
+  offset: 0, 0
+  index: -1
+gunaim_pandaa_ani
+  rotate: false
+  xy: 2, 406
+  size: 100, 103
+  orig: 100, 103
+  offset: 0, 0
+  index: -1
+gunaim_pandaa_fire
+  rotate: true
+  xy: 358, 110
+  size: 51, 54
+  orig: 51, 54
+  offset: 0, 0
+  index: -1
+gunaim_pp
+  rotate: true
+  xy: 2, 119
+  size: 92, 91
+  orig: 92, 91
+  offset: 0, 0
+  index: -1
+gunaim_pp_ani
+  rotate: false
+  xy: 2, 213
+  size: 92, 93
+  orig: 92, 93
+  offset: 0, 0
+  index: -1
+gunaim_pp_fire
+  rotate: true
+  xy: 2, 25
+  size: 92, 91
+  orig: 92, 91
+  offset: 0, 0
+  index: -1
+gunaim_tk
+  rotate: false
+  xy: 182, 21
+  size: 85, 94
+  orig: 85, 94
+  offset: 0, 0
+  index: -1
+gunaim_tk_ani
+  rotate: false
+  xy: 98, 310
+  size: 88, 94
+  orig: 88, 94
+  offset: 0, 0
+  index: -1
+gunaim_tk_fire
+  rotate: false
+  xy: 185, 122
+  size: 85, 94
+  orig: 85, 94
+  offset: 0, 0
+  index: -1
+reload
+  rotate: false
+  xy: 360, 291
+  size: 133, 45
+  orig: 133, 45
+  offset: 0, 0
+  index: -1
+reloadbullet_a
+  rotate: false
+  xy: 438, 166
+  size: 69, 51
+  orig: 69, 51
+  offset: 0, 0
+  index: -1
+reloadbullet_b
+  rotate: true
+  xy: 438, 111
+  size: 53, 58
+  orig: 53, 58
+  offset: 0, 0
+  index: -1

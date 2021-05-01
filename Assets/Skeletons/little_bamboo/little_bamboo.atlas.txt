@@ -1,0 +1,104 @@
+
+little_bamboo.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+emoji_alarm
+  rotate: false
+  xy: 2, 41
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+fx_han
+  rotate: false
+  xy: 45, 5
+  size: 40, 34
+  orig: 40, 34
+  offset: 0, 0
+  index: -1
+little_bamboo_body
+  rotate: true
+  xy: 2, 2
+  size: 37, 41
+  orig: 37, 41
+  offset: 0, 0
+  index: -1
+little_bamboo_face
+  rotate: false
+  xy: 104, 58
+  size: 10, 7
+  orig: 10, 7
+  offset: 0, 0
+  index: -1
+little_bamboo_face_angry
+  rotate: false
+  xy: 102, 93
+  size: 12, 11
+  orig: 12, 11
+  offset: 0, 0
+  index: -1
+little_bamboo_face_close
+  rotate: false
+  xy: 87, 33
+  size: 12, 6
+  orig: 12, 6
+  offset: 0, 0
+  index: -1
+little_bamboo_face_dead
+  rotate: false
+  xy: 89, 55
+  size: 13, 10
+  orig: 13, 10
+  offset: 0, 0
+  index: -1
+little_bamboo_face_duuu
+  rotate: true
+  xy: 95, 43
+  size: 10, 11
+  orig: 10, 11
+  offset: 0, 0
+  index: -1
+little_bamboo_face_happy
+  rotate: false
+  xy: 75, 53
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+little_bamboo_face_shock
+  rotate: true
+  xy: 102, 106
+  size: 18, 15
+  orig: 18, 15
+  offset: 0, 0
+  index: -1
+little_bamboo_foot
+  rotate: false
+  xy: 110, 81
+  size: 5, 10
+  orig: 5, 10
+  offset: 0, 0
+  index: -1
+little_bamboo_hair
+  rotate: true
+  xy: 75, 67
+  size: 24, 33
+  orig: 24, 33
+  offset: 0, 0
+  index: -1
+little_bamboo_hand
+  rotate: false
+  xy: 75, 93
+  size: 25, 31
+  orig: 25, 31
+  offset: 0, 0
+  index: -1
+little_bamboo_tail
+  rotate: false
+  xy: 75, 41
+  size: 18, 10
+  orig: 18, 10
+  offset: 0, 0
+  index: -1

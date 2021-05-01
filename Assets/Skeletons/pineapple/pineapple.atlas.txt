@@ -1,0 +1,188 @@
+
+pineapple.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_bang_a
+  rotate: false
+  xy: 2, 814
+  size: 263, 208
+  orig: 263, 208
+  offset: 0, 0
+  index: -1
+FX_bang_b
+  rotate: false
+  xy: 523, 864
+  size: 171, 158
+  orig: 171, 158
+  offset: 0, 0
+  index: -1
+FX_bang_c
+  rotate: false
+  xy: 838, 822
+  size: 124, 88
+  orig: 124, 88
+  offset: 0, 0
+  index: -1
+FX_speed
+  rotate: true
+  xy: 964, 765
+  size: 115, 53
+  orig: 115, 53
+  offset: 0, 0
+  index: -1
+FX_ta_a
+  rotate: false
+  xy: 608, 797
+  size: 76, 65
+  orig: 76, 65
+  offset: 0, 0
+  index: -1
+FX_ta_b
+  rotate: false
+  xy: 206, 731
+  size: 59, 81
+  orig: 59, 81
+  offset: 0, 0
+  index: -1
+FX_ta_c
+  rotate: true
+  xy: 920, 712
+  size: 51, 85
+  orig: 51, 85
+  offset: 0, 0
+  index: -1
+FX_xiu_a
+  rotate: true
+  xy: 2, 659
+  size: 153, 202
+  orig: 153, 202
+  offset: 0, 0
+  index: -1
+FX_xiu_b
+  rotate: true
+  xy: 267, 773
+  size: 249, 254
+  orig: 249, 254
+  offset: 0, 0
+  index: -1
+FX_xiu_c
+  rotate: true
+  xy: 696, 887
+  size: 90, 132
+  orig: 90, 132
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 839, 912
+  size: 110, 133
+  orig: 110, 133
+  offset: 0, 0
+  index: -1
+boneshield
+  rotate: true
+  xy: 831, 742
+  size: 78, 87
+  orig: 78, 87
+  offset: 0, 0
+  index: -1
+bonesword
+  rotate: true
+  xy: 696, 979
+  size: 43, 141
+  orig: 43, 141
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 523, 791
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_alarm
+  rotate: true
+  xy: 920, 769
+  size: 51, 21
+  orig: 51, 21
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: true
+  xy: 819, 791
+  size: 32, 10
+  orig: 32, 10
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 830, 905
+  size: 37, 6
+  orig: 37, 6
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 830, 944
+  size: 33, 7
+  orig: 33, 7
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 974, 923
+  size: 43, 42
+  orig: 43, 42
+  offset: 0, 0
+  index: -1
+hair
+  rotate: true
+  xy: 696, 805
+  size: 80, 121
+  orig: 80, 121
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 974, 882
+  size: 42, 39
+  orig: 42, 39
+  offset: 0, 0
+  index: -1
+hand_open
+  rotate: true
+  xy: 974, 967
+  size: 55, 48
+  orig: 55, 48
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 819, 864
+  size: 17, 21
+  orig: 17, 21
+  offset: 0, 0
+  index: -1
+mt_ahh
+  rotate: true
+  xy: 819, 839
+  size: 23, 16
+  orig: 23, 16
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: true
+  xy: 1007, 740
+  size: 23, 9
+  orig: 23, 9
+  offset: 0, 0
+  index: -1
+mt_ooo
+  rotate: false
+  xy: 819, 825
+  size: 14, 12
+  orig: 14, 12
+  offset: 0, 0
+  index: -1

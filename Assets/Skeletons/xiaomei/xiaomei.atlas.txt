@@ -1,0 +1,104 @@
+
+xiaomei.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+emoji_alarm
+  rotate: false
+  xy: 2, 171
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+xiaomei_01
+  rotate: false
+  xy: 2, 18
+  size: 32, 81
+  orig: 32, 81
+  offset: 0, 0
+  index: -1
+xiaomei_02
+  rotate: false
+  xy: 80, 4
+  size: 9, 14
+  orig: 9, 14
+  offset: 0, 0
+  index: -1
+xiaomei_03
+  rotate: false
+  xy: 27, 4
+  size: 26, 12
+  orig: 26, 12
+  offset: 0, 0
+  index: -1
+xiaomei_04
+  rotate: true
+  xy: 77, 79
+  size: 21, 19
+  orig: 21, 19
+  offset: 0, 0
+  index: -1
+xiaomei_05
+  rotate: true
+  xy: 62, 132
+  size: 37, 33
+  orig: 37, 33
+  offset: 0, 0
+  index: -1
+xiaomei_06
+  rotate: true
+  xy: 2, 101
+  size: 68, 58
+  orig: 68, 58
+  offset: 0, 0
+  index: -1
+xiaomei_06-1
+  rotate: true
+  xy: 36, 37
+  size: 62, 39
+  orig: 62, 39
+  offset: 0, 0
+  index: -1
+xiaomei_07
+  rotate: false
+  xy: 62, 102
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+xiaomei_07-1
+  rotate: false
+  xy: 67, 20
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+xiaomei_07-2
+  rotate: false
+  xy: 2, 2
+  size: 23, 14
+  orig: 23, 14
+  offset: 0, 0
+  index: -1
+xiaomei_08
+  rotate: true
+  xy: 86, 123
+  size: 7, 3
+  orig: 7, 3
+  offset: 0, 0
+  index: -1
+xiaomei_09
+  rotate: true
+  xy: 36, 18
+  size: 17, 29
+  orig: 17, 29
+  offset: 0, 0
+  index: -1
+xiaomei_10
+  rotate: false
+  xy: 55, 4
+  size: 23, 12
+  orig: 23, 12
+  offset: 0, 0
+  index: -1

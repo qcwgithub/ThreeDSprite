@@ -1,0 +1,48 @@
+
+tinystarfruit.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 41
+  size: 82, 81
+  orig: 82, 81
+  offset: 0, 0
+  index: -1
+face_nor
+  rotate: false
+  xy: 2, 12
+  size: 16, 18
+  orig: 16, 18
+  offset: 0, 0
+  index: -1
+face_openeye
+  rotate: true
+  xy: 86, 59
+  size: 19, 26
+  orig: 19, 26
+  offset: 0, 0
+  index: -1
+face_shock
+  rotate: true
+  xy: 86, 80
+  size: 42, 36
+  orig: 42, 36
+  offset: 0, 0
+  index: -1
+hair
+  rotate: true
+  xy: 20, 16
+  size: 14, 43
+  orig: 14, 43
+  offset: 0, 0
+  index: -1
+hair_light
+  rotate: false
+  xy: 86, 32
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1

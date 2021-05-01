@@ -1,0 +1,55 @@
+
+Ghost_fruit.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 59
+  size: 63, 154
+  orig: 63, 154
+  offset: 0, 0
+  index: -1
+eye
+  rotate: false
+  xy: 42, 149
+  size: 16, 7
+  orig: 16, 7
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 20, 151
+  size: 20, 5
+  orig: 20, 5
+  offset: 0, 0
+  index: -1
+eye_engry
+  rotate: false
+  xy: 78, 147
+  size: 17, 9
+  orig: 17, 9
+  offset: 0, 0
+  index: -1
+mouth
+  rotate: false
+  xy: 2, 153
+  size: 16, 3
+  orig: 16, 3
+  offset: 0, 0
+  index: -1
+mouth_tooth
+  rotate: false
+  xy: 97, 124
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+mouth_unhappy
+  rotate: false
+  xy: 60, 148
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: -1

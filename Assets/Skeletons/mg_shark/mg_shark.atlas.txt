@@ -1,0 +1,146 @@
+
+mg_shark.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+attack_FX_a
+  rotate: false
+  xy: 2, 878
+  size: 271, 144
+  orig: 271, 144
+  offset: 0, 0
+  index: -1
+attack_FX_b
+  rotate: false
+  xy: 275, 878
+  size: 271, 144
+  orig: 271, 144
+  offset: 0, 0
+  index: -1
+attack_FX_c
+  rotate: false
+  xy: 548, 878
+  size: 271, 144
+  orig: 271, 144
+  offset: 0, 0
+  index: -1
+attack_FX_d
+  rotate: true
+  xy: 821, 751
+  size: 271, 144
+  orig: 271, 144
+  offset: 0, 0
+  index: -1
+belt
+  rotate: true
+  xy: 656, 805
+  size: 71, 136
+  orig: 71, 136
+  offset: 0, 0
+  index: -1
+body_attack
+  rotate: false
+  xy: 2, 719
+  size: 211, 157
+  orig: 211, 157
+  offset: 0, 0
+  index: -1
+body_attack_ing
+  rotate: false
+  xy: 215, 749
+  size: 237, 127
+  orig: 237, 127
+  offset: 0, 0
+  index: -1
+body_nor
+  rotate: false
+  xy: 454, 745
+  size: 200, 131
+  orig: 200, 131
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 656, 732
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 794, 850
+  size: 26, 18
+  orig: 26, 18
+  offset: 0, 0
+  index: -1
+eye_close_hard
+  rotate: true
+  xy: 1005, 747
+  size: 27, 17
+  orig: 27, 17
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: false
+  xy: 794, 801
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: -1
+eye_hurt
+  rotate: false
+  xy: 741, 777
+  size: 30, 26
+  orig: 30, 26
+  offset: 0, 0
+  index: -1
+eye_hurt_plus
+  rotate: false
+  xy: 773, 773
+  size: 30, 26
+  orig: 30, 26
+  offset: 0, 0
+  index: -1
+eye_look
+  rotate: true
+  xy: 967, 742
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 794, 822
+  size: 26, 18
+  orig: 26, 18
+  offset: 0, 0
+  index: -1
+fx_han
+  rotate: false
+  xy: 967, 776
+  size: 40, 34
+  orig: 40, 34
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 967, 812
+  size: 44, 41
+  orig: 44, 41
+  offset: 0, 0
+  index: -1
+tail
+  rotate: false
+  xy: 967, 930
+  size: 54, 92
+  orig: 54, 92
+  offset: 0, 0
+  index: -1
+toptri
+  rotate: true
+  xy: 967, 855
+  size: 73, 38
+  orig: 73, 38
+  offset: 0, 0
+  index: -1

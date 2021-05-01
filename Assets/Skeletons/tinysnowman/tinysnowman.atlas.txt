@@ -1,0 +1,104 @@
+
+tinysnowman.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 99
+  size: 112, 137
+  orig: 112, 137
+  offset: 0, 0
+  index: -1
+egg_tube_S
+  rotate: true
+  xy: 2, 18
+  size: 79, 115
+  orig: 79, 115
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 116, 122
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: false
+  xy: 119, 63
+  size: 13, 17
+  orig: 13, 17
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 119, 82
+  size: 15, 18
+  orig: 15, 18
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 170, 70
+  size: 19, 21
+  orig: 19, 21
+  offset: 0, 0
+  index: -1
+hand
+  rotate: true
+  xy: 133, 5
+  size: 28, 30
+  orig: 28, 30
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 165, 6
+  size: 29, 27
+  orig: 29, 27
+  offset: 0, 0
+  index: -1
+mt_ahh
+  rotate: true
+  xy: 170, 91
+  size: 29, 26
+  orig: 29, 26
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: true
+  xy: 119, 34
+  size: 27, 12
+  orig: 27, 12
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: true
+  xy: 119, 16
+  size: 16, 5
+  orig: 16, 5
+  offset: 0, 0
+  index: -1
+nose
+  rotate: false
+  xy: 116, 102
+  size: 21, 18
+  orig: 21, 18
+  offset: 0, 0
+  index: -1
+scarf
+  rotate: false
+  xy: 116, 195
+  size: 120, 41
+  orig: 120, 41
+  offset: 0, 0
+  index: -1
+scarf_back
+  rotate: true
+  xy: 139, 35
+  size: 85, 29
+  orig: 85, 29
+  offset: 0, 0
+  index: -1

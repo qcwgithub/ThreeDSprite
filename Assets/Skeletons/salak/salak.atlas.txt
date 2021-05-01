@@ -1,0 +1,167 @@
+
+salak.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+main_salak_body
+  rotate: true
+  xy: 1668, 1886
+  size: 147, 365
+  orig: 147, 365
+  offset: 0, 0
+  index: -1
+main_salak_chest
+  rotate: false
+  xy: 1119, 1363
+  size: 308, 304
+  orig: 308, 304
+  offset: 0, 0
+  index: -1
+main_salak_eye_dead
+  rotate: true
+  xy: 530, 1958
+  size: 75, 108
+  orig: 75, 108
+  offset: 0, 0
+  index: -1
+main_salak_eye_nor
+  rotate: true
+  xy: 640, 1958
+  size: 75, 108
+  orig: 75, 108
+  offset: 0, 0
+  index: -1
+main_salak_eye_shock
+  rotate: true
+  xy: 1160, 1925
+  size: 108, 115
+  orig: 108, 115
+  offset: 0, 0
+  index: -1
+main_salak_head
+  rotate: true
+  xy: 2, 1530
+  size: 277, 407
+  orig: 277, 407
+  offset: 0, 0
+  index: -1
+main_salak_open_mouth
+  rotate: true
+  xy: 1429, 1350
+  size: 305, 429
+  orig: 305, 429
+  offset: 0, 0
+  index: -1
+main_salak_thorn
+  rotate: true
+  xy: 195, 1972
+  size: 61, 187
+  orig: 61, 187
+  offset: 0, 0
+  index: -1
+main_salak_tongue
+  rotate: true
+  xy: 2, 1997
+  size: 36, 103
+  orig: 36, 103
+  offset: 0, 0
+  index: -1
+mainbody_1
+  rotate: false
+  xy: 2, 1809
+  size: 437, 156
+  orig: 437, 156
+  offset: 0, 0
+  index: -1
+mainbody_2
+  rotate: false
+  xy: 1277, 1893
+  size: 389, 140
+  orig: 389, 140
+  offset: 0, 0
+  index: -1
+minor_salak_body_blue
+  rotate: false
+  xy: 411, 1472
+  size: 352, 285
+  orig: 352, 285
+  offset: 0, 0
+  index: -1
+minor_salak_body_red
+  rotate: false
+  xy: 765, 1399
+  size: 352, 285
+  orig: 352, 285
+  offset: 0, 0
+  index: -1
+minor_salak_eye_dead
+  rotate: true
+  xy: 384, 1967
+  size: 66, 71
+  orig: 66, 71
+  offset: 0, 0
+  index: -1
+minor_salak_eye_nor
+  rotate: true
+  xy: 107, 1984
+  size: 49, 86
+  orig: 49, 86
+  offset: 0, 0
+  index: -1
+minor_salak_eye_shock
+  rotate: true
+  xy: 457, 1967
+  size: 66, 71
+  orig: 66, 71
+  offset: 0, 0
+  index: -1
+minor_salak_head_blue
+  rotate: true
+  xy: 1016, 1686
+  size: 205, 299
+  orig: 205, 299
+  offset: 0, 0
+  index: -1
+minor_salak_head_red
+  rotate: true
+  xy: 1630, 1657
+  size: 227, 308
+  orig: 227, 308
+  offset: 0, 0
+  index: -1
+minor_salak_head_up_red
+  rotate: true
+  xy: 441, 1776
+  size: 180, 260
+  orig: 180, 260
+  offset: 0, 0
+  index: -1
+minor_salak_open_mouth_blue
+  rotate: true
+  xy: 1317, 1669
+  size: 222, 311
+  orig: 222, 311
+  offset: 0, 0
+  index: -1
+minor_salak_open_mouth_red
+  rotate: true
+  xy: 703, 1759
+  size: 184, 311
+  orig: 184, 311
+  offset: 0, 0
+  index: -1
+salak_tail
+  rotate: true
+  xy: 750, 1945
+  size: 88, 269
+  orig: 88, 269
+  offset: 0, 0
+  index: -1
+salak_winds
+  rotate: true
+  xy: 1021, 1942
+  size: 91, 137
+  orig: 91, 137
+  offset: 0, 0
+  index: -1

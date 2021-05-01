@@ -1,0 +1,111 @@
+
+bb_shooter.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body_direct
+  rotate: false
+  xy: 2, 126
+  size: 28, 98
+  orig: 28, 98
+  offset: 0, 0
+  index: -1
+body_nor
+  rotate: true
+  xy: 32, 179
+  size: 45, 66
+  orig: 45, 66
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: true
+  xy: 66, 163
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 66, 127
+  size: 22, 4
+  orig: 22, 4
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 66, 151
+  size: 10, 6
+  orig: 10, 6
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: false
+  xy: 29, 6
+  size: 23, 12
+  orig: 23, 12
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 51
+  size: 75, 73
+  orig: 75, 73
+  offset: 0, 0
+  index: -1
+headflower
+  rotate: true
+  xy: 29, 20
+  size: 29, 28
+  orig: 29, 28
+  offset: 0, 0
+  index: -1
+headflower_neck
+  rotate: false
+  xy: 121, 46
+  size: 29, 63
+  orig: 29, 63
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 100, 185
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
+mt_open
+  rotate: false
+  xy: 79, 6
+  size: 35, 62
+  orig: 35, 62
+  offset: 0, 0
+  index: -1
+mt_tuuu
+  rotate: false
+  xy: 79, 70
+  size: 40, 39
+  orig: 40, 39
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 79, 111
+  size: 66, 44
+  orig: 66, 44
+  offset: 0, 0
+  index: -1
+soil
+  rotate: true
+  xy: 2, 2
+  size: 47, 25
+  orig: 47, 25
+  offset: 0, 0
+  index: -1
+tag
+  rotate: true
+  xy: 32, 128
+  size: 49, 32
+  orig: 49, 32
+  offset: 0, 0
+  index: -1

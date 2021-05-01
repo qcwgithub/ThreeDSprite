@@ -1,0 +1,181 @@
+
+sugarapple.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_sang
+  rotate: false
+  xy: 386, 104
+  size: 49, 48
+  orig: 49, 48
+  offset: 0, 0
+  index: -1
+FX_sound_flash
+  rotate: false
+  xy: 386, 326
+  size: 97, 182
+  orig: 97, 182
+  offset: 0, 0
+  index: -1
+FX_sound_wave
+  rotate: false
+  xy: 2, 127
+  size: 382, 381
+  orig: 382, 381
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 386, 154
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_dai
+  rotate: true
+  xy: 485, 417
+  size: 27, 12
+  orig: 27, 12
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: true
+  xy: 485, 446
+  size: 28, 17
+  orig: 28, 17
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 485, 388
+  size: 27, 12
+  orig: 27, 12
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 485, 476
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+hand_close
+  rotate: false
+  xy: 437, 104
+  size: 31, 48
+  orig: 31, 48
+  offset: 0, 0
+  index: -1
+hand_close_b
+  rotate: true
+  xy: 2, 71
+  size: 31, 48
+  orig: 31, 48
+  offset: 0, 0
+  index: -1
+hand_open
+  rotate: true
+  xy: 100, 73
+  size: 29, 49
+  orig: 29, 49
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 485, 369
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+sugarapple_00
+  rotate: true
+  xy: 386, 227
+  size: 97, 120
+  orig: 97, 120
+  offset: 0, 0
+  index: -1
+sugarapple_01
+  rotate: false
+  xy: 40, 24
+  size: 33, 45
+  orig: 33, 45
+  offset: 0, 0
+  index: -1
+sugarapple_02
+  rotate: false
+  xy: 151, 89
+  size: 34, 36
+  orig: 34, 36
+  offset: 0, 0
+  index: -1
+sugarapple_03
+  rotate: false
+  xy: 2, 21
+  size: 36, 42
+  orig: 36, 42
+  offset: 0, 0
+  index: -1
+sugarapple_04
+  rotate: true
+  xy: 471, 169
+  size: 56, 37
+  orig: 56, 37
+  offset: 0, 0
+  index: -1
+sugarapple_05
+  rotate: false
+  xy: 471, 116
+  size: 36, 51
+  orig: 36, 51
+  offset: 0, 0
+  index: -1
+sugarapple_06
+  rotate: false
+  xy: 470, 65
+  size: 35, 49
+  orig: 35, 49
+  offset: 0, 0
+  index: -1
+sugarapple_07
+  rotate: true
+  xy: 52, 71
+  size: 31, 46
+  orig: 31, 46
+  offset: 0, 0
+  index: -1
+sugarapple_08
+  rotate: false
+  xy: 75, 28
+  size: 35, 41
+  orig: 35, 41
+  offset: 0, 0
+  index: -1
+sugarapple_09
+  rotate: false
+  xy: 112, 21
+  size: 34, 42
+  orig: 34, 42
+  offset: 0, 0
+  index: -1
+sugarapple_10
+  rotate: true
+  xy: 148, 28
+  size: 43, 33
+  orig: 43, 33
+  offset: 0, 0
+  index: -1
+sugarapple_11
+  rotate: true
+  xy: 183, 27
+  size: 36, 34
+  orig: 36, 34
+  offset: 0, 0
+  index: -1
+sugarapple_12
+  rotate: true
+  xy: 187, 72
+  size: 30, 39
+  orig: 30, 39
+  offset: 0, 0
+  index: -1

@@ -18,10 +18,12 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: 43c3d851451b68d4481958b26d9ff6a2, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
     additiveMaterials: []
-    multiplyMaterials: []
+    multiplyMaterials:
+    - pageName: ahpple.png
+      material: {fileID: 2100000, guid: c6d84cb2a32990343ae6d9d43e27c62e, type: 2}
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation: []

@@ -1,0 +1,153 @@
+
+elite_tomato.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 132, 353
+  size: 75, 68
+  orig: 75, 68
+  offset: 0, 0
+  index: -1
+body_shadow
+  rotate: false
+  xy: 44, 2
+  size: 44, 11
+  orig: 44, 11
+  offset: 0, 0
+  index: -1
+eye_base
+  rotate: true
+  xy: 84, 123
+  size: 24, 22
+  orig: 24, 22
+  offset: 0, 0
+  index: -1
+eye_base_white
+  rotate: true
+  xy: 56, 123
+  size: 24, 26
+  orig: 24, 26
+  offset: 0, 0
+  index: -1
+eye_dot
+  rotate: false
+  xy: 2, 2
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+eye_dot_dead
+  rotate: true
+  xy: 90, 2
+  size: 11, 10
+  orig: 11, 10
+  offset: 0, 0
+  index: -1
+eye_hole
+  rotate: false
+  xy: 123, 127
+  size: 36, 20
+  orig: 36, 20
+  offset: 0, 0
+  index: -1
+eye_shell
+  rotate: false
+  xy: 102, 4
+  size: 27, 9
+  orig: 27, 9
+  offset: 0, 0
+  index: -1
+fx_han
+  rotate: false
+  xy: 174, 430
+  size: 40, 34
+  orig: 40, 34
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 132, 317
+  size: 26, 34
+  orig: 26, 34
+  offset: 0, 0
+  index: -1
+hand
+  rotate: true
+  xy: 132, 282
+  size: 33, 31
+  orig: 33, 31
+  offset: 0, 0
+  index: -1
+hand_open
+  rotate: true
+  xy: 174, 466
+  size: 44, 40
+  orig: 44, 40
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 148, 25
+  size: 98, 100
+  orig: 98, 100
+  offset: 0, 0
+  index: -1
+hat_Fx
+  rotate: false
+  xy: 132, 430
+  size: 40, 80
+  orig: 40, 80
+  offset: 0, 0
+  index: -1
+hat_run
+  rotate: false
+  xy: 56, 149
+  size: 101, 101
+  orig: 101, 101
+  offset: 0, 0
+  index: -1
+hat_runs
+  rotate: true
+  xy: 44, 15
+  size: 106, 102
+  orig: 106, 102
+  offset: 0, 0
+  index: -1
+lleg
+  rotate: false
+  xy: 108, 125
+  size: 13, 22
+  orig: 13, 22
+  offset: 0, 0
+  index: -1
+soil_down
+  rotate: true
+  xy: 2, 10
+  size: 111, 40
+  orig: 111, 40
+  offset: 0, 0
+  index: -1
+soil_one
+  rotate: false
+  xy: 2, 382
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+soil_two
+  rotate: false
+  xy: 2, 252
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+soil_up
+  rotate: true
+  xy: 2, 123
+  size: 127, 52
+  orig: 127, 52
+  offset: 0, 0
+  index: -1

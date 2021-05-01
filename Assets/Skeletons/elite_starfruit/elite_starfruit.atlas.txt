@@ -1,0 +1,69 @@
+
+elite_starfruit.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_speedline
+  rotate: false
+  xy: 206, 89
+  size: 88, 93
+  orig: 88, 93
+  offset: 0, 0
+  index: -1
+bag
+  rotate: true
+  xy: 206, 184
+  size: 134, 112
+  orig: 134, 112
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 140
+  size: 202, 178
+  orig: 202, 178
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: false
+  xy: 89, 55
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+gear
+  rotate: true
+  xy: 2, 29
+  size: 109, 85
+  orig: 109, 85
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 193, 44
+  size: 64, 43
+  orig: 64, 43
+  offset: 0, 0
+  index: -1
+note_a
+  rotate: false
+  xy: 162, 66
+  size: 29, 30
+  orig: 29, 30
+  offset: 0, 0
+  index: -1
+note_b
+  rotate: false
+  xy: 89, 22
+  size: 19, 31
+  orig: 19, 31
+  offset: 0, 0
+  index: -1
+tinystar
+  rotate: false
+  xy: 162, 98
+  size: 38, 40
+  orig: 38, 40
+  offset: 0, 0
+  index: -1

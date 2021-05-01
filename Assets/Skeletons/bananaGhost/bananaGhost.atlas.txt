@@ -1,0 +1,237 @@
+
+bananaGhost.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bodyBack
+  rotate: true
+  xy: 344, 371
+  size: 149, 235
+  orig: 149, 235
+  offset: 0, 0
+  index: -1
+bodyCover
+  rotate: true
+  xy: 679, 766
+  size: 159, 211
+  orig: 159, 211
+  offset: 0, 0
+  index: -1
+bodyMainPart
+  rotate: true
+  xy: 2, 205
+  size: 297, 340
+  orig: 297, 340
+  offset: 0, 0
+  index: -1
+eyeHole
+  rotate: false
+  xy: 489, 175
+  size: 90, 194
+  orig: 90, 194
+  offset: 0, 0
+  index: -1
+eyeHole_ahhh
+  rotate: false
+  xy: 344, 10
+  size: 100, 201
+  orig: 100, 201
+  offset: 0, 0
+  index: -1
+eyeHole_angry
+  rotate: true
+  xy: 116, 11
+  size: 96, 165
+  orig: 96, 165
+  offset: 0, 0
+  index: -1
+eyeHole_close
+  rotate: true
+  xy: 116, 109
+  size: 94, 168
+  orig: 94, 168
+  offset: 0, 0
+  index: -1
+eyeHole_closeHard
+  rotate: true
+  xy: 740, 564
+  size: 81, 148
+  orig: 81, 148
+  offset: 0, 0
+  index: -1
+eyedot_N
+  rotate: false
+  xy: 879, 651
+  size: 36, 33
+  orig: 36, 33
+  offset: 0, 0
+  index: -1
+eyedot_angry
+  rotate: true
+  xy: 757, 737
+  size: 27, 61
+  orig: 27, 61
+  offset: 0, 0
+  index: -1
+eyedot_close
+  rotate: true
+  xy: 90, 61
+  size: 42, 18
+  orig: 42, 18
+  offset: 0, 0
+  index: -1
+eyedot_closeHard
+  rotate: false
+  xy: 283, 2
+  size: 35, 34
+  orig: 35, 34
+  offset: 0, 0
+  index: -1
+eyedot_dot
+  rotate: false
+  xy: 320, 19
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+eyedot_nor
+  rotate: true
+  xy: 446, 170
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
+eyedot_plus
+  rotate: false
+  xy: 892, 869
+  size: 42, 56
+  orig: 42, 56
+  offset: 0, 0
+  index: -1
+eyelid
+  rotate: true
+  xy: 740, 647
+  size: 83, 137
+  orig: 83, 137
+  offset: 0, 0
+  index: -1
+ghostBodyA
+  rotate: false
+  xy: 2, 504
+  size: 313, 516
+  orig: 313, 516
+  offset: 0, 0
+  index: -1
+ghostBodyB
+  rotate: false
+  xy: 317, 522
+  size: 421, 208
+  orig: 421, 208
+  offset: 0, 0
+  index: -1
+ghostBodyInsideCol
+  rotate: true
+  xy: 317, 732
+  size: 288, 360
+  orig: 288, 360
+  offset: 0, 0
+  index: -1
+handDown
+  rotate: true
+  xy: 679, 927
+  size: 93, 255
+  orig: 93, 255
+  offset: 0, 0
+  index: -1
+handUpA1
+  rotate: true
+  xy: 581, 188
+  size: 91, 141
+  orig: 91, 141
+  offset: 0, 0
+  index: -1
+handUpA2
+  rotate: false
+  xy: 879, 686
+  size: 119, 78
+  orig: 119, 78
+  offset: 0, 0
+  index: -1
+handUpB
+  rotate: false
+  xy: 2, 105
+  size: 112, 98
+  orig: 112, 98
+  offset: 0, 0
+  index: -1
+handUpUp
+  rotate: true
+  xy: 344, 213
+  size: 156, 143
+  orig: 156, 143
+  offset: 0, 0
+  index: -1
+header
+  rotate: true
+  xy: 581, 281
+  size: 239, 96
+  orig: 239, 96
+  offset: 0, 0
+  index: -1
+headerUp
+  rotate: true
+  xy: 679, 432
+  size: 88, 120
+  orig: 88, 120
+  offset: 0, 0
+  index: -1
+mt_happy
+  rotate: true
+  xy: 319, 110
+  size: 30, 17
+  orig: 30, 17
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 2, 12
+  size: 72, 14
+  orig: 72, 14
+  offset: 0, 0
+  index: -1
+mt_o
+  rotate: false
+  xy: 286, 111
+  size: 31, 29
+  orig: 31, 29
+  offset: 0, 0
+  index: -1
+mt_open
+  rotate: true
+  xy: 286, 142
+  size: 61, 47
+  orig: 61, 47
+  offset: 0, 0
+  index: -1
+mt_smile
+  rotate: false
+  xy: 679, 732
+  size: 76, 32
+  orig: 76, 32
+  offset: 0, 0
+  index: -1
+mt_teeth
+  rotate: true
+  xy: 283, 38
+  size: 69, 44
+  orig: 69, 44
+  offset: 0, 0
+  index: -1
+mt_tongue
+  rotate: true
+  xy: 2, 28
+  size: 75, 86
+  orig: 75, 86
+  offset: 0, 0
+  index: -1

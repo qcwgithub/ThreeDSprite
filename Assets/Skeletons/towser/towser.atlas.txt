@@ -1,0 +1,279 @@
+
+towser.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+at
+  rotate: true
+  xy: 622, 198
+  size: 82, 48
+  orig: 82, 48
+  offset: 0, 0
+  index: -1
+bt
+  rotate: false
+  xy: 2, 562
+  size: 468, 457
+  orig: 468, 457
+  offset: 0, 0
+  index: -1
+bt_broken
+  rotate: true
+  xy: 472, 574
+  size: 445, 410
+  orig: 445, 410
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 2, 368
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+eye_shadow
+  rotate: false
+  xy: 463, 169
+  size: 157, 109
+  orig: 157, 109
+  offset: 0, 0
+  index: -1
+eyeball
+  rotate: false
+  xy: 2, 199
+  size: 172, 167
+  orig: 172, 167
+  offset: 0, 0
+  index: -1
+eyeball_stupor
+  rotate: true
+  xy: 176, 194
+  size: 172, 167
+  orig: 172, 167
+  offset: 0, 0
+  index: -1
+eyelid_down
+  rotate: true
+  xy: 163, 18
+  size: 174, 79
+  orig: 174, 79
+  offset: 0, 0
+  index: -1
+eyelid_up
+  rotate: true
+  xy: 244, 32
+  size: 160, 93
+  orig: 160, 93
+  offset: 0, 0
+  index: -1
+foot
+  rotate: false
+  xy: 672, 139
+  size: 41, 71
+  orig: 41, 71
+  offset: 0, 0
+  index: -1
+fx_dinnn
+  rotate: false
+  xy: 345, 224
+  size: 116, 148
+  orig: 116, 148
+  offset: 0, 0
+  index: -1
+fx_speed
+  rotate: true
+  xy: 689, 348
+  size: 55, 33
+  orig: 55, 33
+  offset: 0, 0
+  index: -1
+grass_a
+  rotate: false
+  xy: 614, 405
+  size: 108, 82
+  orig: 108, 82
+  offset: 0, 0
+  index: -1
+grass_b
+  rotate: true
+  xy: 345, 107
+  size: 115, 97
+  orig: 115, 97
+  offset: 0, 0
+  index: -1
+grass_c
+  rotate: true
+  xy: 724, 433
+  size: 60, 91
+  orig: 60, 91
+  offset: 0, 0
+  index: -1
+grass_d
+  rotate: true
+  xy: 724, 377
+  size: 54, 62
+  orig: 54, 62
+  offset: 0, 0
+  index: -1
+grass_single
+  rotate: false
+  xy: 672, 212
+  size: 47, 90
+  orig: 47, 90
+  offset: 0, 0
+  index: -1
+mini pgy_a
+  rotate: false
+  xy: 405, 375
+  size: 63, 64
+  orig: 63, 64
+  offset: 0, 0
+  index: -1
+mini pgy_b
+  rotate: false
+  xy: 614, 304
+  size: 111, 34
+  orig: 111, 34
+  offset: 0, 0
+  index: -1
+mini pgy_c
+  rotate: false
+  xy: 771, 349
+  size: 31, 26
+  orig: 31, 26
+  offset: 0, 0
+  index: -1
+mouth_ahaa
+  rotate: false
+  xy: 809, 513
+  size: 99, 59
+  orig: 99, 59
+  offset: 0, 0
+  index: -1
+mouth_angry
+  rotate: true
+  xy: 397, 441
+  size: 119, 71
+  orig: 119, 71
+  offset: 0, 0
+  index: -1
+mouth_aowuuu
+  rotate: false
+  xy: 700, 495
+  size: 107, 77
+  orig: 107, 77
+  offset: 0, 0
+  index: -1
+mouth_duu
+  rotate: true
+  xy: 614, 340
+  size: 63, 73
+  orig: 63, 73
+  offset: 0, 0
+  index: -1
+mouth_happy
+  rotate: true
+  xy: 727, 252
+  size: 86, 53
+  orig: 86, 53
+  offset: 0, 0
+  index: -1
+mouth_nor
+  rotate: true
+  xy: 444, 138
+  size: 84, 17
+  orig: 84, 17
+  offset: 0, 0
+  index: -1
+mouth_o
+  rotate: true
+  xy: 614, 489
+  size: 83, 84
+  orig: 83, 84
+  offset: 0, 0
+  index: -1
+mouth_unhappy
+  rotate: false
+  xy: 196, 368
+  size: 75, 70
+  orig: 75, 70
+  offset: 0, 0
+  index: -1
+no human
+  rotate: true
+  xy: 196, 440
+  size: 120, 199
+  orig: 120, 199
+  offset: 0, 0
+  index: -1
+pgy
+  rotate: true
+  xy: 724, 340
+  size: 35, 45
+  orig: 35, 45
+  offset: 0, 0
+  index: -1
+pgy_h
+  rotate: true
+  xy: 817, 435
+  size: 25, 41
+  orig: 25, 41
+  offset: 0, 0
+  index: -1
+point
+  rotate: true
+  xy: 614, 282
+  size: 20, 35
+  orig: 20, 35
+  offset: 0, 0
+  index: -1
+point_blink
+  rotate: false
+  xy: 273, 374
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+point_xx
+  rotate: false
+  xy: 339, 374
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tail
+  rotate: false
+  xy: 2, 2
+  size: 159, 195
+  orig: 159, 195
+  offset: 0, 0
+  index: -1
+tial_knife
+  rotate: true
+  xy: 472, 280
+  size: 292, 140
+  orig: 292, 140
+  offset: 0, 0
+  index: -1
+tial_upon
+  rotate: true
+  xy: 721, 203
+  size: 47, 53
+  orig: 47, 53
+  offset: 0, 0
+  index: -1
+tiny cj
+  rotate: false
+  xy: 788, 379
+  size: 74, 52
+  orig: 74, 52
+  offset: 0, 0
+  index: -1
+tiny_tongue
+  rotate: true
+  xy: 817, 462
+  size: 49, 61
+  orig: 49, 61
+  offset: 0, 0
+  index: -1

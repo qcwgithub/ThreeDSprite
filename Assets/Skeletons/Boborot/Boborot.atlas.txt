@@ -1,0 +1,181 @@
+
+Boborot.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+antenna
+  rotate: true
+  xy: 173, 242
+  size: 12, 60
+  orig: 12, 60
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 173, 184
+  size: 51, 33
+  orig: 51, 33
+  offset: 0, 0
+  index: -1
+bodyCoverClose
+  rotate: false
+  xy: 173, 219
+  size: 55, 21
+  orig: 55, 21
+  offset: 0, 0
+  index: -1
+bodyCoverOpen
+  rotate: true
+  xy: 224, 127
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 88, 183
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+engine
+  rotate: false
+  xy: 48, 156
+  size: 36, 33
+  orig: 36, 33
+  offset: 0, 0
+  index: -1
+engine_led
+  rotate: false
+  xy: 75, 147
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: -1
+eyedot
+  rotate: true
+  xy: 165, 177
+  size: 4, 6
+  orig: 4, 6
+  offset: 0, 0
+  index: -1
+eyedot_dead
+  rotate: false
+  xy: 114, 147
+  size: 12, 10
+  orig: 12, 10
+  offset: 0, 0
+  index: -1
+foot_nor
+  rotate: false
+  xy: 86, 159
+  size: 41, 22
+  orig: 41, 22
+  offset: 0, 0
+  index: -1
+foot_run_A
+  rotate: false
+  xy: 2, 144
+  size: 44, 21
+  orig: 44, 21
+  offset: 0, 0
+  index: -1
+foot_run_B
+  rotate: false
+  xy: 2, 167
+  size: 44, 22
+  orig: 44, 22
+  offset: 0, 0
+  index: -1
+gearBridge
+  rotate: false
+  xy: 24, 127
+  size: 20, 15
+  orig: 20, 15
+  offset: 0, 0
+  index: -1
+hand_b_fist
+  rotate: false
+  xy: 2, 122
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+hand_b_fist_ko
+  rotate: false
+  xy: 128, 130
+  size: 23, 20
+  orig: 23, 20
+  offset: 0, 0
+  index: -1
+hand_f_aim
+  rotate: false
+  xy: 86, 136
+  size: 26, 21
+  orig: 26, 21
+  offset: 0, 0
+  index: -1
+hand_f_fist
+  rotate: false
+  xy: 48, 133
+  size: 25, 21
+  orig: 25, 21
+  offset: 0, 0
+  index: -1
+hand_f_nor
+  rotate: false
+  xy: 226, 193
+  size: 27, 17
+  orig: 27, 17
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 230, 212
+  size: 23, 26
+  orig: 23, 26
+  offset: 0, 0
+  index: -1
+mtHole
+  rotate: false
+  xy: 235, 240
+  size: 19, 14
+  orig: 19, 14
+  offset: 0, 0
+  index: -1
+neck
+  rotate: true
+  xy: 226, 169
+  size: 22, 26
+  orig: 22, 26
+  offset: 0, 0
+  index: -1
+sideColor
+  rotate: false
+  xy: 153, 127
+  size: 16, 23
+  orig: 16, 23
+  offset: 0, 0
+  index: -1
+speakerBG
+  rotate: true
+  xy: 173, 142
+  size: 40, 49
+  orig: 40, 49
+  offset: 0, 0
+  index: -1
+speakerEye
+  rotate: false
+  xy: 129, 152
+  size: 34, 29
+  orig: 34, 29
+  offset: 0, 0
+  index: -1
+speakerTop
+  rotate: false
+  xy: 2, 191
+  size: 84, 63
+  orig: 84, 63
+  offset: 0, 0
+  index: -1

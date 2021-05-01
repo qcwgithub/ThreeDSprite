@@ -1,0 +1,97 @@
+
+kongFuMonkey.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 67, 85
+  size: 28, 25
+  orig: 28, 25
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: true
+  xy: 2, 2
+  size: 10, 13
+  orig: 10, 13
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 18, 14
+  size: 16, 3
+  orig: 16, 3
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 2, 16
+  size: 5, 13
+  orig: 5, 13
+  offset: 0, 0
+  index: -1
+fist_b
+  rotate: true
+  xy: 18, 52
+  size: 21, 18
+  orig: 21, 18
+  offset: 0, 0
+  index: -1
+fist_f
+  rotate: true
+  xy: 67, 60
+  size: 23, 18
+  orig: 23, 18
+  offset: 0, 0
+  index: -1
+foot
+  rotate: false
+  xy: 18, 32
+  size: 16, 18
+  orig: 16, 18
+  offset: 0, 0
+  index: -1
+hat
+  rotate: true
+  xy: 2, 31
+  size: 42, 14
+  orig: 42, 14
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 75
+  size: 63, 38
+  orig: 63, 38
+  offset: 0, 0
+  index: -1
+mt_ahh
+  rotate: false
+  xy: 57, 30
+  size: 27, 13
+  orig: 27, 13
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: true
+  xy: 36, 5
+  size: 27, 9
+  orig: 27, 9
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: true
+  xy: 57, 45
+  size: 28, 7
+  orig: 28, 7
+  offset: 0, 0
+  index: -1
+trail
+  rotate: true
+  xy: 38, 34
+  size: 39, 17
+  orig: 39, 17
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,104 @@
+
+pang.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+emoji_alarm
+  rotate: true
+  xy: 106, 182
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+mt_o
+  rotate: false
+  xy: 238, 143
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+pang_01
+  rotate: true
+  xy: 161, 156
+  size: 11, 21
+  orig: 11, 21
+  offset: 0, 0
+  index: -1
+pang_02
+  rotate: true
+  xy: 161, 143
+  size: 11, 21
+  orig: 11, 21
+  offset: 0, 0
+  index: -1
+pang_03
+  rotate: false
+  xy: 184, 134
+  size: 42, 12
+  orig: 42, 12
+  offset: 0, 0
+  index: -1
+pang_04
+  rotate: true
+  xy: 191, 168
+  size: 27, 53
+  orig: 27, 53
+  offset: 0, 0
+  index: -1
+pang_05
+  rotate: true
+  xy: 191, 197
+  size: 56, 59
+  orig: 56, 59
+  offset: 0, 0
+  index: -1
+pang_06
+  rotate: true
+  xy: 106, 153
+  size: 27, 53
+  orig: 27, 53
+  offset: 0, 0
+  index: -1
+pang_07
+  rotate: false
+  xy: 2, 160
+  size: 102, 93
+  orig: 102, 93
+  offset: 0, 0
+  index: -1
+pang_07-1
+  rotate: true
+  xy: 184, 153
+  size: 14, 3
+  orig: 14, 3
+  offset: 0, 0
+  index: -1
+pang_07-2
+  rotate: true
+  xy: 246, 158
+  size: 37, 7
+  orig: 37, 7
+  offset: 0, 0
+  index: -1
+pang_07-3
+  rotate: false
+  xy: 228, 131
+  size: 21, 10
+  orig: 21, 10
+  offset: 0, 0
+  index: -1
+pang_07-4
+  rotate: false
+  xy: 161, 169
+  size: 25, 11
+  orig: 25, 11
+  offset: 0, 0
+  index: -1
+pang_07-5
+  rotate: false
+  xy: 189, 148
+  size: 47, 18
+  orig: 47, 18
+  offset: 0, 0
+  index: -1

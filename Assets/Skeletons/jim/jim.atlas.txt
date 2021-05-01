@@ -1,0 +1,293 @@
+
+jim.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bottle
+  rotate: true
+  xy: 231, 213
+  size: 41, 23
+  orig: 41, 23
+  offset: 0, 0
+  index: -1
+arm
+  rotate: false
+  xy: 177, 32
+  size: 20, 22
+  orig: 20, 22
+  offset: 0, 0
+  index: -1
+bag
+  rotate: true
+  xy: 192, 96
+  size: 55, 42
+  orig: 55, 42
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 44
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: -1
+bodyplus
+  rotate: true
+  xy: 47, 66
+  size: 21, 16
+  orig: 21, 16
+  offset: 0, 0
+  index: -1
+catinbag
+  rotate: false
+  xy: 145, 35
+  size: 21, 23
+  orig: 21, 23
+  offset: 0, 0
+  index: -1
+catinbag_hand
+  rotate: false
+  xy: 29, 6
+  size: 24, 12
+  orig: 24, 12
+  offset: 0, 0
+  index: -1
+dognose
+  rotate: true
+  xy: 149, 60
+  size: 36, 27
+  orig: 36, 27
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 100, 17
+  size: 30, 13
+  orig: 30, 13
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 231, 187
+  size: 24, 21
+  orig: 24, 21
+  offset: 0, 0
+  index: -1
+eyebase
+  rotate: false
+  xy: 104, 101
+  size: 31, 37
+  orig: 31, 37
+  offset: 0, 0
+  index: -1
+eyebrow
+  rotate: false
+  xy: 2, 4
+  size: 25, 11
+  orig: 25, 11
+  offset: 0, 0
+  index: -1
+eyedot_handsome
+  rotate: false
+  xy: 29, 22
+  size: 12, 20
+  orig: 12, 20
+  offset: 0, 0
+  index: -1
+eyedot_happy
+  rotate: false
+  xy: 178, 82
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
+eyedot_mini
+  rotate: true
+  xy: 55, 12
+  size: 6, 5
+  orig: 6, 5
+  offset: 0, 0
+  index: -1
+eyedot_no
+  rotate: false
+  xy: 115, 17
+  size: 12, 13
+  orig: 12, 13
+  offset: 0, 0
+  index: -1
+eyedot_nor
+  rotate: true
+  xy: 192, 82
+  size: 12, 20
+  orig: 12, 20
+  offset: 0, 0
+  index: -1
+eyelid
+  rotate: true
+  xy: 47, 20
+  size: 26, 14
+  orig: 26, 14
+  offset: 0, 0
+  index: -1
+facebase
+  rotate: true
+  xy: 140, 153
+  size: 101, 89
+  orig: 101, 89
+  offset: 0, 0
+  index: -1
+fist
+  rotate: true
+  xy: 117, 65
+  size: 31, 30
+  orig: 31, 30
+  offset: 0, 0
+  index: -1
+foot
+  rotate: true
+  xy: 178, 56
+  size: 20, 24
+  orig: 20, 24
+  offset: 0, 0
+  index: -1
+forearm
+  rotate: false
+  xy: 236, 78
+  size: 18, 27
+  orig: 18, 27
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 140, 98
+  size: 50, 53
+  orig: 50, 53
+  offset: 0, 0
+  index: -1
+hand_nor
+  rotate: false
+  xy: 117, 32
+  size: 26, 31
+  orig: 26, 31
+  offset: 0, 0
+  index: -1
+hand_open
+  rotate: false
+  xy: 65, 101
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 2, 140
+  size: 136, 114
+  orig: 136, 114
+  offset: 0, 0
+  index: -1
+headbird_body
+  rotate: false
+  xy: 2, 89
+  size: 61, 49
+  orig: 61, 49
+  offset: 0, 0
+  index: -1
+headbird_face
+  rotate: true
+  xy: 129, 17
+  size: 13, 12
+  orig: 13, 12
+  offset: 0, 0
+  index: -1
+kit
+  rotate: false
+  xy: 65, 49
+  size: 50, 47
+  orig: 50, 47
+  offset: 0, 0
+  index: -1
+kit_plus
+  rotate: true
+  xy: 64, 22
+  size: 25, 34
+  orig: 25, 34
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 204, 53
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: false
+  xy: 63, 7
+  size: 20, 13
+  orig: 20, 13
+  offset: 0, 0
+  index: -1
+mt_bigopen
+  rotate: false
+  xy: 2, 17
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mt_duu
+  rotate: false
+  xy: 145, 19
+  size: 10, 14
+  orig: 10, 14
+  offset: 0, 0
+  index: -1
+mt_heng
+  rotate: true
+  xy: 168, 50
+  size: 8, 7
+  orig: 8, 7
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 214, 85
+  size: 17, 9
+  orig: 17, 9
+  offset: 0, 0
+  index: -1
+mt_open
+  rotate: false
+  xy: 47, 48
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+note_b
+  rotate: false
+  xy: 231, 154
+  size: 19, 31
+  orig: 19, 31
+  offset: 0, 0
+  index: -1
+realnose
+  rotate: true
+  xy: 157, 20
+  size: 13, 9
+  orig: 13, 9
+  offset: 0, 0
+  index: -1
+tears
+  rotate: false
+  xy: 85, 5
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+waist
+  rotate: true
+  xy: 236, 107
+  size: 45, 16
+  orig: 45, 16
+  offset: 0, 0
+  index: -1

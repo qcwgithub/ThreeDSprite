@@ -1,0 +1,167 @@
+
+purepureegg.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+P_hat
+  rotate: false
+  xy: 49, 84
+  size: 54, 62
+  orig: 54, 62
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 148
+  size: 99, 106
+  orig: 99, 106
+  offset: 0, 0
+  index: -1
+butterfly
+  rotate: true
+  xy: 105, 103
+  size: 35, 27
+  orig: 35, 27
+  offset: 0, 0
+  index: -1
+clothUP
+  rotate: true
+  xy: 2, 42
+  size: 104, 45
+  orig: 104, 45
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 105, 140
+  size: 74, 14
+  orig: 74, 14
+  offset: 0, 0
+  index: -1
+eye_dai
+  rotate: true
+  xy: 103, 179
+  size: 75, 41
+  orig: 75, 41
+  offset: 0, 0
+  index: -1
+eye_half
+  rotate: false
+  xy: 94, 9
+  size: 84, 31
+  orig: 84, 31
+  offset: 0, 0
+  index: -1
+eye_happy
+  rotate: false
+  xy: 103, 156
+  size: 78, 21
+  orig: 78, 21
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 49, 42
+  size: 78, 40
+  orig: 78, 40
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 146, 179
+  size: 75, 39
+  orig: 75, 39
+  offset: 0, 0
+  index: -1
+foot
+  rotate: true
+  xy: 130, 89
+  size: 12, 21
+  orig: 12, 21
+  offset: 0, 0
+  index: -1
+hand_ball_nor
+  rotate: false
+  xy: 129, 59
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
+mt_ahh
+  rotate: false
+  xy: 158, 77
+  size: 12, 13
+  orig: 12, 13
+  offset: 0, 0
+  index: -1
+mt_big
+  rotate: true
+  xy: 134, 110
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+mt_dot
+  rotate: false
+  xy: 20, 2
+  size: 4, 5
+  orig: 4, 5
+  offset: 0, 0
+  index: -1
+mt_emm
+  rotate: true
+  xy: 153, 92
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+mt_errr
+  rotate: false
+  xy: 105, 88
+  size: 23, 13
+  orig: 23, 13
+  offset: 0, 0
+  index: -1
+mt_happy
+  rotate: true
+  xy: 129, 42
+  size: 15, 13
+  orig: 15, 13
+  offset: 0, 0
+  index: -1
+mt_hehe
+  rotate: false
+  xy: 144, 47
+  size: 19, 10
+  orig: 19, 10
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 2, 2
+  size: 16, 5
+  orig: 16, 5
+  offset: 0, 0
+  index: -1
+mt_p
+  rotate: true
+  xy: 157, 119
+  size: 19, 8
+  orig: 19, 8
+  offset: 0, 0
+  index: -1
+mt_smile
+  rotate: true
+  xy: 158, 64
+  size: 11, 10
+  orig: 11, 10
+  offset: 0, 0
+  index: -1
+ske
+  rotate: false
+  xy: 2, 9
+  size: 90, 31
+  orig: 90, 31
+  offset: 0, 0
+  index: -1

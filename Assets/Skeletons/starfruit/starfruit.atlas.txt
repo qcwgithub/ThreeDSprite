@@ -1,0 +1,118 @@
+
+starfruit.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_speedline
+  rotate: true
+  xy: 206, 421
+  size: 88, 93
+  orig: 88, 93
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 331
+  size: 202, 178
+  orig: 202, 178
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 393, 438
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 379, 400
+  size: 53, 36
+  orig: 53, 36
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 473, 355
+  size: 50, 17
+  orig: 50, 17
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: false
+  xy: 434, 409
+  size: 40, 27
+  orig: 40, 27
+  offset: 0, 0
+  index: -1
+eye_nooop
+  rotate: false
+  xy: 301, 413
+  size: 76, 46
+  orig: 76, 46
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 301, 367
+  size: 49, 44
+  orig: 49, 44
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: false
+  xy: 206, 373
+  size: 76, 46
+  orig: 76, 46
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 301, 461
+  size: 90, 48
+  orig: 90, 48
+  offset: 0, 0
+  index: -1
+mt_ahhh
+  rotate: true
+  xy: 478, 407
+  size: 50, 27
+  orig: 50, 27
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: true
+  xy: 284, 383
+  size: 36, 15
+  orig: 36, 15
+  offset: 0, 0
+  index: -1
+mt_duu
+  rotate: false
+  xy: 492, 390
+  size: 16, 15
+  orig: 16, 15
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 434, 393
+  size: 37, 14
+  orig: 37, 14
+  offset: 0, 0
+  index: -1
+note_a
+  rotate: true
+  xy: 478, 459
+  size: 29, 30
+  orig: 29, 30
+  offset: 0, 0
+  index: -1
+note_b
+  rotate: true
+  xy: 478, 490
+  size: 19, 31
+  orig: 19, 31
+  offset: 0, 0
+  index: -1

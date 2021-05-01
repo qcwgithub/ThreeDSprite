@@ -1,0 +1,90 @@
+
+orange_kid.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_xiu_c
+  rotate: false
+  xy: 2, 122
+  size: 90, 132
+  orig: 90, 132
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 46
+  size: 127, 74
+  orig: 127, 74
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 83, 9
+  size: 18, 10
+  orig: 18, 10
+  offset: 0, 0
+  index: -1
+eye_closehard
+  rotate: false
+  xy: 47, 6
+  size: 21, 10
+  orig: 21, 10
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 103, 11
+  size: 13, 10
+  orig: 13, 10
+  offset: 0, 0
+  index: -1
+eye_oo
+  rotate: false
+  xy: 88, 26
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+eye_xx
+  rotate: false
+  xy: 24, 3
+  size: 20, 8
+  orig: 20, 8
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 2, 6
+  size: 20, 38
+  orig: 20, 38
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 24, 13
+  size: 21, 31
+  orig: 21, 31
+  offset: 0, 0
+  index: -1
+mouth_angry
+  rotate: true
+  xy: 47, 18
+  size: 26, 18
+  orig: 26, 18
+  offset: 0, 0
+  index: -1
+mouth_nor
+  rotate: true
+  xy: 70, 2
+  size: 17, 11
+  orig: 17, 11
+  offset: 0, 0
+  index: -1
+mouth_waaa
+  rotate: true
+  xy: 67, 21
+  size: 23, 19
+  orig: 23, 19
+  offset: 0, 0
+  index: -1

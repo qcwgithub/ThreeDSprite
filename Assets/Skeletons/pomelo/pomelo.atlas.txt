@@ -1,0 +1,209 @@
+
+pomelo.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_alarm_wave
+  rotate: false
+  xy: 2, 641
+  size: 382, 381
+  orig: 382, 381
+  offset: 0, 0
+  index: -1
+FX_bang_a
+  rotate: false
+  xy: 386, 814
+  size: 263, 208
+  orig: 263, 208
+  offset: 0, 0
+  index: -1
+FX_bang_b
+  rotate: false
+  xy: 583, 654
+  size: 171, 158
+  orig: 171, 158
+  offset: 0, 0
+  index: -1
+FX_bigsound_a
+  rotate: true
+  xy: 916, 872
+  size: 36, 61
+  orig: 36, 61
+  offset: 0, 0
+  index: -1
+FX_bigsound_b
+  rotate: true
+  xy: 916, 910
+  size: 39, 61
+  orig: 39, 61
+  offset: 0, 0
+  index: -1
+FX_plus
+  rotate: false
+  xy: 651, 814
+  size: 263, 208
+  orig: 263, 208
+  offset: 0, 0
+  index: -1
+arm
+  rotate: true
+  xy: 950, 771
+  size: 18, 29
+  orig: 18, 29
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 386, 632
+  size: 180, 195
+  orig: 180, 195
+  offset: 0, 0
+  index: -1
+dizzy_bird_a
+  rotate: false
+  xy: 916, 794
+  size: 36, 28
+  orig: 36, 28
+  offset: 0, 0
+  index: -1
+dizzy_bird_b
+  rotate: true
+  xy: 979, 875
+  size: 32, 41
+  orig: 32, 41
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 916, 951
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 1000, 910
+  size: 17, 9
+  orig: 17, 9
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 979, 944
+  size: 20, 5
+  orig: 20, 5
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: false
+  xy: 1000, 921
+  size: 19, 10
+  orig: 19, 10
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 965, 838
+  size: 16, 7
+  orig: 16, 7
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 979, 909
+  size: 33, 19
+  orig: 33, 19
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 916, 824
+  size: 47, 46
+  orig: 47, 46
+  offset: 0, 0
+  index: -1
+handball
+  rotate: true
+  xy: 884, 780
+  size: 32, 30
+  orig: 32, 30
+  offset: 0, 0
+  index: -1
+handball_b
+  rotate: false
+  xy: 916, 762
+  size: 32, 30
+  orig: 32, 30
+  offset: 0, 0
+  index: -1
+handopen
+  rotate: false
+  xy: 979, 833
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+handopen_b
+  rotate: false
+  xy: 965, 791
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+headrope
+  rotate: true
+  xy: 1001, 946
+  size: 76, 21
+  orig: 76, 21
+  offset: 0, 0
+  index: -1
+leg
+  rotate: true
+  xy: 884, 761
+  size: 17, 30
+  orig: 17, 30
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: false
+  xy: 1001, 933
+  size: 21, 11
+  orig: 21, 11
+  offset: 0, 0
+  index: -1
+mt_duuu
+  rotate: false
+  xy: 1007, 815
+  size: 14, 16
+  orig: 14, 16
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: true
+  xy: 974, 838
+  size: 16, 3
+  orig: 16, 3
+  offset: 0, 0
+  index: -1
+mt_ooo
+  rotate: false
+  xy: 981, 773
+  size: 17, 16
+  orig: 17, 16
+  offset: 0, 0
+  index: -1
+mt_unhappy
+  rotate: true
+  xy: 965, 856
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1
+skin
+  rotate: true
+  xy: 756, 688
+  size: 124, 126
+  orig: 124, 126
+  offset: 0, 0
+  index: -1

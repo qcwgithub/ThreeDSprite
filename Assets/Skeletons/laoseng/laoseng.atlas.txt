@@ -1,0 +1,90 @@
+
+laoseng.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+emoji_alarm
+  rotate: true
+  xy: 106, 182
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+laoseng_01
+  rotate: true
+  xy: 51, 127
+  size: 11, 21
+  orig: 11, 21
+  offset: 0, 0
+  index: -1
+laoseng_02
+  rotate: false
+  xy: 51, 140
+  size: 42, 12
+  orig: 42, 12
+  offset: 0, 0
+  index: -1
+laoseng_03
+  rotate: true
+  xy: 188, 121
+  size: 56, 59
+  orig: 56, 59
+  offset: 0, 0
+  index: -1
+laoseng_04
+  rotate: false
+  xy: 191, 179
+  size: 62, 26
+  orig: 62, 26
+  offset: 0, 0
+  index: -1
+laoseng_05
+  rotate: false
+  xy: 2, 154
+  size: 102, 99
+  orig: 102, 99
+  offset: 0, 0
+  index: -1
+laoseng_05-1
+  rotate: true
+  xy: 179, 143
+  size: 37, 7
+  orig: 37, 7
+  offset: 0, 0
+  index: -1
+laoseng_05-2
+  rotate: false
+  xy: 2, 134
+  size: 47, 18
+  orig: 47, 18
+  offset: 0, 0
+  index: -1
+laoseng_05-3
+  rotate: true
+  xy: 249, 163
+  size: 14, 3
+  orig: 14, 3
+  offset: 0, 0
+  index: -1
+laoseng_05-4
+  rotate: false
+  xy: 74, 125
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+laoseng_05-5
+  rotate: false
+  xy: 106, 123
+  size: 71, 57
+  orig: 71, 57
+  offset: 0, 0
+  index: -1
+laoseng_06
+  rotate: false
+  xy: 191, 207
+  size: 62, 46
+  orig: 62, 46
+  offset: 0, 0
+  index: -1

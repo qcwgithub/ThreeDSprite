@@ -1,0 +1,90 @@
+
+durianSlowBoy.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 53, 39
+  size: 84, 43
+  orig: 84, 43
+  offset: 0, 0
+  index: -1
+bodyDead
+  rotate: true
+  xy: 174, 122
+  size: 110, 58
+  orig: 110, 58
+  offset: 0, 0
+  index: -1
+bodyDeadDry
+  rotate: true
+  xy: 2, 33
+  size: 90, 49
+  orig: 90, 49
+  offset: 0, 0
+  index: -1
+face_angry
+  rotate: false
+  xy: 119, 50
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+face_close
+  rotate: true
+  xy: 181, 53
+  size: 21, 12
+  orig: 21, 12
+  offset: 0, 0
+  index: -1
+face_dead
+  rotate: false
+  xy: 140, 82
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: -1
+face_nor
+  rotate: true
+  xy: 181, 76
+  size: 16, 15
+  orig: 16, 15
+  offset: 0, 0
+  index: -1
+foot
+  rotate: false
+  xy: 98, 41
+  size: 19, 26
+  orig: 19, 26
+  offset: 0, 0
+  index: -1
+shell
+  rotate: false
+  xy: 2, 125
+  size: 170, 107
+  orig: 170, 107
+  offset: 0, 0
+  index: -1
+shellfoot_Main
+  rotate: false
+  xy: 98, 69
+  size: 40, 54
+  orig: 40, 54
+  offset: 0, 0
+  index: -1
+shellfoot_Sub
+  rotate: true
+  xy: 175, 94
+  size: 26, 39
+  orig: 26, 39
+  offset: 0, 0
+  index: -1
+tail
+  rotate: false
+  xy: 140, 53
+  size: 39, 27
+  orig: 39, 27
+  offset: 0, 0
+  index: -1

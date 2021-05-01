@@ -1,0 +1,62 @@
+
+littlecactus.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 110
+  size: 77, 144
+  orig: 77, 144
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 81, 115
+  size: 34, 27
+  orig: 34, 27
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: true
+  xy: 93, 72
+  size: 41, 22
+  orig: 41, 22
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 93, 40
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+eye_ogod
+  rotate: true
+  xy: 81, 144
+  size: 56, 38
+  orig: 56, 38
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 2, 2
+  size: 89, 106
+  orig: 89, 106
+  offset: 0, 0
+  index: -1
+nose
+  rotate: false
+  xy: 93, 16
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+topball
+  rotate: false
+  xy: 81, 202
+  size: 50, 52
+  orig: 50, 52
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,76 @@
+
+hedgehog.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ball_a
+  rotate: true
+  xy: 83, 157
+  size: 67, 72
+  orig: 67, 72
+  offset: 0, 0
+  index: -1
+ball_b
+  rotate: true
+  xy: 76, 6
+  size: 67, 72
+  orig: 67, 72
+  offset: 0, 0
+  index: -1
+ball_c
+  rotate: true
+  xy: 76, 75
+  size: 68, 76
+  orig: 68, 76
+  offset: 0, 0
+  index: -1
+ball_d
+  rotate: true
+  xy: 2, 72
+  size: 71, 72
+  orig: 71, 72
+  offset: 0, 0
+  index: -1
+ball_e
+  rotate: false
+  xy: 2, 145
+  size: 79, 79
+  orig: 79, 79
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 2
+  size: 63, 68
+  orig: 63, 68
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 109, 152
+  size: 8, 3
+  orig: 8, 3
+  offset: 0, 0
+  index: -1
+eye_open
+  rotate: true
+  xy: 97, 151
+  size: 4, 10
+  orig: 4, 10
+  offset: 0, 0
+  index: -1
+foot
+  rotate: true
+  xy: 150, 61
+  size: 12, 17
+  orig: 12, 17
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 83, 145
+  size: 12, 10
+  orig: 12, 10
+  offset: 0, 0
+  index: -1

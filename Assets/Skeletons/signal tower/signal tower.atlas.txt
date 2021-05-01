@@ -1,0 +1,90 @@
+
+signal tower.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 55, 135
+  size: 28, 50
+  orig: 28, 50
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 2, 187
+  size: 133, 121
+  orig: 133, 121
+  offset: 0, 0
+  index: -1
+base
+  rotate: false
+  xy: 2, 310
+  size: 51, 183
+  orig: 51, 183
+  offset: 0, 0
+  index: -1
+base_break
+  rotate: true
+  xy: 55, 326
+  size: 51, 183
+  orig: 51, 183
+  offset: 0, 0
+  index: -1
+base_breakI
+  rotate: false
+  xy: 240, 194
+  size: 51, 183
+  orig: 51, 183
+  offset: 0, 0
+  index: -1
+base_breakII
+  rotate: false
+  xy: 2, 2
+  size: 51, 183
+  orig: 51, 183
+  offset: 0, 0
+  index: -1
+gear
+  rotate: true
+  xy: 137, 234
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+leaf
+  rotate: false
+  xy: 55, 379
+  size: 138, 114
+  orig: 138, 114
+  offset: 0, 0
+  index: -1
+leaf_break_I
+  rotate: false
+  xy: 195, 379
+  size: 138, 114
+  orig: 138, 114
+  offset: 0, 0
+  index: -1
+leaf_break_o
+  rotate: false
+  xy: 205, 78
+  size: 138, 114
+  orig: 138, 114
+  offset: 0, 0
+  index: -1
+leaf_destory
+  rotate: true
+  xy: 85, 16
+  size: 138, 114
+  orig: 138, 114
+  offset: 0, 0
+  index: -1
+pt
+  rotate: true
+  xy: 137, 156
+  size: 76, 66
+  orig: 76, 66
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,27 @@
+
+mudtreez.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+mudtreeA
+  rotate: false
+  xy: 2, 193
+  size: 247, 262
+  orig: 247, 262
+  offset: 0, 0
+  index: -1
+mudtreeB
+  rotate: false
+  xy: 193, 3
+  size: 173, 188
+  orig: 173, 188
+  offset: 0, 0
+  index: -1
+mudtreeC
+  rotate: false
+  xy: 2, 2
+  size: 189, 189
+  orig: 189, 189
+  offset: 0, 0
+  index: -1

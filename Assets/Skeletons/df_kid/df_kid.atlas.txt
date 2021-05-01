@@ -1,0 +1,132 @@
+
+df_kid.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 15
+  size: 67, 72
+  orig: 67, 72
+  offset: 0, 0
+  index: -1
+body_spin_a
+  rotate: false
+  xy: 71, 17
+  size: 49, 70
+  orig: 49, 70
+  offset: 0, 0
+  index: -1
+body_spin_b
+  rotate: false
+  xy: 44, 98
+  size: 63, 71
+  orig: 63, 71
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: false
+  xy: 2, 171
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 44, 89
+  size: 29, 7
+  orig: 29, 7
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 75, 91
+  size: 30, 5
+  orig: 30, 5
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: false
+  xy: 2, 2
+  size: 28, 11
+  orig: 28, 11
+  offset: 0, 0
+  index: -1
+eye_hard
+  rotate: true
+  xy: 75, 223
+  size: 31, 8
+  orig: 31, 8
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 75, 192
+  size: 29, 9
+  orig: 29, 9
+  offset: 0, 0
+  index: -1
+eye_what
+  rotate: false
+  xy: 74, 2
+  size: 35, 13
+  orig: 35, 13
+  offset: 0, 0
+  index: -1
+fx_xiuuu
+  rotate: false
+  xy: 2, 89
+  size: 40, 80
+  orig: 40, 80
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 32, 2
+  size: 22, 11
+  orig: 22, 11
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 85, 239
+  size: 9, 15
+  orig: 9, 15
+  offset: 0, 0
+  index: -1
+mt_angry
+  rotate: false
+  xy: 56, 3
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+mt_errr
+  rotate: true
+  xy: 75, 175
+  size: 15, 10
+  orig: 15, 10
+  offset: 0, 0
+  index: -1
+mt_happy
+  rotate: false
+  xy: 111, 2
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 107, 92
+  size: 12, 4
+  orig: 12, 4
+  offset: 0, 0
+  index: -1
+mt_unhappy
+  rotate: true
+  xy: 85, 223
+  size: 14, 8
+  orig: 14, 8
+  offset: 0, 0
+  index: -1

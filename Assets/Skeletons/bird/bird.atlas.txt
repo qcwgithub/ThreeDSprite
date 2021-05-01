@@ -1,0 +1,132 @@
+
+bird.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eye_close
+  rotate: true
+  xy: 61, 24
+  size: 9, 3
+  orig: 9, 3
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 54, 35
+  size: 3, 10
+  orig: 3, 10
+  offset: 0, 0
+  index: -1
+gary
+  rotate: false
+  xy: 2, 91
+  size: 29, 34
+  orig: 29, 34
+  offset: 0, 0
+  index: -1
+leg_run
+  rotate: false
+  xy: 33, 57
+  size: 19, 5
+  orig: 19, 5
+  offset: 0, 0
+  index: -1
+leg_stand
+  rotate: false
+  xy: 46, 32
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+mouth_nor
+  rotate: false
+  xy: 54, 58
+  size: 8, 4
+  orig: 8, 4
+  offset: 0, 0
+  index: -1
+mouth_open
+  rotate: false
+  xy: 59, 43
+  size: 10, 13
+  orig: 10, 13
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 44, 2
+  size: 27, 15
+  orig: 27, 15
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 46, 40
+  size: 15, 11
+  orig: 15, 11
+  offset: 0, 0
+  index: -1
+wings_down
+  rotate: true
+  xy: 2, 4
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: -1
+wings_midd
+  rotate: true
+  xy: 2, 30
+  size: 23, 20
+  orig: 23, 20
+  offset: 0, 0
+  index: -1
+wings_nor
+  rotate: true
+  xy: 33, 64
+  size: 15, 12
+  orig: 15, 12
+  offset: 0, 0
+  index: -1
+wings_up
+  rotate: true
+  xy: 33, 104
+  size: 21, 19
+  orig: 21, 19
+  offset: 0, 0
+  index: -1
+yellow
+  rotate: false
+  xy: 2, 55
+  size: 29, 34
+  orig: 29, 34
+  offset: 0, 0
+  index: -1
+yellow_wings_down
+  rotate: true
+  xy: 23, 4
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: -1
+yellow_wings_midd
+  rotate: true
+  xy: 24, 31
+  size: 22, 20
+  orig: 22, 20
+  offset: 0, 0
+  index: -1
+yellow_wings_nor
+  rotate: true
+  xy: 47, 64
+  size: 15, 12
+  orig: 15, 12
+  offset: 0, 0
+  index: -1
+yellow_wings_up
+  rotate: true
+  xy: 33, 81
+  size: 21, 19
+  orig: 21, 19
+  offset: 0, 0
+  index: -1

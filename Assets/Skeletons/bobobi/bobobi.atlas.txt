@@ -1,0 +1,118 @@
+
+bobobi.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bobobi_01
+  rotate: false
+  xy: 2, 91
+  size: 46, 109
+  orig: 46, 109
+  offset: 0, 0
+  index: -1
+bobobi_02
+  rotate: true
+  xy: 128, 47
+  size: 15, 31
+  orig: 15, 31
+  offset: 0, 0
+  index: -1
+bobobi_03
+  rotate: true
+  xy: 135, 172
+  size: 28, 57
+  orig: 28, 57
+  offset: 0, 0
+  index: -1
+bobobi_04
+  rotate: false
+  xy: 97, 64
+  size: 51, 63
+  orig: 51, 63
+  offset: 0, 0
+  index: -1
+bobobi_05
+  rotate: true
+  xy: 135, 142
+  size: 28, 57
+  orig: 28, 57
+  offset: 0, 0
+  index: -1
+bobobi_06
+  rotate: true
+  xy: 2, 2
+  size: 87, 93
+  orig: 87, 93
+  offset: 0, 0
+  index: -1
+bobobi_07-1
+  rotate: true
+  xy: 85, 93
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: -1
+bobobi_07-2
+  rotate: false
+  xy: 58, 99
+  size: 14, 2
+  orig: 14, 2
+  offset: 0, 0
+  index: -1
+bobobi_07-3
+  rotate: true
+  xy: 85, 110
+  size: 17, 10
+  orig: 17, 10
+  offset: 0, 0
+  index: -1
+bobobi_07-4
+  rotate: false
+  xy: 97, 43
+  size: 29, 19
+  orig: 29, 19
+  offset: 0, 0
+  index: -1
+bobobi_08
+  rotate: true
+  xy: 50, 96
+  size: 5, 6
+  orig: 5, 6
+  offset: 0, 0
+  index: -1
+bobobi_08-1
+  rotate: false
+  xy: 150, 102
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+bobobi_08-2
+  rotate: true
+  xy: 50, 103
+  size: 24, 33
+  orig: 24, 33
+  offset: 0, 0
+  index: -1
+bobobi_08-3
+  rotate: false
+  xy: 150, 87
+  size: 24, 13
+  orig: 24, 13
+  offset: 0, 0
+  index: -1
+bobobi_09
+  rotate: false
+  xy: 150, 122
+  size: 29, 18
+  orig: 29, 18
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 50, 129
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1

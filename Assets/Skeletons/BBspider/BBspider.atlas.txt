@@ -1,0 +1,216 @@
+
+BBspider.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_bang_a
+  rotate: false
+  xy: 744, 259
+  size: 263, 208
+  orig: 263, 208
+  offset: 0, 0
+  index: -1
+FX_bang_b
+  rotate: true
+  xy: 788, 628
+  size: 171, 158
+  orig: 171, 158
+  offset: 0, 0
+  index: -1
+FX_speed
+  rotate: false
+  xy: 369, 877
+  size: 115, 53
+  orig: 115, 53
+  offset: 0, 0
+  index: -1
+FX_xiu_a
+  rotate: true
+  xy: 948, 582
+  size: 153, 202
+  orig: 153, 202
+  offset: 0, 0
+  index: -1
+FX_xiu_b
+  rotate: true
+  xy: 488, 218
+  size: 249, 254
+  orig: 249, 254
+  offset: 0, 0
+  index: -1
+FX_xiu_c
+  rotate: true
+  xy: 700, 1027
+  size: 90, 132
+  orig: 90, 132
+  offset: 0, 0
+  index: -1
+butt
+  rotate: false
+  xy: 2, 447
+  size: 484, 408
+  orig: 484, 408
+  offset: 0, 0
+  index: -1
+core_down
+  rotate: false
+  xy: 269, 874
+  size: 98, 98
+  orig: 98, 98
+  offset: 0, 0
+  index: -1
+core_shadow
+  rotate: false
+  xy: 369, 932
+  size: 116, 40
+  orig: 116, 40
+  offset: 0, 0
+  index: -1
+core_up
+  rotate: false
+  xy: 788, 801
+  size: 164, 181
+  orig: 164, 181
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 700, 976
+  size: 84, 49
+  orig: 84, 49
+  offset: 0, 0
+  index: -1
+eye_closehard
+  rotate: false
+  xy: 899, 1004
+  size: 55, 31
+  orig: 55, 31
+  offset: 0, 0
+  index: -1
+eye_dead
+  rotate: true
+  xy: 844, 996
+  size: 39, 53
+  orig: 39, 53
+  offset: 0, 0
+  index: -1
+eye_dizzy
+  rotate: true
+  xy: 1180, 1120
+  size: 60, 81
+  orig: 60, 81
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 1263, 1126
+  size: 54, 69
+  orig: 54, 69
+  offset: 0, 0
+  index: -1
+eye_what
+  rotate: true
+  xy: 788, 560
+  size: 66, 69
+  orig: 66, 69
+  offset: 0, 0
+  index: -1
+fx_han
+  rotate: true
+  xy: 859, 586
+  size: 40, 34
+  orig: 40, 34
+  offset: 0, 0
+  index: -1
+fx_posi_pop_a
+  rotate: false
+  xy: 269, 974
+  size: 429, 401
+  orig: 429, 401
+  offset: 0, 0
+  index: -1
+fx_posi_pop_b
+  rotate: false
+  xy: 700, 1119
+  size: 478, 256
+  orig: 478, 256
+  offset: 0, 0
+  index: -1
+fx_posi_pop_c
+  rotate: true
+  xy: 488, 469
+  size: 503, 298
+  orig: 503, 298
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 2, 106
+  size: 339, 243
+  orig: 339, 243
+  offset: 0, 0
+  index: -1
+leg_a
+  rotate: false
+  xy: 1009, 350
+  size: 152, 230
+  orig: 152, 230
+  offset: 0, 0
+  index: -1
+leg_b
+  rotate: false
+  xy: 247, 209
+  size: 231, 236
+  orig: 231, 236
+  offset: 0, 0
+  index: -1
+leg_c
+  rotate: false
+  xy: 1180, 1182
+  size: 195, 193
+  orig: 195, 193
+  offset: 0, 0
+  index: -1
+mt_down
+  rotate: false
+  xy: 954, 737
+  size: 202, 181
+  orig: 202, 181
+  offset: 0, 0
+  index: -1
+pool
+  rotate: false
+  xy: 964, 920
+  size: 299, 197
+  orig: 299, 197
+  offset: 0, 0
+  index: -1
+posion_pop
+  rotate: false
+  xy: 2, 857
+  size: 265, 518
+  orig: 265, 518
+  offset: 0, 0
+  index: -1
+tinyarm
+  rotate: true
+  xy: 786, 984
+  size: 41, 56
+  orig: 41, 56
+  offset: 0, 0
+  index: -1
+tinyhand
+  rotate: true
+  xy: 834, 1037
+  size: 80, 128
+  orig: 80, 128
+  offset: 0, 0
+  index: -1
+tophat
+  rotate: false
+  xy: 1158, 774
+  size: 212, 144
+  orig: 212, 144
+  offset: 0, 0
+  index: -1

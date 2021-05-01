@@ -1,0 +1,118 @@
+
+goldfish.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_popo
+  rotate: true
+  xy: 22, 28
+  size: 10, 8
+  orig: 10, 8
+  offset: 0, 0
+  index: -1
+FX_wf_a
+  rotate: false
+  xy: 2, 40
+  size: 29, 31
+  orig: 29, 31
+  offset: 0, 0
+  index: -1
+FX_wf_b
+  rotate: true
+  xy: 33, 43
+  size: 28, 23
+  orig: 28, 23
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: false
+  xy: 57, 17
+  size: 25, 12
+  orig: 25, 12
+  offset: 0, 0
+  index: -1
+eye_half
+  rotate: true
+  xy: 84, 4
+  size: 25, 12
+  orig: 25, 12
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 22, 3
+  size: 25, 12
+  orig: 25, 12
+  offset: 0, 0
+  index: -1
+fishbody
+  rotate: true
+  xy: 105, 32
+  size: 21, 16
+  orig: 21, 16
+  offset: 0, 0
+  index: -1
+glass
+  rotate: false
+  xy: 2, 73
+  size: 68, 48
+  orig: 68, 48
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 58, 60
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+mt_blow
+  rotate: true
+  xy: 105, 2
+  size: 28, 14
+  orig: 28, 14
+  offset: 0, 0
+  index: -1
+mt_nor
+  rotate: false
+  xy: 49, 3
+  size: 22, 12
+  orig: 22, 12
+  offset: 0, 0
+  index: -1
+mt_open
+  rotate: true
+  xy: 85, 31
+  size: 22, 18
+  orig: 22, 18
+  offset: 0, 0
+  index: -1
+trail_a
+  rotate: false
+  xy: 33, 17
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+trail_b
+  rotate: true
+  xy: 58, 31
+  size: 22, 25
+  orig: 22, 25
+  offset: 0, 0
+  index: -1
+trail_c
+  rotate: false
+  xy: 2, 13
+  size: 18, 25
+  orig: 18, 25
+  offset: 0, 0
+  index: -1
+water_in_glass
+  rotate: true
+  xy: 72, 55
+  size: 66, 40
+  orig: 66, 40
+  offset: 0, 0
+  index: -1

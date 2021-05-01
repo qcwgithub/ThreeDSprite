@@ -1,0 +1,167 @@
+
+sc_boy.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_ta_a
+  rotate: true
+  xy: 2, 2
+  size: 76, 65
+  orig: 76, 65
+  offset: 0, 0
+  index: -1
+FX_ta_b
+  rotate: false
+  xy: 55, 169
+  size: 59, 81
+  orig: 59, 81
+  offset: 0, 0
+  index: -1
+FX_ta_c
+  rotate: false
+  xy: 2, 165
+  size: 51, 85
+  orig: 51, 85
+  offset: 0, 0
+  index: -1
+body_nor
+  rotate: false
+  xy: 75, 130
+  size: 36, 37
+  orig: 36, 37
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: false
+  xy: 2, 80
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 126, 132
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
+eye_dizzy
+  rotate: true
+  xy: 113, 132
+  size: 8, 11
+  orig: 8, 11
+  offset: 0, 0
+  index: -1
+eye_flash
+  rotate: true
+  xy: 75, 81
+  size: 9, 11
+  orig: 9, 11
+  offset: 0, 0
+  index: -1
+eye_half
+  rotate: true
+  xy: 88, 81
+  size: 9, 6
+  orig: 9, 6
+  offset: 0, 0
+  index: -1
+eye_happy
+  rotate: false
+  xy: 119, 100
+  size: 8, 6
+  orig: 8, 6
+  offset: 0, 0
+  index: -1
+eye_heng
+  rotate: false
+  xy: 119, 108
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
+eye_love
+  rotate: true
+  xy: 96, 81
+  size: 9, 6
+  orig: 9, 6
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 128, 122
+  size: 6, 8
+  orig: 6, 8
+  offset: 0, 0
+  index: -1
+eye_shock
+  rotate: true
+  xy: 96, 2
+  size: 31, 17
+  orig: 31, 17
+  offset: 0, 0
+  index: -1
+foot
+  rotate: false
+  xy: 119, 118
+  size: 7, 12
+  orig: 7, 12
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 104, 81
+  size: 21, 16
+  orig: 21, 16
+  offset: 0, 0
+  index: -1
+handball
+  rotate: true
+  xy: 102, 36
+  size: 20, 18
+  orig: 20, 18
+  offset: 0, 0
+  index: -1
+handball_five
+  rotate: true
+  xy: 113, 142
+  size: 25, 20
+  orig: 25, 20
+  offset: 0, 0
+  index: -1
+handball_one
+  rotate: false
+  xy: 102, 58
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+hat
+  rotate: true
+  xy: 69, 35
+  size: 43, 31
+  orig: 43, 31
+  offset: 0, 0
+  index: -1
+hat_close
+  rotate: true
+  xy: 69, 2
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: -1
+hat_open
+  rotate: true
+  xy: 75, 92
+  size: 36, 23
+  orig: 36, 23
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 100, 99
+  size: 29, 17
+  orig: 29, 17
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,97 @@
+
+UFOGoose.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+UFObody_a
+  rotate: true
+  xy: 213, 181
+  size: 73, 32
+  orig: 73, 32
+  offset: 0, 0
+  index: -1
+UFObody_b
+  rotate: false
+  xy: 2, 219
+  size: 75, 35
+  orig: 75, 35
+  offset: 0, 0
+  index: -1
+UFObody_c
+  rotate: false
+  xy: 2, 185
+  size: 73, 32
+  orig: 73, 32
+  offset: 0, 0
+  index: -1
+UFObody_d
+  rotate: false
+  xy: 79, 219
+  size: 75, 35
+  orig: 75, 35
+  offset: 0, 0
+  index: -1
+button_gear
+  rotate: true
+  xy: 134, 155
+  size: 26, 32
+  orig: 26, 32
+  offset: 0, 0
+  index: -1
+eye_closehard
+  rotate: true
+  xy: 247, 244
+  size: 10, 7
+  orig: 10, 7
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: false
+  xy: 247, 221
+  size: 3, 8
+  orig: 3, 8
+  offset: 0, 0
+  index: -1
+glass
+  rotate: true
+  xy: 156, 208
+  size: 46, 55
+  orig: 46, 55
+  offset: 0, 0
+  index: -1
+goose_body
+  rotate: true
+  xy: 77, 182
+  size: 35, 55
+  orig: 35, 55
+  offset: 0, 0
+  index: -1
+hand
+  rotate: true
+  xy: 134, 194
+  size: 23, 20
+  orig: 23, 20
+  offset: 0, 0
+  index: -1
+high_light
+  rotate: true
+  xy: 247, 231
+  size: 11, 5
+  orig: 11, 5
+  offset: 0, 0
+  index: -1
+neck
+  rotate: false
+  xy: 156, 183
+  size: 55, 23
+  orig: 55, 23
+  offset: 0, 0
+  index: -1
+neck_down
+  rotate: false
+  xy: 2, 160
+  size: 55, 23
+  orig: 55, 23
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,139 @@
+
+orange_dad.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FX_speed
+  rotate: false
+  xy: 222, 454
+  size: 115, 53
+  orig: 115, 53
+  offset: 0, 0
+  index: -1
+FX_ta_a
+  rotate: false
+  xy: 222, 387
+  size: 76, 65
+  orig: 76, 65
+  offset: 0, 0
+  index: -1
+FX_ta_b
+  rotate: false
+  xy: 222, 304
+  size: 59, 81
+  orig: 59, 81
+  offset: 0, 0
+  index: -1
+FX_ta_c
+  rotate: false
+  xy: 456, 343
+  size: 51, 85
+  orig: 51, 85
+  offset: 0, 0
+  index: -1
+arm
+  rotate: true
+  xy: 283, 301
+  size: 18, 29
+  orig: 18, 29
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 325
+  size: 218, 182
+  orig: 218, 182
+  offset: 0, 0
+  index: -1
+emoji_alarm
+  rotate: true
+  xy: 339, 385
+  size: 71, 83
+  orig: 71, 83
+  offset: 0, 0
+  index: -1
+eye_angry
+  rotate: false
+  xy: 333, 316
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+eye_close
+  rotate: true
+  xy: 283, 350
+  size: 35, 14
+  orig: 35, 14
+  offset: 0, 0
+  index: -1
+eye_nor
+  rotate: true
+  xy: 405, 345
+  size: 38, 17
+  orig: 38, 17
+  offset: 0, 0
+  index: -1
+eye_ooo
+  rotate: false
+  xy: 451, 304
+  size: 48, 37
+  orig: 48, 37
+  offset: 0, 0
+  index: -1
+handball
+  rotate: false
+  xy: 299, 344
+  size: 32, 30
+  orig: 32, 30
+  offset: 0, 0
+  index: -1
+headleaf
+  rotate: false
+  xy: 339, 458
+  size: 122, 49
+  orig: 122, 49
+  offset: 0, 0
+  index: -1
+leg
+  rotate: true
+  xy: 283, 321
+  size: 21, 31
+  orig: 21, 31
+  offset: 0, 0
+  index: -1
+mouth_angry
+  rotate: true
+  xy: 300, 376
+  size: 76, 32
+  orig: 76, 32
+  offset: 0, 0
+  index: -1
+mouth_duuu
+  rotate: false
+  xy: 334, 345
+  size: 69, 38
+  orig: 69, 38
+  offset: 0, 0
+  index: -1
+mouth_errr
+  rotate: true
+  xy: 424, 371
+  size: 85, 30
+  orig: 85, 30
+  offset: 0, 0
+  index: -1
+mouth_nor
+  rotate: true
+  xy: 424, 309
+  size: 60, 25
+  orig: 60, 25
+  offset: 0, 0
+  index: -1
+mouth_o
+  rotate: true
+  xy: 463, 430
+  size: 77, 35
+  orig: 77, 35
+  offset: 0, 0
+  index: -1
