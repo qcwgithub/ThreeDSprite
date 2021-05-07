@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0eb19e6abae386f4bb8e32d054538469
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 240aed2c1e6c7a149bb0ce59f71ad15a, type: 3}
+  pixelsPerUnit: 100
+  shape: 0
+  belowPercent: 0.5
+  quadDir: 0
+  pivot: {x: 0.5, y: 0, z: 0}
+  addCollider: 1
