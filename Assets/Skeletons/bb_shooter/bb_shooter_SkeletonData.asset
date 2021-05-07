@@ -18,10 +18,12 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: 8cfd2bbbf6476ba42bd443374705dc5a, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
     additiveMaterials: []
-    multiplyMaterials: []
+    multiplyMaterials:
+    - pageName: bb_shooter.png
+      material: {fileID: 2100000, guid: 17c902d141e694a4c872e68f70b55f30, type: 2}
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation: []

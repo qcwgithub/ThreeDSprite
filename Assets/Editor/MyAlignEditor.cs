@@ -33,20 +33,20 @@ public class MyAlignEditor : EditorWindow
         window.Show();
     }
 
-    public GameObject[] refs;
-    public GameObject[] targets;
+    public GameObject[] refs = new GameObject[0];
+    public GameObject[] targets = new GameObject[0];
 
     public AlignX alignX = AlignX.None;
     public float xValue = 0f;
-    public bool xMinus = false;
+    public float multipleX = 1f;
 
     public AlignY alignY = AlignY.None;
     public float yValue = 0f;
-    public bool yMinus = false;
+    public float multipleY = 1f;
 
     public AlignZ alignZ = AlignZ.None;
     public float zValue = 0f;
-    public bool zMinus = false;
+    public float multipleZ = 1f;
 
     private bool GetRefVector(BoxCollider boxCollider, out Vector3 pos)
     {
@@ -67,10 +67,7 @@ public class MyAlignEditor : EditorWindow
                 x = boxCollider.size.x;
                 break;
         }
-        if (this.xMinus)
-        {
-            x = -x;
-        }
+        x *= this.multipleX;
 
         float y = 0f;
         switch (this.alignY)
@@ -87,10 +84,7 @@ public class MyAlignEditor : EditorWindow
                 y = boxCollider.size.y;
                 break;
         }
-        if (this.yMinus)
-        {
-            y = -y;
-        }
+        y *= this.multipleY;
 
         float z = 0f;
         switch (this.alignZ)
@@ -107,10 +101,7 @@ public class MyAlignEditor : EditorWindow
                 z = boxCollider.size.z;
                 break;
         }
-        if (this.zMinus)
-        {
-            z = -z;
-        }
+        z *= this.multipleZ;
 
         pos = new Vector3(x, y, z);
         return true;
@@ -207,8 +198,8 @@ public class MyAlignEditor : EditorWindow
         }
 
         GUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("MinusX", GUILayout.Width(60));
-        this.xMinus = EditorGUILayout.Toggle(this.xMinus);
+        EditorGUILayout.LabelField("multipleX", GUILayout.Width(60));
+        this.multipleX = EditorGUILayout.FloatField(this.multipleX);
         EditorGUILayout.LabelField("AlignX", GUILayout.Width(60));
         this.alignX = (AlignX)EditorGUILayout.EnumPopup(this.alignX);
         if (this.alignX == AlignX.EnterValue)
@@ -219,8 +210,8 @@ public class MyAlignEditor : EditorWindow
 
 
         GUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("MinusY", GUILayout.Width(60));
-        this.yMinus = EditorGUILayout.Toggle(this.yMinus);
+        EditorGUILayout.LabelField("multipleY", GUILayout.Width(60));
+        this.multipleY = EditorGUILayout.FloatField(this.multipleY);
         EditorGUILayout.LabelField("AlignY", GUILayout.Width(60));
         this.alignY = (AlignY)EditorGUILayout.EnumPopup(this.alignY);
         if (this.alignY == AlignY.EnterValue)
@@ -231,8 +222,8 @@ public class MyAlignEditor : EditorWindow
 
 
         GUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("MinusZ", GUILayout.Width(60));
-        this.zMinus = EditorGUILayout.Toggle(this.zMinus);
+        EditorGUILayout.LabelField("multipleZ", GUILayout.Width(60));
+        this.multipleZ = EditorGUILayout.FloatField(this.multipleZ);
         EditorGUILayout.LabelField("AlignZ", GUILayout.Width(60));
         this.alignZ = (AlignZ)EditorGUILayout.EnumPopup(this.alignZ);
         if (this.alignZ == AlignZ.EnterValue)

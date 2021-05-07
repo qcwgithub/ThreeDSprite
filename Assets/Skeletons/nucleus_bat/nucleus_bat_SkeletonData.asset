@@ -18,9 +18,11 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: adedcf8cc96b6b346824a7ad2e0cac24, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
-    additiveMaterials: []
+    additiveMaterials:
+    - pageName: nucleus_bat.png
+      material: {fileID: 2100000, guid: ef18c38b569c91f48a544d9b3c063001, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

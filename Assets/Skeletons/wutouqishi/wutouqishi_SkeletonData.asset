@@ -18,9 +18,11 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: 1ddda50d8889e7e4a8d59fb83b5e656b, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
-    additiveMaterials: []
+    additiveMaterials:
+    - pageName: wutouqishi.png
+      material: {fileID: 2100000, guid: 619b7485e31dd0e4f94ca53dd611e368, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

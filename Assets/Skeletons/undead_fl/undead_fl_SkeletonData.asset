@@ -18,9 +18,11 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: 983643a6ab085c846b55b9886014a204, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
-    additiveMaterials: []
+    additiveMaterials:
+    - pageName: undead_fl.png
+      material: {fileID: 2100000, guid: 2c48c3646b8f5bc48bb1bf6b256c7162, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

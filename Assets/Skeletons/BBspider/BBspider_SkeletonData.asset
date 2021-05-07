@@ -18,10 +18,12 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: 64abf8a6a10c2c145ba611887320c1b5, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
     additiveMaterials: []
-    multiplyMaterials: []
+    multiplyMaterials:
+    - pageName: BBspider.png
+      material: {fileID: 2100000, guid: 6db31b77bf739f64da04ca3ccef61d77, type: 2}
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation: []

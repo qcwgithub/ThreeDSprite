@@ -18,10 +18,14 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: 9a84e50406d876b4fa032d4eac067f21, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
-    additiveMaterials: []
-    multiplyMaterials: []
+    additiveMaterials:
+    - pageName: tokoroa.png
+      material: {fileID: 2100000, guid: ad8639d60638c1845bc7d67095f46fb5, type: 2}
+    multiplyMaterials:
+    - pageName: tokoroa.png
+      material: {fileID: 2100000, guid: 35033535d63266d4f995e92b32743d74, type: 2}
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation: []

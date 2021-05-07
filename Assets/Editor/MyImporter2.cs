@@ -33,50 +33,11 @@ namespace Assets.Editor
     // cube
     // quad xz horizontal
     // quad xy vertical
-    [UnityEditor.AssetImporters.ScriptedImporter(1, new string[] { "cube", "cubes" })]
+    //[UnityEditor.AssetImporters.ScriptedImporter(1, new string[] { "cube", "cubes" })]
     public class MyImporter2 : UnityEditor.AssetImporters.ScriptedImporter
     {
         public MyShape shape = MyShape.Cube;
-        public MyQuadDir quadDir = MyQuadDir.XZ;
-        public MyColliderType addCollider = MyColliderType.Box;
-
-        const float SQRT2 = 1.4142135623730951f;
-
-        static void SetupCubeBoxCollider(BoxCollider collider, 
-            float texWidth, float texHeight, float pixelsPerUnit, float belowPercent)
-        {
-            float xLength = texWidth / pixelsPerUnit;
-            //float yLength = texHeight * belowPercent * SQRT2 / pixelsPerUnit;
-            float yLength = texHeight * belowPercent / pixelsPerUnit;
-            float zLength = texHeight * (1f - belowPercent) * SQRT2 / pixelsPerUnit;
-
-            collider.size = new Vector3(xLength, yLength, zLength);
-            collider.center = new Vector3(0f, yLength / 2, zLength / 2);
-        }
-
-        static void SetupQuadXZBoxCollider(BoxCollider collider,
-            float texWidth, float texHeight, float pixelsPerUnit)
-        {
-            float xLength = texWidth / pixelsPerUnit;
-            //float yLength = texHeight * belowPercent * SQRT2 / pixelsPerUnit;
-            float yLength = 0f;// texHeight * belowPercent / pixelsPerUnit;
-            float zLength = texHeight * SQRT2 / pixelsPerUnit;
-
-            collider.size = new Vector3(xLength, yLength, zLength);
-            collider.center = new Vector3(0f, yLength / 2, -zLength / 2);
-        }
-
-        static void SetupQuadXYBoxCollider(BoxCollider collider,
-            float texWidth, float texHeight, float pixelsPerUnit)
-        {
-            float xLength = texWidth / pixelsPerUnit;
-            //float yLength = texHeight * belowPercent * SQRT2 / pixelsPerUnit;
-            float yLength = texHeight / pixelsPerUnit;
-            float zLength = 0f;// texHeight * (1f - belowPercent) * SQRT2 / pixelsPerUnit;
-
-            collider.size = new Vector3(xLength, yLength, zLength);
-            collider.center = new Vector3(0f, yLength / 2, zLength / 2);
-        }
+        public MyQuadDir quadDir = MyQuadDir.XZ;      
 
         private void ImportOne(UnityEditor.AssetImporters.AssetImportContext ctx, string spritePath)
         {
@@ -87,15 +48,13 @@ namespace Assets.Editor
                 Debug.LogWarning("sprite is null, " + spritePath);
                 return;
             }
-            float texWidth = sprite.rect.width;
-            float texHeight = sprite.rect.height;
+
+            float spriteWidth = sprite.rect.width;
+            float spriteHeight = sprite.rect.height;
 
             GameObject go = new GameObject(name);
             ctx.AddObjectToAsset("go_" + name, go);
-            //if (ctx.mainObject == null)
-            //{
-            //    ctx.SetMainObject(go);
-            //}
+
             Transform trans = go.transform;
             trans.eulerAngles = new Vector3(45f, 0f, 0f);
 
@@ -122,14 +81,14 @@ namespace Assets.Editor
                             Debug.LogWarning("!float.TryParse, " + spritePath);
                             return;
                         }
-                        SetupCubeBoxCollider(collider, texWidth, texHeight, sprite.pixelsPerUnit, belowPercent);
+                        MyImporterUtils.SetupBoxCollider_Cube(collider, spriteWidth, spriteHeight, sprite.pixelsPerUnit, belowPercent);
                     }
                     break;
                 case MyShape.Quad_XZ:
-                    SetupQuadXZBoxCollider(collider, texWidth, texHeight, sprite.pixelsPerUnit);
+                    MyImporterUtils.SetupBoxCollider_QuadXZ(collider, spriteWidth, spriteHeight, sprite.pixelsPerUnit);
                     break;
                 case MyShape.Quad_XY:
-                    SetupQuadXYBoxCollider(collider, texWidth, texHeight, sprite.pixelsPerUnit);
+                    MyImporterUtils.SetupCollider_QuadXY(collider, spriteWidth, spriteHeight, sprite.pixelsPerUnit);
                     break;
             }
 
@@ -148,6 +107,7 @@ namespace Assets.Editor
             }
             else
             {
+                // 添加一个假的
                 GameObject main = new GameObject("main");
                 ctx.AddObjectToAsset("main obj", main);
 

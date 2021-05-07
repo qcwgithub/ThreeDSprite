@@ -18,9 +18,11 @@ MonoBehaviour:
   skeletonJSON: {fileID: 4900000, guid: f6305f717bdfcbd43b83e83949b36124, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
-    requiresBlendModeMaterials: 0
+    requiresBlendModeMaterials: 1
     applyAdditiveMaterial: 1
-    additiveMaterials: []
+    additiveMaterials:
+    - pageName: lili.png
+      material: {fileID: 2100000, guid: 95c53d145d49cde468974681362461ad, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

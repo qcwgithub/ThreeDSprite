@@ -7,3 +7,6 @@ obj/
 Assembly-CSharp-Editor.csproj
 ThreeDSprite2.sln
 .vsconfig
+*.sln
+*.csproj
+Temp/
