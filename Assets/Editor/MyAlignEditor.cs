@@ -168,6 +168,27 @@ public class MyAlignEditor : EditorWindow
         }
     }
 
+    private void AverageBetween()
+    {
+        if (this.refs.Length < 2)
+        {
+            Debug.Log("refs.Length < 0");
+            return;
+        }
+        if (this.targets.Length == 0)
+        {
+            Debug.Log("targets.Length == 0");
+            return;
+        }
+
+        Vector3 p0 = this.refs[0].transform.position;
+        Vector3 p1 = this.refs[1].transform.position;
+        for (int i = 0; i < this.targets.Length; i++)
+        {
+            this.targets[i].transform.position = Vector3.Lerp(p0, p1, (float)(i+1)/(float)(this.targets.Length + 1));
+        }
+    }
+
     private void OnGUI()
     {
         GUILayout.BeginHorizontal();
@@ -232,16 +253,20 @@ public class MyAlignEditor : EditorWindow
         }
         GUILayout.EndHorizontal();
 
-        bool click = GUILayout.Button("Align");
-        if (click)
+        if (GUILayout.Button("Align"))
         {
             this.Align();
         }
 
-        click = GUILayout.Button("Clone");
-        if (click)
+        if (GUILayout.Button("Average Between Refs[0] and Refs[1]"))
         {
-            this.Clone();
+            this.AverageBetween();
         }
+
+        //click = GUILayout.Button("Clone");
+        //if (click)
+        //{
+        //    this.Clone();
+        //}
     }
 }
