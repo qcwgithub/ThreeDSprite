@@ -6,6 +6,9 @@ using System;
 public class CWalkable : MonoBehaviour
 {
     public int Id;
+    public Collider BoundingCollider;
+
+    public virtual int Priority { get { return 0; } }
     public virtual void Init()
     {
 

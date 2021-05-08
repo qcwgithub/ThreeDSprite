@@ -11,6 +11,9 @@ public class CMapFloor : CWalkable
     public Vector3 Min;
     [NonSerialized]
     public Vector3 Max;
+
+    public override int Priority { get { return 1; } }
+
     public override void Init()
     {
         base.Init();

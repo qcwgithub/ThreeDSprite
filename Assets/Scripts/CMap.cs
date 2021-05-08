@@ -4,18 +4,8 @@ using UnityEngine;
 
 public class CMap : MonoBehaviour
 {
-    [System.Serializable]
-    public class LinkInfo
-    {
-        public Collider Collider;
-        public CWalkable EnterTo;
-        public CWalkable ExitTo;
-    }
-
     public List<CWalkable> Walkables;
-    public List<LinkInfo> Links;
-
-    public Dictionary<Collider, LinkInfo> DictLink;
+    public Dictionary<Collider, CWalkable> DictWalkables;
 
     public virtual void Init()
     {
@@ -24,10 +14,10 @@ public class CMap : MonoBehaviour
             this.Walkables[i].Init();
         }
 
-        this.DictLink = new Dictionary<Collider, LinkInfo>();
-        for (int i = 0; i < this.Links.Count; i++)
+        this.DictWalkables = new Dictionary<Collider, CWalkable>();
+        for (int i = 0; i < this.Walkables.Count; i++)
         {
-            this.DictLink.Add(this.Links[i].Collider, this.Links[i]);
+            this.DictWalkables.Add(this.Walkables[i].BoundingCollider, this.Walkables[i]);
         }
     }
 
@@ -42,30 +32,69 @@ public class CMap : MonoBehaviour
         char_.CurrWalkable = this.RandomWalkable();
         char_.transform.position = char_.CurrWalkable.RandomPos();
 
-        char_.ActionOnTriggerEnter += this.ActionOnCollisionEnter;
-        char_.ActionOnTriggerExit += this.ActionOnCollisionExit;
+        char_.ActionOnTriggerEnter += this._OnTriggerEnter;
+        char_.ActionOnTriggerExit += this._OnTriggerExit;
     }
-    private void ActionOnCollisionEnter(CCharacter char_, Collider other)
+
+    private void SelectWalkable(CCharacter char_)
     {
-        LinkInfo link;
-        if (!this.DictLink.TryGetValue(other, out link))
+        int count = char_.ListWalkables.Count;
+        if (count == 0)
+        {
+            return;
+        }
+        if (count == 1)
+        {
+            char_.CurrWalkable = char_.ListWalkables[0];
+            return;
+        }
+
+        CWalkable highest = null;
+        for (int i = 0; i < count; i++)
+        {
+            if (highest == null || char_.ListWalkables[i].Priority > highest.Priority)
+            {
+                highest = char_.ListWalkables[i];
+            }
+        }
+
+        // Change walkable
+        char_.CurrWalkable = highest;
+
+    }
+
+    private void _OnTriggerEnter(CCharacter char_, Collider other)
+    {
+        CWalkable walkable;
+        if (!this.DictWalkables.TryGetValue(other, out walkable))
         {
             return;
         }
 
-        // Change walkable
-        char_.CurrWalkable = link.EnterTo;
-    }
-
-    private void ActionOnCollisionExit(CCharacter char_, Collider other)
-    {
-        LinkInfo link;
-        if (!this.DictLink.TryGetValue(other, out link))
+        if (char_.CurrWalkable == walkable || char_.ListWalkables.Contains(walkable))
         {
             return;
         }
 
-        // Change walkable
-        char_.CurrWalkable = link.ExitTo;
+        char_.ListWalkables.Add(walkable);
+        this.SelectWalkable(char_);
+    }
+
+    private void _OnTriggerExit(CCharacter char_, Collider other)
+    {
+        CWalkable walkable;
+        if (!this.DictWalkables.TryGetValue(other, out walkable))
+        {
+            return;
+        }
+
+        if (char_.CurrWalkable == walkable)
+        {
+            char_.ListWalkables.Remove(char_.CurrWalkable);
+            this.SelectWalkable(char_);
+            return;
+        }
+
+        char_.ListWalkables.Remove(walkable);
     }
 }
