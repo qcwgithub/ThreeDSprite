@@ -20,7 +20,7 @@ namespace Assets.Editor
             float zLength = texHeight * (1f - belowPercent) * SQRT2 / pixelsPerUnit;
 
             collider.size = new Vector3(xLength, yLength, zLength);
-            collider.center = new Vector3(0f, yLength / 2, 0f);
+            collider.center = new Vector3(0f, yLength / 2, zLength / 2);
         }
 
         public static void SetupBoxCollider_QuadXZ(BoxCollider collider,

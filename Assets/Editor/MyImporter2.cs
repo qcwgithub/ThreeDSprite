@@ -65,6 +65,7 @@ namespace Assets.Editor
 
             GameObject goCollider = new GameObject("collider");
             BoxCollider collider = goCollider.AddComponent<BoxCollider>();
+            collider.isTrigger = true;
             switch (this.shape)
             {
                 case MyShape.Cube:

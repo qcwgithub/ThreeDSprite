@@ -79,6 +79,7 @@ namespace Assets.Editor
             renderer.material = material;
 
             BoxCollider collider = go.AddComponent<BoxCollider>();
+            collider.isTrigger = true;
 
             switch (this.shape)
             {
