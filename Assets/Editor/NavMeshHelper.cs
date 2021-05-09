@@ -41,6 +41,8 @@ public class NavMeshHelper : EditorWindow
     /// </summary>
     private bool bakeMode = false;
 
+    private bool includeIsTrigger = true;
+
     [MenuItem("Luigi/Open NavMeshHelper Window")]
     public static void ShowWindow()
     {
@@ -61,6 +63,8 @@ public class NavMeshHelper : EditorWindow
         {
             BackToNormalMode();
         }
+
+        this.includeIsTrigger = EditorGUILayout.Toggle("Include isTrigger: ", this.includeIsTrigger);
 
         GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1.0f) });
         EditorGUILayout.LabelField("Action", EditorStyles.boldLabel);
@@ -87,6 +91,23 @@ public class NavMeshHelper : EditorWindow
         GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
     }
 
+    private void Setup1GameObject(GameObject fakeObject, GameObject realObject)
+    {
+        // setup in the root(all fake objects must be child of this, to make it easy to setup and delete later)
+        fakeObject.transform.parent = bakeModeRoot.transform;
+
+        // setup layer
+        fakeObject.layer = realObject.layer;
+
+        // setup flags
+        StaticEditorFlags flags = GameObjectUtility.GetStaticEditorFlags(realObject);
+        GameObjectUtility.SetStaticEditorFlags(fakeObject, flags);
+
+        // setup nav mesh area
+        GameObjectUtility.SetNavMeshArea(fakeObject, GameObjectUtility.GetNavMeshArea(realObject));
+    }
+
+
     /// <summary>
     /// Setup the Bake Mode.
     /// Hide all the renderers in the scene, and generate all the clone/fake objects.
@@ -100,36 +121,80 @@ public class NavMeshHelper : EditorWindow
         bakeModeRoot = new GameObject("Bake Mode Root");
         bakeModeRoot.transform.parent = null;
 
-        // generate the fake objects based on the existent colliders
-        Collider[] colliders = FindObjectsOfType<Collider>();
-        for (int i = 0; i < colliders.Length; i++)
+        CWalkable[] walkables = FindObjectsOfType<CWalkable>();
+        for (int i = 0; i < walkables.Length; i++)
         {
-            int theTrueMaskSupose = layerMask.value | 1 << colliders[i].gameObject.layer;
-            if (layerMask.value == theTrueMaskSupose && !colliders[i].isTrigger)
+            if (walkables[i] is CMapStairZ)
             {
-                // generate and store the fake object
-                GameObject fakeObject = GenerateRendererObject(colliders[i]);
+                const string DEFAULT_FAKEOBJECT_NAME = "StairZ";
+                Bounds high = (walkables[i] as CMapStairZ).collider1.bounds;
+                Vector3 highMin = high.min;
+                Vector3 highMax = high.max;
+                Bounds low = (walkables[i] as CMapStairZ).collider2.bounds;
+                Vector3 lowMin = low.min;
+                Vector3 lowMax = low.max;
+                Vector3 center;
+                Mesh mesh = Assets.Editor.MyImporterUtils.CreateMesh_Quad_FromPoints(new Vector3[] {
+                    new Vector3(highMin.x, highMax.y, highMax.z),
+                    new Vector3(highMax.x, highMax.y, highMax.z),
+                    new Vector3(lowMin.x, lowMin.y, lowMin.z),
+                    new Vector3(lowMax.x, lowMin.y, lowMin.z)
+                }, out center);
 
-                // in some cases, the fakeObject can be null 
-                // for example: it has a MeshCollider but doesnt have a MeshRenderer
+                GameObject fakeObject = new GameObject(DEFAULT_FAKEOBJECT_NAME);
+                fakeObject.transform.position = center;
 
-                if (fakeObject != null)
+                fakeObject.AddComponent<MeshFilter>().sharedMesh = mesh;
+                if (diffuseDefaultMaterial == null)
                 {
-                    // setup in the root(all fake objects must be child of this, to make it easy to setup and delete later)
-                    fakeObject.transform.parent = bakeModeRoot.transform;
+                    SetDefaultMaterialReference();
+                }
+                fakeObject.AddComponent<MeshRenderer>().materials = new Material[] { diffuseDefaultMaterial };
 
-                    // setup layer
-                    fakeObject.layer = colliders[i].gameObject.layer;
+                Setup1GameObject(fakeObject, walkables[i].gameObject);
+            }
+            else
+            {
+                Collider[] colliders = walkables[i].GetComponentsInChildren<Collider>();
+                for (int j = 0; j < colliders.Length; j++)
+                {
+                    int theTrueMaskSupose = layerMask.value | 1 << colliders[j].gameObject.layer;
+                    if (layerMask.value == theTrueMaskSupose && (this.includeIsTrigger || !colliders[j].isTrigger))
+                    {
+                        // generate and store the fake object
+                        GameObject fakeObject = GenerateRendererObject(colliders[j]);
 
-                    // setup flags
-                    StaticEditorFlags flags = GameObjectUtility.GetStaticEditorFlags(colliders[i].gameObject);
-                    GameObjectUtility.SetStaticEditorFlags(fakeObject, flags);
+                        // in some cases, the fakeObject can be null 
+                        // for example: it has a MeshCollider but doesnt have a MeshRenderer
 
-                    // setup nav mesh area
-                    GameObjectUtility.SetNavMeshArea(fakeObject, GameObjectUtility.GetNavMeshArea(colliders[i].gameObject));
+                        if (fakeObject != null)
+                        {
+                            Setup1GameObject(fakeObject, colliders[j].gameObject);
+                        }
+                    }
                 }
             }
         }
+
+        // generate the fake objects based on the existent colliders
+        //Collider[] colliders = FindObjectsOfType<Collider>();
+        //for (int i = 0; i < colliders.Length; i++)
+        //{
+        //    int theTrueMaskSupose = layerMask.value | 1 << colliders[i].gameObject.layer;
+        //    if (layerMask.value == theTrueMaskSupose && (this.includeIsTrigger || !colliders[i].isTrigger))
+        //    {
+        //        // generate and store the fake object
+        //        GameObject fakeObject = GenerateRendererObject(colliders[i]);
+
+        //        // in some cases, the fakeObject can be null 
+        //        // for example: it has a MeshCollider but doesnt have a MeshRenderer
+
+        //        if (fakeObject != null)
+        //        {
+        //            Setup1GameObject(fakeObject, colliders[i].gameObject);
+        //        }
+        //    }
+        //}
 
         // disable renderers
         disableds = new Stack<Renderer>();

@@ -15,7 +15,7 @@ public class CGame : MonoBehaviour
             this.Maps[i].Init();
         }
 
-        this.Maps[0].AddCharacter(this.Char);
+        //this.Maps[0].AddCharacter(this.Char);
     }
 
 }

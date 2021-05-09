@@ -14,11 +14,11 @@ public class CMap : MonoBehaviour
             this.Walkables[i].Init();
         }
 
-        this.DictWalkables = new Dictionary<Collider, CWalkable>();
-        for (int i = 0; i < this.Walkables.Count; i++)
-        {
-            this.DictWalkables.Add(this.Walkables[i].BoundingCollider, this.Walkables[i]);
-        }
+        //this.DictWalkables = new Dictionary<Collider, CWalkable>();
+        //for (int i = 0; i < this.Walkables.Count; i++)
+        //{
+        //    this.DictWalkables.Add(this.Walkables[i].BoundingCollider, this.Walkables[i]);
+        //}
     }
 
     public CWalkable RandomWalkable()

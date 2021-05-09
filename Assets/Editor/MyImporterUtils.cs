@@ -269,5 +269,33 @@ namespace Assets.Editor
             };
             return mesh;
         }
+        // pts
+        // [0]  [1]
+        // [2]  [3]
+        public static Mesh CreateMesh_Quad_FromPoints(Vector3[] pts, out Vector3 center) // pts.Length=4
+        {
+            center = (pts[0] + pts[2]) / 2;
+            Vector3[] pts2 = new Vector3[4];
+            for (int i=0;i<pts.Length;i++)
+            {
+                pts2[i] = pts[i] - center;
+            }
+
+            Mesh mesh = new Mesh();
+            mesh.vertices = pts2;
+            mesh.triangles = new int[]
+            {
+                0,1,2,
+                2,1,3,
+            };
+            mesh.uv = new Vector2[]
+            {
+                new Vector2(0f, 0f),
+                new Vector2(1f, 0f),
+                new Vector2(0f, 1f),
+                new Vector2(1f, 1f),
+            };
+            return mesh;
+        }
     }
 }

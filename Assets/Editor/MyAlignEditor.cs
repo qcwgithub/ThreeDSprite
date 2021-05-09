@@ -3,25 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public enum AlignX
+public enum AlignXYZ
 {
-    None,
+    NotChange,
     EnterValue,
-    BoxColliderSize_X,
-}
+    SrcBoxColliderSize_X,
+    SrcBoxColliderSize_Y,
+    SrcBoxColliderSize_Z,
 
-public enum AlignY
-{
-    None,
-    EnterValue,
-    BoxColiderSize_Y,
-}
-
-public enum AlignZ
-{
-    None,
-    EnterValue,
-    BoxColliderSize_Z,
+    DstBoxColliderSize_X,
+    DstBoxColliderSize_Y,
+    DstBoxColliderSize_Z,
 }
 
 public class MyAlignEditor : EditorWindow
@@ -36,35 +28,63 @@ public class MyAlignEditor : EditorWindow
     public GameObject[] refs = new GameObject[0];
     public GameObject[] targets = new GameObject[0];
 
-    public AlignX alignX = AlignX.None;
+    public AlignXYZ alignX = AlignXYZ.NotChange;
     public float xValue = 0f;
     public float multipleX = 1f;
 
-    public AlignY alignY = AlignY.None;
+    public AlignXYZ alignY = AlignXYZ.NotChange;
     public float yValue = 0f;
     public float multipleY = 1f;
 
-    public AlignZ alignZ = AlignZ.None;
+    public AlignXYZ alignZ = AlignXYZ.NotChange;
     public float zValue = 0f;
     public float multipleZ = 1f;
 
-    private bool GetRefVector(BoxCollider boxCollider, out Vector3 pos)
+    private float GetValue(AlignXYZ e, BoxCollider srcCollider, BoxCollider dstCollider)
     {
+        switch (e)
+        {
+            case AlignXYZ.SrcBoxColliderSize_X:
+            case AlignXYZ.SrcBoxColliderSize_Y:
+            case AlignXYZ.SrcBoxColliderSize_Z:
+                if (srcCollider == null)
+                {
+                    Debug.Log("srcCollider == null");
+                    return 0f;
+                }
+                return srcCollider.size[e - AlignXYZ.SrcBoxColliderSize_X];
+            //break;
+            case AlignXYZ.DstBoxColliderSize_X:
+            case AlignXYZ.DstBoxColliderSize_Y:
+            case AlignXYZ.DstBoxColliderSize_Z:
+                if (dstCollider == null)
+                {
+                    Debug.Log("dstCollider == null");
+                    return 0f;
+                }
+                return dstCollider.size[e - AlignXYZ.DstBoxColliderSize_X];
+                //break;
+        }
+        Debug.Log("unsupported e: " + e.ToString());
+        return 0f;
+    }
+
+    private bool GetRefVector(BoxCollider srcCollider, BoxCollider dstCollider, out Vector3 pos, out bool[] flags)
+    {
+        flags = new bool[3] { true, true, true };
         pos = Vector3.zero;
 
         float x = 0f;
         switch (this.alignX)
         {
-            case AlignX.EnterValue:
+            case AlignXYZ.NotChange:
+                flags[0] = false;
+                break;
+            case AlignXYZ.EnterValue:
                 x = this.xValue;
                 break;
-            case AlignX.BoxColliderSize_X:
-                if (boxCollider == null)
-                {
-                    Debug.Log("has no BoxCollider");
-                    return false;
-                }
-                x = boxCollider.size.x;
+            default:
+                x = this.GetValue(this.alignX, srcCollider, dstCollider);
                 break;
         }
         x *= this.multipleX;
@@ -72,16 +92,14 @@ public class MyAlignEditor : EditorWindow
         float y = 0f;
         switch (this.alignY)
         {
-            case AlignY.EnterValue:
+            case AlignXYZ.NotChange:
+                flags[1] = false;
+                break;
+            case AlignXYZ.EnterValue:
                 y = this.yValue;
                 break;
-            case AlignY.BoxColiderSize_Y:
-                if (boxCollider == null)
-                {
-                    Debug.Log("has no BoxCollider");
-                    return false;
-                }
-                y = boxCollider.size.y;
+            default:
+                y = this.GetValue(this.alignY, srcCollider, dstCollider);
                 break;
         }
         y *= this.multipleY;
@@ -89,16 +107,14 @@ public class MyAlignEditor : EditorWindow
         float z = 0f;
         switch (this.alignZ)
         {
-            case AlignZ.EnterValue:
+            case AlignXYZ.NotChange:
+                flags[2] = false;
+                break;
+            case AlignXYZ.EnterValue:
                 z = this.zValue;
                 break;
-            case AlignZ.BoxColliderSize_Z:
-                if (boxCollider == null)
-                {
-                    Debug.Log("has no BoxCollider");
-                    return false;
-                }
-                z = boxCollider.size.z;
+            default:
+                z = this.GetValue(this.alignZ, srcCollider, dstCollider);
                 break;
         }
         z *= this.multipleZ;
@@ -114,59 +130,68 @@ public class MyAlignEditor : EditorWindow
             Debug.Log("refs.Length == 0");
             return;
         }
-        GameObject[] gos = this.targets;// Selection.gameObjects;
-        if (gos.Length == 0)
+
+        if (this.targets.Length == 0)
         {
             Debug.Log("targets.Length == 0");
             return;
         }
 
-        BoxCollider boxCollider = this.refs[0].GetComponentInChildren<BoxCollider>();
-        Vector3 refVector;
-        if (!this.GetRefVector(boxCollider, out refVector))
-        {
-            return;
-        }
+        BoxCollider srcCollider = this.refs[0].GetComponentInChildren<BoxCollider>();
         
 
         Vector3 pos0 = this.refs[0].transform.position;
-        for (int i = 1; i < gos.Length; i++)
+        for (int i = 0; i < this.targets.Length; i++)
         {
-            gos[i].transform.position = pos0 + i * refVector;
-        }
-    }
+            BoxCollider dstCollider = this.targets[i].GetComponentInChildren<BoxCollider>();
 
-    private void Clone()
-    {
-        if (this.refs.Length <= 0)
-        {
-            Debug.Log("refs.Length == 0");
-            return;
-        }
-        //GameObject[] gos = this.targets;// Selection.gameObjects;
-        //if (gos.Length == 0)
-        //{
-        //    Debug.Log("targets.Length == 0");
-        //    return;
-        //}
-
-        for (int i = 0; i < this.refs.Length; i++)
-        {
-            GameObject goRef = this.refs[i];
-            Transform transRef = goRef.transform;
-
-            GameObject go = GameObject.Instantiate<GameObject>(goRef);
-            Transform trans = go.transform;
-            trans.SetParent(transRef.parent);
-
-            BoxCollider boxCollider = goRef.GetComponentInChildren<BoxCollider>();
             Vector3 refVector;
-            this.GetRefVector(boxCollider, out refVector);
+            bool[] flags;
+            if (!this.GetRefVector(srcCollider, dstCollider, out refVector, out flags))
+            {
+                continue;
+            }
 
-            Vector3 pos0 = transRef.position;
-            trans.position = pos0 + refVector;
+            Vector3 pre = this.targets[i].transform.position;
+            Vector3 curr = pos0 + (i+1) * refVector;
+            if (!flags[0]) curr.x = pre.x;
+            if (!flags[1]) curr.y = pre.y;
+            if (!flags[2]) curr.z = pre.z;
+            this.targets[i].transform.position = curr;
         }
     }
+
+    //private void Clone()
+    //{
+    //    if (this.refs.Length <= 0)
+    //    {
+    //        Debug.Log("refs.Length == 0");
+    //        return;
+    //    }
+    //    //GameObject[] gos = this.targets;// Selection.gameObjects;
+    //    //if (gos.Length == 0)
+    //    //{
+    //    //    Debug.Log("targets.Length == 0");
+    //    //    return;
+    //    //}
+
+    //    for (int i = 0; i < this.refs.Length; i++)
+    //    {
+    //        GameObject goRef = this.refs[i];
+    //        Transform transRef = goRef.transform;
+
+    //        GameObject go = GameObject.Instantiate<GameObject>(goRef);
+    //        Transform trans = go.transform;
+    //        trans.SetParent(transRef.parent);
+
+    //        BoxCollider boxCollider = goRef.GetComponentInChildren<BoxCollider>();
+    //        Vector3 refVector;
+    //        this.GetRefVector(boxCollider, out refVector);
+
+    //        Vector3 pos0 = transRef.position;
+    //        trans.position = pos0 + refVector;
+    //    }
+    //}
 
     private void AverageBetween()
     {
@@ -222,8 +247,8 @@ public class MyAlignEditor : EditorWindow
         EditorGUILayout.LabelField("multipleX", GUILayout.Width(60));
         this.multipleX = EditorGUILayout.FloatField(this.multipleX);
         EditorGUILayout.LabelField("AlignX", GUILayout.Width(60));
-        this.alignX = (AlignX)EditorGUILayout.EnumPopup(this.alignX);
-        if (this.alignX == AlignX.EnterValue)
+        this.alignX = (AlignXYZ)EditorGUILayout.EnumPopup(this.alignX);
+        if (this.alignX == AlignXYZ.EnterValue)
         {
             this.xValue = EditorGUILayout.FloatField("", this.xValue);
         }
@@ -234,8 +259,8 @@ public class MyAlignEditor : EditorWindow
         EditorGUILayout.LabelField("multipleY", GUILayout.Width(60));
         this.multipleY = EditorGUILayout.FloatField(this.multipleY);
         EditorGUILayout.LabelField("AlignY", GUILayout.Width(60));
-        this.alignY = (AlignY)EditorGUILayout.EnumPopup(this.alignY);
-        if (this.alignY == AlignY.EnterValue)
+        this.alignY = (AlignXYZ)EditorGUILayout.EnumPopup(this.alignY);
+        if (this.alignY == AlignXYZ.EnterValue)
         {
             this.yValue = EditorGUILayout.FloatField("", this.yValue);
         }
@@ -246,8 +271,8 @@ public class MyAlignEditor : EditorWindow
         EditorGUILayout.LabelField("multipleZ", GUILayout.Width(60));
         this.multipleZ = EditorGUILayout.FloatField(this.multipleZ);
         EditorGUILayout.LabelField("AlignZ", GUILayout.Width(60));
-        this.alignZ = (AlignZ)EditorGUILayout.EnumPopup(this.alignZ);
-        if (this.alignZ == AlignZ.EnterValue)
+        this.alignZ = (AlignXYZ)EditorGUILayout.EnumPopup(this.alignZ);
+        if (this.alignZ == AlignXYZ.EnterValue)
         {
             this.zValue = EditorGUILayout.FloatField("", this.zValue);
         }
