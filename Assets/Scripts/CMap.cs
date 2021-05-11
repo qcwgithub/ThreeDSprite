@@ -37,7 +37,7 @@ public class CMap : MonoBehaviour
 
     public void AddCharacter(CCharacter char_)
     {
-        char_.CurrWalkable = this.RandomWalkable();
+        char_.CurrWalkable = this.Walkables[0];// this.RandomWalkable();
         char_.transform.position = char_.CurrWalkable.RandomPos();
 
         char_.ActionOnTriggerEnter += this._OnTriggerEnter;
@@ -98,6 +98,9 @@ public class CMap : MonoBehaviour
         {
             return;
         }
+
+        Debug.Assert(joint.Walkable1 == char_.CurrWalkable || joint.Walkable2 == char_.CurrWalkable);
+        joint.CharacterEnter(char_);
     }
 
     private void _OnTriggerExit(CCharacter char_, Collider other)
@@ -116,5 +119,13 @@ public class CMap : MonoBehaviour
         //}
 
         //char_.ListWalkables.Remove(walkable);
+        CWalkableJoint joint = other.GetComponent<CWalkableJoint>();
+        if (joint == null)
+        {
+            return;
+        }
+
+        Debug.Assert(joint.Walkable1 == char_.CurrWalkable || joint.Walkable2 == char_.CurrWalkable);
+        joint.CharacterExit(char_);
     }
 }
