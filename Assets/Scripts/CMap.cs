@@ -5,7 +5,8 @@ using UnityEngine;
 public class CMap : MonoBehaviour
 {
     public List<CWalkable> Walkables;
-    public Dictionary<Collider, CWalkable> DictWalkables;
+    //public Dictionary<Collider, CWalkable> DictWalkables;
+    //public Dictionary<Collider, CWalkableJoint> DictJoints;
 
     public virtual void Init()
     {
@@ -18,6 +19,13 @@ public class CMap : MonoBehaviour
         //for (int i = 0; i < this.Walkables.Count; i++)
         //{
         //    this.DictWalkables.Add(this.Walkables[i].BoundingCollider, this.Walkables[i]);
+        //}
+
+        //this.DictJoints = new Dictionary<Collider, CWalkableJoint>();
+        //CWalkableJoint[] joints = this.GetComponentsInChildren<CWalkableJoint>();
+        //for (int i = 0; i < joints.Length; i++)
+        //{
+        //    this.DictJoints.Add(joints[i].Collider, joints[i]);
         //}
     }
 
@@ -65,36 +73,48 @@ public class CMap : MonoBehaviour
 
     private void _OnTriggerEnter(CCharacter char_, Collider other)
     {
-        CWalkable walkable;
-        if (!this.DictWalkables.TryGetValue(other, out walkable))
+        //CWalkable walkable;
+        //if (!this.DictWalkables.TryGetValue(other, out walkable))
+        //{
+        //    return;
+        //}
+
+        //if (char_.CurrWalkable == walkable || char_.ListWalkables.Contains(walkable))
+        //{
+        //    return;
+        //}
+
+        //char_.ListWalkables.Add(walkable);
+        //this.SelectWalkable(char_);
+
+        //CWalkableJoint joint;
+        //if (!this.DictJoints.TryGetValue(other, out joint))
+        //{
+        //    return;
+        //}
+
+        CWalkableJoint joint = other.GetComponent<CWalkableJoint>();
+        if (joint == null)
         {
             return;
         }
-
-        if (char_.CurrWalkable == walkable || char_.ListWalkables.Contains(walkable))
-        {
-            return;
-        }
-
-        char_.ListWalkables.Add(walkable);
-        this.SelectWalkable(char_);
     }
 
     private void _OnTriggerExit(CCharacter char_, Collider other)
     {
-        CWalkable walkable;
-        if (!this.DictWalkables.TryGetValue(other, out walkable))
-        {
-            return;
-        }
+        //CWalkable walkable;
+        //if (!this.DictWalkables.TryGetValue(other, out walkable))
+        //{
+        //    return;
+        //}
 
-        if (char_.CurrWalkable == walkable)
-        {
-            char_.ListWalkables.Remove(char_.CurrWalkable);
-            this.SelectWalkable(char_);
-            return;
-        }
+        //if (char_.CurrWalkable == walkable)
+        //{
+        //    char_.ListWalkables.Remove(char_.CurrWalkable);
+        //    this.SelectWalkable(char_);
+        //    return;
+        //}
 
-        char_.ListWalkables.Remove(walkable);
+        //char_.ListWalkables.Remove(walkable);
     }
 }

@@ -28,18 +28,10 @@ public class CCharacter : MonoBehaviour
     public event Action<CCharacter, Collider> ActionOnTriggerExit;
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("OnCollisionEnter");
-        if (this.ActionOnTriggerEnter != null)
-        {
-            this.ActionOnTriggerEnter(this, other);
-        }
+        this.ActionOnTriggerEnter?.Invoke(this, other);
     }
     private void OnTriggerExit(Collider other)
     {
-        //Debug.Log("OnCollisionExit");
-        if (this.ActionOnTriggerExit != null)
-        {
-            this.ActionOnTriggerExit(this, other);
-        }
+        this.ActionOnTriggerExit?.Invoke(this, other);
     }
 }
