@@ -35,43 +35,44 @@ public class CMap : MonoBehaviour
         return this.Walkables[index];
     }
 
-    public void AddCharacter(CCharacter char_)
+    public void AddCharacter(CCharacter character)
     {
-        char_.CurrWalkable = this.Walkables[0];// this.RandomWalkable();
+        character.Walkable = this.Walkables[0];// this.RandomWalkable
         //char_.transform.position = char_.CurrWalkable.RandomPos();
+        character.InitPos();
 
-        char_.ActionOnTriggerEnter += this._OnTriggerEnter;
-        char_.ActionOnTriggerExit += this._OnTriggerExit;
+        character._OnTriggerEnter += this._OnTriggerEnter;
+        character._OnTriggerExit += this._OnTriggerExit;
     }
 
-    private void SelectWalkable(CCharacter char_)
-    {
-        int count = char_.ListWalkables.Count;
-        if (count == 0)
-        {
-            return;
-        }
-        if (count == 1)
-        {
-            char_.CurrWalkable = char_.ListWalkables[0];
-            return;
-        }
+    //private void SelectWalkable(CCharacter char_)
+    //{
+    //    int count = char_.ListWalkables.Count;
+    //    if (count == 0)
+    //    {
+    //        return;
+    //    }
+    //    if (count == 1)
+    //    {
+    //        char_.CurrWalkable = char_.ListWalkables[0];
+    //        return;
+    //    }
 
-        CWalkable highest = null;
-        for (int i = 0; i < count; i++)
-        {
-            if (highest == null || char_.ListWalkables[i].Priority > highest.Priority)
-            {
-                highest = char_.ListWalkables[i];
-            }
-        }
+    //    CWalkable highest = null;
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        if (highest == null || char_.ListWalkables[i].Priority > highest.Priority)
+    //        {
+    //            highest = char_.ListWalkables[i];
+    //        }
+    //    }
 
-        // Change walkable
-        char_.CurrWalkable = highest;
+    //    // Change walkable
+    //    char_.CurrWalkable = highest;
 
-    }
+    //}
 
-    private void _OnTriggerEnter(CCharacter char_, Collider other)
+    private void _OnTriggerEnter(CCharacter character, Collider other)
     {
         //CWalkable walkable;
         //if (!this.DictWalkables.TryGetValue(other, out walkable))
@@ -99,11 +100,11 @@ public class CMap : MonoBehaviour
             return;
         }
 
-        Debug.Assert(joint.Walkable1 == char_.CurrWalkable || joint.Walkable2 == char_.CurrWalkable);
-        joint.CharacterEnter(char_);
+        Debug.Assert(joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
+        joint.CharacterEnter(character);
     }
 
-    private void _OnTriggerExit(CCharacter char_, Collider other)
+    private void _OnTriggerExit(CCharacter character, Collider other)
     {
         //CWalkable walkable;
         //if (!this.DictWalkables.TryGetValue(other, out walkable))
@@ -125,7 +126,7 @@ public class CMap : MonoBehaviour
             return;
         }
 
-        Debug.Assert(joint.Walkable1 == char_.CurrWalkable || joint.Walkable2 == char_.CurrWalkable);
-        joint.CharacterExit(char_);
+        Debug.Assert(joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
+        joint.CharacterExit(character);
     }
 }

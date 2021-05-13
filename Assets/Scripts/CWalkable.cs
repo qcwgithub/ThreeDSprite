@@ -7,7 +7,7 @@ public class CWalkable : MonoBehaviour
 {
     public int Id;
 
-    public virtual int Priority { get { return 0; } }
+    //public virtual int Priority { get { return 0; } }
     public virtual void Init()
     {
 
@@ -18,8 +18,13 @@ public class CWalkable : MonoBehaviour
         return Vector3.zero;
     }
 
-    public virtual Vector3 Move(Vector3 from, Vector3 delta)
+    public virtual void Move(CCharacter character, Vector3 delta)
     {
-        return from;
+
+    }
+
+    public virtual bool isXZInRange(Vector3 pos)
+    {
+        return false;
     }
 }

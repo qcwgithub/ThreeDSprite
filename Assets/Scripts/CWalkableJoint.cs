@@ -13,45 +13,67 @@ public enum WalkableJointSides
 // 2 以角色处于中线的前还是后，切换所属的 Walkable
 // 注意：
 // 1 要配置正确的中线位置
-public class CWalkableJoint : MonoBehaviour
+public class CWalkableJoint : CWalkable
 {
     public WalkableJointSides Sides;
     public CWalkable Walkable1;
     public CWalkable Walkable2;
 
     public BoxCollider Collider { get; private set; }
+    private Bounds ColliderBounds;
+    private Vector3 Min;
+    private Vector3 Max;
 
     private void Awake()
     {
         this.Collider = GetComponent<BoxCollider>();
+        this.ColliderBounds = this.Collider.bounds;
+        this.Min = this.ColliderBounds.min;
+        this.Max = this.ColliderBounds.max;
     }
-    private void SelectWalkable(CCharacter char_)
+    private CWalkable CalcWalkable(Vector3 pos)
     {
         Vector3 thisPos = this.transform.position;
-        Vector3 charPos = char_.Pos;
         switch (this.Sides)
         {
             case WalkableJointSides.Front_Back:
-                char_.CurrWalkable = (charPos.z > thisPos.z) ? this.Walkable1 : this.Walkable2;
-                break;
+                return (pos.z > thisPos.z) ? this.Walkable1 : this.Walkable2;
+
             case WalkableJointSides.Left_Right:
-                char_.CurrWalkable = (charPos.x < thisPos.x) ? this.Walkable1 : this.Walkable2;
-                break;
+            default:
+                return (pos.x < thisPos.x) ? this.Walkable1 : this.Walkable2;
         }
     }
-    public void CharacterEnter(CCharacter char_)
+
+    public void CharacterEnter(CCharacter character)
     {
         Debug.Log(string.Format("{0} CharacterEnter", this.name));
-        this.SelectWalkable(char_);
-        char_.PosChanged += this.OnCharacterPosChanged;
+        character.Walkable = this;
     }
-    public void CharacterExit(CCharacter char_)
+    public void CharacterExit(CCharacter character)
     {
         Debug.Log(string.Format("{0} CharacterExit", this.name));
-        char_.PosChanged -= this.OnCharacterPosChanged;
+        character.Walkable = this.CalcWalkable(character.Pos);
     }
-    private void OnCharacterPosChanged(CCharacter char_)
+
+    public override Vector3 RandomPos()
     {
-        this.SelectWalkable(char_);
+        Vector3 thisPos = this.transform.position;
+        return thisPos;
+    }
+
+    public override void Move(CCharacter character, Vector3 delta)
+    {
+        Vector3 to = character.Pos + delta;
+        CWalkable walkable = this.CalcWalkable(to);
+        walkable.Move(character, delta);
+    }
+
+    public override bool isXZInRange(Vector3 pos)
+    {
+        return pos.x < this.Min.x ||
+            pos.x > this.Max.x ||
+            pos.z < this.Min.z ||
+            pos.z > this.Max.z;
     }
 }

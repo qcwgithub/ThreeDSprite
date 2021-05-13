@@ -12,7 +12,7 @@ public class CMapFloor : CWalkable
     [NonSerialized]
     public Vector3 Max;
 
-    public override int Priority { get { return 1; } }
+    //public override int Priority { get { return 1; } }
 
     public override void Init()
     {
@@ -42,9 +42,9 @@ public class CMapFloor : CWalkable
         return new Vector3(UnityEngine.Random.Range(this.Min.x, this.Max.x), this.Y, UnityEngine.Random.Range(this.Min.z, this.Max.z));
     }
 
-    public override Vector3 Move(Vector3 from, Vector3 delta)
+    public override void Move(CCharacter character, Vector3 delta)
     {
-        Vector3 to = from + delta;
+        Vector3 to = character.Pos + delta;
         if (to.x < this.Min.x) to.x = this.Min.x;
         else if (to.x > this.Max.x) to.x = this.Max.x;
 
@@ -53,6 +53,14 @@ public class CMapFloor : CWalkable
 
         to.y = this.Y;
 
-        return to;
+        character.Pos = to;
+    }
+
+    public override bool isXZInRange(Vector3 pos)
+    {
+        return pos.x < this.Min.x ||
+            pos.x > this.Max.x ||
+            pos.z < this.Min.z ||
+            pos.z > this.Max.z;
     }
 }

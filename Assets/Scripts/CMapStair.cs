@@ -76,9 +76,9 @@ public class CMapStair : CWalkable
         return pos;
     }
 
-    public override Vector3 Move(Vector3 from, Vector3 delta)
+    public override void Move(CCharacter character, Vector3 delta)
     {
-        Vector3 to = from + delta;
+        Vector3 to = character.Pos + delta;
         if (to.x < this.Min.x) to.x = this.Min.x;
         else if (to.x > this.Max.x) to.x = this.Max.x;
 
@@ -96,6 +96,14 @@ public class CMapStair : CWalkable
                 break;
         }
 
-        return to;
+        character.Pos = to;
+    }
+
+    public override bool isXZInRange(Vector3 pos)
+    {
+        return pos.x < this.Min.x ||
+            pos.x > this.Max.x ||
+            pos.z < this.Min.z ||
+            pos.z > this.Max.z;
     }
 }
