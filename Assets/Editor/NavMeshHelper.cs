@@ -124,13 +124,13 @@ public class NavMeshHelper : EditorWindow
         CWalkable[] walkables = FindObjectsOfType<CWalkable>();
         for (int i = 0; i < walkables.Length; i++)
         {
-            if (walkables[i] is CMapStairZ)
+            if (walkables[i] is CMapStair)
             {
                 const string DEFAULT_FAKEOBJECT_NAME = "StairZ";
-                Bounds high = (walkables[i] as CMapStairZ).collider1.bounds;
+                Bounds high = (walkables[i] as CMapStair).collider1.bounds;
                 Vector3 highMin = high.min;
                 Vector3 highMax = high.max;
-                Bounds low = (walkables[i] as CMapStairZ).collider2.bounds;
+                Bounds low = (walkables[i] as CMapStair).collider2.bounds;
                 Vector3 lowMin = low.min;
                 Vector3 lowMax = low.max;
                 Vector3 center;

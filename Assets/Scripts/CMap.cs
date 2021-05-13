@@ -38,7 +38,7 @@ public class CMap : MonoBehaviour
     public void AddCharacter(CCharacter char_)
     {
         char_.CurrWalkable = this.Walkables[0];// this.RandomWalkable();
-        char_.transform.position = char_.CurrWalkable.RandomPos();
+        //char_.transform.position = char_.CurrWalkable.RandomPos();
 
         char_.ActionOnTriggerEnter += this._OnTriggerEnter;
         char_.ActionOnTriggerExit += this._OnTriggerExit;
