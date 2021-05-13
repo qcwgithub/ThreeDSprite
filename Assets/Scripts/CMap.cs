@@ -100,7 +100,7 @@ public class CMap : MonoBehaviour
             return;
         }
 
-        Debug.Assert(joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
+        Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
         joint.CharacterEnter(character);
     }
 
@@ -126,7 +126,7 @@ public class CMap : MonoBehaviour
             return;
         }
 
-        Debug.Assert(joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
+        Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
         joint.CharacterExit(character);
     }
 }

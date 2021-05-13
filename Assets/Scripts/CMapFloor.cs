@@ -29,10 +29,10 @@ public class CMapFloor : CWalkable
             Vector3 min = bound.min;
             Vector3 max = bound.max;
 
-            if (min.x < this.Min.x) this.Min.x = min.x;
-            if (min.z < this.Min.z) this.Min.z = min.z;
-            if (max.x > this.Max.x) this.Max.x = max.x;
-            if (max.z > this.Max.z) this.Max.z = max.z;
+            if (i == 0 || min.x < this.Min.x) this.Min.x = min.x;
+            if (i == 0 || min.z < this.Min.z) this.Min.z = min.z;
+            if (i == 0 || max.x > this.Max.x) this.Max.x = max.x;
+            if (i == 0 || max.z > this.Max.z) this.Max.z = max.z;
         }
     }
 
