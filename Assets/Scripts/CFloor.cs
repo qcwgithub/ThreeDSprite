@@ -43,7 +43,7 @@ public class CFloor : CWalkable
     public override void Move(CCharacter character, Vector3 delta)
     {
         Vector3 to = character.Pos + delta;
-        to = this.LimitPos(to);
+        to = this.LimitPos(character.ListObstacles, character.Pos, delta);
 
         to.y = this.Y;
 

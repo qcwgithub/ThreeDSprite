@@ -74,7 +74,7 @@ public class CStair : CWalkable
     public override void Move(CCharacter character, Vector3 delta)
     {
         Vector3 to = character.Pos + delta;
-        to = this.LimitPos(to);
+        to = this.LimitPos(character.ListObstacles, character.Pos, delta);
 
         switch (this.Dir)
         {

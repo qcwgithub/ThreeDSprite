@@ -27,8 +27,14 @@ public class CWalkable : CObject
         return Vector3.zero;
     }
 
-    protected virtual Vector3 LimitPos(Vector3 to)
+    protected virtual Vector3 LimitPos(List<CObstacle> obstacles, Vector3 from, Vector3 delta)
     {
+        Vector3 to = from + delta;
+        for (int i = 0; i < obstacles.Count; i++)
+        {
+            to = obstacles[i].LimitPos(from, delta);
+        }
+
         // limit by bound
         if (to.x < this.Min.x) to.x = this.Min.x;
         else if (to.x > this.Max.x) to.x = this.Max.x;
