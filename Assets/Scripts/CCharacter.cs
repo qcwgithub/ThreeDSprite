@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CCharacter : MonoBehaviour
+public class CCharacter : CObject
 {
     public Spine.Unity.SkeletonAnimation Skel;
     public float Speed = 5f;
@@ -24,8 +24,9 @@ public class CCharacter : MonoBehaviour
             //    value == null ? "null" : value.Id.ToString()));
         }
     }
+
     [NonSerialized]
-    public List<CWalkable> ListWalkables = new List<CWalkable>();
+    public List<CObstacle> ListObstacles = new List<CObstacle>();
 
     public event Action<CCharacter> PosChanged;
     private Vector3 pos;
@@ -50,18 +51,17 @@ public class CCharacter : MonoBehaviour
     public event Action<CCharacter, Collider> _OnTriggerExit;
     private void OnTriggerEnter(Collider other)
     {
-        this._OnTriggerEnter?.Invoke(this, other);
+        if (this._OnTriggerEnter != null)
+        {
+            this._OnTriggerEnter(this, other);
+        }
     }
     private void OnTriggerExit(Collider other)
     {
-        this._OnTriggerExit?.Invoke(this, other);
-    }
-
-    public void InitPos()
-    {
-        this.pos = this.transform.position;
-        CWalkable walkable = this.Walkable;
-        walkable.Move(this, Vector3.zero);
+        if (this._OnTriggerExit != null)
+        {
+            this._OnTriggerExit(this, other);
+        }
     }
 
     private void Update()

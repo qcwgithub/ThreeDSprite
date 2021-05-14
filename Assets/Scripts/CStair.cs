@@ -8,20 +8,15 @@ public enum StairDir
     LeftHigh_RightLow,
     LeftLow_RightHigh,
 }
-public class CMapStair : CWalkable
+public class CStair : CWalkable
 {
     public StairDir Dir;
     public BoxCollider collider1;
     public BoxCollider collider2;
 
-    [NonSerialized]
-    public Vector3 Min;
-    [NonSerialized]
-    public Vector3 Max;
-
-    public override void Init()
+    public override void Apply()
     {
-        base.Init();
+        base.Apply();
 
         BoxCollider[] colliders = new BoxCollider[] { this.collider1, this.collider2 };
 
@@ -79,11 +74,7 @@ public class CMapStair : CWalkable
     public override void Move(CCharacter character, Vector3 delta)
     {
         Vector3 to = character.Pos + delta;
-        if (to.x < this.Min.x) to.x = this.Min.x;
-        else if (to.x > this.Max.x) to.x = this.Max.x;
-
-        if (to.z < this.Min.z) to.z = this.Min.z;
-        else if (to.z > this.Max.z) to.z = this.Max.z;
+        to = this.LimitPos(to);
 
         switch (this.Dir)
         {
@@ -99,7 +90,7 @@ public class CMapStair : CWalkable
         character.Pos = to;
     }
 
-    public override bool isXZInRange(Vector3 pos)
+    public override bool IsXZInRange(Vector3 pos)
     {
         return pos.x < this.Min.x ||
             pos.x > this.Max.x ||

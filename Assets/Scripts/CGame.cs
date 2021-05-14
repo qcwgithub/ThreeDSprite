@@ -12,7 +12,7 @@ public class CGame : MonoBehaviour
 
         for (int i = 0; i < this.Maps.Count; i++)
         {
-            this.Maps[i].Init();
+            this.Maps[i].Apply();
         }
 
         this.Maps[0].AddCharacter(this.Char);

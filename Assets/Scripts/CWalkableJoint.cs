@@ -11,8 +11,6 @@ public enum WalkableJointSides
 // workflow
 // 1 进入此碰撞体，开始监测位置变化。离开后，停止监测
 // 2 以角色处于中线的前还是后，切换所属的 Walkable
-// 注意：
-// 1 要配置正确的中线位置
 public class CWalkableJoint : CWalkable
 {
     public WalkableJointSides Sides;
@@ -21,11 +19,11 @@ public class CWalkableJoint : CWalkable
 
     public BoxCollider Collider { get; private set; }
     private Bounds ColliderBounds;
-    private Vector3 Min;
-    private Vector3 Max;
 
-    private void Awake()
+    public override void Apply()
     {
+        base.Apply();
+
         this.Collider = GetComponent<BoxCollider>();
         this.ColliderBounds = this.Collider.bounds;
         this.Min = this.ColliderBounds.min;
@@ -45,13 +43,23 @@ public class CWalkableJoint : CWalkable
         }
     }
 
-    public void CharacterEnter(CCharacter character)
+    public override void ObjectEnter(CObject obj)
     {
+        CCharacter character = obj as CCharacter;
+        if (character == null)
+        {
+            return;
+        }
         Debug.Log(string.Format("{0} CharacterEnter", this.name));
         character.Walkable = this;
     }
-    public void CharacterExit(CCharacter character)
+    public override void ObjectExit(CObject obj)
     {
+        CCharacter character = obj as CCharacter;
+        if (character == null)
+        {
+            return;
+        }
         Debug.Log(string.Format("{0} CharacterExit", this.name));
         character.Walkable = this.CalcWalkable(character.Pos);
     }
@@ -69,7 +77,7 @@ public class CWalkableJoint : CWalkable
         walkable.Move(character, delta);
     }
 
-    public override bool isXZInRange(Vector3 pos)
+    public override bool IsXZInRange(Vector3 pos)
     {
         return pos.x < this.Min.x ||
             pos.x > this.Max.x ||

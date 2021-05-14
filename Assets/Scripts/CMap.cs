@@ -1,19 +1,46 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CMap : MonoBehaviour
 {
-    public List<CWalkable> Walkables;
-    //public Dictionary<Collider, CWalkable> DictWalkables;
+    public Dictionary<int, CObject> DictObjects = new Dictionary<int, CObject>();
+    [System.NonSerialized]
+    public List<CWalkable> Walkables = new List<CWalkable>();
     //public Dictionary<Collider, CWalkableJoint> DictJoints;
 
-    public virtual void Init()
+    public virtual void Apply()
     {
-        for (int i = 0; i < this.Walkables.Count; i++)
+        CObject[] objects = this.GetComponentsInChildren<CObject>();
+        for (int i = 0; i < objects.Length; i++)
         {
-            this.Walkables[i].Init();
+            CObject obj = objects[i];
+            if (!obj.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+            if (this.DictObjects.ContainsKey(obj.Id))
+            {
+                Debug.LogError("Object Id duplicated: " + obj.Id);
+                continue;
+            }
+            this.DictObjects.Add(obj.Id, obj);
+
+            if (obj is CWalkable)
+            {
+                this.Walkables.Add(obj as CWalkable);
+            }
+            this.Walkables.Sort((a, b) => a.Id - b.Id);
         }
+
+        foreach (var kv in this.DictObjects)
+        {
+            kv.Value.Apply();
+        }
+
+        //for (int i = 0; i < this.Walkables.Count; i++)
+        //{
+        //    this.Walkables[i].Apply();
+        //}
 
         //this.DictWalkables = new Dictionary<Collider, CWalkable>();
         //for (int i = 0; i < this.Walkables.Count; i++)
@@ -38,8 +65,9 @@ public class CMap : MonoBehaviour
     public void AddCharacter(CCharacter character)
     {
         character.Walkable = this.Walkables[0];// this.RandomWalkable
-        //char_.transform.position = char_.CurrWalkable.RandomPos();
-        character.InitPos();
+        //char_.transform.position = char_.CurrWalkable.RandomPos;
+        character.Pos = character.transform.position;
+        character.Walkable.Move(character, Vector3.zero);
 
         character._OnTriggerEnter += this._OnTriggerEnter;
         character._OnTriggerExit += this._OnTriggerExit;
@@ -94,14 +122,15 @@ public class CMap : MonoBehaviour
         //    return;
         //}
 
-        CWalkableJoint joint = other.GetComponent<CWalkableJoint>();
-        if (joint == null)
+        CObject obj = other.GetComponent<CObject>();
+        if (obj == null)
         {
             return;
         }
 
-        Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
-        joint.CharacterEnter(character);
+        //Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
+        //joint.CharacterEnter(character);
+        obj.ObjectEnter(character);
     }
 
     private void _OnTriggerExit(CCharacter character, Collider other)
@@ -120,13 +149,13 @@ public class CMap : MonoBehaviour
         //}
 
         //char_.ListWalkables.Remove(walkable);
-        CWalkableJoint joint = other.GetComponent<CWalkableJoint>();
-        if (joint == null)
+        CObject obj = other.GetComponent<CObject>();
+        if (obj == null)
         {
             return;
         }
 
-        Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
-        joint.CharacterExit(character);
+        //Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
+        obj.ObjectExit(character);
     }
 }

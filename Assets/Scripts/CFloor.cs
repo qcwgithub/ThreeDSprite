@@ -2,26 +2,24 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CMapFloor : CWalkable
+public class CFloor : CWalkable
 {
+    public BoxCollider collider1;
+    public BoxCollider collider2;
+
     [NonSerialized]
     public float Y;
 
-    [NonSerialized]
-    public Vector3 Min;
-    [NonSerialized]
-    public Vector3 Max;
-
     //public override int Priority { get { return 1; } }
 
-    public override void Init()
+    public override void Apply()
     {
-        base.Init();
+        base.Apply();
         this.Y = this.transform.position.y;
         this.Min.y = Y;
         this.Max.y = Y;
 
-        BoxCollider[] colliders = this.GetComponentsInChildren<BoxCollider>();
+        BoxCollider[] colliders = new BoxCollider[] { this.collider1, this.collider2 };
 
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -45,18 +43,14 @@ public class CMapFloor : CWalkable
     public override void Move(CCharacter character, Vector3 delta)
     {
         Vector3 to = character.Pos + delta;
-        if (to.x < this.Min.x) to.x = this.Min.x;
-        else if (to.x > this.Max.x) to.x = this.Max.x;
-
-        if (to.z < this.Min.z) to.z = this.Min.z;
-        else if (to.z > this.Max.z) to.z = this.Max.z;
+        to = this.LimitPos(to);
 
         to.y = this.Y;
 
         character.Pos = to;
     }
 
-    public override bool isXZInRange(Vector3 pos)
+    public override bool IsXZInRange(Vector3 pos)
     {
         return pos.x < this.Min.x ||
             pos.x > this.Max.x ||
