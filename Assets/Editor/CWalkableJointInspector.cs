@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(CWalkableJoint))]
-public class CWalkableJointInspector : Editor
+public class CWalkableJointInspector : CWalkableInspector
 {
     public override void OnInspectorGUI()
     {

@@ -71,16 +71,21 @@ public class CCharacter : CObject
 
         if (x != 0f || z != 0f)
         {
-            this.Skel.AnimationName = "run";
-            this.Skel.loop = true;
-
+            //if (this.Skel.AnimationName == "idle")
+            {
+                this.Skel.AnimationName = "run";
+                this.Skel.loop = true;
+            }
             Vector3 delta = this.Speed * Time.deltaTime * new Vector3(x, 0f, z);
             this.Walkable.Move(this, delta);
         }
         else
         {
-            this.Skel.AnimationName = "idle";
-            this.Skel.loop = true;
+            //if (this.Skel.AnimationName == "run")
+            {
+                this.Skel.AnimationName = "idle";
+                this.Skel.loop = true;
+            }
         }
     }
 }

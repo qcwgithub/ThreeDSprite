@@ -27,22 +27,47 @@ public class CWalkable : CObject
         return Vector3.zero;
     }
 
-    protected virtual Vector3 LimitPos(List<CObstacle> obstacles, Vector3 from, Vector3 delta)
+    protected virtual bool LimitPos(List<CObstacle> obstacles, Vector3 from, ref Vector3 delta)
     {
-        Vector3 to = from + delta;
+        bool ret = false;
         for (int i = 0; i < obstacles.Count; i++)
         {
-            to = obstacles[i].LimitPos(from, delta);
+            if (obstacles[i].LimitMove(from, ref delta))
+            {
+                ret = true;
+                break;
+            }
+        }
+        Vector3 to = from + delta;
+        if (to.x >= this.Min.x && to.x <= this.Max.x && to.z >= this.Min.z && to.z <= this.Max.z)
+        {
+            return ret;
         }
 
         // limit by bound
-        if (to.x < this.Min.x) to.x = this.Min.x;
-        else if (to.x > this.Max.x) to.x = this.Max.x;
+        if (to.x < this.Min.x)
+        {
+            delta.x = this.Min.x - from.x;
+            ret = true;
+        }
+        else if (to.x > this.Max.x)
+        {
+            delta.x = this.Max.x - from.x;
+            ret = true;
+        }
 
-        if (to.z < this.Min.z) to.z = this.Min.z;
-        else if (to.z > this.Max.z) to.z = this.Max.z;
+        if (to.z < this.Min.z)
+        {
+            delta.z = this.Min.z - from.z;
+            ret = true;
+        }
+        else if (to.z > this.Max.z)
+        {
+            delta.z = this.Max.z - from.z;
+            ret = true;
+        }
 
-        return to;
+        return ret;
     }
     public virtual void Move(CCharacter character, Vector3 delta)
     {
