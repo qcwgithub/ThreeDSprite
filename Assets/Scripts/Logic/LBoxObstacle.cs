@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CObstacle : CObject
+public class LBoxObstacle : LObject, IObstacle
 {
     [System.NonSerialized]
     public Vector3 Min;
@@ -13,7 +13,7 @@ public class CObstacle : CObject
     {
         base.Apply();
 
-        Collider collider = this.GetComponent<Collider>();
+        BoxCollider collider = this.GetComponent<BoxCollider>();
         Bounds bounds = collider.bounds;
         this.Min = bounds.min;
         this.Max = bounds.max;
@@ -50,7 +50,7 @@ public class CObstacle : CObject
         return ret;
     }
 
-    public override void ObjectEnter(CObject obj)
+    public override void ObjectEnter(LObject obj)
     {
         CCharacter character = obj as CCharacter;
         if (character == null)
@@ -60,7 +60,7 @@ public class CObstacle : CObject
         character.ListObstacles.Add(this);
     }
 
-    public override void ObjectExit(CObject obj)
+    public override void ObjectExit(LObject obj)
     {
         CCharacter character = obj as CCharacter;
         if (character == null)

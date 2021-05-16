@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CCharacter : CObject
+public class CCharacter : LObject
 {
     public Spine.Unity.SkeletonAnimation Skel;
     public float Speed = 5f;
 
-    private CWalkable walkable;
-    public CWalkable Walkable
+    private IWalkable walkable;
+    public IWalkable Walkable
     { 
         get { return this.walkable;  } 
         set
         {
-            CWalkable pre = this.walkable;
+            IWalkable pre = this.walkable;
             if (pre == value)
             {
                 return;
@@ -25,8 +25,15 @@ public class CCharacter : CObject
         }
     }
 
+    public override void Apply()
+    {
+        base.Apply();
+
+        this.pos = this.transform.position;
+    }
+
     [NonSerialized]
-    public List<CObstacle> ListObstacles = new List<CObstacle>();
+    public List<IObstacle> ListObstacles = new List<IObstacle>();
 
     public event Action<CCharacter> PosChanged;
     private Vector3 pos;
@@ -61,31 +68,6 @@ public class CCharacter : CObject
         if (this._OnTriggerExit != null)
         {
             this._OnTriggerExit(this, other);
-        }
-    }
-
-    private void Update()
-    {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        if (x != 0f || z != 0f)
-        {
-            //if (this.Skel.AnimationName == "idle")
-            {
-                this.Skel.AnimationName = "run";
-                this.Skel.loop = true;
-            }
-            Vector3 delta = this.Speed * Time.deltaTime * new Vector3(x, 0f, z);
-            this.Walkable.Move(this, delta);
-        }
-        else
-        {
-            //if (this.Skel.AnimationName == "run")
-            {
-                this.Skel.AnimationName = "idle";
-                this.Skel.loop = true;
-            }
         }
     }
 }

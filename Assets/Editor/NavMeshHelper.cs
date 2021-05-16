@@ -121,60 +121,60 @@ public class NavMeshHelper : EditorWindow
         bakeModeRoot = new GameObject("Bake Mode Root");
         bakeModeRoot.transform.parent = null;
 
-        CWalkable[] walkables = FindObjectsOfType<CWalkable>();
-        for (int i = 0; i < walkables.Length; i++)
-        {
-            if (walkables[i] is CStair)
-            {
-                const string DEFAULT_FAKEOBJECT_NAME = "StairZ";
-                Bounds high = (walkables[i] as CStair).collider1.bounds;
-                Vector3 highMin = high.min;
-                Vector3 highMax = high.max;
-                Bounds low = (walkables[i] as CStair).collider2.bounds;
-                Vector3 lowMin = low.min;
-                Vector3 lowMax = low.max;
-                Vector3 center;
-                Mesh mesh = Assets.Editor.MyImporterUtils.CreateMesh_Quad_FromPoints(new Vector3[] {
-                    new Vector3(highMin.x, highMax.y, highMax.z),
-                    new Vector3(highMax.x, highMax.y, highMax.z),
-                    new Vector3(lowMin.x, lowMin.y, lowMin.z),
-                    new Vector3(lowMax.x, lowMin.y, lowMin.z)
-                }, out center);
+        //LWalkable[] walkables = FindObjectsOfType<LWalkable>();
+        //for (int i = 0; i < walkables.Length; i++)
+        //{
+        //    if (walkables[i] is LStair)
+        //    {
+        //        const string DEFAULT_FAKEOBJECT_NAME = "StairZ";
+        //        Bounds high = (walkables[i] as LStair).collider1.bounds;
+        //        Vector3 highMin = high.min;
+        //        Vector3 highMax = high.max;
+        //        Bounds low = (walkables[i] as LStair).collider2.bounds;
+        //        Vector3 lowMin = low.min;
+        //        Vector3 lowMax = low.max;
+        //        Vector3 center;
+        //        Mesh mesh = Assets.Editor.MyImporterUtils.CreateMesh_Quad_FromPoints(new Vector3[] {
+        //            new Vector3(highMin.x, highMax.y, highMax.z),
+        //            new Vector3(highMax.x, highMax.y, highMax.z),
+        //            new Vector3(lowMin.x, lowMin.y, lowMin.z),
+        //            new Vector3(lowMax.x, lowMin.y, lowMin.z)
+        //        }, out center);
 
-                GameObject fakeObject = new GameObject(DEFAULT_FAKEOBJECT_NAME);
-                fakeObject.transform.position = center;
+        //        GameObject fakeObject = new GameObject(DEFAULT_FAKEOBJECT_NAME);
+        //        fakeObject.transform.position = center;
 
-                fakeObject.AddComponent<MeshFilter>().sharedMesh = mesh;
-                if (diffuseDefaultMaterial == null)
-                {
-                    SetDefaultMaterialReference();
-                }
-                fakeObject.AddComponent<MeshRenderer>().materials = new Material[] { diffuseDefaultMaterial };
+        //        fakeObject.AddComponent<MeshFilter>().sharedMesh = mesh;
+        //        if (diffuseDefaultMaterial == null)
+        //        {
+        //            SetDefaultMaterialReference();
+        //        }
+        //        fakeObject.AddComponent<MeshRenderer>().materials = new Material[] { diffuseDefaultMaterial };
 
-                Setup1GameObject(fakeObject, walkables[i].gameObject);
-            }
-            else
-            {
-                Collider[] colliders = walkables[i].GetComponentsInChildren<Collider>();
-                for (int j = 0; j < colliders.Length; j++)
-                {
-                    int theTrueMaskSupose = layerMask.value | 1 << colliders[j].gameObject.layer;
-                    if (layerMask.value == theTrueMaskSupose && (this.includeIsTrigger || !colliders[j].isTrigger))
-                    {
-                        // generate and store the fake object
-                        GameObject fakeObject = GenerateRendererObject(colliders[j]);
+        //        Setup1GameObject(fakeObject, walkables[i].gameObject);
+        //    }
+        //    else
+        //    {
+        //        Collider[] colliders = walkables[i].GetComponentsInChildren<Collider>();
+        //        for (int j = 0; j < colliders.Length; j++)
+        //        {
+        //            int theTrueMaskSupose = layerMask.value | 1 << colliders[j].gameObject.layer;
+        //            if (layerMask.value == theTrueMaskSupose && (this.includeIsTrigger || !colliders[j].isTrigger))
+        //            {
+        //                // generate and store the fake object
+        //                GameObject fakeObject = GenerateRendererObject(colliders[j]);
 
-                        // in some cases, the fakeObject can be null 
-                        // for example: it has a MeshCollider but doesnt have a MeshRenderer
+        //                // in some cases, the fakeObject can be null 
+        //                // for example: it has a MeshCollider but doesnt have a MeshRenderer
 
-                        if (fakeObject != null)
-                        {
-                            Setup1GameObject(fakeObject, colliders[j].gameObject);
-                        }
-                    }
-                }
-            }
-        }
+        //                if (fakeObject != null)
+        //                {
+        //                    Setup1GameObject(fakeObject, colliders[j].gameObject);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         // generate the fake objects based on the existent colliders
         //Collider[] colliders = FindObjectsOfType<Collider>();

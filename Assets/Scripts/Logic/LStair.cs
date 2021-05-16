@@ -8,11 +8,14 @@ public enum StairDir
     LeftHigh_RightLow,
     LeftLow_RightHigh,
 }
-public class CStair : CWalkable
+public class LStair : LObject, IWalkable
 {
     public StairDir Dir;
     public BoxCollider collider1;
     public BoxCollider collider2;
+
+    protected Vector3 Min;
+    protected Vector3 Max;
 
     public override void Apply()
     {
@@ -38,6 +41,33 @@ public class CStair : CWalkable
         Debug.Log("Stair" + this.Id + ": Min" + this.Min + ", Max" + this.Max);
     }
 
+    protected bool CheckXZOutOfRange(Vector3 pos)
+    {
+        bool outOfRange = false;
+        if (pos.x < this.Min.x)
+        {
+            pos.x = this.Min.x;
+            outOfRange = true;
+        }
+        else if (pos.x > this.Max.x)
+        {
+            pos.x = this.Max.x;
+            outOfRange = true;
+        }
+
+        if (pos.z < this.Min.z)
+        {
+            pos.z = this.Min.z;
+            outOfRange = true;
+        }
+        else if (pos.z > this.Max.z)
+        {
+            pos.z = this.Max.z;
+            outOfRange = true;
+        }
+        return outOfRange;
+    }
+
     private float ZtoY(float z)
     {
         float t = (z - this.Min.z) / (this.Max.z - this.Min.z);
@@ -61,7 +91,22 @@ public class CStair : CWalkable
         }
     }
 
-    public override Vector3 RandomPos()
+    private float XZtoY(float x, float z)
+    {
+        switch (this.Dir)
+        {
+            case StairDir.Front_Back:
+                return this.ZtoY(z);
+                //break;
+            case StairDir.LeftHigh_RightLow:
+            case StairDir.LeftLow_RightHigh:
+            default:
+                return this.XtoY(x, this.Dir);
+                //break;
+        }
+    }
+
+    public Vector3 RandomPos()
     {
         Vector3 pos =  new Vector3(UnityEngine.Random.Range(this.Min.x, this.Max.x), 
             0f, 
@@ -71,30 +116,37 @@ public class CStair : CWalkable
         return pos;
     }
 
-    public override void Move(CCharacter character, Vector3 delta)
+    public PredictMoveResult PredictMove(Vector3 from, Vector3 delta)
     {
-        this.LimitPos(character.ListObstacles, character.Pos, ref delta);
-        Vector3 to = character.Pos + delta;
-
-        switch (this.Dir)
+        PredictMoveResult result = default;
+        Vector3 to = from + delta;
+        if (this.CheckXZOutOfRange(to))
         {
-            case StairDir.Front_Back:
-                to.y = this.ZtoY(to.z);
-                break;
-            case StairDir.LeftHigh_RightLow:
-            case StairDir.LeftLow_RightHigh:
-                to.y = this.XtoY(to.x, this.Dir);
-                break;
+            result.OutOfRange = true;
+            return result;
         }
 
-        character.Pos = to;
+        result.Y = this.XZtoY(to.x, to.z);
+        return result;
     }
 
-    public override bool IsXZInRange(Vector3 pos)
+    public bool CanAccept(Vector3 from, Vector3 delta)
     {
-        return pos.x < this.Min.x ||
-            pos.x > this.Max.x ||
-            pos.z < this.Min.z ||
-            pos.z > this.Max.z;
+        Vector3 to = from + delta;
+        if (this.CheckXZOutOfRange(to))
+        {
+            return false;
+        }
+
+        float y = this.XZtoY(to.x, to.z);
+        if (delta.y < 0 && from.y > y && to.y <= y)
+        {
+            return true;
+        }
+        if (Mathf.Abs(to.y - y) > 0.1f)
+        {
+            return false;
+        }
+        return true;
     }
 }

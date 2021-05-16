@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(CWalkableJoint))]
-public class CWalkableJointInspector : CWalkableInspector
+[CustomEditor(typeof(LWalkableJoint))]
+public class CWalkableJointInspector : LObjectInspector
 {
     public override void OnInspectorGUI()
     {
@@ -16,7 +16,7 @@ public class CWalkableJointInspector : CWalkableInspector
 
         if (GUILayout.Button("Add BoxCollider"))
         {
-            CWalkableJoint script = this.target as CWalkableJoint;
+            LWalkableJoint script = this.target as LWalkableJoint;
 
             GameObject go = script.gameObject;
             BoxCollider boxCollider = go.GetComponent<BoxCollider>();

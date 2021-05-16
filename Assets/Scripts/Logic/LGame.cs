@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CGame : MonoBehaviour
+public class LGame : MonoBehaviour
 {
     public CCharacter Char;
-    public List<CMap> Maps;
+    public List<LMap> Maps;
     private void Start()
     {
         Application.targetFrameRate = 60;

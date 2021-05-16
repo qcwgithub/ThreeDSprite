@@ -12,11 +12,7 @@ public class CCameraFollow : MonoBehaviour
     // This value will change at the runtime depending on target movement. Initialize with zero vector.
     private Vector3 velocity = Vector3.zero;
 
-    private Vector3 offset;
-    private void Start()
-    {
-        this.offset = this.transform.position - this.Target.position;
-    }
+    public Vector3 offset;
 
     private void LateUpdate()
     {

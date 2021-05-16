@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CObject : MonoBehaviour
+public class LObject : MonoBehaviour
 {
     public int Id;
 
@@ -11,11 +11,11 @@ public class CObject : MonoBehaviour
 
     }
 
-    public virtual void ObjectEnter(CObject obj)
+    public virtual void ObjectEnter(LObject obj)
     {
 
     }
-    public virtual void ObjectExit(CObject obj)
+    public virtual void ObjectExit(LObject obj)
     {
 
     }
