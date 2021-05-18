@@ -26,6 +26,8 @@ public class CBootstrap : MonoBehaviour
         LMapData mapData = JsonUtils.FromJson<LMapData>(textAsset.text);
         LMap lMap = new LMap(mapData);
 
+        Debug.Log("Object count: " + lMap.DictObjects.Count);
+
         GameObject prefab = Resources.Load<GameObject>("MapPrefab/" + this.MapId);
         if (prefab == null)
         {

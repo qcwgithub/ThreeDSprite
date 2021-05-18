@@ -10,42 +10,69 @@ public enum EType
     BoxObstacle,
 }
 
+public enum FloorComposition
+{
+    ChildrenTopSurfaceRect,
+}
+
+public enum BoxObstacleComposition
+{
+    ChildrenBoxCollidersBox,
+}
+
+public enum StairComposition
+{
+    ChildrenBoxColliders,
+}
+
+
 public class EObject : MonoBehaviour
 {
     public int Id;
     public EType Type;
 
     [HideInInspector]
-    public BoxCollider collider1;
-    [HideInInspector]
-    public BoxCollider collider2;
-
-    [HideInInspector]
     public StairDir StairDir;
 
     [HideInInspector]
-    public bool Walkable;
+    public FloorComposition FloorComposition;
+
+    [HideInInspector]
+    public BoxObstacleComposition BoxObstacleComposition;
+
+    [HideInInspector]
+    public StairComposition StairComposition;
 
     public LFloorData ToFloorData()
     {
         LFloorData data = new LFloorData();
         data.Id = this.Id;
-        data.Y = this.transform.position.y;
-        data.Min.y = data.Y;
-        data.Max.y = data.Y;
 
-        BoxCollider[] colliders = new BoxCollider[] { this.collider1, this.collider2 };
-
-        for (int i = 0; i < colliders.Length; i++)
+        switch (this.FloorComposition)
         {
-            Bounds bound = colliders[i].bounds;
-            Vector3 min = bound.min;
-            Vector3 max = bound.max;
+            case FloorComposition.ChildrenTopSurfaceRect:
+                {
+                    BoxCollider[] colliders = this.GetComponentsInChildren<BoxCollider>(false);
+                    for (int i = 0; i < colliders.Length; i++)
+                    {
+                        Bounds bound = colliders[i].bounds;
+                        Vector3 min = bound.min;
+                        Vector3 max = bound.max;
 
-            if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
-            if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
-            if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
-            if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+                        if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
+                        if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
+                        if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
+                        if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+
+                        if (i == 0)
+                        {
+                            data.Y = max.y;
+                            data.Min.y = data.Y;
+                            data.Max.y = data.Y;
+                        }
+                    }
+                }
+                break;
         }
         return data;
     }
@@ -55,34 +82,59 @@ public class EObject : MonoBehaviour
         data.Id = this.Id;
         data.Dir = this.StairDir;
 
-        BoxCollider[] colliders = new BoxCollider[] { this.collider1, this.collider2 };
-
-        for (int i = 0; i < colliders.Length; i++)
+        switch (this.StairComposition)
         {
-            Bounds bound = colliders[i].bounds;
-            Vector3 min = bound.min;
-            Vector3 max = bound.max;
+            case StairComposition.ChildrenBoxColliders:
+                {
+                    BoxCollider[] colliders = this.GetComponentsInChildren<BoxCollider>(false);
+                    for (int i = 0; i < colliders.Length; i++)
+                    {
+                        Bounds bound = colliders[i].bounds;
+                        Vector3 min = bound.min;
+                        Vector3 max = bound.max;
 
-            if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
-            if (i == 0 || min.y < data.Min.y) data.Min.y = min.y;
-            if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
+                        if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
+                        if (i == 0 || min.y < data.Min.y) data.Min.y = min.y;
+                        if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
 
-            if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
-            if (i == 0 || max.y > data.Max.y) data.Max.y = max.y;
-            if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+                        if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
+                        if (i == 0 || max.y > data.Max.y) data.Max.y = max.y;
+                        if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+                    }
+                }
+                break;
         }
+
         return data;
     }
     public LBoxObstacleData ToBoxObstaleData()
     {
         LBoxObstacleData data = new LBoxObstacleData();
         data.Id = this.Id;
-        data.Walkable = this.Walkable;
 
-        BoxCollider collider = this.GetComponent<BoxCollider>();
-        Bounds bounds = collider.bounds;
-        data.Min = LVector3.FromVector3(bounds.min);
-        data.Max = LVector3.FromVector3(bounds.max);
+        switch (this.BoxObstacleComposition)
+        {
+            case BoxObstacleComposition.ChildrenBoxCollidersBox:
+                {
+                    BoxCollider[] colliders = this.GetComponentsInChildren<BoxCollider>(false);
+                    for (int i = 0; i < colliders.Length; i++)
+                    {
+                        Bounds bound = colliders[i].bounds;
+                        Vector3 min = bound.min;
+                        Vector3 max = bound.max;
+
+                        if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
+                        if (i == 0 || min.y < data.Min.y) data.Min.y = min.y;
+                        if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
+
+                        if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
+                        if (i == 0 || max.y > data.Max.y) data.Max.y = max.y;
+                        if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+                    }
+                }
+                break;
+        }
+
         return data;
     }
     public LMapData ToMapData()

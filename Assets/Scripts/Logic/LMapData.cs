@@ -41,7 +41,6 @@ public class LBoxObstacleData
     public int Id;
     public LVector3 Min;
     public LVector3 Max;
-    public bool Walkable;
 }
 
 public class LMapData

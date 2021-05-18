@@ -4,7 +4,7 @@ using UnityEngine;
 public class LMap
 {
     public LMapData Data { get; private set; }
-    private Dictionary<int, LObject> DictObjects = new Dictionary<int, LObject>();
+    public Dictionary<int, LObject> DictObjects = new Dictionary<int, LObject>();
     private List<IWalkable> Walkables = new List<IWalkable>();
     private List<IObstacle> Obstacles = new List<IObstacle>();
 
@@ -31,10 +31,6 @@ public class LMap
         {
             LBoxObstacleData obData = data.BoxObstacles[i];
             LBoxObstacle obstacle = new LBoxObstacle(obData);
-            if (obstacle.Data.Walkable)
-            {
-                this.Walkables.Add(obstacle);
-            }
             this.Obstacles.Add(obstacle);
             this.DictObjects.Add(obstacle.Id, obstacle);
         }

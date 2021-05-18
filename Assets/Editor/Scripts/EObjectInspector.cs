@@ -20,66 +20,42 @@ public class EObjectInspector : Editor
         serializedObject.Update();
         switch (script.Type)
         {
-            case EType.Stair:
+            case EType.Floor:
                 {
-                    var propShape = serializedObject.FindProperty("StairDir");
-                    StairDir dir = (StairDir)EditorGUILayout.EnumPopup("StairDir", (StairDir)propShape.intValue);
-                    propShape.intValue = (int)dir;
+                    var prop = serializedObject.FindProperty("FloorComposition");
+                    FloorComposition comp = (FloorComposition)
+                        EditorGUILayout.EnumPopup("Composition", (FloorComposition)prop.intValue);
+                    prop.intValue = (int)comp;
                 }
                 break;
-        }
-        switch (script.Type)
-        {
+            case EType.Stair:
+                {
+                    var prop = serializedObject.FindProperty("StairDir");
+                    StairDir dir = (StairDir)EditorGUILayout.EnumPopup("StairDir", (StairDir)prop.intValue);
+                    prop.intValue = (int)dir;
+
+                    prop = serializedObject.FindProperty("StairComposition");
+                    StairComposition comp = (StairComposition)
+                        EditorGUILayout.EnumPopup("Composition", (StairComposition)prop.intValue);
+                    prop.intValue = (int)comp;
+                }
+                break;
             case EType.BoxObstacle:
                 {
-                    var prop = serializedObject.FindProperty("Walkable");
-                    prop.boolValue = EditorGUILayout.Toggle("Walkable", prop.boolValue);
+                    var prop = serializedObject.FindProperty("BoxObstacleComposition");
+                    BoxObstacleComposition comp = (BoxObstacleComposition)
+                        EditorGUILayout.EnumPopup("Composition", (BoxObstacleComposition)prop.intValue);
+                    prop.intValue = (int)comp;
                 }
                 break;
         }
-        switch (script.Type)
-        {
-            case EType.Floor:
-            case EType.Stair:
-                {
-                    var prop = serializedObject.FindProperty("collider1");
-                    EditorGUILayout.ObjectField(prop);
-                    prop = serializedObject.FindProperty("collider2");
-                    EditorGUILayout.ObjectField(prop);
-                }
-                break;
-        }
-        if (script.Type != EType.Map && GUILayout.Button("Assign Id"))
-        {
-            Transform parent = script.transform.parent;
-            while (parent != null)
-            {
-                EObject obj = parent.GetComponent<EObject>();
-                if (obj.Type == EType.Map)
-                {
-                    break;
-                }
-                parent = parent.parent;
-            }
-            if (parent == null)
-            {
-                Debug.Log("EObject with Type=Map not found");
-                return;
-            }
 
-            EObject[] allObjects = parent.GetComponentsInChildren<EObject>();
-            script.Id = 1 + allObjects.Max(w => {
-                if (w == script)
-                    return 0;
-                if (w.Type == EType.Map)
-                    return 0;
-
-                return w.Id;
-            }) ;
-        }
-        if (script.Type == EType.Map && GUILayout.Button("Save Map"))
+        if (script.Type == EType.Map)
         {
-            this.SaveMap(script);
+            if (GUILayout.Button("Save Map"))
+                this.SaveMap(script);
+            if (GUILayout.Button("Assign Children Id"))
+                this.AssignChildrenId(script);
         }
         serializedObject.ApplyModifiedProperties();
     }
@@ -152,5 +128,26 @@ public class EObjectInspector : Editor
         DestroyImmediate(go);
 
         Debug.Log("Save map " + script.Id + " OK");
+    }
+
+    private void AssignChildrenId(EObject script)
+    {
+        HashSet<int> hs = new HashSet<int>();
+        List<EObject> dups = new List<EObject>();
+        int max = 0;
+        EObject[] objs = script.GetComponentsInChildren<EObject>(true);
+        foreach (var obj in objs)
+        {
+            if (obj.Id <= 0 || hs.Contains(obj.Id))
+                dups.Add(obj);
+            else
+                hs.Add(obj.Id);
+            if (obj.Id > max) max = obj.Id;
+        }
+        foreach (var dup in dups)
+        {
+            dup.Id = ++max;
+        }
+        Debug.Log("changed count: " + dups.Count);
     }
 }
