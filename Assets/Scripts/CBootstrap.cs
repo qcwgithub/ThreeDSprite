@@ -41,6 +41,10 @@ public class CBootstrap : MonoBehaviour
         this.Character.Apply(lChar);
         this.InputManager.OnInput += (Vector3 dir) =>
         {
+            if (lChar.Walkable == null)
+            {
+                dir.y = -1f;
+            }
             Vector3 delta = this.Speed * Time.deltaTime * dir;
             lMap.Move(lChar, delta);
         };

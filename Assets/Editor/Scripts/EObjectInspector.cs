@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 using UnityEngine;
 using UnityEditor;
@@ -14,7 +15,7 @@ public class EObjectInspector : Editor
     {
         base.OnInspectorGUI();
 
-            EObject script = this.target as EObject;
+        EObject script = this.target as EObject;
 
         serializedObject.Update();
         switch (script.Type)
@@ -86,10 +87,9 @@ public class EObjectInspector : Editor
     private void SaveMap(EObject script)
     {
         LMapData data = script.ToMapData();
-        //Debug.Log(JsonUtils.ToJson(data));
-        TextAsset asset = new TextAsset(JsonUtils.ToJson(data));
-        AssetDatabase.DeleteAsset("Assets/Resources/MapData/" + data.Id + ".txt");
-        AssetDatabase.CreateAsset(asset, "Assets/Resources/MapData/" + data.Id + ".txt");
+        string text = JsonUtils.ToJson(data);
+        File.WriteAllText("Assets/Resources/MapData/" + data.Id + ".txt", text, Encoding.UTF8);
+        AssetDatabase.ImportAsset("Assets/Resources/MapData/" + data.Id + ".txt");
 
         // prefab
         GameObject go = Instantiate<GameObject>(script.gameObject);
@@ -103,6 +103,16 @@ public class EObjectInspector : Editor
         DestroyImmediate(go.GetComponent<EObject>());
 
         EObject[] objs = go.GetComponentsInChildren<EObject>(false);
+        for (int i = 0; i < objs.Length; i++)
+        {
+            EObject obj = objs[i];
+            Collider[] colliders = obj.GetComponentsInChildren<Collider>(true);
+            for (int j = 0; j < colliders.Length; j++)
+            {
+                DestroyImmediate(colliders[j]);
+            }
+        }
+        
         for (int i = 0; i < objs.Length; i++)
         {
             EObject obj = objs[i];
@@ -131,10 +141,16 @@ public class EObjectInspector : Editor
                         DestroyImmediate(obj);
                     }
                     break;
+
+                default:
+                    Debug.LogError("Unknown EType: " + obj.Type.ToString());
+                    break;
             }
         }
 
         PrefabUtility.SaveAsPrefabAssetAndConnect(go, "Assets/Resources/MapPrefab/" + script.Id + ".prefab", InteractionMode.UserAction);
         DestroyImmediate(go);
+
+        Debug.Log("Save map " + script.Id + " OK");
     }
 }

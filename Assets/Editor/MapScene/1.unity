@@ -2111,7 +2111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skel: {fileID: 197119587}
-  Speed: 5
 --- !u!136 &197119593
 CapsuleCollider:
   m_ObjectHideFlags: 0
