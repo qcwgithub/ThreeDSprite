@@ -50,15 +50,15 @@ public class LMap
         return obj;
     }
 
-    public void Move(CCharacter character, Vector3 delta)
+    public void Move(LCharacter lChar, Vector3 delta)
     {
-        Vector3 from = character.Pos;
+        Vector3 from = lChar.Pos;
         float y = 0f;
-        IWalkable preWalkable = character.Walkable;
+        IWalkable preWalkable = lChar.Walkable;
 
-        if (character.Walkable != null)
+        if (lChar.Walkable != null)
         {
-            PredictMoveResult result = character.Walkable.PredictMove(from, delta);
+            PredictMoveResult result = lChar.Walkable.PredictMove(from, delta);
             if (!result.OutOfRange)
             {
                 //Debug.Log("OutOfRange")
@@ -66,18 +66,18 @@ public class LMap
             }
             else
             {
-                Debug.Log("Out of range, " + ((LObject)character.Walkable).Id);
-                character.Walkable = null;
+                Debug.Log("Out of range, " + ((LObject)lChar.Walkable).Id);
+                lChar.Walkable = null;
             }
         }
 
-        if (character.Walkable == null)
+        if (lChar.Walkable == null)
         {
             for (int i = 0; i < this.Walkables.Count; i++)
             {
                 if (this.Walkables[i] != preWalkable && this.Walkables[i].CanAccept(from, delta))
                 {
-                    character.Walkable = this.Walkables[i];
+                    lChar.Walkable = this.Walkables[i];
                     PredictMoveResult result = this.Walkables[i].PredictMove(from, delta);
                     y = result.Y;
                     break;
@@ -85,7 +85,7 @@ public class LMap
             }
         }
 
-        if (character.Walkable != null)
+        if (lChar.Walkable != null)
         {
             delta.y = y - from.y;
         }
@@ -98,12 +98,17 @@ public class LMap
             }
         }
 
-        character.Pos = from + delta;
+        lChar.Pos = from + delta;
     }
 
     public IWalkable RandomWalkable()
     {
         int index = Random.Range(0, this.Walkables.Count);
         return this.Walkables[index];
+    }
+
+    public void AddCharacter(LCharacter lChar)
+    {
+        
     }
 }

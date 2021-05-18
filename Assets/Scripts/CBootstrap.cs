@@ -12,6 +12,8 @@ public class CBootstrap : MonoBehaviour
     private CMap Map;
     void Start()
     {
+        Application.targetFrameRate = 60;
+
         Debug.Log("Loading map " + this.MapId + "...");
 
         TextAsset textAsset = Resources.Load<TextAsset>("MapData/" + this.MapId);
@@ -35,10 +37,12 @@ public class CBootstrap : MonoBehaviour
         CMap cMap = go.GetComponent<CMap>();
         cMap.Apply(lMap);
 
-        //this.InputManager.OnInput += (Vector3 dir) =>
-        //{
-        //    Vector3 delta = this.Speed * Time.deltaTime * dir;
-        //    this.Map.Move(this.Character, delta);
-        //};
+        LCharacter lChar = new LCharacter(10000);
+        this.Character.Apply(lChar);
+        this.InputManager.OnInput += (Vector3 dir) =>
+        {
+            Vector3 delta = this.Speed * Time.deltaTime * dir;
+            lMap.Move(lChar, delta);
+        };
     }
 }
