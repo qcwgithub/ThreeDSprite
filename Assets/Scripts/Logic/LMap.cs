@@ -4,9 +4,9 @@ using UnityEngine;
 public class LMap
 {
     public LMapData Data { get; private set; }
-    public Dictionary<int, LObject> DictObjects = new Dictionary<int, LObject>();
-    public List<IWalkable> Walkables = new List<IWalkable>();
-    public List<IObstacle> Obstacles = new List<IObstacle>();
+    private Dictionary<int, LObject> DictObjects = new Dictionary<int, LObject>();
+    private List<IWalkable> Walkables = new List<IWalkable>();
+    private List<IObstacle> Obstacles = new List<IObstacle>();
 
     public LMap(LMapData data)
     {
@@ -40,6 +40,15 @@ public class LMap
         }
     }
 
+    public LObject GetObject(int id)
+    {
+        LObject obj;
+        if (!this.DictObjects.TryGetValue(id, out obj))
+        {
+            return null;
+        }
+        return obj;
+    }
 
     public void Move(CCharacter character, Vector3 delta)
     {
