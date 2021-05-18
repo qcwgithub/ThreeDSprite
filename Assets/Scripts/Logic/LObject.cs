@@ -1,22 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class LObject : MonoBehaviour
+public class LObject
 {
-    public int Id;
-
-    public virtual void Apply()
+    public int Id { get; private set; }
+    public LObject(int id)
     {
-
-    }
-
-    public virtual void ObjectEnter(LObject obj)
-    {
-
-    }
-    public virtual void ObjectExit(LObject obj)
-    {
-
+        this.Id = id;
     }
 }

@@ -1,45 +1,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LMap : MonoBehaviour
+public class LMap
 {
+    public LMapData Data { get; private set; }
     public Dictionary<int, LObject> DictObjects = new Dictionary<int, LObject>();
     public List<IWalkable> Walkables = new List<IWalkable>();
     public List<IObstacle> Obstacles = new List<IObstacle>();
 
-    public virtual void Apply()
+    public LMap(LMapData data)
     {
-        LObject[] objects = this.GetComponentsInChildren<LObject>();
-        for (int i = 0; i < objects.Length; i++)
+        this.Data = data; 
+        for (int i = 0; i < data.Floors.Length; i++)
         {
-            LObject obj = objects[i];
-            if (!obj.gameObject.activeInHierarchy)
-            {
-                continue;
-            }
-            if (this.DictObjects.ContainsKey(obj.Id))
-            {
-                Debug.LogError("Object Id duplicated: " + obj.Id);
-                continue;
-            }
-            this.DictObjects.Add(obj.Id, obj);
-
-            if (obj is IWalkable)
-            {
-                this.Walkables.Add(obj as IWalkable);
-            }
-            else if (obj is IObstacle)
-            {
-                this.Obstacles.Add(obj as IObstacle);
-            }
+            LFloorData floorData = data.Floors[i];
+            LFloor floor = new LFloor(floorData);
+            this.Walkables.Add(floor);
+            this.DictObjects.Add(floor.Id, floor);
         }
-        this.Walkables.Sort((a, b) => (a as LObject).Id - (b as LObject).Id);
 
-        foreach (var kv in this.DictObjects)
+        for (int i = 0; i < data.Stairs.Length; i++)
         {
-            kv.Value.Apply();
+            LStairData stairData = data.Stairs[i];
+            LStair stair = new LStair(stairData);
+            this.Walkables.Add(stair);
+            this.DictObjects.Add(stair.Id, stair);
+        }
+
+        for (int i = 0; i < data.BoxObstacles.Length; i++)
+        {
+            LBoxObstacleData obData = data.BoxObstacles[i];
+            LBoxObstacle obstacle = new LBoxObstacle(obData);
+            if (obstacle.Data.Walkable)
+            {
+                this.Walkables.Add(obstacle);
+            }
+            this.Obstacles.Add(obstacle);
+            this.DictObjects.Add(obstacle.Id, obstacle);
         }
     }
+
 
     public void Move(CCharacter character, Vector3 delta)
     {
@@ -96,75 +96,5 @@ public class LMap : MonoBehaviour
     {
         int index = Random.Range(0, this.Walkables.Count);
         return this.Walkables[index];
-    }
-
-    public void AddCharacter(CCharacter character)
-    {
-        //character.Walkable = this.Walkables[0];// this.RandomWalkable
-        //char_.transform.position = char_.CurrWalkable.RandomPos;
-        //character.Pos = character.transform.position;
-        //character.Walkable.Move(character, Vector3.zero);
-
-        //character._OnTriggerEnter += this._OnTriggerEnter;
-        //character._OnTriggerExit += this._OnTriggerExit;
-    }
-
-    private void _OnTriggerEnter(CCharacter character, Collider other)
-    {
-        //CWalkable walkable;
-        //if (!this.DictWalkables.TryGetValue(other, out walkable))
-        //{
-        //    return;
-        //}
-
-        //if (char_.CurrWalkable == walkable || char_.ListWalkables.Contains(walkable))
-        //{
-        //    return;
-        //}
-
-        //char_.ListWalkables.Add(walkable);
-        //this.SelectWalkable(char_);
-
-        //CWalkableJoint joint;
-        //if (!this.DictJoints.TryGetValue(other, out joint))
-        //{
-        //    return;
-        //}
-
-        LObject obj = other.GetComponent<LObject>();
-        if (obj == null)
-        {
-            return;
-        }
-
-        //Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
-        //joint.CharacterEnter(character);
-        obj.ObjectEnter(character);
-    }
-
-    private void _OnTriggerExit(CCharacter character, Collider other)
-    {
-        //CWalkable walkable;
-        //if (!this.DictWalkables.TryGetValue(other, out walkable))
-        //{
-        //    return;
-        //}
-
-        //if (char_.CurrWalkable == walkable)
-        //{
-        //    char_.ListWalkables.Remove(char_.CurrWalkable);
-        //    this.SelectWalkable(char_);
-        //    return;
-        //}
-
-        //char_.ListWalkables.Remove(walkable);
-        LObject obj = other.GetComponent<LObject>();
-        if (obj == null)
-        {
-            return;
-        }
-
-        //Debug.Assert(joint == character.Walkable || joint.Walkable1 == character.Walkable || joint.Walkable2 == character.Walkable);
-        obj.ObjectExit(character);
     }
 }

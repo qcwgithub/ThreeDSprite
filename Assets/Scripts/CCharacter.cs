@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CCharacter : LObject
+public class CCharacter : MonoBehaviour
 {
     public Spine.Unity.SkeletonAnimation Skel;
     public float Speed = 5f;
@@ -25,10 +25,8 @@ public class CCharacter : LObject
         }
     }
 
-    public override void Apply()
+    public void Apply()
     {
-        base.Apply();
-
         this.pos = this.transform.position;
     }
 

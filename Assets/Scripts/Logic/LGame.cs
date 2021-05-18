@@ -10,12 +10,12 @@ public class LGame : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        for (int i = 0; i < this.Maps.Count; i++)
-        {
-            this.Maps[i].Apply();
-        }
+        //for (int i = 0; i < this.Maps.Count; i++)
+        //{
+        //    this.Maps[i].Apply();
+        //}
 
-        this.Maps[0].AddCharacter(this.Char);
+        //this.Maps[0].AddCharacter(this.Char);
     }
 
 }

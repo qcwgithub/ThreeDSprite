@@ -10,59 +10,35 @@ public enum StairDir
 }
 public class LStair : LObject, IWalkable
 {
-    public StairDir Dir;
-    public BoxCollider collider1;
-    public BoxCollider collider2;
-
-    protected Vector3 Min;
-    protected Vector3 Max;
-
-    public override void Apply()
+    public LStairData Data { get; private set; }
+    public LStair(LStairData data) : base(data.Id)
     {
-        base.Apply();
-
-        BoxCollider[] colliders = new BoxCollider[] { this.collider1, this.collider2 };
-
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            Bounds bound = colliders[i].bounds;
-            Vector3 min = bound.min;
-            Vector3 max = bound.max;
-
-            if (i == 0 || min.x < this.Min.x) this.Min.x = min.x;
-            if (i == 0 || min.y < this.Min.y) this.Min.y = min.y;
-            if (i == 0 || min.z < this.Min.z) this.Min.z = min.z;
-
-            if (i == 0 || max.x > this.Max.x) this.Max.x = max.x;
-            if (i == 0 || max.y > this.Max.y) this.Max.y = max.y;
-            if (i == 0 || max.z > this.Max.z) this.Max.z = max.z;
-        }
-
-        Debug.Log("Stair" + this.Id + ": Min" + this.Min + ", Max" + this.Max);
+        this.Data = data;
     }
 
     protected bool CheckXZOutOfRange(Vector3 pos)
     {
+        LStairData data = this.Data;
         bool outOfRange = false;
-        if (pos.x < this.Min.x)
+        if (pos.x < data.Min.x)
         {
-            pos.x = this.Min.x;
+            pos.x = data.Min.x;
             outOfRange = true;
         }
-        else if (pos.x > this.Max.x)
+        else if (pos.x > data.Max.x)
         {
-            pos.x = this.Max.x;
+            pos.x = data.Max.x;
             outOfRange = true;
         }
 
-        if (pos.z < this.Min.z)
+        if (pos.z < data.Min.z)
         {
-            pos.z = this.Min.z;
+            pos.z = data.Min.z;
             outOfRange = true;
         }
-        else if (pos.z > this.Max.z)
+        else if (pos.z > data.Max.z)
         {
-            pos.z = this.Max.z;
+            pos.z = data.Max.z;
             outOfRange = true;
         }
         return outOfRange;
@@ -70,30 +46,33 @@ public class LStair : LObject, IWalkable
 
     private float ZtoY(float z)
     {
-        float t = (z - this.Min.z) / (this.Max.z - this.Min.z);
-        float y = UnityEngine.Mathf.Lerp(this.Min.y, this.Max.y, t);
+        LStairData data = this.Data;
+        float t = (z - data.Min.z) / (data.Max.z - data.Min.z);
+        float y = UnityEngine.Mathf.Lerp(data.Min.y, data.Max.y, t);
         return y;
     }
 
     private float XtoY(float x, StairDir dir)
     {
+        LStairData data = this.Data;
         if (dir == StairDir.LeftLow_RightHigh)
         {
-            float t = (x - this.Min.x) / (this.Max.x - this.Min.x);
-            float y = UnityEngine.Mathf.Lerp(this.Min.y, this.Max.y, t);
+            float t = (x - data.Min.x) / (data.Max.x - data.Min.x);
+            float y = UnityEngine.Mathf.Lerp(data.Min.y, data.Max.y, t);
             return y;
         }
         else
         {
-            float t = (x - this.Min.x) / (this.Max.x - this.Min.x);
-            float y = UnityEngine.Mathf.Lerp(this.Max.y, this.Min.y, t);
+            float t = (x - data.Min.x) / (data.Max.x - data.Min.x);
+            float y = UnityEngine.Mathf.Lerp(data.Max.y, data.Min.y, t);
             return y;
         }
     }
 
     private float XZtoY(float x, float z)
     {
-        switch (this.Dir)
+        LStairData data = this.Data;
+        switch (data.Dir)
         {
             case StairDir.Front_Back:
                 return this.ZtoY(z);
@@ -101,16 +80,17 @@ public class LStair : LObject, IWalkable
             case StairDir.LeftHigh_RightLow:
             case StairDir.LeftLow_RightHigh:
             default:
-                return this.XtoY(x, this.Dir);
+                return this.XtoY(x, data.Dir);
                 //break;
         }
     }
 
     public Vector3 RandomPos()
     {
-        Vector3 pos =  new Vector3(UnityEngine.Random.Range(this.Min.x, this.Max.x), 
+        LStairData data = this.Data;
+        Vector3 pos =  new Vector3(UnityEngine.Random.Range(data.Min.x, data.Max.x), 
             0f, 
-            UnityEngine.Random.Range(this.Min.z, this.Max.z));
+            UnityEngine.Random.Range(data.Min.z, data.Max.z));
 
         pos.y = this.ZtoY(pos.z);
         return pos;

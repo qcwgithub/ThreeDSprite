@@ -4,60 +4,38 @@ using UnityEngine;
 
 public class LFloor : LObject, IWalkable
 {
-    public BoxCollider collider1;
-    public BoxCollider collider2;
-    protected Vector3 Min;
-    protected Vector3 Max;
-
-    [NonSerialized]
-    public float Y;
+    public LFloorData Data { get; private set; }
+    public LFloor(LFloorData data): base(data.Id)
+    {
+        this.Data = data;
+    }
 
     //public override int Priority { get { return 1; } }
 
-    public override void Apply()
-    {
-        base.Apply();
-        this.Y = this.transform.position.y;
-        this.Min.y = Y;
-        this.Max.y = Y;
-
-        BoxCollider[] colliders = new BoxCollider[] { this.collider1, this.collider2 };
-
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            Bounds bound = colliders[i].bounds;
-            Vector3 min = bound.min;
-            Vector3 max = bound.max;
-
-            if (i == 0 || min.x < this.Min.x) this.Min.x = min.x;
-            if (i == 0 || min.z < this.Min.z) this.Min.z = min.z;
-            if (i == 0 || max.x > this.Max.x) this.Max.x = max.x;
-            if (i == 0 || max.z > this.Max.z) this.Max.z = max.z;
-        }
-    }
-
     protected bool CheckXZOutOfRange(Vector3 pos)
     {
+        LFloorData data = this.Data;
+
         bool outOfRange = false;
-        if (pos.x < this.Min.x)
+        if (pos.x < data.Min.x)
         {
-            pos.x = this.Min.x;
+            pos.x = data.Min.x;
             outOfRange = true;
         }
-        else if (pos.x > this.Max.x)
+        else if (pos.x > data.Max.x)
         {
-            pos.x = this.Max.x;
+            pos.x = data.Max.x;
             outOfRange = true;
         }
 
-        if (pos.z < this.Min.z)
+        if (pos.z < data.Min.z)
         {
-            pos.z = this.Min.z;
+            pos.z = data.Min.z;
             outOfRange = true;
         }
-        else if (pos.z > this.Max.z)
+        else if (pos.z > data.Max.z)
         {
-            pos.z = this.Max.z;
+            pos.z = data.Max.z;
             outOfRange = true;
         }
         return outOfRange;
@@ -65,11 +43,13 @@ public class LFloor : LObject, IWalkable
 
     public Vector3 RandomPos()
     {
-        return new Vector3(UnityEngine.Random.Range(this.Min.x, this.Max.x), this.Y, UnityEngine.Random.Range(this.Min.z, this.Max.z));
+        LFloorData data = this.Data;
+        return new Vector3(UnityEngine.Random.Range(data.Min.x, data.Max.x), data.Y, UnityEngine.Random.Range(data.Min.z, data.Max.z));
     }
 
     public PredictMoveResult PredictMove(Vector3 from, Vector3 delta)
     {
+        LFloorData data = this.Data;
         PredictMoveResult result = default;
         Vector3 to = from + delta;
         if (this.CheckXZOutOfRange(to))
@@ -78,22 +58,23 @@ public class LFloor : LObject, IWalkable
             return result;
         }
 
-        result.Y = this.Y;
+        result.Y = data.Y;
         return result;
     }
 
     public bool CanAccept(Vector3 from, Vector3 delta)
     {
+        LFloorData data = this.Data;
         Vector3 to = from + delta;
         if (this.CheckXZOutOfRange(to))
         {
             return false;
         }
-        if (delta.y < 0 && from.y > this.Y && to.y <= this.Y)
+        if (delta.y < 0 && from.y > data.Y && to.y <= data.Y)
         {
             return true;
         }
-        if (Mathf.Abs(this.Y - to.y) > 0.1f)
+        if (Mathf.Abs(data.Y - to.y) > 0.1f)
         {
             return false;
         }

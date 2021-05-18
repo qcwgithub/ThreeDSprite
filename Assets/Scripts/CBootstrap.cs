@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class CBootstrap : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int MapId;
+    public CInputManager InputManager;
+    public CCharacter Character;
+    public float Speed = 5f;
+
+    private CMap Map;
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //this.InputManager.OnInput += (Vector3 dir) =>
+        //{
+        //    Vector3 delta = this.Speed * Time.deltaTime * dir;
+        //    this.Map.Move(this.Character, delta);
+        //};
     }
 }

@@ -1,0 +1,16 @@
+floor
+stair
+obstacle
+
+CInputManager
+CWorld
+
+IObstacle
+
+
+----------------------
+1地图配置文件 LMap使用
+2客户端prefab CMap...
+3客户端editor 配置  会有 box collider，等额外信息
+
+难道要 EMap - CMap - LMap 太麻烦了
