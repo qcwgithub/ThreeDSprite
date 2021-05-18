@@ -38,6 +38,7 @@ public class CBootstrap : MonoBehaviour
         cMap.Apply(lMap);
 
         LCharacter lChar = new LCharacter(10000);
+        lChar.Pos = this.Character.transform.position;
         this.Character.Apply(lChar);
         this.InputManager.OnInput += (Vector3 dir) =>
         {
@@ -45,8 +46,11 @@ public class CBootstrap : MonoBehaviour
             {
                 dir.y = -1f;
             }
-            Vector3 delta = this.Speed * Time.deltaTime * dir;
-            lMap.Move(lChar, delta);
+            if (dir != Vector3.zero)
+            {
+                Vector3 delta = this.Speed * Time.deltaTime * dir;
+                lMap.Move(lChar, delta);
+            }
         };
     }
 }

@@ -77,6 +77,7 @@ public class EObject : MonoBehaviour
     {
         LBoxObstacleData data = new LBoxObstacleData();
         data.Id = this.Id;
+        data.Walkable = this.Walkable;
 
         BoxCollider collider = this.GetComponent<BoxCollider>();
         Bounds bounds = collider.bounds;

@@ -1817,6 +1817,7 @@ GameObject:
   - component: {fileID: 159512604}
   - component: {fileID: 159512603}
   - component: {fileID: 159512602}
+  - component: {fileID: 159512605}
   m_Layer: 0
   m_Name: Cube_18
   m_TagString: Untagged
@@ -1900,6 +1901,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159512600}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &159512605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159512600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 12
+  Type: 3
+  collider1: {fileID: 0}
+  collider2: {fileID: 0}
+  StairDir: 0
+  Walkable: 1
 --- !u!1001 &181256457
 PrefabInstance:
   m_ObjectHideFlags: 0
