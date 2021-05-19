@@ -10,3 +10,4 @@ ThreeDSprite2.sln
 *.sln
 *.csproj
 Temp/
+server/bin/
