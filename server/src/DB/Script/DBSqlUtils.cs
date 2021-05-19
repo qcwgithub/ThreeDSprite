@@ -1,0 +1,3 @@
+public class DBSqlUtils : SqlUtils {
+
+}
