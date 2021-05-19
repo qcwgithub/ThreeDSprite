@@ -535,7 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b596b66e942164e8575eda133bd758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 1
+  MapId: 2
   InputManager: {fileID: 199662855}
   Character: {fileID: 838541984}
   Speed: 5

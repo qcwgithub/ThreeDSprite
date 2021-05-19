@@ -28,7 +28,7 @@ public class MyAlignEditor : EditorWindow
     public GameObject[] refs = new GameObject[0];
     public GameObject[] targets = new GameObject[0];
 
-    public AlignXYZ alignX = AlignXYZ.NotChange;
+    public AlignXYZ alignX = AlignXYZ.NotChange; 
     public float xValue = 0f;
     public float multipleX = 1f;
 
@@ -208,9 +208,62 @@ public class MyAlignEditor : EditorWindow
 
         Vector3 p0 = this.refs[0].transform.position;
         Vector3 p1 = this.refs[1].transform.position;
-        for (int i = 0; i < this.targets.Length; i++)
+        int L = this.targets.Length;
+        for (int i = 0; i < L; i++)
         {
-            this.targets[i].transform.position = Vector3.Lerp(p0, p1, (float)(i+1)/(float)(this.targets.Length + 1));
+            this.targets[i].transform.position = Vector3.Lerp(p0, p1, (float)(i+1)/(float)(L + 1));
+        }
+    }
+
+    public float XDistance = 1f;
+    public int XCount = 10;
+    public float ZDistance = 1f;
+    private void MakeHorizontalGrid()
+    {
+        int L = this.targets.Length;
+        if (L == 0)
+        {
+            Debug.Log("targets.Length == 0");
+            return;
+        }
+
+        Vector3 p0 = this.targets[0].transform.position;
+        Vector3 p = p0;
+        int x_count = 1;
+        for (int i = 0; i < L; i++)
+        {
+
+            this.targets[i].transform.position = p;
+            x_count++;
+            if (x_count >= this.XCount)
+            {
+                x_count = 0;
+                p.x = p0.x;
+                p.z -= this.ZDistance;
+            }
+            else
+            {
+                p.x += this.XDistance;
+            }
+        }
+    }
+
+    private Vector3 RandomTopLeft;
+    private Vector3 RandomBottomRight;
+    private void RandomTargetsInRect()
+    {
+        int L = this.targets.Length;
+        if (L == 0)
+        {
+            Debug.Log("targets.Length == 0");
+            return;
+        }
+
+        for (int i = 0; i < L; i++)
+        {
+            Vector3 p = new Vector3(Random.Range(this.RandomTopLeft.x, this.RandomBottomRight.x), this.RandomTopLeft.y,
+                Random.Range(this.RandomTopLeft.z, this.RandomBottomRight.z));
+            this.targets[i].transform.position = p;
         }
     }
 
@@ -286,6 +339,21 @@ public class MyAlignEditor : EditorWindow
         if (GUILayout.Button("Average Between Refs[0] and Refs[1]"))
         {
             this.AverageBetween();
+        }
+
+        this.XDistance = EditorGUILayout.FloatField("XDistance", this.XDistance);
+        this.ZDistance = EditorGUILayout.FloatField("ZDistance", this.ZDistance);
+        this.XCount = EditorGUILayout.IntField("XCount", this.XCount);
+        if (GUILayout.Button("Make \'targets\' as horizontal grid"))
+        {
+            this.MakeHorizontalGrid();
+        }
+
+        this.RandomTopLeft = EditorGUILayout.Vector3Field("Random Top Left", this.RandomTopLeft);
+        this.RandomBottomRight = EditorGUILayout.Vector3Field("Random Bottom Right", this.RandomBottomRight);
+        if (GUILayout.Button("Random targets in rect"))
+        {
+            this.RandomTargetsInRect();
         }
 
         //click = GUILayout.Button("Clone");
