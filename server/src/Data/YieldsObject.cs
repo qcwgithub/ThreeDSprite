@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 public interface iYieldObject {
     void setCallback(Action<MyResponse> cb);
@@ -10,11 +11,17 @@ public class RequestObject : iYieldObject {
     private object socket;
     private MsgType type;
     private object msg;
-    public RequestObject(Server server, object socket, MsgType type, object msg) {
+    private MyResponse res; // OUTPUT
+    public RequestObject(Server server, object socket, MsgType type, object msg, MyResponse res/* OUTPUT */) {
         this.server = server;
         this.socket = socket;
         this.type = type;
         this.msg = msg;
+
+        this.res = res;
+        // init to Error
+        res.err = ECode.Error;
+        res.res = null;
     }
 
     private Action<MyResponse> cb = null;
@@ -25,9 +32,9 @@ public class RequestObject : iYieldObject {
             return;
         }
         this.replied = true;
-        if (this.timer != null) {
+        if (this.timer != -1) {
             clearTimeout(this.timer);
-            this.timer = null;
+            this.timer = -1;
         }
         
         this.cb(r);
@@ -97,3 +104,4 @@ public class WaitCallBack : iYieldObject {
         }
     }
 }
+

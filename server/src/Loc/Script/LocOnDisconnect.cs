@@ -10,6 +10,7 @@ public class LocOnDisconnect : OnDisconnect {
     //         }
     //     });
 
-    //     return MyResponse.create(ECode.Success);
+    //     r.err = ECode.Success;
+        yield break;
     // }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 public class MessageDispatcher : IScript {
     public Server server { get; set; }
@@ -8,7 +9,7 @@ public class MessageDispatcher : IScript {
         // remove first
         this.removeHandler(handler.msgType);
         handler.server = this.server;
-        this.server.baseData.handlers.set(handler.msgType, handler);
+        this.server.baseData.handlers.Add(handler.msgType, handler);
     }
     public Handler removeHandler(MsgType type) {
         Handler handler;
@@ -30,29 +31,23 @@ public class MessageDispatcher : IScript {
         }
 
         Handler handler;
-        if (!this.server.baseData.handlers.TryGetValue(type, out handler) || handler == null) {
+        if (!this.server.baseData.handlers.TryGetValue(type, out handler)) {
             this.server.baseScript.error("no handler for message %d, %s", type, type.ToString());
             return;
         }
         
-        object r = null;
-        try {
-            r = handler.handle(socket, msg);
-            if (this.server.baseScript.isIterable(r)) {
-                this.server.coroutineMgr.add(r, r2 => {
-                    handler.postHandle(socket, msg);
-                    reply(MyResponse.wrap(r2));
-                });
-            }
-            else {
+        // try {
+            MyResponse res = new MyResponse(ECode.Error, null);
+            IEnumerator ie = handler.handle(socket, msg, res);
+            this.server.coroutineMgr.iterate(ie, () => {
                 handler.postHandle(socket, msg);
-                reply(MyResponse.wrap(r));
-            }
-        }
-        catch (Exception ex) {
-            this.server.baseScript.error("dispatch exception! msgType: " + type.ToString(), ex);
+                reply(res);
+            });
+        // }
+        // catch (Exception ex) {
+        //     this.server.baseScript.error("dispatch exception! msgType: " + type.ToString(), ex);
 
-            reply(MyResponse.exResponse);
-        }
+        //     reply(MyResponse.exResponse);
+        // }
     }
 }

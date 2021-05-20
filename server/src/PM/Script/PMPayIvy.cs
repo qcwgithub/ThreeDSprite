@@ -6,7 +6,8 @@ public class PMPayIvy : PMHandler {
     *handle(object socket, MsgPay msg) {
         var PMPlayerInfo player = this.server.netProto.getPlayer(socket);
         if (player == null) {
-            return MyResponse.create(ECode.PlayerNotExist);
+            r.err = ECode.PlayerNotExist;
+            yield break;
         }
         this.logger.info("%s playerId: %d", this.msgName, player.id);
 
@@ -14,7 +15,8 @@ public class PMPayIvy : PMHandler {
         var logger = this.logger;
         if (player.ivyPaying) {
             logger.warn("playerId %d ivyPaying", player.id);
-            return MyResponse.create(ECode.LastPayNotEnd);
+            r.err = ECode.LastPayNotEnd;
+            yield break;
         }
 
         var res = new ResPay();
@@ -25,7 +27,7 @@ public class PMPayIvy : PMHandler {
 
         player.ivyPaying = true;
 
-        MyResponse r = yield this.server.payIvySqlUtils.queryPayIvy_p_s_g(player.id, PayIvyState.Succeeded, 0);
+        yield return this.server.payIvySqlUtils.queryPayIvy_p_s_g(player.id, PayIvyState.Succeeded, 0, r);
         if (r.err != ECode.Success) {
             return r.err;
         }
@@ -45,7 +47,7 @@ public class PMPayIvy : PMHandler {
             }
         }
 
-        r = yield this.server.payIvySqlUtils.updatePayIvyGotMany(orderIds, 1);
+        r = yield return this.server.payIvySqlUtils.updatePayIvyGotMany(orderIds, 1);
         if (r.err != ECode.Success) {
             return r.err;
         }

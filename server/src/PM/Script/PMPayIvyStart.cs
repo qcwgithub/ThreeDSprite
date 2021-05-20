@@ -6,23 +6,27 @@ public class PMPayIvyStart : PMHandler {
     *handle(object socket, msg: MsgPayIvyStart) {
         var PMPlayerInfo player = this.server.netProto.getPlayer(socket);
         if (player == null) {
-            return MyResponse.create(ECode.PlayerNotExist);
+            r.err = ECode.PlayerNotExist;
+            yield break;
         }
         this.logger.info("%s %d", this.msgName, msg.id);
 
         if (!this.server.scUtils.checkArgs("I", msg.id)) {
-            return MyResponse.create(ECode.InvalidParam);
+            r.err = ECode.InvalidParam;
+            yield break;
         }
 
         IapIvyInfo ivyItem = this.server.vipScript.getIvyItemById(msg.id);
         if (ivyItem == null) {
-            return MyResponse.create(ECode.InvalidProductId);
+            r.err = ECode.InvalidProductId;
+            yield break;
         }
 
         IapItemBase iapItem = this.server.vipScript.getItemById(msg.id);
         if (iapItem == null) {
             this.baseScript.error("iapItem == null, ivyItem.id=" + msg.id);
-            return MyResponse.create(ECode.InvalidProductId);
+            r.err = ECode.InvalidProductId;
+            yield break;
         }
 
        var res = new ResPayIvyStart {
@@ -36,7 +40,8 @@ public class PMPayIvyStart : PMHandler {
                 var time = this.server.gameScript.getNumber(player, giftVoucher.counterNumberIndex);
                 var today = this.server.gameScript.getTodayTime(0, 0, 0, 0);
                 if (time == today) {
-                    return MyResponse.create(ECode.MaxCount);
+                    r.err = ECode.MaxCount;
+                    yield break;
                 }
             }
         }
@@ -44,7 +49,7 @@ public class PMPayIvyStart : PMHandler {
         res.orderId = v4();
         this.logger.info("%s playerId: %d, orderId: %s", this.msgName, player.id, res.orderId);
 
-        MyResponse r = yield this.server.payIvySqlUtils.insertPayIvyYield(player.id, iapItem.id, ivyItem.productId, 1, "0", res.orderId);
+        yield return this.server.payIvySqlUtils.insertPayIvyYield(player.id, iapItem.id, ivyItem.productId, 1, "0", res.orderId, r);
         if (r.err != ECode.Success) {
             return r.err;
         }

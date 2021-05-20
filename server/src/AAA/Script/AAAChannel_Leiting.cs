@@ -1,22 +1,19 @@
 
+using System.Collections;
+
 public class AAAChannel_Leiting : IScript {
-    Server server;
+    public Server server { get; set; }
 
     // https://wiki.g-bits.com/pages/viewpage.action?pageId=559682334
     // https://stackoverflow.com/questions/6158933/how-is-an-http-post-request-made-in-node-js
-    *verifyAccount(string channelUserId, object verifyData) {
-        if (verifyData == null) {
-            return MyResponse.create(ECode.InvalidParam);
-        }
-        var token = verifyData.token;
-        var game = verifyData.game;
-        var channelNo = verifyData.channelNo;
+    public IEnumerator verifyAccount(string channelUserId, string token, string game, string channelNo, MyResponse r) {
         if (!this.server.baseScript.checkArgs("SSSS", token, game, channelNo, channelUserId)) {
-            return MyResponse.create(ECode.InvalidParam);
+            r.err = ECode.InvalidParam;
+            yield break;
         }
 
         var waiter = new WaitCallBack().init(() => {
-            var url = `https://login.jysyx.net/login/verify/verify_token?token=${token}&game=${game}&channelNo=${channelNo}`;
+            var url = $"https://login.jysyx.net/login/verify/verify_token?token={token}&game={game}&channelNo={channelNo}";
             https.get(url, (res: http.IncomingMessage) => {
                 if (res.statusCode != 200) {
                     waiter.finish(new MyResponse(ECode.VerifyAccountErrorStatusCode, { error: "res.statusCode=" + res.statusCode }));

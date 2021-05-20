@@ -27,9 +27,11 @@ public class AAAPayIvyHandleNotify : AAAHandler {
         var b = verify.verify(pkey, body.signature, "base64");
         if (!b) {
             this.baseScript.error("sign error");
-            return MyResponse.create(ECode.InvalidSign);
+            r.err = ECode.InvalidSign;
+            yield break;
         }
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 
     *handle(object socket, msg: { res: http.ServerResponse, string body }) {
@@ -47,11 +49,12 @@ public class AAAPayIvyHandleNotify : AAAHandler {
         var gameOrderNo = body.payload;
         if (!this.server.scUtils.checkArgs("S", gameOrderNo)) {
             this.respond(res, false, "invalid payload");
-            return MyResponse.create(ECode.Error);
+            r.err = ECode.Error;
+            yield break;
         }
 
         // 根据游戏订单号查询
-        MyResponse r = yield this.server.payIvySqlUtils.queryPayIvy_orderId(gameOrderNo);
+        yield return this.server.payIvySqlUtils.queryPayIvy_orderId(gameOrderNo, r);
         if (r.err != ECode.Success) {
             this.baseScript.error("query gameOrderNo(%s) failed", gameOrderNo);
             this.respond(res, false, "query gameOrderNo failed, " + r.err);
@@ -62,29 +65,33 @@ public class AAAPayIvyHandleNotify : AAAHandler {
         if (info == null) {
             this.baseScript.error("query gameOrderNo(%s) info==null", gameOrderNo);
             this.respond(res, false, "query gameOrderNo failed, info==null");
-            return MyResponse.create(ECode.OrderIdNotExist);
+            r.err = ECode.OrderIdNotExist;
+            yield break;
         }
 
         if (info.state == PayIvyState.Succeeded) {
             this.respond(res, true, "succeeded before");
-            return MyResponse.create(ECode.Success);
+            r.err = ECode.Success;
+        yield break;
         }
 
         if (info.state == PayIvyState.Failed) {
             this.respond(res, false, "failed before");
-            return MyResponse.create(ECode.Success);
+            r.err = ECode.Success;
+        yield break;
         }
 
         // 更改状态为成功，或失败
         var newState = (body.purchaseState == "1" ? PayIvyState.Succeeded : PayIvyState.Failed);
-        r = yield this.server.payIvySqlUtils.updatePayIvyStateYield(gameOrderNo, newState, body.orderId, body.jsonData);
+        r = yield return this.server.payIvySqlUtils.updatePayIvyStateYield(gameOrderNo, newState, body.orderId, body.jsonData);
         if (r.err != ECode.Success) {
             this.respond(res, false, "update state failed");
             return r.err;
         }
 
         this.respond(res, true, "ok");
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 
     private respond(res: http.ServerResponse, success: boolean, object message) {

@@ -1,4 +1,4 @@
 public class AAAUserInfo {
-    string userName;
-    string detail;
+    public string userName;
+    public string detail;
 }

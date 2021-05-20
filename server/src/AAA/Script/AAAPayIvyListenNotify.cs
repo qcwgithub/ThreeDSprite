@@ -10,7 +10,8 @@ public class AAAPayIvyListenNotify : AAAHandler {
         httpServer.listen(ServerConst.AAA_IVY_NOTIFY_PORT, () => {
             this.server.logger.info("listening ivy on " + ServerConst.AAA_IVY_NOTIFY_PORT);
         });
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 
     private handleHttpRequest(req: http.IncomingMessage, res: http.ServerResponse) {

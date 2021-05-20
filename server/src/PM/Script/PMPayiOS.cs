@@ -1,13 +1,20 @@
 
 // 内购，实际上是刷新整个购买，把未兑现的兑现了
 // 注：如果连着发这条消息多次，后来得到的回复只有 duplicated=true 及 monthlyCardUpdated = false
-public class PMPayiOS : PMHandler {
+using System.Collections;
+
+public class PMPayiOS : PMHandler
+{
     public override MsgType msgType { get { return MsgType.PMPayiOS; } }
 
-    *handle(object socket, MsgPay msg) {
-        var PMPlayerInfo player = this.server.netProto.getPlayer(socket);
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    {
+        var msg = _msg as MsgPay;
+
+        var player = this.server.netProto.getPlayer(socket);
         if (player == null) {
-            return MyResponse.create(ECode.PlayerNotExist);
+            r.err = ECode.PlayerNotExist;
+            yield break;
         }
         this.logger.info("%s playerId: %d", this.msgName, player.id);
 
@@ -17,13 +24,14 @@ public class PMPayiOS : PMHandler {
         var logger = this.logger;
         if (player.iOSPaying) {
             logger.warn("playerId %d iOSPaying", player.id);
-            return MyResponse.create(ECode.LastPayNotEnd);
+            r.err = ECode.LastPayNotEnd;
+            yield break;
         }
 
         var res = new ResPay();
         var e = vipScript.payCheck(player, msg, res);
         if (e != ECode.Success) {
-            return e;
+            yield break;
         }
 
         logger.info("PMPayiOS playerId %d receipt.length = %d", player.id, msg.receipt.length);
@@ -186,8 +194,8 @@ public class PMPayiOS : PMHandler {
     }
 
     // 
-    postHandle(object socket, msg: MsgPay) {
-        var PMPlayerInfo player = this.server.netProto.getPlayer(socket);
+    public override void postHandle(object socket, object msg) {
+        var player = this.server.netProto.getPlayer(socket);
         if (player != null) {
             this.logger.info("PMPayiOS postHandle playerId: %d", player.id);
             player.iOSPaying = false;

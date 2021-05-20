@@ -21,9 +21,11 @@ public class AAAPayLtHandleNotify : AAAHandler {
         var sign = md5(signInput);
         if (sign != body.sign) {
             this.baseScript.error("sign error, input(%s) sign(%s) lt.sign(%s)", signInput, sign, body.sign);
-            return MyResponse.create(ECode.InvalidSign);
+            r.err = ECode.InvalidSign;
+            yield break;
         }
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 
     *handle(object socket, msg: { res: http.ServerResponse, string body }) {
@@ -34,7 +36,8 @@ public class AAAPayLtHandleNotify : AAAHandler {
         // 检验参数
         if (!this.server.scUtils.checkArgs("SSSSS", body.status, body.amount, body.channelNo, body.gameOrderNo, body.sign)) {
             this.respond(res, 2, "1 of these is invalid: status,amount,channelNo,gameOrderNo,sign");
-            return MyResponse.create(ECode.InvalidParam);
+            r.err = ECode.InvalidParam;
+            yield break;
         }
 
         // 检查签名
@@ -45,7 +48,7 @@ public class AAAPayLtHandleNotify : AAAHandler {
         }
 
         // 根据游戏订单号查询
-        MyResponse r = yield this.server.payLtSqlUtils.queryPayLt_orderId(body.gameOrderNo);
+        yield return this.server.payLtSqlUtils.queryPayLt_orderId(body.gameOrderNo, r);
         if (r.err != ECode.Success) {
             this.baseScript.error("query gameOrderNo(%s) failed", body.gameOrderNo);
             this.respond(res, 2, "query gameOrderNo failed, " + r.err);
@@ -56,35 +59,40 @@ public class AAAPayLtHandleNotify : AAAHandler {
         if (info == null) {
             this.baseScript.error("query gameOrderNo(%s) info==null", body.gameOrderNo);
             this.respond(res, 2, "query gameOrderNo failed, info==null");
-            return MyResponse.create(ECode.OrderIdNotExist);
+            r.err = ECode.OrderIdNotExist;
+            yield break;
         }
 
         if (body.amount != info.fen) {
             this.baseScript.error("body.amount(%s) != info.fen(%s)", body.amount, info.fen);
             this.respond(res, 2, "money not equal");
-            return MyResponse.create(ECode.InvalidParam);
+            r.err = ECode.InvalidParam;
+            yield break;
         }
 
         if (info.state == PayLtState.Succeeded) {
             this.respond(res, 0, "succeeded before");
-            return MyResponse.create(ECode.Success);
+            r.err = ECode.Success;
+        yield break;
         }
 
         if (info.state == PayLtState.Failed) {
             this.respond(res, 0, "failed before");
-            return MyResponse.create(ECode.Success);
+            r.err = ECode.Success;
+        yield break;
         }
 
         // 更改状态为成功，或失败
         var newState = (body.status == "success" ? PayLtState.Succeeded : PayLtState.Failed);
-        r = yield this.server.payLtSqlUtils.updatePayLtStateYield(body.gameOrderNo, newState, body.thirdNo);
+        r = yield return this.server.payLtSqlUtils.updatePayLtStateYield(body.gameOrderNo, newState, body.thirdNo);
         if (r.err != ECode.Success) {
             this.respond(res, 2, "update state failed");
             return r.err;
         }
 
         this.respond(res, 0, "ok");
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 
     private respond(res: http.ServerResponse, int status, string message) {

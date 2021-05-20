@@ -1,14 +1,20 @@
 
+using System.Collections;
+
 public class AAAChannel_Debug : IScript {
-    Server server;
-    *verifyAccount(string channelUserId, object verifyData) {
+    public Server server { get; set; }
+    public IEnumerator verifyAccount(string channelUserId, string token, string code, MyResponse r)
+    {
         if (!this.server.baseScript.isDevelopment()) {
-            return MyResponse.create(ECode.Error);
+            r.err = ECode.Error;
+            yield break;
         }
-        AAAVerifyAccountResult res = {
-            accountMustExist: false,
-            data: null
-        }
-        return new MyResponse(ECode.Success, res);
+        var res = new AAAVerifyAccountResult {
+            accountMustExist = false,
+            data = null
+        };
+
+        r.err = ECode.Success;
+        r.res = res;
     }
 }

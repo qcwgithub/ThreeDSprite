@@ -1,33 +1,36 @@
 
-public class AAAStart : AAAHandler {
-    public override MsgType msgType { get { return MsgType.Start; }
+using System.Collections;
 
-    *handle(object socket, object msg/* no use */) {
+public class AAAStart : AAAHandler
+{
+    public override MsgType msgType { get { return MsgType.Start; } }
+
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    {
         this.baseScript.setState(ServerState.Starting);
-        MyResponse r = null;
 
         // connect to loc
-        r = yield this.baseScript.connectYield(ServerConst.LOC_ID);
+        yield return this.baseScript.connectYield(ServerConst.LOC_ID);
         this.baseData.locSocket = r.res;
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, {});
 
         // request location(s)
-        yield this.baseScript.requestLocationYield([ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID]);
+        yield return this.baseScript.requestLocationYield(new int[] { ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID }, r);
 
         // connect to dbAccount
-        r = yield this.baseScript.connectYield(ServerConst.DB_ACCOUNT_ID);
+        yield return this.baseScript.connectYield(ServerConst.DB_ACCOUNT_ID, true, r);
         this.baseData.dbAccountSocket = r.res;
 
         // connect to dbPlayer
-        r = yield this.baseScript.connectYield(ServerConst.DB_PLAYER_ID);
+        yield return this.baseScript.connectYield(ServerConst.DB_PLAYER_ID, true, r);
         this.baseData.dbPlayerSocket = r.res;
 
         // connect to dbLog
-        r = yield this.baseScript.connectYield(ServerConst.DB_LOG_ID);
+        yield return this.baseScript.connectYield(ServerConst.DB_LOG_ID, true, r);
         this.baseData.dbLogSocket = r.res;
 
         // load next player id
-        yield this.baseScript.sendToSelfYield(MsgType.AAALoadPlayerId, {});
+        yield return this.baseScript.sendToSelfYield(MsgType.AAALoadPlayerId, {});
 
         // 
         this.baseScript.sendToSelf(MsgType.AAAPayLtListenNotify, {});
@@ -37,6 +40,6 @@ public class AAAStart : AAAHandler {
         this.baseScript.listen(() => this.server.aaaScript.acceptClient());
 
         this.baseScript.setState(ServerState.Started);
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
     }
 }

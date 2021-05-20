@@ -1,8 +1,13 @@
 
-public class AAAOnPMAlive : AAAHandler {
-    public override MsgType msgType { get { return MsgType.AAAOnPMAlive; }
+using System.Collections;
 
-    handle(object socket, MsgPMAlive msg) {
+public class AAAOnPMAlive : AAAHandler
+{
+    public override MsgType msgType { get { return MsgType.AAAOnPMAlive; } }
+
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    {
+        var msg = _msg as MsgPMAlive;
         var data = this.aaaData;
         var script = this.aaaScript;
         var logger = this.logger;
@@ -10,37 +15,44 @@ public class AAAOnPMAlive : AAAHandler {
         this.baseScript.addKnownLoc(msg.loc);
 
         var newAdd = false;
-        var pm = data.playerManagerInfos.get(msg.id);
-        if (pm == null) {
+        var pm = data.GetAAAPlayerManagerInfo(msg.id);
+        if (pm == null)
+        {
             logger.info("pm connected, id: " + msg.id);
             newAdd = true;
 
             pm = new AAAPlayerManagerInfo();
             pm.id = msg.id;
-            data.playerManagerInfos.set(msg.id, pm);
+            data.playerManagerInfos.Add(msg.id, pm);
         }
 
         // 如果AAA挂，尝试恢复玩家数据
-        if (msg.playerList != null) {
-            if (msg.playerList.length > 0) {
-                logger.info("recover player ids...length: %d, pmId: %d", msg.playerList.length, pm.id);
+        if (msg.playerList != null)
+        {
+            if (msg.playerList.Count > 0)
+            {
+                logger.info("recover player ids...length: %d, pmId: %d", msg.playerList.Count, pm.id);
             }
 
-            for (int i = 0; i < msg.playerList.length; i++) {
+            for (int i = 0; i < msg.playerList.Count; i++)
+            {
                 var playerId = msg.playerList[i];
-                var player = data.playerInfos.get(playerId);
-                if (player != null) {
-                    if (player.pmId != pm.id) {
+                var player = data.GetPlayerInfo(playerId);
+                if (player != null)
+                {
+                    if (player.pmId != pm.id)
+                    {
                         this.server.baseScript.error("player pm conflict, player.pmId: %d, pm.id: %d", player.pmId, pm.id);
                     }
                 }
-                else {
+                else
+                {
                     logger.warn("recover playerId: %d, pmId: %d", playerId, pm.id);
                     player = new AAAPlayerInfo();
                     player.id = playerId;
                     player.pmId = pm.id;
                     // player.socket = null;
-                    data.playerInfos.set(playerId, player);
+                    data.playerInfos.Add(playerId, player);
                 }
             }
         }
@@ -51,14 +63,17 @@ public class AAAOnPMAlive : AAAHandler {
 
         // this.baseScript.removePending(this.server.networkHelper.getSocketId(socket));
 
-        if (!data.pmReady && data.pmReadyTimer == null) {
+        if (!data.pmReady && data.pmReadyTimer == -1)
+        {
             // 延迟5秒再开始接受客户端连接
-            data.pmReadyTimer = setTimeout(() => {
+            data.pmReadyTimer = setTimeout(() =>
+            {
                 data.pmReady = true;
                 data.pmReadyTimer = null;
             }, 5000);
         }
 
-        return new MyResponse(ECode.Success, { requirePlayerList: newAdd });
+        r.err = ECode.Success;
+        r.res = { requirePlayerList: newAdd };
     }
 }

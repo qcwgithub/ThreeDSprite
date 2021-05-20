@@ -27,7 +27,7 @@ public class LocGetSummary : LocHandler {
                 continue;
             }
 
-            var r = yield this.baseScript.sendYield(arr[i].socket, MsgType.GetSummary, {});
+            var r = yield return this.baseScript.sendYield(arr[i].socket, MsgType.GetSummary, {});
             if (r.err == ECode.Success) {
                 var object infos[] = r.res;
                 for (var j = 0; j < infos.length; j++) {

@@ -1,5 +1,5 @@
 
 public class AAAVerifyAccountResult {
-    accountMustExist: boolean;
-    data: AAALoginResponseData;
+    public bool accountMustExist;
+    public AAALoginResponseData data;
 }

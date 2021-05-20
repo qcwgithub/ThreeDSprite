@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections;
 
 public class BaseScript : IScript {
     public Server server { get; set; }
@@ -85,12 +86,12 @@ public class BaseScript : IScript {
     }
 
     // ids=null 表示全部，monitor使用
-    public async MyResponse requestLocationYield(int[] ids) {
+    public IEnumerator requestLocationYield(int[] ids, MyResponse r) {
         this.logger.info("requstLoc " + JSON.stringify(ids));
         while (true) {
-            MyResponse r = await this.sendYield(this.baseData.locSocket, MsgType.LocRequestLoc, { ids: ids });
+            yield return this.sendYield(this.baseData.locSocket, MsgType.LocRequestLoc, { ids: ids }, r);
             if (r.err != ECode.Success) {
-                await this.waitYield(1000);
+                yield return this.waitYield(1000);
             }
             else {
                 List<Loc> locs = (r.res as ResLocRequestLoc).locs;
@@ -101,10 +102,10 @@ public class BaseScript : IScript {
             }
         }
         this.logger.info("requstLocation OK");
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
     }
 
-    public async MyResponse connectYield(int toId, bool waitConnected = true) {
+    public IEnumerator connectYield(int toId, bool waitConnected, MyResponse r) {
         string url = this.getKnownUrlForServer(toId);
         //this.logger.info("connectYield " + url);
         string to = Utils.numberId2stringId(toId);
@@ -123,7 +124,7 @@ public class BaseScript : IScript {
             while (true) {
                 if (!this.server.netProto.isConnected(s)) {
                     this.logger.debug("wait 500");
-                    await this.waitYield(500);
+                    yield return this.waitYield(500);
                 }
                 else {
                     break;
@@ -131,7 +132,8 @@ public class BaseScript : IScript {
             }
         }
 
-        return new MyResponse(ECode.Success, s);
+        r.err = ECode.Success;
+        r.res = s;
     }
 
     public void listen(Func<bool> acceptClient) {
@@ -144,8 +146,8 @@ public class BaseScript : IScript {
     }
 
     ////// yield /////
-    public iYieldObject sendYield(object socket, MsgType type, object msg) {
-        return new RequestObject(this.server, socket, type, msg);
+    public iYieldObject sendYield(object socket, MsgType type, object msg, MyResponse res) {
+        return new RequestObject(this.server, socket, type, msg, res);
     }
     public void send(object socket, MsgType type, object msg) {
         this.server.netProto.send(socket, type, msg, null);

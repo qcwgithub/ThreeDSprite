@@ -7,23 +7,27 @@ public class PMPayLtStart : PMHandler {
         this.logger.info("PMPayLtStart %s,%s", msg.productId, msg.fen);
         var PMPlayerInfo player = this.server.netProto.getPlayer(socket);
         if (player == null) {
-            return MyResponse.create(ECode.PlayerNotExist);
+            r.err = ECode.PlayerNotExist;
+            yield break;
         }
         this.logger.info("%s playerId: %d", this.msgName, player.id);
 
         if (!this.server.scUtils.checkArgs("SS", msg.productId, msg.fen)) {
-            return MyResponse.create(ECode.InvalidParam);
+            r.err = ECode.InvalidParam;
+            yield break;
         }
 
         IapLeitingInfo ltItem = this.server.vipScript.getLeitingItemByProductId(msg.productId);
         if (ltItem == null) {
-            return MyResponse.create(ECode.InvalidProductId);
+            r.err = ECode.InvalidProductId;
+            yield break;
         }
 
         IapItemBase iapItem = this.server.vipScript.getItemById(ltItem.id);
         if (iapItem == null) {
             this.baseScript.error("iapItem == null, ltItem.id=" + ltItem.id);
-            return MyResponse.create(ECode.InvalidProductId);
+            r.err = ECode.InvalidProductId;
+            yield break;
         }
 
        var res = new ResPayLtStart {
@@ -44,7 +48,8 @@ public class PMPayLtStart : PMHandler {
                 var time = this.server.gameScript.getNumber(player, giftVoucher.counterNumberIndex);
                 var today = this.server.gameScript.getTodayTime(0, 0, 0, 0);
                 if (time == today) {
-                    return MyResponse.create(ECode.MaxCount);
+                    r.err = ECode.MaxCount;
+                    yield break;
                 }
             }
         }
@@ -52,7 +57,7 @@ public class PMPayLtStart : PMHandler {
         res.orderId = v4();
         this.logger.info("PMPayLtStart playerId: %d, orderId: %s", player.id, res.orderId);
 
-        MyResponse r = yield this.server.payLtSqlUtils.insertPayLtYield(player.id, ltItem.id, msg.productId, 1, fen, res.orderId);
+        yield return this.server.payLtSqlUtils.insertPayLtYield(player.id, ltItem.id, msg.productId, 1, fen, res.orderId, r);
         if (r.err != ECode.Success) {
             return r.err;
         }

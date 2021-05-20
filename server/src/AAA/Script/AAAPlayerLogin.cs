@@ -1,29 +1,30 @@
+using System;
+using System.Collections;
 
 // client login to AAA
-public class AAAPlayerLogin : AAAHandler {
-    public override MsgType msgType { get { return MsgType.AAAPlayerLogin; }
-    *queryAccount(string channel, string channelUserId) {
-        var r = yield this.server.aaaSqlUtils.queryAccountYield(channel, channelUserId);
-        if (r.err != ECode.Success) {
-            return r.err;
-        }
+public class AAAPlayerLogin : AAAHandler
+{
+    public override MsgType msgType { get { return MsgType.AAAPlayerLogin; } }
 
-        var accountInfo = r.res;
-        return new MyResponse(ECode.Success, accountInfo);
+    private IEnumerator queryAccount(string channel, string channelUserId, MyResponse res)
+    {
+        yield return this.server.aaaSqlUtils.queryAccountYield(channel, channelUserId, res);
     }
 
-    *newAccount(string platform, string channel, string channelUserId, string oaid, string imei, string userInfo) {
-        MyResponse r = null;
+    private IEnumerator newAccount(string platform, string channel, string channelUserId, string oaid, string imei, string userInfo, MyResponse res)
+    {
         SqlTableAccount accountInfo = null;
 
         var playerId = this.aaaData.nextPlayerId++;
-        this.logger.info(`account "${channel},${channelUserId} does not exist, new playerId: ${playerId}`);
-        r = yield this.server.aaaSqlUtils.updatePlayerIdYield(this.aaaData.nextPlayerId);
-        if (r.err != ECode.Success) {
-            return r.err;
+        this.logger.info($"account {channel},{channelUserId} does not exist, new playerId: {playerId}");
+        yield return this.server.aaaSqlUtils.updatePlayerIdYield(this.aaaData.nextPlayerId, res);
+        if (res.err != ECode.Success)
+        {
+            yield break;
         }
 
-        accountInfo = new SqlTableAccount {
+        accountInfo = new SqlTableAccount
+        {
             platform = platform,
             channel = channel,
             channelUserId = channelUserId,
@@ -36,12 +37,7 @@ public class AAAPlayerLogin : AAAHandler {
             userInfo = userInfo,
         };
 
-        r = yield this.server.aaaSqlUtils.insertAccountYield(accountInfo);
-        if (r.err != ECode.Success) {
-            return r.err;
-        }
-
-        return new MyResponse(ECode.Success, accountInfo);
+        yield return this.server.aaaSqlUtils.insertAccountYield(accountInfo, res);
     }
 
 
@@ -59,7 +55,7 @@ public class AAAPlayerLogin : AAAHandler {
     //         // 纯数字当做 playerId，登录已有账号
     //         var playerId = parseInt(id);
 
-    //         r = yield this.server.aaaSqlUtils.queryAccountByPlayerIdYield(playerId);
+    //         r = yield return this.server.aaaSqlUtils.queryAccountByPlayerIdYield(playerId);
     //         if (r.err != ECode.Success) {
     //             return r.err;
     //         }
@@ -72,14 +68,14 @@ public class AAAPlayerLogin : AAAHandler {
     //     else {
     //         var channel = "test";
     //         var channelUserId = id;
-    //         r = yield this.server.aaaSqlUtils.queryAccountYield(channel, channelUserId);
+    //         r = yield return this.server.aaaSqlUtils.queryAccountYield(channel, channelUserId);
     //         if (r.err != ECode.Success) {
     //             return r.err;
     //         }
 
     //         accountInfo = r.res;
     //         if (accountInfo == null) {
-    //             r = yield this.newAccount(channel, channelUserId);
+    //             r = yield return this.newAccount(channel, channelUserId);
     //             if (r.err != ECode.Success) {
     //                 return r.err;
     //             }
@@ -99,7 +95,7 @@ public class AAAPlayerLogin : AAAHandler {
     //     AAAAccountInfo accountInfo = null;
 
     //     // 登录验证
-    //     r = yield this.aaaScript.verifyLogin_leiting(token, game, channelType);
+    //     r = yield return this.aaaScript.verifyLogin_leiting(token, game, channelType);
     //     if (r.err != ECode.Success) {
     //         this.baseScript.error("verifyLogin(token: %s, game: %s, channelNo: %s) %s", token, game, channelType, r.res.error);
     //         return MyResponse.create(ECode.VerifyLoginFailed);
@@ -109,14 +105,14 @@ public class AAAPlayerLogin : AAAHandler {
     //     var channel = msg.channel;
     //     var channelUserId = loginRes.sid;
 
-    //     r = yield this.baseScript.queryDbAccountYield(this.aaaScript.selectAccountSql(channelType, channelUserId));
+    //     r = yield return this.baseScript.queryDbAccountYield(this.aaaScript.selectAccountSql(channelType, channelUserId));
     //     if (r.err != ECode.Success) {
     //         return r.err;
     //     }
 
     //     accountInfo = this.aaaScript.decodeAccount(r.res);
     //     if (accountInfo == null) {
-    //         r = yield this.newAccount(channelType, channelUserId);
+    //         r = yield return this.newAccount(channelType, channelUserId);
     //         if (r.err != ECode.Success) {
     //             return r.err;
     //         }
@@ -126,79 +122,105 @@ public class AAAPlayerLogin : AAAHandler {
     //     return new MyResponse(ECode.Success, accountInfo);
     // }
 
-    *handle(object socket, MsgLoginAAA msg) {
+    public override IEnumerator handle(object socket, object _msg, MyResponse res)
+    {
+        var msg = _msg as MsgLoginAAA;
+
         var logger = this.logger;
         var aaaData = this.aaaData;
         var aaaScript = this.aaaScript;
 
-        if (!(aaaData.nextPlayerId > 0)) {
+        if (!(aaaData.nextPlayerId > 0))
+        {
             logger.info("server not ready");
-            return MyResponse.create(ECode.ServerNotReady);
+            res.err = ECode.ServerNotReady;
+            yield break;
         }
 
         // 检查参数
-        if (!this.baseScript.checkArgs("SS", msg.channel, msg.channelUserId)) {
-            return MyResponse.create(ECode.InvalidParam);
+        if (!this.baseScript.checkArgs("SS", msg.channel, msg.channelUserId))
+        {
+            res.err = ECode.InvalidParam;
+            yield break;
         }
 
-        if (!this.server.scUtils.isValidChannelType(msg.channel)) {
-            return MyResponse.create(ECode.InvalidChannel);
+        if (!this.server.scUtils.isValidChannelType(msg.channel))
+        {
+            res.err = ECode.InvalidChannel;
+            yield break;
         }
 
         // 检查版本号
-        if (msg.platform == "android") {
+        if (msg.platform == "android")
+        {
             if (this.server.purpose != Purpose.Test && // 测试版本不检查版本号
-                (msg.version !== this.server.androidVersion && msg.version !== "85")) {
-                return MyResponse.create(ECode.LowVersion);
+                (msg.version != this.server.androidVersion))
+            {
+                res.err = ECode.LowVersion;
+                yield break;
             }
         }
-        else if (msg.platform == "ios") {
+        else if (msg.platform == "ios")
+        {
             if (this.server.purpose != Purpose.Test && // 测试版本不检查版本号
-                (msg.version !== this.server.iOSVersion && msg.version !== "1.22" && msg.version !== "1.23")) {
-                return MyResponse.create(ECode.LowVersion);
+                (msg.version != this.server.iOSVersion))
+            {
+                res.err = ECode.LowVersion;
+                yield break;
             }
         }
-        else if (msg.platform == "101") { // DESKTOP BROWSER
+        else if (msg.platform == "101")
+        { // DESKTOP BROWSER
 
         }
-        else {
-            return MyResponse.create(ECode.InvalidPlatform);
+        else
+        {
+            res.err = ECode.InvalidPlatform;
+            yield break;
         }
         this.logger.info("%s channel:%s, channelUserId:%s version:%s ", this.msgName, msg.channel, msg.channelUserId, msg.version);
 
         // 验证登录
-        MyResponse r = yield this.aaaScript.verifyAccount(msg.channel, msg.channelUserId, msg.verifyData);
-        if (r.err != ECode.Success) {
-            return r.err;
+        yield return this.aaaScript.verifyAccount(msg.channel, msg.channelUserId, msg.verifyData, res);
+        if (res.err != ECode.Success)
+        {
+            yield break;
         }
-        AAAVerifyAccountResult verifyResult = r.res;
+
+        var verifyResult = res.res as AAAVerifyAccountResult;
         var aaaUserInfo = this.aaaScript.getUserInfo(msg.channel, msg.channelUserId, msg.verifyData);
 
         // 查询已有账号
-        r = yield this.queryAccount(msg.channel, msg.channelUserId);
-        if (r.err != ECode.Success) {
-            return r.err;
+        yield return this.queryAccount(msg.channel, msg.channelUserId, res);
+        if (res.err != ECode.Success)
+        {
+            yield break;
         }
-        SqlTableAccount accountInfo = r.res;
 
-        if (accountInfo == null) {
-            if (verifyResult.accountMustExist) {
-                return MyResponse.create(ECode.AccountNotExist2);
+        var accountInfo = res.res as SqlTableAccount;
+
+        if (accountInfo == null)
+        {
+            if (verifyResult.accountMustExist)
+            {
+                res.err = ECode.AccountNotExist2;
+                yield break;
             }
 
             // 创建新账号
-            r = yield this.newAccount(msg.platform, msg.channel, msg.channelUserId, msg.oaid, msg.imei, JSON.stringify(aaaUserInfo));
-            if (r.err != ECode.Success) {
-                return r.err;
+            yield return this.newAccount(msg.platform, msg.channel, msg.channelUserId, msg.oaid, msg.imei, JSON.stringify(aaaUserInfo), res);
+            if (res.err != ECode.Success)
+            {
+                yield break;
             }
-            accountInfo = r.res;
+            accountInfo = res.res as SqlTableAccount;
         }
 
         // if (msg2.testId) {
-        //     r = yield this.devAuth(msg2.testId);
+        //     r = yield return this.devAuth(msg2.testId);
         // }
         // else {
-        //     r = yield this.formalAuth(msg2);
+        //     r = yield return this.formalAuth(msg2);
         // }
 
         // if (r.err != ECode.Success) {
@@ -206,12 +228,16 @@ public class AAAPlayerLogin : AAAHandler {
         // }
         // accountInfo = r.res;
 
-        if (accountInfo.isBan) {
-            if (this.baseScript.getTimeMs() > accountInfo.unbanTime) {
+        if (accountInfo.isBan)
+        {
+            if (this.baseScript.getTimeMs() > accountInfo.unbanTime)
+            {
                 this.server.aaaSqlUtils.unbanAccount(accountInfo.playerId);
             }
-            else {
-                return MyResponse.create(ECode.AccountBan);
+            else
+            {
+                res.err = ECode.AccountBan;
+                yield break;
             }
         }
 
@@ -220,12 +246,13 @@ public class AAAPlayerLogin : AAAHandler {
         //     return MyResponse.create(ECode.PlayerLock);
         // }
 
-        var player = aaaData.playerInfos.get(accountInfo.playerId);
-        if (player == null) {
+        var player = aaaData.GetPlayerInfo(accountInfo.playerId);
+        if (player == null)
+        {
             player = new AAAPlayerInfo();
             player.id = accountInfo.playerId;
             player.pmId = 0;
-            aaaData.playerInfos.set(accountInfo.playerId, player);
+            aaaData.playerInfos.Add(accountInfo.playerId, player);
         }
 
         // if (player.socket != null && player.socket != socket) {
@@ -243,62 +270,72 @@ public class AAAPlayerLogin : AAAHandler {
 
         // 分配PM
         AAAPlayerManagerInfo pm = null;
-        if (player.pmId == 0) {
+        if (player.pmId == 0)
+        {
             logger.info("alloc pm for playerId: " + player.id);
 
             // 查找人数最少的pm
-            aaaData.playerManagerInfos.forEach((v, k, m) => {
-                if (!v.allowNewPlayer) {
-                    return;
-                }
-                if (!this.server.netProto.isConnected(v.socket)) {
-                    return;
-                }
-                if (pm == null || v.playerCount < pm.playerCount) {
+            foreach (var kv in aaaData.playerManagerInfos)
+            {
+                var v = kv.Value;
+                if (!v.allowNewPlayer)
+                    continue;
+                if (!this.server.netProto.isConnected(v.socket))
+                    continue;
+
+                if (pm == null || v.playerCount < pm.playerCount)
                     pm = v;
-                }
-            });
-            if (pm != null) {
-                player.pmId = pm.id;
             }
+
+            if (pm != null)
+                player.pmId = pm.id;
         }
-        else {
-            pm = aaaData.playerManagerInfos.get(player.pmId);
-            if (pm == null) {
+        else
+        {
+            pm = aaaData.GetAAAPlayerManagerInfo(player.pmId);
+            if (pm == null)
+            {
                 this.server.baseScript.error("playerPM == null, pmId: " + player.pmId);
             }
         }
 
-        if (pm == null) {
+        if (pm == null)
+        {
             this.server.baseScript.error("no available pm!");
-            return MyResponse.create(ECode.NoAvailablePlayerManager);
+            res.err = ECode.NoAvailablePlayerManager;
+            yield break;
         }
 
         // create a new token for each login
         var token = new Date().toString();
-        MsgPreparePlayerLogin pmMsg = {
-            playerId: player.id,
-            token: token,
-            channel: msg.channel,
-            channelUserId: msg.channelUserId,
-            userName: aaaUserInfo.userName,
+        MsgPreparePlayerLogin pmMsg = new MsgPreparePlayerLogin
+        {
+            playerId = player.id,
+            token = token,
+            channel = msg.channel,
+            channelUserId = msg.channelUserId,
+            userName = aaaUserInfo.userName,
         };
-        r = yield this.baseScript.sendYield(pm.socket, MsgType.PMPreparePlayerLogin, pmMsg);
-        if (r.err != ECode.Success) {
-            return r;
+        yield return this.baseScript.sendYield(pm.socket, MsgType.PMPreparePlayerLogin, pmMsg, res);
+        if (res.err != ECode.Success)
+        {
+            yield break;
         }
 
         var pmLoc = this.server.baseScript.getKnownLoc(pm.id);
-        var string pmUrl = "";
-        if (msg.platform == "ios") {
+        string pmUrl = "";
+        if (msg.platform == "ios")
+        {
             pmUrl = "wss://" + pmLoc.outDomain + ":" + pmLoc.port + "?sign=" + ServerConst.CLIENT_SIGN;
         }
-        else {
+        else
+        {
             pmUrl = "ws://" + pmLoc.outIp + ":" + pmLoc.port + "?sign=" + ServerConst.CLIENT_SIGN;
         }
 
-       var pmRes = new ResPreparePlayerLogin r.res;
-       var clientRes = new ResLoginAAA {
+        var pmRes = res.res as ResPreparePlayerLogin;
+        var clientRes = new ResLoginAAA
+        {
             channel = msg.channel,
             channelUserId = msg.channelUserId,
             playerId = player.id,
@@ -309,6 +346,7 @@ public class AAAPlayerLogin : AAAHandler {
         };
 
         // tell client to login to pm
-        return new MyResponse(ECode.Success, clientRes);
+        res.err = ECode.Success;
+        res.res = clientRes;
     }
 }

@@ -28,8 +28,7 @@ public class BaseData {
     public Dictionary<MsgType, Handler> handlers = new Dictionary<MsgType, Handler>();
 
     public int nextIteratorId = 1;
-    public Dictionary<int, object> iterators = new Dictionary<int, object>(); // Dictionary<number, { object it, onFinish: (object r) => void }>();
-
+    public Dictionary<int, EnumeratorInfo> enumerators = new Dictionary<int, EnumeratorInfo>();
     public Dictionary<int, object> ianyMap = new Dictionary<int, object>();
     public Dictionary<string, object> sanyMap = new Dictionary<string, object>();
 

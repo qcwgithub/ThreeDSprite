@@ -10,7 +10,8 @@ public class AAAPayLtListenNotify : AAAHandler {
         httpServer.listen(ServerConst.AAA_LT_NOTIFY_PORT, () => {
             this.server.logger.info("listening lt on " + ServerConst.AAA_LT_NOTIFY_PORT);
         });
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 
     private handleHttpRequest(req: http.IncomingMessage, res: http.ServerResponse) {

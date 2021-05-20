@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class PayIvySqlUtils : IScript {
     public Server server { get; set; }
     // PM
-    *insertPayIvyYield(int playerId, int id, string productId, int quantity, string fen, string orderId) {
+    public IEnumerator insertPayIvyYield(int playerId, int id, string productId, int quantity, string fen, string orderId, MyResponse r) {
         var queryStr = "INSERT INTO payivy (playerId,id,productId,quantity,fen,orderId,state,createTime,notifyTime,gotTime) VALUES (?,?,?,?,?,?,?,?,?,?)";
         var currTime = new Date().getTime();
         // var defaultTime = this.server.baseData.defaultDateTime;
@@ -18,7 +18,7 @@ public class PayIvySqlUtils : IScript {
         msg.valueTypes[values.Length - 3] = (int)MyDBValueType.DateTime;
         // msg.valueTypes[values.length - 2] = MyDBValueType.DateTime;
         // msg.valueTypes[values.length - 1] = MyDBValueType.DateTime;
-        MyResponse r = yield this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
         return r;
     }
 
@@ -29,7 +29,7 @@ public class PayIvySqlUtils : IScript {
         var queryStr = string.Format("SELECT {0} FROM payivy WHERE orderId=?", this.SELECT_ROWS);
         object[] values = new object[] { orderId };
         MsgDBQuery msg = new MsgDBQuery { queryStr = queryStr, values = values };
-        MyResponse r = yield this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
         if (r.err != ECode.Success) {
             return r.err;
         }
@@ -42,7 +42,7 @@ public class PayIvySqlUtils : IScript {
 
         object[] values = new object[]  { playerId, state, got };
         MsgDBQuery msg = new MsgDBQuery { queryStr = queryStr, values = values };
-        MyResponse r = yield this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
         if (r.err != ECode.Success) {
             return r.err;
         }
@@ -72,13 +72,13 @@ public class PayIvySqlUtils : IScript {
         };
         msg.valueTypes = new Dictionary<int, int>();
         msg.valueTypes[1] = (int)MyDBValueType.DateTime;
-        MyResponse r = yield this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
         return r;
     }
 
     // AAA
     // 根据 orderId 更新 state 和 orderId3, notifyTime
-    *updatePayIvyStateYield(string orderId, int state, string orderId3, string detail) {
+    public IEnumerator updatePayIvyStateYield(string orderId, int state, string orderId3, string detail, MyResponse r) {
         var queryStr = "UPDATE payivy SET state=?,orderId3=?,notifyTime=?,detail=? WHERE orderId=?";
         List<object> values = new List<object> { state, orderId3, new Date().getTime()/* index=2 */, detail, orderId };
         MsgDBQuery msg = new MsgDBQuery {
@@ -88,7 +88,7 @@ public class PayIvySqlUtils : IScript {
         };
         msg.valueTypes = new Dictionary<int, int>();
         msg.valueTypes[2] = (int)MyDBValueType.DateTime;
-        MyResponse r = yield this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
         return r;
     }
 

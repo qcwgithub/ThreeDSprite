@@ -1,9 +1,12 @@
 
 // 转发消息
-public class AAAOnTransfer : AAAHandler {
-    public override MsgType msgType { get { return MsgType.AAAOnTransfter; }
+using System.Collections;
 
-    handle(object socket, msg: { int id, int playerCount, string ip, int port }) {
-        return MyResponse.create(ECode.Success);
+public class AAAOnTransfer : AAAHandler {
+    public override MsgType msgType { get { return MsgType.AAAOnTransfter; } }
+
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    {
+        yield break;
     }
 }

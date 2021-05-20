@@ -6,7 +6,8 @@ public class PMPayLt : PMHandler {
     *handle(object socket, MsgPay msg) {
         var PMPlayerInfo player = this.server.netProto.getPlayer(socket);
         if (player == null) {
-            return MyResponse.create(ECode.PlayerNotExist);
+            r.err = ECode.PlayerNotExist;
+            yield break;
         }
         this.logger.info("%s playerId: %d", this.msgName, player.id);
 
@@ -14,7 +15,8 @@ public class PMPayLt : PMHandler {
         var logger = this.logger;
         if (player.ltPaying) {
             logger.warn("playerId %d ltPaying", player.id);
-            return MyResponse.create(ECode.LastPayNotEnd);
+            r.err = ECode.LastPayNotEnd;
+            yield break;
         }
 
         var res = new ResPay();
@@ -26,7 +28,7 @@ public class PMPayLt : PMHandler {
         this.logger.info("PMPayLtGetReward playerId %d", player.id);
         player.ltPaying = true;
 
-        MyResponse r = yield this.server.payLtSqlUtils.queryPayLt_p_s_g(player.id, PayLtState.Succeeded, 0);
+        yield return this.server.payLtSqlUtils.queryPayLt_p_s_g(player.id, PayLtState.Succeeded, 0, r);
         if (r.err != ECode.Success) {
             return r.err;
         }
@@ -102,7 +104,7 @@ public class PMPayLt : PMHandler {
             orderIds.push(info.orderId);
         }
 
-        r = yield this.server.payLtSqlUtils.updatePayLtGotMany(orderIds, 1);
+        r = yield return this.server.payLtSqlUtils.updatePayLtGotMany(orderIds, 1);
         if (r.err != ECode.Success) {
             return r.err;
         }

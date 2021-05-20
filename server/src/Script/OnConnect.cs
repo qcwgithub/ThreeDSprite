@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 
 public class OnConnect : Handler {
     public override MsgType msgType { get { return MsgType.OnConnect; } }
 
-    public override MyResponse handle(object socket, MsgOnConnect msg) {
+    public override IEnumerator handle(object socket, object _msg, MyResponse res) {
+        var msg = _msg as MsgOnConnect;
         this.logger.debug("OnConnect socket id: " + this.server.netProto.getSocketId(socket));
         object s = socket;
         this.server.netProto.removeCustomMessageListener(s);
@@ -33,6 +35,9 @@ public class OnConnect : Handler {
             // 发送方没有要求回复时，reply2 为 null
             this.dispatcher.dispatch(s, type2, msg2, reply2);
         });
-        return MyResponse.create(ECode.Success, null);
+
+        res.err = ECode.Success;
+        res.res = null;
+        yield break;
     }
 }

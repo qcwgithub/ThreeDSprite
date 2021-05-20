@@ -7,6 +7,7 @@ public class LocStart : Handler {
         this.baseScript.listen(() => false);
 
         this.baseScript.setState(ServerState.Started);
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 }

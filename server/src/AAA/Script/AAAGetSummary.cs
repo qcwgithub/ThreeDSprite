@@ -1,12 +1,15 @@
 
-public class AAAGetSummary : AAAHandler {
-    public override MsgType msgType { get { return MsgType.GetSummary; }
+using System.Collections;
+using System.Collections.Generic;
 
-    *handle(object socket, object msg/* no use */): any {
+public class AAAGetSummary : AAAHandler {
+    public override MsgType msgType { get { return MsgType.GetSummary; } }
+
+    public override IEnumerator handle(object socket, object _msg, MyResponse r) {
         this.logger.debug("AAAGetSummary");
         var data = this.aaaData;
 
-        var object info = {
+        object info = {
             workingDir: process.cwd(),
             purpose: Purpose[this.server.purpose],
             id: this.baseData.id,

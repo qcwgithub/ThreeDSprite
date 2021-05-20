@@ -105,22 +105,22 @@ public class MsgPMAction {
     public int playerDestroyTimeoutS; // 下线后多久清除此玩家
     public int playerSCSaveIntervalS;
     public bool destroyAll;
-    public int[] destroyPlayerIds;
+    public List<int> destroyPlayerIds;
 }
 
 public class MsgPMAlive {
     public int id;
     public int playerCount;
     public Loc loc;
-    public int[] playerList;
+    public List<int> playerList;
     public bool allowNewPlayer;
 }
 
 public class MsgAAAAction {
-    public PRS pmPlayerRunScript; // 发送至 PM
+    public _PRS pmPlayerRunScript; // 发送至 PM
     public bool active;
     public bool destroyAll;
-    public int[] destroyPlayerIds;
+    public List<int> destroyPlayerIds;
 }
 
 public class MsgOnConnect {
@@ -130,7 +130,7 @@ public class MsgOnConnect {
 
 public class MsgLocBroadcast {
     public int[] ids;
-    public override MsgType msgType;
+    public MsgType msgType;
     public object msg;
 }
 

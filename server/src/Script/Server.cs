@@ -1,4 +1,20 @@
-// 
+public class FakeLogger
+{
+    public void debug(params object[] args)
+    {
+
+    }
+    public void info(params object[] args)
+    {
+
+    }
+    public void warn(params object[] args)
+    {
+        
+    }
+}
+
+
 // Server 提供给 IScript 数据、其他脚本的访问
 public class Server {
     public Purpose purpose;
@@ -12,7 +28,7 @@ public class Server {
 
     public MessageDispatcher dispatcher = null;
     public CoroutineManager coroutineMgr = null;
-    public object logger = null;
+    public FakeLogger logger = null;
     public object errorLogger = null;
     public SqlLog sqlLog = null;
     public Utils utils = null;

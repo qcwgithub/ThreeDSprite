@@ -15,7 +15,9 @@ public class LocBroadcast : LocHandler {
             LocServerInfo info;
             if (!this.locData.map.TryGetValue(id, out info) || info == null || info.socket == null || !this.server.netProto.isConnected(info.socket)) {
                 this.baseScript.error("LocBroadcast failed, invalid id: " + id);
-                return MyResponse.create(ECode.Error, null);
+                r.err = ECode.Error;
+                .res = null;
+                yield break;
             }
         }
 
@@ -30,6 +32,8 @@ public class LocBroadcast : LocHandler {
             this.server.netProto.send(info.socket, msg.msgType, msg.msg, null);
         }
         this.logger.debug("LocBroadcast success");
-        return MyResponse.create(ECode.Success, null);
+        r.err = ECode.Success;
+        .res = null;
+        yield break;
     }
 }

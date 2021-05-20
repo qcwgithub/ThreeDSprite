@@ -9,20 +9,23 @@ public class PMPlayerLogin : PMHandler
         if (!this.baseScript.checkArgs("IS", msg.playerId, msg.token))
         {
             // 客户端遇到这个错误会转连AAA
-            return MyResponse.create(ECode.InvalidParam);
+            r.err = ECode.InvalidParam;
+            yield break;
         }
 
         var player = this.pmData.GetPlayerInfo(msg.playerId);
         if (player == null)
         {
             // 客户端遇到这个错误会转连AAA
-            return MyResponse.create(ECode.ShouldLoginAAA);
+            r.err = ECode.ShouldLoginAAA;
+            yield break;
         }
 
         if (msg.token !== player.token)
         {
             // 客户端遇到这个错误会转连AAA
-            return MyResponse.create(ECode.InvalidToken);
+            r.err = ECode.InvalidToken;
+            yield break;
         }
 
         this.logger.info("%s playerId: %d, preCount: %d", this.msgName, player.id, this.pmData.playerInfos.size);
@@ -52,7 +55,8 @@ public class PMPlayerLogin : PMHandler
             // 情况1 同一个客户端意外地登录2次
             // 情况2 客户端A已经登录，B再登录
             this.baseScript.error("playerId %d, ECode.OldPlayer %d", player.id, oldPlayer.id);
-            return MyResponse.create(ECode.OldPlayer);
+            r.err = ECode.OldPlayer;
+            yield break;
         }
 
         if (player.destroyTimer != null)

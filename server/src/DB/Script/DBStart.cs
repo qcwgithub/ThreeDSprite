@@ -53,6 +53,7 @@ public class DBStart : DBHandler {
         });
 
         this.baseScript.setState(ServerState.Started);
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 }

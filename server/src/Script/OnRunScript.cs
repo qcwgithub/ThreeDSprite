@@ -15,7 +15,8 @@ public class OnRunScript : Handler {
         // var fun: (server: Server) => void = eval(msg.script)[0];
         // try {
         //     fun(this.server);
-        //     return MyResponse.create(ECode.Success);
+        //     r.err = ECode.Success;
+        yield break;
         // }
         // catch (ex) {
         //     this.baseScript.error(ex.toString());

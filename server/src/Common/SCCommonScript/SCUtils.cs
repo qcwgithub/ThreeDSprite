@@ -7,7 +7,7 @@ public class SCUtils : GameScriptBase {
         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
         "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
     };
-    randomString(int length): string {
+    public string randomString(int length) {
         var data = "";
         for (int i = 0; i < length; ++i) {
             var r = Math.floor(Math.random() * this.chars.length);
@@ -20,7 +20,7 @@ public class SCUtils : GameScriptBase {
     /**
      * 返回将value限定于[min,max]区间
      */
-    clamp(int value, int min, int max) {
+    public int clamp(int value, int min, int max) {
         if (!(value > min)) {
             return min;
         }
@@ -31,7 +31,7 @@ public class SCUtils : GameScriptBase {
     }
 
     // 加权随机，给定一个长度，以及一个获取权重的函数，返回随机到的索引
-    weightedRandom(int totalWeight, int length, getWeight: (int index) => number): number {
+    public int weightedRandom(int totalWeight, int length, Func<int, int> getWeight) {
         var randomValue = Math.random() * totalWeight;
         var currentTotal = 0;
         for (int i = 0; i < length; i++) {
@@ -43,7 +43,8 @@ public class SCUtils : GameScriptBase {
         console.error("weightedRandom no value");
         return 0;
     }
-    weightedRandomSimple(int length, getWeight: (int index) => number): number {
+
+    public int weightedRandomSimple(int length, Func<int, int> getWeight) {
         var totalWeight = 0;
         for (int i = 0; i < length; i++) {
             totalWeight += getWeight(i);
@@ -51,6 +52,7 @@ public class SCUtils : GameScriptBase {
 
         return this.weightedRandom(totalWeight, length, getWeight);
     }
+
     public bool checkArgs(string s, params object[] others) {
         for (int i = 0; i < s.Length; i++) {
             object v = others[i];

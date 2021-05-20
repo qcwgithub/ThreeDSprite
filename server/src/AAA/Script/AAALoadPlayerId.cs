@@ -1,22 +1,32 @@
 
-public class AAALoadPlayerId : AAAHandler {
-    public override MsgType msgType { get { return MsgType.AAALoadPlayerId; }
+using System.Collections;
 
-    *handle(object socket, object msg) {
+public class AAALoadPlayerId : AAAHandler
+{
+    public override MsgType msgType { get { return MsgType.AAALoadPlayerId; } }
+
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    {
         // 这个属于启动时必做的，可以使用 while
-        while (true) {
-            if (!this.server.netProto.isConnected(this.baseData.dbAccountSocket)) {
+        while (true)
+        {
+            if (!this.server.netProto.isConnected(this.baseData.dbAccountSocket))
+            {
                 // server.logger.info("AAALoadPlayerId db not connected");
-                yield this.baseScript.waitYield(1000);
+                yield return this.baseScript.waitYield(1000);
             }
-            else {
-                MyResponse r = yield this.server.aaaSqlUtils.selectPlayerIdYield();
-                if (r.err != ECode.Success) {
-                    this.baseScript.error("AAALoadPlayerId failed." + ECode[r.err]);
+            else
+            {
+                yield return this.server.aaaSqlUtils.selectPlayerIdYield(r);
+                if (r.err != ECode.Success)
+                {
+                    this.baseScript.error("AAALoadPlayerId failed." + r.err);
                 }
-                else {
+                else
+                {
                     this.aaaData.nextPlayerId = r.res[0].playerId;
-                    if (this.baseScript.checkArgs("I", this.aaaData.nextPlayerId)) {
+                    if (this.baseScript.checkArgs("I", this.aaaData.nextPlayerId))
+                    {
                         this.logger.info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);
                         this.aaaData.playerIdReady = true;
                     }
@@ -24,6 +34,6 @@ public class AAALoadPlayerId : AAAHandler {
                 }
             }
         }
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
     }
 }

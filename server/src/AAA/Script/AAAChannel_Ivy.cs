@@ -1,11 +1,17 @@
 
+using System.Collections;
+
 public class AAAChannel_Ivy : IScript {
-    Server server;
-    *verifyAccount(string channelUserId, verifyData: { string token, string code }) {
-        AAAVerifyAccountResult res = {
-            accountMustExist: false,
-            data: null
-        }
-        return new MyResponse(ECode.Success, res);
+    public Server server { get; set; }
+    public IEnumerator verifyAccount(string channelUserId, string token, string code, MyResponse r)
+    {
+        var res = new AAAVerifyAccountResult {
+            accountMustExist = false,
+            data = null
+        };
+
+        r.err = ECode.Success;
+        r.res = res;
+        yield break;
     }
 }

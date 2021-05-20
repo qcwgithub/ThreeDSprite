@@ -5,13 +5,17 @@ public class LocReportLoc : LocHandler {
         this.logger.info("+" + msg.id);
         if (msg.id == ServerConst.MONITOR_ID) {
             // monitor 不受限制
-            return MyResponse.create(ECode.Success, null);
+            r.err = ECode.Success;
+            .res = null;
+            yield break;
         }
 
         LocServerInfo info;
         if (this.locData.map.TryGetValue(msg.id, out info) && info != null && info.socket != null && this.server.netProto.isConnected(info.socket)) {
             this.baseScript.error("server id used, id: " + msg.id);
-            return MyResponse.create(ECode.ServerIdUsed, null);
+            r.err = ECode.ServerIdUsed;
+            .res = null;
+            yield break;
         }
 
         info = new LocServerInfo();
@@ -19,6 +23,8 @@ public class LocReportLoc : LocHandler {
         info.loc = msg.loc;
         info.socket = socket;
         this.locData.map.Add(info.id, info);
-        return MyResponse.create(ECode.Success, null);
+        r.err = ECode.Success;
+        .res = null;
+        yield break;
     }
 }

@@ -1,8 +1,10 @@
 
+using System.Collections;
+
 public class AAAScript : IScript {
-    AAAServer server = null;
-    public TODO data { get { return this.server.aaaData; } }
-    public TODO baseScript { get { return this.server.baseScript; } }
+    public AAAServer server { get; set; }
+    public AAAData data { get { return this.server.aaaData; } }
+    public BaseScript baseScript { get { return this.server.baseScript; } }
 
     public bool acceptClient() {
         var baseData = this.server.baseData;
@@ -10,51 +12,49 @@ public class AAAScript : IScript {
         return baseData.state == ServerState.Started && aaaData.active && aaaData.playerIdReady && aaaData.pmReady;
     }
 
-    *verifyAccount(string channel, string channelUserId, object verifyData) {
-        MyResponse r = null;
+    public IEnumerator verifyAccount(string channel, string channelUserId, object verifyData, MyResponse r) {
         if (channel == HermesChannels.uuid) {
             // if (msg.channelUserId == null) {
             //     msg.channelUserId = v4();
             // }
 
-            r = yield this.server.channelUuid.verifyAccount(channelUserId, verifyData);
+            yield return this.server.channelUuid.verifyAccount(channelUserId, verifyData, r);
             if (r.err != ECode.Success) {
-                return r.err;
+                yield break;
             }
         }
         else if (channel == HermesChannels.debug) {
-            r = yield this.server.channelDebug.verifyAccount(channelUserId, verifyData);
+            yield return this.server.channelDebug.verifyAccount(channelUserId, verifyData, r);
             if (r.err != ECode.Success) {
-                return r.err;
+                yield break;
             }
         }
         else if (channel == HermesChannels.apple) {
-            r = yield this.server.channelApple.verifyAccount(channelUserId, verifyData);
+            yield return this.server.channelApple.verifyAccount(channelUserId, verifyData, r);
             if (r.err != ECode.Success) {
-                return r.err;
+                yield break;
             }
         }
         else if (channel == HermesChannels.leiting) {
-            r = yield this.server.channelLeiting.verifyAccount(channelUserId, verifyData);
+            yield return this.server.channelLeiting.verifyAccount(channelUserId, verifyData, r);
             if (r.err != ECode.Success) {
-                return r.err;
+                yield break;
             }
         }
         else if (channel == HermesChannels.ivy) {
-            r = yield this.server.channelIvy.verifyAccount(channelUserId, verifyData);
+            yield return this.server.channelIvy.verifyAccount(channelUserId, verifyData, r);
             if (r.err != ECode.Success) {
-                return r.err;
+                yield break;
             }
         }
         else {
-            return MyResponse.create(ECode.InvalidChannel);
+            r.err = ECode.InvalidChannel;
         }
-        return r;
     }
-    getUserInfo(string channel, string channelUserId, object verifyData): AAAUserInfo {
-        AAAUserInfo ret = {
-            userName: null,
-            detail: null,
+    public AAAUserInfo getUserInfo(string channel, string channelUserId, object verifyData) {
+        var ret = new AAAUserInfo {
+            userName = null,
+            detail = null,
         };
         if (channel == HermesChannels.uuid) {
 

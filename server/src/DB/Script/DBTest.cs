@@ -1,7 +1,9 @@
+using System.Collections;
+
 public class DBTest : DBHandler {
     public override MsgType msgType { get { return MsgType.DBTest; } }
 
-    public async MyResponse handle(object socket, object msg) {
+    public override IEnumerator handle(object socket, object msg, MyResponse res) {
         // server.setTimerOnce(50, "DBQuery", {
         //     queryStr: "SELECT playerId FROM player_id;"
         // },
@@ -10,7 +12,7 @@ public class DBTest : DBHandler {
         // });
 
         var a = msg;
-        return await this.baseScript.waitYield(1000);
+        yield return this.baseScript.waitYield(1000);
         // a.triggerException();
         // reply(ECode.Success, "hello!!");
         // reply(ECode.Success, "world!!");

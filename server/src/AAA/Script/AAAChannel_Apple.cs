@@ -1,19 +1,24 @@
 
-public class AAAChannel_Apple : IScript {
-    Server server;
-    *verifyAccount(string channelUserId, verifyData: { string token, string code }) {
-        if (verifyData == null) {
-            return MyResponse.create(ECode.InvalidParam);
-        }
-        AAAVerifyAccountResult res = {
-            accountMustExist: false,
-            data: null
-        }
+using System.Collections;
 
-        if (!this.server.scUtils.checkArgs("SS", verifyData.token, verifyData.code)) {
+public class AAAChannel_Apple : IScript
+{
+    public Server server { get; set; }
+    public IEnumerator verifyAccount(string channelUserId, string token, string code, MyResponse r)
+    {
+        var res = new AAAVerifyAccountResult
+        {
+            accountMustExist = false,
+            data = null
+        };
+
+        if (!this.server.scUtils.checkArgs("SS", token, code))
+        {
             res.accountMustExist = true;
         }
 
-        return new MyResponse(ECode.Success, res);
+        r.err = ECode.Success;
+        r.res = res;
+        yield break;
     }
 }

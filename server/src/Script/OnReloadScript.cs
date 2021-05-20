@@ -28,12 +28,14 @@ public class OnReloadScript : Handler {
 
             if (type != "serverScript" && type != "handler" && type != "gameScript") {
                 this.baseScript.error("wrong type");
-                return MyResponse.create(ECode.Error);
+                r.err = ECode.Error;
+                yield break;
             }
 
             if ((type == "serverScript" || type == "gameScript") && !(varName in this.server)) {
                 this.baseScript.error("!(varName in this.server)");
-                return MyResponse.create(ECode.Error);
+                r.err = ECode.Error;
+                yield break;
             }
         }
 
@@ -89,6 +91,7 @@ public class OnReloadScript : Handler {
             }
         }
 
-        return MyResponse.create(ECode.Success);
+        r.err = ECode.Success;
+        yield break;
     }
 }

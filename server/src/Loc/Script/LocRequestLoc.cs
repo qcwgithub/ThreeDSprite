@@ -19,7 +19,8 @@ public class LocRequestLoc : LocHandler
 
         if (msg.ids.Count == 0)
         {
-            return MyResponse.create(ECode.Success);
+            r.err = ECode.Success;
+        yield break;
         }
 
         // 取到所有为止
@@ -45,6 +46,10 @@ public class LocRequestLoc : LocHandler
             }
         }
 
-        return MyResponse.create(ECode.Success, res);
+        r.err = ECode.Success;
+
+        .res = res;
+
+        yield break;
     }
 }

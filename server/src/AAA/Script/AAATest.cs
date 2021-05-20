@@ -1,30 +1,39 @@
 
-public class AAATest : AAAHandler {
-    public override MsgType msgType { get { return MsgType.AAATest; }
+using System.Collections;
 
-    private *sub2() {
+public class AAATest : AAAHandler
+{
+    public override MsgType msgType { get { return MsgType.AAATest; } }
+
+    private IEnumerator sub2()
+    {
         this.logger.debug("AAATest, 3..." + this.sss);
-        yield this.baseScript.waitYield(10000);
+        yield return this.baseScript.waitYield(10000);
         this.logger.debug("AAATest, 4..." + this.sss);
     }
 
-    private *sub1() {
+    private IEnumerator sub1()
+    {
         this.logger.debug("AAATest, 2..." + this.sss);
-        yield this.sub2();
+        yield return this.sub2();
         this.logger.debug("AAATest, 5..." + this.sss);
-        yield this.sub2();
+        yield return this.sub2();
         this.logger.debug("AAATest, 6..." + this.sss);
-        yield this.baseScript.waitYield(5000);
+        yield return this.baseScript.waitYield(5000);
     }
 
-    ddd = true;
-    sss = "NEW";
-    *handle(object socket, object msg/* no use */) {
-        if (!this.ddd) return MyResponse.create(ECode.Success);
+    public bool ddd = true;
+    public string sss = "NEW";
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    {
+        if (!this.ddd)
+        {
+            yield break;
+        }
         this.ddd = false;
 
         this.logger.debug("AAATest, 1..." + this.sss);
-        yield this.sub1();
+        yield return this.sub1();
         this.logger.debug("AAATest, 7...!!???" + this.sss);
 
         // while (true) {

@@ -10,7 +10,8 @@ public class DBQuery : DBHandler {
             for (var key in msg.valueTypes) {
                 var index = parseInt(key);
                 if (!(index >= 0 && index < msg.values.length)) {
-                    return MyResponse.create(ECode.DBQueryValueTypesError);
+                    r.err = ECode.DBQueryValueTypesError;
+                    yield break;
                 }
                 MyDBValueType type = msg.valueTypes[key];
                 switch (type) {
@@ -18,7 +19,8 @@ public class DBQuery : DBHandler {
                         msg.values[index] = new Date(msg.values[index]);
                         break;
                     default:
-                        return MyResponse.create(ECode.DBQueryValueTypesError);
+                        r.err = ECode.DBQueryValueTypesError;
+                        yield break;
                 }
             }
         }
