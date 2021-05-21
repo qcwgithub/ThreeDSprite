@@ -1,26 +1,25 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PMOnDisconnect : OnDisconnect
 {
     public override MsgType msgType { get { return MsgType.OnDisconnect; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
-        base.handle(socket, _msg, r);
+        await base.handle(socket, _msg);
 
         var msg = _msg as MsgOnConnect;
         if (msg.isServer)
         {
-            r.err = ECode.Success;
-            yield break;
+            return ECode.Success;
         }
 
         var player = this.server.netProto.getPlayer(socket);
         if (player == null)
         {
-            r.err = ECode.Success;
-            yield break;
+            return ECode.Success;
         }
 
         if (player.socket != null)
@@ -33,7 +32,6 @@ public class PMOnDisconnect : OnDisconnect
 
         this.server.pmScript.setDestroyTimer(player, "PMOnDisconnect");
 
-        r.err = ECode.Success;
-        yield break;
+        return ECode.Success;
     }
 }

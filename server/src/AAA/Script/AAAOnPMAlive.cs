@@ -1,11 +1,12 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class AAAOnPMAlive : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAAOnPMAlive; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgPMAlive;
         var data = this.aaaData;
@@ -73,8 +74,6 @@ public class AAAOnPMAlive : AAAHandler
             }, 5000);
         }
 
-        r.err = ECode.Success;
-        r.res = new ResPMAlive { requirePlayerList = newAdd };
-        yield break;
+        return new MyResponse(ECode.Success, new ResPMAlive { requirePlayerList = newAdd });
     }
 }

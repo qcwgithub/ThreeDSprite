@@ -1,12 +1,13 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class AAAGetSummary : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         this.logger.debug("AAAGetSummary");
         var data = this.aaaData;
@@ -24,8 +25,6 @@ public class AAAGetSummary : AAAHandler
         };
         // m.accountInfos_size = data.accountInfos.size;
 
-        r.err = ECode.Success;
-        r.res = new List<Dictionary<string, string>> { info };
-        yield break;
+        return new MyResponse(ECode.Success, new List<Dictionary<string, string>> { info });
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class OnConnect : Handler {
     public override MsgType msgType { get { return MsgType.OnConnect; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse res) {
+    public override async Task<MyResponse> handle(object socket, object _msg) {
         var msg = _msg as MsgOnConnect;
         this.logger.debug("OnConnect socket id: " + this.server.netProto.getSocketId(socket));
         object s = socket;
@@ -17,7 +18,7 @@ public class OnConnect : Handler {
             if (isClient && type2 < MsgType.ClientStart) {
                 this.baseScript.error("receive invalid message from client! " + type2.ToString());
                 if (reply2 != null) {
-                    reply2(MyResponse.create(ECode.Exception, null));
+                    reply2(new MyResponse(ECode.Exception));
                 }
                 return;
             }
@@ -25,7 +26,7 @@ public class OnConnect : Handler {
             if (msg2 == null) {
                 this.baseScript.error("message must be object!! type: " + type2.ToString());
                 if (reply2 != null) {
-                    reply2(MyResponse.create(ECode.Exception, null));
+                    reply2(new MyResponse(ECode.Exception));
                 }
                 return;
             }
@@ -36,8 +37,6 @@ public class OnConnect : Handler {
             this.dispatcher.dispatch(s, type2, msg2, reply2);
         });
 
-        res.err = ECode.Success;
-        res.res = null;
-        yield break;
+        return ECode.Success;
     }
 }

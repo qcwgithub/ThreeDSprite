@@ -1,13 +1,16 @@
-public class LocStart : Handler {
+using System.Threading.Tasks;
+
+public class LocStart : Handler
+{
     public override MsgType msgType { get { return MsgType.Start; } }
 
-    public MyResponse handle(object socket, object msg/* no use */) {
+    public override Task<MyResponse> handle(object socket, object msg/* no use */)
+    {
         this.baseScript.setState(ServerState.Starting);
 
         this.baseScript.listen(() => false);
 
         this.baseScript.setState(ServerState.Started);
-        r.err = ECode.Success;
-        yield break;
+        return Task.FromResult(new MyResponse(ECode.Success));
     }
 }

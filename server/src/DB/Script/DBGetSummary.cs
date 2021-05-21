@@ -4,7 +4,7 @@ public class DBGetSummary : DBHandler
 {
     public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         this.logger.debug("DBGetSummary");
         yield break;

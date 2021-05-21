@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Threading.Tasks;
 
 public class DBStart : DBHandler
 {
@@ -13,12 +14,13 @@ public class DBStart : DBHandler
         this.server.logger.info("MySqlConnection StateChange %s -> %s", e.OriginalState.ToString(), e.CurrentState.ToString());
     }
 
-    public override IEnumerator handle(object socket, object _msg/* no use */, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg/* no use */)
     {
+        MyResponse r = null;
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        yield return this.baseScript.connectYield(ServerConst.LOC_ID, true, r);
+        r = await this.baseScript.connectYield(ServerConst.LOC_ID, true);
         this.baseData.locSocket = r.res;
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
@@ -51,13 +53,12 @@ public class DBStart : DBHandler
 
         while (connectedCount < config.connectionLimit)
         {
-            yield return this.baseScript.waitYield(100);
+            await this.baseScript.waitYield(100);
         }
 
         // 把 TIMESTAMP DATETIME 转换为整数，毫秒
 
         this.baseScript.setState(ServerState.Started);
-        r.err = ECode.Success;
-        yield break;
+        return ECode.Success;
     }
 }

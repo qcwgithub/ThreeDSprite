@@ -1,12 +1,13 @@
 
 // 运维，GM功能
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PMAction : PMHandler
 {
     public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgPMAction;
         this.logger.info("%s", this.msgName);
@@ -25,7 +26,7 @@ public class PMAction : PMHandler
                 playerList = null,
                 allowNewPlayer = pmData.allowNewPlayer,
             };
-            yield return this.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAAOnPMAlive, msgAlive, r);
+            await this.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAAOnPMAlive, msgAlive);
         }
 
         if (msg.allowClientConnect != null)
@@ -82,8 +83,8 @@ public class PMAction : PMHandler
                 }
 
                 MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                yield return this.server.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, r);
-                yield return this.server.baseScript.waitYield(10);
+                await this.server.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
+                await this.server.baseScript.waitYield(10);
             }
         }
 
@@ -98,12 +99,11 @@ public class PMAction : PMHandler
                     continue;
                 }
                 MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                yield return this.server.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, r);
-                yield return this.server.baseScript.waitYield(10);
+                await this.server.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
+                await this.server.baseScript.waitYield(10);
             }
         }
 
-        r.err = ECode.Success;
-        yield break;
+        return ECode.Success;
     }
 }

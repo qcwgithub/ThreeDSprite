@@ -1,13 +1,14 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PMGetSummary : PMHandler {
     public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         this.logger.debug("PMGetSummary");
-        yield break;
+        return ECode.Success;
 
         // var info = {
         //     workingDir: process.cwd(),

@@ -1,26 +1,25 @@
 using System.Collections;
+using System.Threading.Tasks;
 
 public class KeepAliveToLoc : Handler
 {
     public override MsgType msgType { get { return MsgType.KeepAliveToLoc; } }
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         if (!this.server.netProto.isConnected(this.baseData.locSocket))
         {
             this.baseData.locNeedReport = true;
-            r.err = ECode.Success;
-            yield break;
+            return ECode.Success;
         }
 
         if (this.baseData.locNeedReport)
         {
             this.baseData.locNeedReport = false;
 
-            yield return this.baseScript.sendYield(
+            var r = await this.baseScript.sendYield(
                 this.baseData.locSocket,
                 MsgType.LocReportLoc,
-                new MsgLocReportLoc { id = this.baseData.id, loc = this.baseScript.myLoc() },
-                r
+                new MsgLocReportLoc { id = this.baseData.id, loc = this.baseScript.myLoc() }
             );
             if (r.err != ECode.Success)
             {
@@ -29,7 +28,6 @@ public class KeepAliveToLoc : Handler
             }
         }
 
-        r.err = ECode.Success;
-        yield break;
+        return ECode.Success;
     }
 }

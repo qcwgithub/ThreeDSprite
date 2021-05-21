@@ -1,30 +1,31 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class AAATest : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAATest; } }
 
-    private IEnumerator sub2()
+    private async Task<MyResponse> sub2()
     {
         this.logger.debug("AAATest, 3..." + this.sss);
-        yield return this.baseScript.waitYield(10000);
+        r = await this.baseScript.waitYield(10000);
         this.logger.debug("AAATest, 4..." + this.sss);
     }
 
-    private IEnumerator sub1()
+    private async Task<MyResponse> sub1()
     {
         this.logger.debug("AAATest, 2..." + this.sss);
-        yield return this.sub2();
+        r = await this.sub2();
         this.logger.debug("AAATest, 5..." + this.sss);
-        yield return this.sub2();
+        r = await this.sub2();
         this.logger.debug("AAATest, 6..." + this.sss);
-        yield return this.baseScript.waitYield(5000);
+        r = await this.baseScript.waitYield(5000);
     }
 
     public bool ddd = true;
     public string sss = "NEW";
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         if (!this.ddd)
         {
@@ -33,7 +34,7 @@ public class AAATest : AAAHandler
         this.ddd = false;
 
         this.logger.debug("AAATest, 1..." + this.sss);
-        yield return this.sub1();
+        var r = await this.sub1();
         this.logger.debug("AAATest, 7...!!???" + this.sss);
 
         // while (true) {

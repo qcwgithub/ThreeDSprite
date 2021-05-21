@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EnumeratorInfo {
-    public IEnumerator ie;
+    public async Task<MyResponse> ie;
     public Action onFinish;
     public EnumeratorInfo parent;
 }
@@ -11,7 +11,7 @@ public class CoroutineManager : IScript {
     public Server server { get; set; }
     // public Dictionary<int, EnumeratorInfo> enumerators { get { return this.server.baseData.enumerators; } }
 
-    public void iterate(IEnumerator ie, Action onFinish)
+    public void iterate(async Task<MyResponse> ie, Action onFinish)
     {
         this.iterate(new EnumeratorInfo { ie = ie, onFinish = onFinish, parent = null});
     }
@@ -45,7 +45,7 @@ public class CoroutineManager : IScript {
                 return;
             }
 
-            var ie = info.ie.Current as IEnumerator;
+            var ie = info.ie.Current as async Task<MyResponse>;
             if (ie != null)
             {
                 var info2 = new EnumeratorInfo();
@@ -57,7 +57,7 @@ public class CoroutineManager : IScript {
             }
             
             // error~!!
-            throw new Exception("unknown yield return object");
+            throw new Exception("unknown r = await object");
         // }
         // catch (Exception ex) {
 

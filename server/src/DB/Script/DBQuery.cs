@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
 public class DBQuery : DBHandler
 {
     public override MsgType msgType { get { return MsgType.DBQuery; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgDBQuery;
         this.logger.debug("DBQuery: " + msg.queryStr);
@@ -14,8 +15,7 @@ public class DBQuery : DBHandler
         int spaceIndex = msg.queryStr.IndexOf(' ');
         if (spaceIndex < 0)
         {
-            r.err = ECode.InvalidParam;
-            yield break;
+            return ECode.InvalidParam;
         }
         string operation = msg.queryStr.Substring(0, spaceIndex).ToUpper();
 
@@ -28,8 +28,7 @@ public class DBQuery : DBHandler
                 var index = kv.Key;
                 if (!(index >= 0 && index < msg.values.Count))
                 {
-                    r.err = ECode.DBQueryValueTypesError;
-                    yield break;
+                    return ECode.DBQueryValueTypesError;
                 }
 
                 MyDBValueType type = (MyDBValueType)kv.Value;
@@ -42,8 +41,7 @@ public class DBQuery : DBHandler
                         }
                         break;
                     default:
-                        r.err = ECode.DBQueryValueTypesError;
-                        yield break;
+                        return ECode.DBQueryValueTypesError;
                 }
             }
         }
@@ -64,13 +62,13 @@ public class DBQuery : DBHandler
                 MySqlHelper.ExecuteReaderAsync(this.dbData.connectionString, msg.queryStr, sqlParams);
                 break;
             default:
-                r.err = ECode.InvalidParam;
-                yield break;
-                // break;
+                return ECode.InvalidParam;
         }
 
         var data = this.dbData;
-        var waiter = new WaitCallBack().init(() =>
+        var waiter = new WaitCallBack();
+        
+        Action action =() =>
         {
             var cb = (error: mysql.MysqlError, object result/*, object fields*/) =>
             {
@@ -112,8 +110,8 @@ public class DBQuery : DBHandler
             {
                 data.pool.query(msg.queryStr, msg.values, cb);
             }
-        });
+        };
 
-        yield return waiter;
+        return await waiter.Task;
     }
 }

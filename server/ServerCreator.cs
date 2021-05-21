@@ -1,18 +1,20 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
 
 class _Loaders_
 {
+    public static JsonUtils JSON;
+
     public static T loadHomeJson<T>(string f)
     {
-        return Program.jsonUtils.parse<T>(File.ReadAllText(Environment.SpecialFolder.Personal + "/config/" + f, Encoding.UTF8));
+        return JSON.parse<T>(File.ReadAllText(Environment.SpecialFolder.Personal + "/config/" + f, Encoding.UTF8));
     }
 
     public static T loadConfigJson<T>(string f, Purpose purpose)
     {
-        return Program.jsonUtils.parse<T>(File.ReadAllText("./Purposes/" + purpose + "/" + f, Encoding.UTF8));
+        return JSON.parse<T>(File.ReadAllText("./Purposes/" + purpose + "/" + f, Encoding.UTF8));
     }
 
     public static string loadGameText(string f)
@@ -22,7 +24,7 @@ class _Loaders_
 
     public static T loadGameJson<T>(string f)
     {
-        return Program.jsonUtils.parse<T>(File.ReadAllText("./gameConfig/" + f, Encoding.UTF8));
+        return JSON.parse<T>(File.ReadAllText("./gameConfig/" + f, Encoding.UTF8));
     }
 }
 
@@ -45,9 +47,8 @@ class _Helper_
     public BaseRegister register;
 }
 
-class Program
+public class ServerCreator
 {
-    public static JsonUtils jsonUtils = new JsonUtils();
     static Dictionary<string, string> ParseArguments(string[] args)
     {
         var argMap = new Dictionary<string, string>();
@@ -75,8 +76,12 @@ class Program
             database = $"{purposeLowerCase}_{name}",
         };
     }
-    static void Main(string[] args)
+
+    public static JsonUtils JSON = new JsonUtils();
+    public static List<Server> Create(string[] args)
     {
+        _Loaders_.JSON = JSON;
+
         //Console.WriteLine("Hello World!");
         var argMap = ParseArguments(args);
         List<int> serverIds = null;
@@ -90,19 +95,18 @@ class Program
         }
         else
         {
-            serverIds = jsonUtils.parse<List<int>>(ids);
+            serverIds = JSON.parse<List<int>>(ids);
         }
 
         if (serverIds == null || serverIds.Count == 0)
         {
             Console.WriteLine("serverIds.Count == 0");
-            return;
+            return null;
         }
 
         purpose = Enum.Parse<Purpose>(argMap["purpose"]);
 
         ServerConst.initPorts(purpose);
-
 
         var thisMachineConfig = _Loaders_.loadHomeJson<ThisMachineConfig>("thisMachineConfig.json");
         var locConfig = _Loaders_.loadConfigJson<_LocConfig_>("locConfig.json", purpose);
@@ -390,11 +394,12 @@ class Program
             s.baseScript.addKnownLoc(selfLoc);
             h.register.register(s);
         }
-
+    
+        var ret = new List<Server>();
         for (int i = 0; i < list.Count; i++)
         {
-            var h = list[i];
-            h.s.dispatcher.dispatch(null, MsgType.Start, new object(), null);
+            ret.Add(list[i].s);
         }
+        return ret;
     }
 }

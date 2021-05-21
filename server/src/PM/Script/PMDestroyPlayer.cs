@@ -1,11 +1,12 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PMDestroyPlayer : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMDestroyPlayer; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgDestroyPlayer;
 
@@ -19,8 +20,7 @@ public class PMDestroyPlayer : PMHandler
         if (player == null)
         {
             logger.info("%s player not exit, playerId: %d", this.msgName, msg.playerId);
-            r.err = ECode.PlayerNotExist;
-            yield break;
+            return ECode.PlayerNotExist;
         }
 
         if (player.socket != null)
@@ -36,7 +36,6 @@ public class PMDestroyPlayer : PMHandler
         this.baseScript.sendToSelf(MsgType.PMPlayerSave, msgSave); // 同步
 
         data.playerInfos.Remove(msg.playerId);
-        r.err = ECode.Success;
-        yield break;
+        return ECode.Success;
     }
 }

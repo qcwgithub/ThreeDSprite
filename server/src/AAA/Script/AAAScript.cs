@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class AAAScript : IScript {
     public Server server { get; set; }
@@ -13,44 +14,45 @@ public class AAAScript : IScript {
         return baseData.state == ServerState.Started && aaaData.active && aaaData.playerIdReady && aaaData.pmReady;
     }
 
-    public IEnumerator verifyAccount(string channel, string channelUserId, Dictionary<string, object> verifyData, MyResponse r) {
+    public async Task<MyResponse> verifyAccount(string channel, string channelUserId, Dictionary<string, object> verifyData) {
         if (channel == HermesChannels.uuid) {
             // if (msg.channelUserId == null) {
             //     msg.channelUserId = v4();
             // }
 
-            yield return this.server.channelUuid.verifyAccount(channelUserId, verifyData, r);
+            var r = await this.server.channelUuid.verifyAccount(channelUserId, verifyData);
             if (r.err != ECode.Success) {
-                yield break;
+                return r;
             }
         }
         else if (channel == HermesChannels.debug) {
-            yield return this.server.channelDebug.verifyAccount(channelUserId, verifyData, r);
+            var r = await this.server.channelDebug.verifyAccount(channelUserId, verifyData);
             if (r.err != ECode.Success) {
-                yield break;
+                return r;
             }
         }
         else if (channel == HermesChannels.apple) {
-            yield return this.server.channelApple.verifyAccount(channelUserId, verifyData, r);
+            var r = await this.server.channelApple.verifyAccount(channelUserId, verifyData);
             if (r.err != ECode.Success) {
-                yield break;
+                return r;
             }
         }
         else if (channel == HermesChannels.leiting) {
-            yield return this.server.channelLeiting.verifyAccount(channelUserId, verifyData, r);
+            var r = await this.server.channelLeiting.verifyAccount(channelUserId, verifyData);
             if (r.err != ECode.Success) {
-                yield break;
+                return r;
             }
         }
         else if (channel == HermesChannels.ivy) {
-            yield return this.server.channelIvy.verifyAccount(channelUserId, verifyData, r);
+            var r = await this.server.channelIvy.verifyAccount(channelUserId, verifyData);
             if (r.err != ECode.Success) {
-                yield break;
+                return r;
             }
         }
         else {
-            r.err = ECode.InvalidChannel;
+            return ECode.InvalidChannel;
         }
+        return ECode.Success;
     }
     public AAAUserInfo getUserInfo(string channel, string channelUserId, Dictionary<string, object> verifyData) {
         var ret = new AAAUserInfo {

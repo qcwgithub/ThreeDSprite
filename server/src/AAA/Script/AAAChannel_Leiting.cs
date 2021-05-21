@@ -6,7 +6,7 @@
 
 //     // https://wiki.g-bits.com/pages/viewpage.action?pageId=559682334
 //     // https://stackoverflow.com/questions/6158933/how-is-an-http-post-request-made-in-node-js
-//     public IEnumerator verifyAccount(string channelUserId, string token, string game, string channelNo, MyResponse r) {
+//     public async Task<MyResponse> verifyAccount(string channelUserId, string token, string game, string channelNo) {
 //         if (!this.server.baseScript.checkArgs("SSSS", token, game, channelNo, channelUserId)) {
 //             r.err = ECode.InvalidParam;
 //             yield break;

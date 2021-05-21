@@ -1,11 +1,12 @@
 // 这里只处理非游戏需求
 using System.Collections;
+using System.Threading.Tasks;
 
 public class LocBroadcast : LocHandler
 {
     public override MsgType msgType { get { return MsgType.Broadcast; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgLocBroadcast;
         this.logger.info("LocBroadcast, ids: %s, msgType: %s", this.server.JSON.stringify(msg.ids), msg.msgType.ToString());
@@ -25,9 +26,7 @@ public class LocBroadcast : LocHandler
                 !this.server.netProto.isConnected(info.socket))
             {
                 this.baseScript.error("LocBroadcast failed, invalid id: " + id);
-                r.err = ECode.Error;
-                r.res = null;
-                yield break;
+                return ECode.Error;
             }
         }
 
@@ -44,8 +43,6 @@ public class LocBroadcast : LocHandler
             this.server.netProto.send(info.socket, msg.msgType, msg.msg, null);
         }
         this.logger.debug("LocBroadcast success");
-        r.err = ECode.Success;
-        r.res = null;
-        yield break;
+        return ECode.Success;
     }
 }

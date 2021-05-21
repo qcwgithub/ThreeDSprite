@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class BaseScript : IScript
 {
@@ -99,20 +100,19 @@ public class BaseScript : IScript
     }
 
     // ids=null 表示全部，monitor使用
-    public IEnumerator requestLocationYield(int[] ids, MyResponse r)
+    public async Task<MyResponse> requestLocationYield(int[] ids)
     {
         this.logger.info("requstLoc " + this.server.JSON.stringify(ids));
         while (true)
         {
-            yield return this.sendYield(
+            var r = await this.sendYield(
                 this.baseData.locSocket,
                 MsgType.LocRequestLoc,
-                new MsgLocRequestLoc { ids = new List<int>(ids) },
-                r);
+                new MsgLocRequestLoc { ids = new List<int>(ids) });
 
             if (r.err != ECode.Success)
             {
-                yield return this.waitYield(1000);
+                await this.waitYield(1000);
             }
             else
             {
@@ -125,10 +125,10 @@ public class BaseScript : IScript
             }
         }
         this.logger.info("requstLocation OK");
-        r.err = ECode.Success;
+        return ECode.Success;
     }
 
-    public IEnumerator connectYield(int toId, bool waitConnected, MyResponse r)
+    public async Task<MyResponse> connectYield(int toId, bool waitConnected)
     {
         string url = this.getKnownUrlForServer(toId);
         //this.logger.info("connectYield " + url);
@@ -153,7 +153,7 @@ public class BaseScript : IScript
                 if (!this.server.netProto.isConnected(s))
                 {
                     this.logger.debug("wait 500");
-                    yield return this.waitYield(500);
+                    await this.waitYield(500);
                 }
                 else
                 {
@@ -162,8 +162,7 @@ public class BaseScript : IScript
             }
         }
 
-        r.err = ECode.Success;
-        r.res = s;
+        return ECode.Success;
     }
 
     public void listen(Func<bool> acceptClient)
@@ -179,9 +178,9 @@ public class BaseScript : IScript
     }
 
     ////// yield /////
-    public iYieldObject sendYield(object socket, MsgType type, object msg, MyResponse res)
+    public Task<MyResponse> sendYield(object socket, MsgType type, object msg)
     {
-        return new RequestObject(this.server, socket, type, msg, res);
+        return new RequestObject(this.server, socket, type, msg).Task;
     }
     public void send(object socket, MsgType type, object msg)
     {
@@ -199,18 +198,18 @@ public class BaseScript : IScript
     // public queryDbLog(string queryStr) {
     //     this.server.netProto.send(this.baseData.dbLogSocket, MsgType.DBQuery, { queryStr: queryStr }, null);
     // }
-    public TimeoutObject waitYield(int timeoutMs)
+    public Task waitYield(int timeoutMs)
     {
-        return new TimeoutObject(timeoutMs);
+        return Task.Delay(timeoutMs);
     }
 
     // TODO
     // 发送给一个非*消息会卡住
-    public WaitCallBack sendToSelfYield(MsgType type, object msg)
+    public Task<MyResponse> sendToSelfYield(MsgType type, object msg)
     {
         var waiter = new WaitCallBack();
-        waiter.init(() => this.dispatcher.dispatch(null, type, msg, (MyResponse r) => waiter.finish(r)));
-        return waiter;
+        this.dispatcher.dispatch(null, type, msg, (MyResponse r) => waiter.finish(r));
+        return waiter.Task;
     }
     public void sendToSelf(MsgType type, object msg)
     {

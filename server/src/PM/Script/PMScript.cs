@@ -52,7 +52,7 @@ public class PMScript : IScript
 
         player.destroyTimer = this.server.baseScript.setTimer(() =>
         {
-            player.destroyTimer = null;
+            player.destroyTimer = -1;
             this.logger.info("send destroy playerId: " + player.id);
             MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.id, place = "pmDestroyTimer" };
             this.server.netProto.send(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, null);
@@ -138,7 +138,7 @@ public class PMScript : IScript
 
     public ECode playerOperError(Handler handler, int playerId, ECode e)
     {
-        this.server.baseScript.error("%s playerId: %d, ECode.%s", handler.msgName, playerId, ECode[e]);
+        this.server.baseScript.error("%s playerId: %d, ECode.%s", handler.msgName, playerId, e);
         return e;
     }
 }

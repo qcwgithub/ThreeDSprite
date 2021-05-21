@@ -1,10 +1,11 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class AAADestroyPlayer : AAAHandler {
     public override MsgType msgType { get { return MsgType.AAADestroyPlayer; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r) {
+    public override async Task<MyResponse> handle(object socket, object _msg) {
         var msg = _msg as MsgDestroyPlayer;
         var aaaData = this.aaaData;
         var aaaScript = this.aaaScript;
@@ -13,15 +14,13 @@ public class AAADestroyPlayer : AAAHandler {
         var playerlock = "player_" + msg.playerId;
         if (this.baseScript.isLocked(playerlock)) {
             this.logger.info("%s player is busy, playerId: %d", this.msgName, msg.playerId);
-            r.err = ECode.PlayerLock;
-            yield break;
+            return ECode.PlayerLock;
         }
 
         AAAPlayerInfo playerInfo = aaaData.GetPlayerInfo(msg.playerId);
         if (playerInfo == null) {
             this.baseScript.error("%s player not exit, playerId: %d", this.msgName, msg.playerId);
-            r.err = ECode.PlayerNotExist;
-            yield break;
+            return ECode.PlayerNotExist;
         }
 
         aaaData.playerInfos.Remove(msg.playerId);
@@ -37,7 +36,6 @@ public class AAADestroyPlayer : AAAHandler {
             }
         }
 
-        r.err = ECode.Success;
-        r.res = null;
+        return ECode.Success;
     }
 }

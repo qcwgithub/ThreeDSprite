@@ -1,11 +1,12 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PMPreparePlayerLogin : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMPreparePlayerLogin; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgPreparePlayerLogin;
         var data = this.pmData;
@@ -28,18 +29,16 @@ public class PMPreparePlayerLogin : PMHandler
                 {
                     oldSocketTimestamp = this.server.netProto.getSocketClientTimestamp(oldSocket),
                 };
-                r.err = ECode.OldSocket;
-                r.res = resMisc;
-                yield break;
+                return new MyResponse(ECode.OldSocket, resMisc);
             }
         }
 
         if (player == null)
         {
-            yield return this.pmSqlUtils.selectPlayerYield(msg.playerId, r);
+            var r = await this.pmSqlUtils.selectPlayerYield(msg.playerId);
             if (r.err != ECode.Success)
             {
-                yield break;
+                return r;
             }
 
             if (r.res.length == 0)
@@ -49,10 +48,10 @@ public class PMPreparePlayerLogin : PMHandler
                 player = this.server.pmScriptCreateNewPlayer.newPlayer(msg.playerId, msg.channel, msg.channelUserId, msg.userName);
 
                 // insert to database
-                yield return this.pmSqlUtils.insertPlayerYield(player, r);
+                r = await this.pmSqlUtils.insertPlayerYield(player);
                 if (r.err != ECode.Success)
                 {
-                    yield break;
+                    return r;
                 }
             }
             else
@@ -90,7 +89,7 @@ public class PMPreparePlayerLogin : PMHandler
         {
             needUploadProfile = false,
         };
-        r.err = ECode.Success;
-        r.res = res;
+        
+        return new MyResponse(ECode.Success, res);
     }
 }

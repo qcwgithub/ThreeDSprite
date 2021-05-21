@@ -1,4 +1,6 @@
 using System;
+using System.Net.WebSockets;
+
 public class WebSocketWrap
 {
     public Server server;
@@ -175,12 +177,16 @@ public class WebSocketWrapC : WebSocketWrap
             this.reconnectTimer = -1;
         }
 
-        this.socket = new WebSocket(this.url, new WebSocketOptions
-        {
-            // origin: ServerConst.SERVER_SIGN,
-            rejectUnauthorized = false,
-            perMessageDeflate = false, // 不压缩
-        });
+        var clientSocket = new ClientWebSocket();
+        this.socket = clientSocket;
+        // clientSocket.ConnectAsync
+        
+        // , new WebSocketOptions
+        // {
+        //     // origin: ServerConst.SERVER_SIGN,
+        //     rejectUnauthorized = false,
+        //     perMessageDeflate = false, // 不压缩
+        // });
 
         // 断线测试
         // setInterval(() => {

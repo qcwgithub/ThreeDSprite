@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class AAAAction : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse res)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgAAAAction;
 
@@ -42,8 +43,8 @@ public class AAAAction : AAAHandler
                         script = msg.pmPlayerRunScript.script,
                     }
                 };
-                yield return this.server.baseScript.sendYield(pm.socket, MsgType.ServerAction, msgAction, res);
-                yield return this.server.baseScript.waitYield(10);
+                await this.server.baseScript.sendYield(pm.socket, MsgType.ServerAction, msgAction);
+                await this.server.baseScript.waitYield(10);
             }
         }
 
@@ -64,9 +65,9 @@ public class AAAAction : AAAHandler
                     break;
                 }
 
-                MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
+                var msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
                 this.server.baseScript.sendToSelf(MsgType.AAADestroyPlayer, msgDestroy);
-                yield return this.server.baseScript.waitYield(10);
+                await this.server.baseScript.waitYield(10);
             }
         }
 
@@ -80,13 +81,12 @@ public class AAAAction : AAAHandler
                 {
                     continue;
                 }
-                MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
+                var msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
                 this.server.baseScript.sendToSelf(MsgType.AAADestroyPlayer, msgDestroy);
-                yield return this.server.baseScript.waitYield(10);
+                await this.server.baseScript.waitYield(10);
             }
         }
 
-        res.err = ECode.Success;
-        res.res = null;
+        return ECode.Success;
     }
 }

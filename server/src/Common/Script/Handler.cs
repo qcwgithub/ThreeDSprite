@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
 public abstract class Handler : IScript
 {
@@ -10,7 +11,7 @@ public abstract class Handler : IScript
     public MessageDispatcher dispatcher { get { return this.server.dispatcher; } }
 
     public abstract MsgType msgType { get; }
-    public abstract IEnumerator handle(object socket, object msg, MyResponse res);
+    public abstract Task<MyResponse> handle(object socket, object msg);
     public virtual void postHandle(object socket, object msg) { }
     public string msgName { get { return this.msgType.ToString(); } }
 }

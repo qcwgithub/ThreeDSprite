@@ -1,12 +1,13 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class AAALoadPlayerId : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAALoadPlayerId; } }
 
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         // 这个属于启动时必做的，可以使用 while
         while (true)
@@ -14,11 +15,11 @@ public class AAALoadPlayerId : AAAHandler
             if (!this.server.netProto.isConnected(this.baseData.dbAccountSocket))
             {
                 // server.logger.info("AAALoadPlayerId db not connected");
-                yield return this.baseScript.waitYield(1000);
+                await this.baseScript.waitYield(1000);
             }
             else
             {
-                yield return this.server.aaaSqlUtils.selectPlayerIdYield(r);
+                var r = await this.server.aaaSqlUtils.selectPlayerIdYield();
                 if (r.err != ECode.Success)
                 {
                     this.baseScript.error("AAALoadPlayerId failed." + r.err);
@@ -35,6 +36,6 @@ public class AAALoadPlayerId : AAAHandler
                 }
             }
         }
-        r.err = ECode.Success;
+        return ECode.Success;
     }
 }

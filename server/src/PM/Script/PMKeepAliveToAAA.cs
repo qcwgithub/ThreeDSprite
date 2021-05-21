@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class PMKeepAliveToAAA : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMKeepAliveToAAA; } }
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         PMData pmData = this.pmData; var alive = this.pmData.alive;
         var s = pmData.aaaSocket;
         if (!this.server.netProto.isConnected(s))
         {
             alive.count = 10;
-            r.err = ECode.Success;
-            yield break;
+            return ECode.Success;
         }
 
         if (alive.first || alive.requirePlayerList)
@@ -25,8 +25,7 @@ public class PMKeepAliveToAAA : PMHandler
             alive.count++;
             if (alive.count < 10)
             {
-                r.err = ECode.Success;
-                yield break;
+                return ECode.Success;
             }
         }
 
@@ -53,7 +52,7 @@ public class PMKeepAliveToAAA : PMHandler
             playerList = playerList,
             allowNewPlayer = pmData.allowNewPlayer,
         };
-        yield return this.baseScript.sendYield(s, MsgType.AAAOnPMAlive, msgAlive, r);
+        var r = await this.baseScript.sendYield(s, MsgType.AAAOnPMAlive, msgAlive);
 
         if (r.err != ECode.Success)
         {
@@ -68,7 +67,6 @@ public class PMKeepAliveToAAA : PMHandler
             }
         }
 
-        r.err = ECode.Success;
-        yield break;
+        return ECode.Success;
     }
 }

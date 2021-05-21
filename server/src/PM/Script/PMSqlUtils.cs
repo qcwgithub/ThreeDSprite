@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class PMSqlUtils : SqlUtils
 {
-    public IEnumerator selectPlayerYield(int playerId, MyResponse r)
+    public async Task<MyResponse> selectPlayerYield(int playerId)
     {
         var msg = new MsgDBQuery
         {
             queryStr = "SELECT * FROM player WHERE id=@0;",
             values = new List<object> { playerId }
         };
-        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
+        return await this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
     }
 
     private string createInsertQueryStr(PMPlayerInfo player, List<string> fields, List<object> values)
@@ -103,13 +104,12 @@ public class PMSqlUtils : SqlUtils
         });
     }
 
-    public IEnumerator saveFieldBatchYield(PMPlayerInfo player, List<string> fields, List<object> values, MyResponse r)
+    public async Task<MyResponse> saveFieldBatchYield(PMPlayerInfo player, List<string> fields, List<object> values)
     {
         var queryStr = this.createUpdateQueryStr(player, fields, values);
         if (queryStr == null)
         {
-            r.err = ECode.Error;
-            yield break;
+            return ECode.Error;
         }
 
         var msg = new MsgDBQuery
@@ -118,11 +118,11 @@ public class PMSqlUtils : SqlUtils
             values = values,
             expectedAffectedRows = 1,
         };
-        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
+        return await this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
     }
 
     // 仅用于新玩家
-    public IEnumerator insertPlayerYield(PMPlayerInfo player, MyResponse r)
+    public async Task<MyResponse> insertPlayerYield(PMPlayerInfo player)
     {
         var obj = new PMSqlHelpObject();
         obj.player = player;
@@ -142,8 +142,7 @@ public class PMSqlUtils : SqlUtils
         var queryStr = this.createInsertQueryStr(player, obj.fields, obj.values);
         if (queryStr == null)
         {
-            r.err = ECode.Error;
-            yield break;
+            return ECode.Error;
         }
 
         var msg = new MsgDBQuery
@@ -154,10 +153,10 @@ public class PMSqlUtils : SqlUtils
             expectedAffectedRows = 1,
         };
 
-        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
+        return await this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
     }
 
-    public IEnumerator insertPayiOSYield(int playerId, string env, int id, string productId, string bundleId, int quantity, string transactionId, string originalTransactionId, int purchaseDateMs, int expiresDateMs, MyResponse r)
+    public async Task<MyResponse> insertPayiOSYield(int playerId, string env, int id, string productId, string bundleId, int quantity, string transactionId, string originalTransactionId, int purchaseDateMs, int expiresDateMs)
     {
         var queryStr = "INSERT INTO payios (playerId,env,id,productId,bundleId,quantity,transactionId,originalTransactionId,purchaseDate,expiresDate) VALUES (@0,@1,@2,@3,@4,@5,@6,@7,@8,@9)";
         List<object> values = new List<object> { playerId, env, id, productId, bundleId, quantity, transactionId, originalTransactionId, purchaseDateMs, expiresDateMs };
@@ -170,7 +169,7 @@ public class PMSqlUtils : SqlUtils
         msg.valueTypes = new Dictionary<int, int>();
         msg.valueTypes[values.Count - 2] = (int)MyDBValueType.DateTime;
         msg.valueTypes[values.Count - 1] = (int)MyDBValueType.DateTime;
-        yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
+        return await this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
     }
 
     private PMSqlHelpObject newHelpObject(PMPlayerInfo player)
@@ -189,11 +188,11 @@ public class PMSqlUtils : SqlUtils
         this.saveFieldBatch(player, obj.fields, obj.values);
     }
 
-    public IEnumerator saveYield(PMPlayerInfo player, Action<PMSqlHelpObject> fun, MyResponse r)
+    public async Task<MyResponse> saveYield(PMPlayerInfo player, Action<PMSqlHelpObject> fun)
     {
         var obj = this.newHelpObject(player);
         fun(obj);
-        yield return this.saveFieldBatchYield(player, obj.fields, obj.values, r);
+        return await this.saveFieldBatchYield(player, obj.fields, obj.values);
     }
 
     public PMSqlHelpObject beginSave(PMPlayerInfo player)
@@ -206,8 +205,8 @@ public class PMSqlUtils : SqlUtils
         this.saveFieldBatch(obj.player, obj.fields, obj.values);
     }
 
-    public IEnumerator endSaveYield(PMSqlHelpObject obj, MyResponse r)
+    public async Task<MyResponse> endSaveYield(PMSqlHelpObject obj)
     {
-        yield return this.saveFieldBatchYield(obj.player, obj.fields, obj.values, r);
+        return await this.saveFieldBatchYield(obj.player, obj.fields, obj.values);
     }
 }

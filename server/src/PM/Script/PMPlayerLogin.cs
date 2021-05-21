@@ -1,10 +1,11 @@
 
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PMPlayerLogin : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMPlayerLogin; } }
-    public override IEnumerator handle(object socket, object _msg, MyResponse r)
+    public override async Task<MyResponse> handle(object socket, object _msg)
     {
         var msg = _msg as MsgLoginPM;
         // this.logger.info("PMPlayerLogin playerId: " + msg.playerId);
@@ -12,23 +13,20 @@ public class PMPlayerLogin : PMHandler
         if (msg.playerId <= 0 || msg.token == null)
         {
             // 客户端遇到这个错误会转连AAA
-            r.err = ECode.InvalidParam;
-            yield break;
+            return ECode.InvalidParam;
         }
 
         var player = this.pmData.GetPlayerInfo(msg.playerId);
         if (player == null)
         {
             // 客户端遇到这个错误会转连AAA
-            r.err = ECode.ShouldLoginAAA;
-            yield break;
+            return ECode.ShouldLoginAAA;
         }
 
         if (msg.token != player.token)
         {
             // 客户端遇到这个错误会转连AAA
-            r.err = ECode.InvalidToken;
-            yield break;
+            return ECode.InvalidToken;
         }
 
         this.logger.info("%s playerId: %d, preCount: %d", this.msgName, player.id, this.pmData.playerInfos.Count);
@@ -49,9 +47,7 @@ public class PMPlayerLogin : PMHandler
             {
                 oldSocketTimestamp = this.server.netProto.getSocketClientTimestamp(oldSocket),
             };
-            r.err = ECode.OldSocket;
-            r.res = resMisc;
-            yield break;
+            return new MyResponse(ECode.OldSocket, resMisc);
         }
 
         var oldPlayer = this.server.netProto.getPlayer(socket);
@@ -60,8 +56,7 @@ public class PMPlayerLogin : PMHandler
             // 情况1 同一个客户端意外地登录2次
             // 情况2 客户端A已经登录，B再登录
             this.baseScript.error("playerId %d, ECode.OldPlayer %d", player.id, oldPlayer.id);
-            r.err = ECode.OldPlayer;
-            yield break;
+            return ECode.OldPlayer;
         }
 
         if (player.destroyTimer != -1)
@@ -111,7 +106,6 @@ public class PMPlayerLogin : PMHandler
             script = null,
         };
 
-        r.err = ECode.Success;
-        r.res = res;
+        return new MyResponse(ECode.Success, res);
     }
 }
