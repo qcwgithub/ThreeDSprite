@@ -8,7 +8,7 @@ public class AAADestroyPlayer : AAAHandler {
         var msg = _msg as MsgDestroyPlayer;
         var aaaData = this.aaaData;
         var aaaScript = this.aaaScript;
-        this.logger.info("%s place: %s, playerId: %d, preCount: %d", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.size);
+        this.logger.info("%s place: %s, playerId: %d, preCount: %d", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);
 
         var playerlock = "player_" + msg.playerId;
         if (this.baseScript.isLocked(playerlock)) {
@@ -27,7 +27,7 @@ public class AAADestroyPlayer : AAAHandler {
         aaaData.playerInfos.Remove(msg.playerId);
 
         if (playerInfo.pmId > 0) {
-            var pmInfo = aaaData.playerManagerInfos.get(playerInfo.pmId);
+            var pmInfo = aaaData.GetPlayerManagerInfo(playerInfo.pmId);
             if (pmInfo != null) {
                 var msgPm = new MsgDestroyPlayer { playerId = playerInfo.id, place = msg.place };
                 this.server.netProto.send(pmInfo.socket, MsgType.PMDestroyPlayer, msgPm, null);

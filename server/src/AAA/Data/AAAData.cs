@@ -21,7 +21,7 @@ public class AAAData {
 
     // player manager info
     public Dictionary<int, AAAPlayerManagerInfo> playerManagerInfos = new Dictionary<int, AAAPlayerManagerInfo>();
-    public AAAPlayerManagerInfo GetAAAPlayerManagerInfo(int id)
+    public AAAPlayerManagerInfo GetPlayerManagerInfo(int id)
     {
         AAAPlayerManagerInfo info;
         if (!this.playerManagerInfos.TryGetValue(id, out info))

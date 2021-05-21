@@ -12,12 +12,12 @@ public class PMAction : PMHandler
         this.logger.info("%s", this.msgName);
         PMData pmData = this.pmData;
 
-        if (msg.allowNewPlayer != undefined && pmData.allowNewPlayer != msg.allowNewPlayer)
+        if (msg.allowNewPlayer != null)
         {
-            pmData.allowNewPlayer = msg.allowNewPlayer;
+            pmData.allowNewPlayer = (msg.allowNewPlayer == "true");
             this.logger.info("allowNewPlayer -> " + msg.allowNewPlayer);
 
-            MsgPMAlive msgAlive = new MsgPMAlive
+            var msgAlive = new MsgPMAlive
             {
                 id = this.baseData.id,
                 playerCount = pmData.playerInfos.Count,
@@ -28,19 +28,19 @@ public class PMAction : PMHandler
             yield return this.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAAOnPMAlive, msgAlive, r);
         }
 
-        if (msg.allowClientConnect != undefined && pmData.allowClientConnect != msg.allowClientConnect)
+        if (msg.allowClientConnect != null)
         {
-            pmData.allowClientConnect = msg.allowClientConnect;
+            pmData.allowClientConnect = msg.allowClientConnect == "true";
             this.logger.info("allowClientConnect -> " + msg.allowClientConnect);
         }
-        if (msg.playerDestroyTimeoutS != undefined && pmData.playerDestroyTimeoutS != msg.playerDestroyTimeoutS)
+        if (msg.playerDestroyTimeoutS != null)
         {
-            pmData.playerDestroyTimeoutS = msg.playerDestroyTimeoutS;
+            pmData.playerDestroyTimeoutS = int.Parse(msg.playerDestroyTimeoutS);
             this.logger.info("playerDestroyTimeoutS -> " + msg.playerDestroyTimeoutS);
         }
-        if (msg.playerSCSaveIntervalS != undefined && pmData.playerSCSaveIntervalS != msg.playerSCSaveIntervalS)
+        if (msg.playerSCSaveIntervalS != null)
         {
-            pmData.playerSCSaveIntervalS = msg.playerSCSaveIntervalS;
+            pmData.playerSCSaveIntervalS = int.Parse(msg.playerSCSaveIntervalS);
             this.logger.info("playerSCSaveIntervalS -> " + msg.playerSCSaveIntervalS);
         }
 
@@ -65,7 +65,7 @@ public class PMAction : PMHandler
         // }
         // }
 
-        if (msg.destroyAll)
+        if (msg.destroyAll == "true")
         {
             while (true)
             {

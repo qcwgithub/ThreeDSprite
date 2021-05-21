@@ -1,8 +1,9 @@
 
-public class PMScriptCreateNewPlayer : IScript {
-    PMServer server = null;
-    public TODO logger { get { return this.server.logger; } }
-    public TODO pmData { get { return this.server.pmData; } }
+public class PMScriptCreateNewPlayer : IScript
+{
+    public Server server { get; set; }
+    public FakeLogger logger { get { return this.server.logger; } }
+    public PMData pmData { get { return this.server.pmData; } }
 
     public PMPlayerInfo newPlayer(int playerId, string channel, string channelUserId, string userName) {
         var player = new PMPlayerInfo();

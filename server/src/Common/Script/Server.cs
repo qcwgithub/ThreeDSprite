@@ -1,3 +1,11 @@
+public class JSON
+{
+    public static string stringify(object obj)
+    {
+        return null;
+    }
+}
+
 public class FakeLogger
 {
     public void debug(params object[] args)
@@ -9,6 +17,10 @@ public class FakeLogger
 
     }
     public void warn(params object[] args)
+    {
+        
+    }
+    public void error(params object[] args)
     {
         
     }
@@ -29,7 +41,7 @@ public class Server {
     public MessageDispatcher dispatcher = null;
     public CoroutineManager coroutineMgr = null;
     public FakeLogger logger = null;
-    public object errorLogger = null;
+    public FakeLogger errorLogger = null;
     public SqlLog sqlLog = null;
     public Utils utils = null;
     public SCUtils scUtils = null;
@@ -72,4 +84,5 @@ public class Server {
     public PMPlayerToSqlTablePlayer pmPlayerToSqlTablePlayer = null;
 
     public PMScriptCreateNewPlayer pmScriptCreateNewPlayer = null;
+    public GameScript gameScript = null;
 }

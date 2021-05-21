@@ -1,4 +1,4 @@
-export enum PMProfileType {
+public enum PMProfileType {
     misc, // server
     //#region autoPMProfileType >>>>>>>>自动生成区域开始
     activity, //0/51 server

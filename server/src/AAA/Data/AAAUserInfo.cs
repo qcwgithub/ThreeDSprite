@@ -1,4 +1,6 @@
+using System.Collections.Generic;
+
 public class AAAUserInfo {
     public string userName;
-    public string detail;
+    public Dictionary<string, object> detail;
 }

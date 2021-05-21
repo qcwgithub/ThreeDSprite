@@ -24,7 +24,7 @@ public class PMPlayerSave : PMHandler {
         string fieldsStr = "";
         if (buffer != null)
         {
-            fieldsStr = string.Join('', buffer.ToArray());
+            fieldsStr = string.Join(null, buffer.ToArray());
         }
         this.logger.info("%s place: %s, playerId: %d, fields: [%s]", this.msgName, msg.place, player.id, fieldsStr);
 

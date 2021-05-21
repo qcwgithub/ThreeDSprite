@@ -15,7 +15,7 @@ public class AAAOnPMAlive : AAAHandler
         this.baseScript.addKnownLoc(msg.loc);
 
         var newAdd = false;
-        var pm = data.GetAAAPlayerManagerInfo(msg.id);
+        var pm = data.GetPlayerManagerInfo(msg.id);
         if (pm == null)
         {
             logger.info("pm connected, id: " + msg.id);
@@ -66,14 +66,15 @@ public class AAAOnPMAlive : AAAHandler
         if (!data.pmReady && data.pmReadyTimer == -1)
         {
             // 延迟5秒再开始接受客户端连接
-            data.pmReadyTimer = setTimeout(() =>
+            data.pmReadyTimer = this.baseScript.setTimer(() =>
             {
                 data.pmReady = true;
-                data.pmReadyTimer = null;
+                data.pmReadyTimer = -1;
             }, 5000);
         }
 
         r.err = ECode.Success;
-        r.res = { requirePlayerList: newAdd };
+        r.res = new ResPMAlive { requirePlayerList = newAdd };
+        yield break;
     }
 }

@@ -26,14 +26,14 @@ public class SqlLog : IScript
 
     public void player_login(PMPlayerInfo player, bool uploadProfile)
     {
-        var queryStr = "INSERT INTO player_login (playerId,level,uploadProfile) VALUES (?,?,?);"
+        var queryStr = "INSERT INTO player_login (playerId,level,uploadProfile) VALUES (?,?,?);";
         List<object> values = new List<object> { player.id, 1, uploadProfile };
         this.doQuery(queryStr, values, 1);
     }
 
     public void player_logout(PMPlayerInfo player)
     {
-        var queryStr = "INSERT INTO player_logout (playerId,level) VALUES (?,?);"
+        var queryStr = "INSERT INTO player_logout (playerId,level) VALUES (?,?);";
         List<object> values = new List<object> { player.id, 1 };
         this.doQuery(queryStr, values, 1);
     }

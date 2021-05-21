@@ -1,9 +1,10 @@
 
 using System.Collections;
+using System.Collections.Generic;
 
 public class AAAChannel_Debug : IScript {
     public Server server { get; set; }
-    public IEnumerator verifyAccount(string channelUserId, string token, string code, MyResponse r)
+    public IEnumerator verifyAccount(string channelUserId, Dictionary<string, object> verifyData, MyResponse r)
     {
         if (!this.server.baseScript.isDevelopment()) {
             r.err = ECode.Error;

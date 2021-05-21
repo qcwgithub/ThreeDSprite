@@ -48,7 +48,7 @@ public class PMSqlUtils : SqlUtils
         }
         buffer.Add(")");
 
-        var queryStr = string.Join('', buffer.ToArray());
+        var queryStr = string.Join(null, buffer.ToArray());
         return queryStr;
     }
 
@@ -77,7 +77,7 @@ public class PMSqlUtils : SqlUtils
         }
         buffer.Add(" WHERE id=" + player.id);
 
-        var queryStr = string.Join('', buffer.ToArray());
+        var queryStr = string.Join(null, buffer.ToArray());
         return queryStr;
     }
 

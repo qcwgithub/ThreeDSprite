@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 
 public class AAAScript : IScript {
     public AAAServer server { get; set; }
@@ -12,7 +13,7 @@ public class AAAScript : IScript {
         return baseData.state == ServerState.Started && aaaData.active && aaaData.playerIdReady && aaaData.pmReady;
     }
 
-    public IEnumerator verifyAccount(string channel, string channelUserId, object verifyData, MyResponse r) {
+    public IEnumerator verifyAccount(string channel, string channelUserId, Dictionary<string, object> verifyData, MyResponse r) {
         if (channel == HermesChannels.uuid) {
             // if (msg.channelUserId == null) {
             //     msg.channelUserId = v4();
@@ -51,7 +52,7 @@ public class AAAScript : IScript {
             r.err = ECode.InvalidChannel;
         }
     }
-    public AAAUserInfo getUserInfo(string channel, string channelUserId, object verifyData) {
+    public AAAUserInfo getUserInfo(string channel, string channelUserId, Dictionary<string, object> verifyData) {
         var ret = new AAAUserInfo {
             userName = null,
             detail = null,
@@ -67,16 +68,22 @@ public class AAAScript : IScript {
         }
         else if (channel == HermesChannels.leiting) {
             // detail=LeitingLogin.LoginData
-            if (verifyData != null && verifyData.detail != null) {
-                ret.userName = verifyData.detail.userName; // nickName
-                ret.detail = verifyData.detail;
+            if (verifyData != null && verifyData.ContainsKey("detail")) {
+                ret.detail = verifyData["detail"] as Dictionary<string, object>;
+                if (ret.detail != null && ret.detail.ContainsKey("userName"))
+                {
+                    ret.userName = ret.detail["userName"] as string; // nickName
+                }
             }
         }
         else if (channel == HermesChannels.ivy) {
             // verifyData=IvyLogin.IvyUserInfo
             if (verifyData != null) {
-                ret.userName = verifyData.name;
                 ret.detail = verifyData;
+                if (ret.detail.ContainsKey("name"))
+                {
+                    ret.userName = ret.detail["name"] as string;
+                }
             }
         }
 

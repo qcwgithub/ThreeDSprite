@@ -12,9 +12,9 @@ public class AAAAction : AAAHandler
         this.logger.info("%s", this.msgName);
         var aaaData = this.server.aaaData;
 
-        if (msg.active != undefined)
+        if (msg.active != null)
         {
-            aaaData.active = msg.active;
+            aaaData.active = msg.active == "true";
         }
 
         if (msg.pmPlayerRunScript != null)
@@ -28,7 +28,7 @@ public class AAAAction : AAAHandler
                     this.logger.info("%s playerRunScript player==null, playerId: %d", this.msgName, playerId);
                     continue;
                 }
-                var pm = aaaData.playerManagerInfos.get(player.pmId);
+                var pm = aaaData.GetPlayerManagerInfo(player.pmId);
                 if (pm == null)
                 {
                     this.logger.info("%s playerRunScript pm==null, playerId: %d, pmId: %d", this.msgName, playerId, player.pmId);
@@ -47,7 +47,7 @@ public class AAAAction : AAAHandler
             }
         }
 
-        if (msg.destroyAll)
+        if (msg.destroyAll == "true")
         {
             while (true)
             {
@@ -56,7 +56,14 @@ public class AAAAction : AAAHandler
                 {
                     break;
                 }
-                var playerId = aaaData.playerInfos.keys().next().value;
+
+                int playerId = 0;
+                foreach (var kv in aaaData.playerInfos)
+                {
+                    playerId = kv.Key;
+                    break;
+                }
+
                 MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
                 this.server.baseScript.sendToSelf(MsgType.AAADestroyPlayer, msgDestroy);
                 yield return this.server.baseScript.waitYield(10);

@@ -1,10 +1,11 @@
 
 using System.Collections;
+using System.Collections.Generic;
 
 public class AAAChannel_Apple : IScript
 {
     public Server server { get; set; }
-    public IEnumerator verifyAccount(string channelUserId, string token, string code, MyResponse r)
+    public IEnumerator verifyAccount(string channelUserId, Dictionary<string, object> verifyData, MyResponse r)
     {
         var res = new AAAVerifyAccountResult
         {
@@ -12,7 +13,7 @@ public class AAAChannel_Apple : IScript
             data = null
         };
 
-        if (!this.server.scUtils.checkArgs("SS", token, code))
+        if (verifyData == null || !verifyData.ContainsKey("token") || !verifyData.ContainsKey("code"))
         {
             res.accountMustExist = true;
         }

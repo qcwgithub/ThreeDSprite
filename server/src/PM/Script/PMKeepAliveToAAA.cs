@@ -62,7 +62,7 @@ public class PMKeepAliveToAAA : PMHandler
         else
         {
             this.pmData.aaaReady = true;
-            if (r.res && r.res.requirePlayerList)
+            if (r.res != null && (r.res as ResPMAlive).requirePlayerList)
             {
                 alive.requirePlayerList = true;
             }

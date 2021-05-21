@@ -88,7 +88,7 @@ public class PMPreparePlayerLogin : PMHandler
 
         var res = new ResPreparePlayerLogin
         {
-            needUploadProfile = this.pmScript.allowUploadProfile(player),
+            needUploadProfile = false,
         };
         r.err = ECode.Success;
         r.res = res;

@@ -61,7 +61,7 @@ public class AAAChangeChannel : AAAHandler {
         var aaaUserInfo2 = this.aaaScript.getUserInfo(msg.channel2, msg.channelUserId2, msg.verifyData2);
 
         // 需要检查 channel2 & channelUserId2 是否已经存在
-        yield return this.server.aaaSqlUtils.queryAccountYield(msg.channel2, msg.channelUserId2);
+        yield return this.server.aaaSqlUtils.queryAccountYield(msg.channel2, msg.channelUserId2, r);
         if (r.err != ECode.Success) {
             yield break;
         }
@@ -82,7 +82,7 @@ public class AAAChangeChannel : AAAHandler {
         }
         else {
             res.channel2Exist = false;
-            yield return this.server.aaaSqlUtils.changeChannelYield(msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2, JSON.stringify(aaaUserInfo2));
+            yield return this.server.aaaSqlUtils.changeChannelYield(msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2, JSON.stringify(aaaUserInfo2), r);
             if (r.err != ECode.Success) {
                 yield break;
             }

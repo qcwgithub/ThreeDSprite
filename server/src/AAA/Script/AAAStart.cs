@@ -10,9 +10,9 @@ public class AAAStart : AAAHandler
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        yield return this.baseScript.connectYield(ServerConst.LOC_ID);
+        yield return this.baseScript.connectYield(ServerConst.LOC_ID, true, r);
         this.baseData.locSocket = r.res;
-        this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, {});
+        this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
         // request location(s)
         yield return this.baseScript.requestLocationYield(new int[] { ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID }, r);
@@ -30,11 +30,11 @@ public class AAAStart : AAAHandler
         this.baseData.dbLogSocket = r.res;
 
         // load next player id
-        yield return this.baseScript.sendToSelfYield(MsgType.AAALoadPlayerId, {});
+        yield return this.baseScript.sendToSelfYield(MsgType.AAALoadPlayerId, new object());
 
         // 
-        this.baseScript.sendToSelf(MsgType.AAAPayLtListenNotify, {});
-        this.baseScript.sendToSelf(MsgType.AAAPayIvyListenNotify, {});
+        this.baseScript.sendToSelf(MsgType.AAAPayLtListenNotify, new object());
+        this.baseScript.sendToSelf(MsgType.AAAPayIvyListenNotify, new object());
 
         // listen
         this.baseScript.listen(() => this.server.aaaScript.acceptClient());

@@ -28,8 +28,7 @@ public class PMOnDisconnect : OnDisconnect
             this.server.netProto.removeCustomMessageListener(player.socket);
             this.server.netProto.unbindPlayerAndSocket(player, player.socket);
         }
-
-        this.server.pmScript.onOffline_calcTimeRelative(player);
+        
         this.server.sqlLog.player_logout(player);
 
         this.server.pmScript.setDestroyTimer(player, "PMOnDisconnect");

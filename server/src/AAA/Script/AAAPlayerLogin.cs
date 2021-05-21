@@ -138,12 +138,6 @@ public class AAAPlayerLogin : AAAHandler
         }
 
         // 检查参数
-        if (!this.baseScript.checkArgs("SS", msg.channel, msg.channelUserId))
-        {
-            res.err = ECode.InvalidParam;
-            yield break;
-        }
-
         if (!this.server.scUtils.isValidChannelType(msg.channel))
         {
             res.err = ECode.InvalidChannel;
@@ -292,7 +286,7 @@ public class AAAPlayerLogin : AAAHandler
         }
         else
         {
-            pm = aaaData.GetAAAPlayerManagerInfo(player.pmId);
+            pm = aaaData.GetPlayerManagerInfo(player.pmId);
             if (pm == null)
             {
                 this.server.baseScript.error("playerPM == null, pmId: " + player.pmId);
@@ -307,7 +301,7 @@ public class AAAPlayerLogin : AAAHandler
         }
 
         // create a new token for each login
-        var token = new Date().toString();
+        var token = DateTime.Now.ToString();
         MsgPreparePlayerLogin pmMsg = new MsgPreparePlayerLogin
         {
             playerId = player.id,

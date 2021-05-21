@@ -18,7 +18,7 @@ public class MsgLoginAAA
     // 如果 channel == apple，channelUserId 是苹果 id
     public string channelUserId;
 
-    public object verifyData;
+    public Dictionary<string, object> verifyData;
     public string oaid;
     public string imei;
 }
@@ -42,7 +42,7 @@ public class MsgChangeChannel
 
     public string channel2;
     public string channelUserId2;
-    public object verifyData2;
+    public Dictionary<string, object> verifyData2;
 
     public int playerId; // 由PM赋值，客户端传0
 }

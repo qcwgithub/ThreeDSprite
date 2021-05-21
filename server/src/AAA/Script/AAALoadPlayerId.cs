@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 
 public class AAALoadPlayerId : AAAHandler
 {
@@ -24,8 +25,8 @@ public class AAALoadPlayerId : AAAHandler
                 }
                 else
                 {
-                    this.aaaData.nextPlayerId = r.res[0].playerId;
-                    if (this.baseScript.checkArgs("I", this.aaaData.nextPlayerId))
+                    this.aaaData.nextPlayerId = (int)(r.res as Dictionary<string, object>)["playerId"];
+                    if (this.aaaData.nextPlayerId > 0)
                     {
                         this.logger.info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);
                         this.aaaData.playerIdReady = true;

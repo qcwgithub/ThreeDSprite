@@ -1,15 +1,16 @@
 // 文档：https://www.npmjs.com/package/mysql
+using System.Collections;
+
 public class DBStart : DBHandler {
     public override MsgType msgType { get { return MsgType.Start; } }
 
-    public async MyResponse handle(object socket, object msg/* no use */) {
+    public override IEnumerator handle(object socket, object _msg/* no use */, MyResponse r) {
         this.baseScript.setState(ServerState.Starting);
-        MyResponse r = null;
 
         // connect to loc
-        r = await this.baseScript.connectYield(ServerConst.LOC_ID);
+        yield return this.baseScript.connectYield(ServerConst.LOC_ID, true, r);
         this.baseData.locSocket = r.res;
-        this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, {});
+        this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
         this.baseScript.listen(() => false);
 

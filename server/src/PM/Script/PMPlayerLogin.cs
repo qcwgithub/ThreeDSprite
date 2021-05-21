@@ -1,12 +1,15 @@
 
+using System.Collections;
+
 public class PMPlayerLogin : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMPlayerLogin; } }
-    *handle(object socket, MsgLoginPM msg)
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
     {
+        var msg = _msg as MsgLoginPM;
         // this.logger.info("PMPlayerLogin playerId: " + msg.playerId);
 
-        if (!this.baseScript.checkArgs("IS", msg.playerId, msg.token))
+        if (msg.playerId <= 0 || msg.token == null)
         {
             // 客户端遇到这个错误会转连AAA
             r.err = ECode.InvalidParam;
@@ -21,14 +24,14 @@ public class PMPlayerLogin : PMHandler
             yield break;
         }
 
-        if (msg.token !== player.token)
+        if (msg.token != player.token)
         {
             // 客户端遇到这个错误会转连AAA
             r.err = ECode.InvalidToken;
             yield break;
         }
 
-        this.logger.info("%s playerId: %d, preCount: %d", this.msgName, player.id, this.pmData.playerInfos.size);
+        this.logger.info("%s playerId: %d, preCount: %d", this.msgName, player.id, this.pmData.playerInfos.Count);
 
         // if (this.baseScript.isMessageListenerAdded(socket)) {
         //     this.logger.info("PMPlayerLogin playerId: " + msg2.playerId + " MessageListenerAdded");
@@ -46,7 +49,9 @@ public class PMPlayerLogin : PMHandler
             {
                 oldSocketTimestamp = this.server.netProto.getSocketClientTimestamp(oldSocket),
             };
-            return new MyResponse(ECode.OldSocket, resMisc);
+            r.err = ECode.OldSocket;
+            r.res = resMisc;
+            yield break;
         }
 
         var oldPlayer = this.server.netProto.getPlayer(socket);
@@ -59,7 +64,7 @@ public class PMPlayerLogin : PMHandler
             yield break;
         }
 
-        if (player.destroyTimer != null)
+        if (player.destroyTimer != -1)
         {
             this.pmScript.clearDestroyTimer(player);
         }
@@ -69,22 +74,22 @@ public class PMPlayerLogin : PMHandler
 
         if (!msg.isReconnect)
         {
-            player.profile.totalLoginTimes++;
-            player.profileChanged(PMProfileType.totalLoginTimes);
+            // player.profile.totalLoginTimes++;
+            // player.profileChanged(PMProfileType.totalLoginTimes);
         }
         // 有可能首次登录就有账号了，此时需要标记为可领取登录奖励
-        if (player.profile.loginReward == 0 && player.channel != HermesChannels.uuid && 
-            this.server.scUtils.isValidChannelType(player.channel))
-        {
-            player.profile.loginReward = 1;
-            player.profileChanged(PMProfileType.loginReward);
-        }
+        // if (player.profile.loginReward == 0 && player.channel != HermesChannels.uuid && 
+        //     this.server.scUtils.isValidChannelType(player.channel))
+        // {
+        //     player.profile.loginReward = 1;
+        //     player.profileChanged(PMProfileType.loginReward);
+        // }
 
         // this.server.pmScript.onOnline_calcTimeRelative(player);
-        this.sqlLog.player_login(player);
+        this.sqlLog.player_login(player, false);
 
         // 发送玩家数据
-        var locAAA = this.baseData.knownLocs.get(ServerConst.AAA_ID);
+        var locAAA = this.baseScript.getKnownLoc(ServerConst.AAA_ID);
         var res = new ResLoginPM
         {
             id = player.id,
@@ -94,18 +99,19 @@ public class PMPlayerLogin : PMHandler
             timezoneOffset = this.server.baseData.timezoneOffset,
 
             // 几个时间相关的，在登录时发给客户端
-            offlineBonusTime = player.profile.offlineBonus.time,
-            totalGameTimeMs = player.profile.totalGameTimeMs,
-            totalLoginTimes = player.profile.totalLoginTimes,
-            diamond = player.profile.diamond,
-            badge = player.profile.badge,
+            // offlineBonusTime = player.profile.offlineBonus.time,
+            // totalGameTimeMs = player.profile.totalGameTimeMs,
+            // totalLoginTimes = player.profile.totalLoginTimes,
+            // diamond = player.profile.diamond,
+            // badge = player.profile.badge,
 
-            updateProfile = (msg.isReconnect ? this.pmScript.createUpdateProfile(player) : null),
-            ltProducts = this.pmData.iapConfig.platformInfo.leiting,
+            // updateProfile = (msg.isReconnect ? this.pmScript.createUpdateProfile(player) : null),
+            // ltProducts = this.pmData.iapConfig.platformInfo.leiting,
             payNotifyUri = "http://" + locAAA.outIp + ":" + ServerConst.AAA_LT_NOTIFY_PORT,
             script = null,
         };
 
-        return new MyResponse(ECode.Success, res);
+        r.err = ECode.Success;
+        r.res = res;
     }
 }
