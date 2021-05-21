@@ -1,11 +1,3 @@
-public class JSON
-{
-    public static string stringify(object obj)
-    {
-        return null;
-    }
-}
-
 public class FakeLogger
 {
     public void debug(params object[] args)
@@ -28,7 +20,8 @@ public class FakeLogger
 
 
 // Server 提供给 IScript 数据、其他脚本的访问
-public class Server {
+public class Server : IGameScripts
+{
     public Purpose purpose;
     public string androidVersion = null;
     public string iOSVersion = null;
@@ -44,11 +37,12 @@ public class Server {
     public FakeLogger errorLogger = null;
     public SqlLog sqlLog = null;
     public Utils utils = null;
-    public SCUtils scUtils = null;
+    public SCUtils scUtils { get; set; }
+    public JsonUtils jsonUtils { get; set; }
 
     //// aaaa and pm
-    public PayLtSqlUtils payLtSqlUtils = null;
-    public PayIvySqlUtils payIvySqlUtils = null;
+    // public PayLtSqlUtils payLtSqlUtils = null;
+    // public PayIvySqlUtils payIvySqlUtils = null;
 
     //// aaa ------------------------------
     public AAAData aaaData = null;
@@ -57,7 +51,7 @@ public class Server {
     public AAAChannel_Uuid channelUuid = null;
     public AAAChannel_Debug channelDebug = null;
     public AAAChannel_Apple channelApple = null;
-    public AAAChannel_Leiting channelLeiting = null;
+    // public AAAChannel_Leiting channelLeiting = null;
     public AAAChannel_Ivy channelIvy = null;
 
     //// db ------------------------------
@@ -65,12 +59,12 @@ public class Server {
     public DBScript dbScript = null;
 
     //// monitor ------------------------------
-    public MonitorData monitorData = null;
-    public MonitorScript monitorScript = null;
+    // public MonitorData monitorData = null;
+    // public MonitorScript monitorScript = null;
 
     //// web ------------------------------
-    public WebData webData = null;
-    public WebScript webScript = null;
+    // public WebData webData = null;
+    // public WebScript webScript = null;
 
     //// loc ------------------------------
     public LocData locData = null;
@@ -85,4 +79,6 @@ public class Server {
 
     public PMScriptCreateNewPlayer pmScriptCreateNewPlayer = null;
     public GameScript gameScript = null;
+
+
 }

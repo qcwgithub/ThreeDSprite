@@ -8,7 +8,7 @@ public class PMSqlUtils : SqlUtils
     {
         var msg = new MsgDBQuery
         {
-            queryStr = "SELECT * FROM player WHERE id=?;",
+            queryStr = "SELECT * FROM player WHERE id=@0;",
             values = new List<object> { playerId }
         };
         yield return this.server.baseScript.sendYield(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, r);
@@ -40,7 +40,7 @@ public class PMSqlUtils : SqlUtils
         buffer.Add(") VALUES (" + player.id + ",");
         for (int i = 0; i < L; i++)
         {
-            buffer.Add("?");
+            buffer.Add("@" + i);
             if (i < L - 1)
             {
                 buffer.Add(",");
@@ -69,7 +69,7 @@ public class PMSqlUtils : SqlUtils
         buffer.Add("UPDATE player SET ");
         for (int i = 0; i < L; i++)
         {
-            buffer.Add(fields[i] + " = ?");
+            buffer.Add(fields[i] + "=@" + i);
             if (i < L - 1)
             {
                 buffer.Add(",");

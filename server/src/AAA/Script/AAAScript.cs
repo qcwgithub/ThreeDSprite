@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class AAAScript : IScript {
-    public AAAServer server { get; set; }
+    public Server server { get; set; }
     public AAAData data { get { return this.server.aaaData; } }
     public BaseScript baseScript { get { return this.server.baseScript; } }
 

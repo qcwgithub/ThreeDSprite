@@ -1,7 +1,7 @@
 
 public class LocRegister : BaseRegister {
-    register(LocServer server) {
-        super.register(server);
+    public override void register(Server server) {
+        base.register(server);
 
         server.dispatcher.addHandler(new LocStart());
         server.dispatcher.addHandler(new LocOnDisconnect());

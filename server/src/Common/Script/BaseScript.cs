@@ -101,7 +101,7 @@ public class BaseScript : IScript
     // ids=null 表示全部，monitor使用
     public IEnumerator requestLocationYield(int[] ids, MyResponse r)
     {
-        this.logger.info("requstLoc " + JSON.stringify(ids));
+        this.logger.info("requstLoc " + this.server.jsonUtils.stringify(ids));
         while (true)
         {
             yield return this.sendYield(
@@ -287,7 +287,7 @@ public class BaseScript : IScript
     public T loadJson<T>(string file)
     {
         string str = File.ReadAllText(file, Encoding.UTF8);
-        T obj = default(T);//JSON.parse(str);
+        T obj = this.server.jsonUtils.parse<T>(str);
         return obj;
     }
 

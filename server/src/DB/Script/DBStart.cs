@@ -1,10 +1,20 @@
 // 文档：https://www.npmjs.com/package/mysql
 using System.Collections;
+using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+using System.Data;
 
-public class DBStart : DBHandler {
+public class DBStart : DBHandler
+{
     public override MsgType msgType { get { return MsgType.Start; } }
 
-    public override IEnumerator handle(object socket, object _msg/* no use */, MyResponse r) {
+    private void onConnectionStateChange(object sender, StateChangeEventArgs e)
+    {
+        this.server.logger.info("MySqlConnection StateChange %s -> %s", e.OriginalState.ToString(), e.CurrentState.ToString());
+    }
+
+    public override IEnumerator handle(object socket, object _msg/* no use */, MyResponse r)
+    {
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
@@ -15,43 +25,36 @@ public class DBStart : DBHandler {
         this.baseScript.listen(() => false);
 
         // this.dispatcher.dispatch(MsgType.DBStart, {}, this.utils.emptyReply);
-        _SqlConfig sql = this.dbData.sqlConfig;
+        SqlConfig config = this.dbData.sqlConfig;
+        this.dbData.mySqlConnStr = string.Format("server={0};user={1};database={2};password={3}",
+            this.baseScript.myLoc().inIp, config.user, config.database);
 
-        this.dbData.pool = mysql.createPool({
-            connectionLimit: sql.connectionLimit,
-            host: this.baseScript.myLoc().inIp,
-            user: sql.user,
-            password: sql.password,
-            database: sql.database,
-            typeCast: (field: mysql.UntypedFieldInfo & {
-                string type;
-                int length;
-                string(): string;
-                buffer(): Buffer;
-                geometry(): null | mysql.GeometryType;
-            }, next: () => any) => {
-                var n = next();
+        // https://dev.mysql.com/doc/connector-net/en/connector-net-connections-pooling.html
+        // One approach that simplifies things is to avoid creating a MySqlConnection object manually
 
-                // 把 TIMESTAMP DATETIME 转换为整数，毫秒
-                if (field.type == "TIMESTAMP" || field.type == "DATETIME") {
-                    if (n == null) {
-                        return 0;
-                    }
-                    // if (this.baseScript.isDevelopment()) {
-                    //     if (n.constructor !== Date) {
-                    //         this.logger.error("n.constructor !== Date");
-                    //         return n;
-                    //     }
-                    // }
-                    return n.getTime();
+        // MySqlHelper
+        this.dbData.mySqlConns = new List<MySqlConnection>();
+        int connectedCount = 0;
+        for (int i = 0; i < config.connectionLimit; i++)
+        {
+            var conn = new MySqlConnection(connStr);
+            this.dbData.mySqlConns.Add(conn);
+            conn.StateChange += (object sender, StateChangeEventArgs e) =>
+            {
+                if (e.CurrentState == ConnectionState.Open)
+                {
+                    connectedCount++;
                 }
-                return n;
-            },
-        });
+            };
+            conn.OpenAsync();
+        }
 
-        this.dbData.pool.on("connection", conn => {
-            this.logger.info("DB event: connection");
-        });
+        while (connectedCount < config.connectionLimit)
+        {
+            yield return this.baseScript.waitYield(100);
+        }
+
+        // 把 TIMESTAMP DATETIME 转换为整数，毫秒
 
         this.baseScript.setState(ServerState.Started);
         r.err = ECode.Success;

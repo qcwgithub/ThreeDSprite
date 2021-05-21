@@ -1,3 +1,4 @@
-public class LocScript : IScript {
-    public LocServer server = null;
+public class LocScript : IScript
+{
+    public Server server { get; set; }
 }
