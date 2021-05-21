@@ -8,7 +8,7 @@ public class LocBroadcast : LocHandler
     public override IEnumerator handle(object socket, object _msg, MyResponse r)
     {
         var msg = _msg as MsgLocBroadcast;
-        this.logger.info("LocBroadcast, ids: %s, msgType: %s", this.server.jsonUtils.stringify(msg.ids), msg.msgType.ToString());
+        this.logger.info("LocBroadcast, ids: %s, msgType: %s", this.server.JSON.stringify(msg.ids), msg.msgType.ToString());
 
         // 只允许全部有效
         for (int i = 0; i < msg.ids.Length; i++)

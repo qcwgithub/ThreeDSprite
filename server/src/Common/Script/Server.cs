@@ -38,7 +38,7 @@ public class Server : IGameScripts
     public SqlLog sqlLog = null;
     public Utils utils = null;
     public SCUtils scUtils { get; set; }
-    public JsonUtils jsonUtils { get; set; }
+    public JsonUtils JSON { get; set; }
 
     //// aaaa and pm
     // public PayLtSqlUtils payLtSqlUtils = null;

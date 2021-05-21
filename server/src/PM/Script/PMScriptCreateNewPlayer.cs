@@ -10,7 +10,7 @@ public class PMScriptCreateNewPlayer : IScript
         player.id = playerId;
         player.server = this.server;
 
-        var defaultProfile = JSON.parse(this.server.pmData.defaultProfileConfig) as CProfile;
+        var defaultProfile = this.server.JSON.parse(this.server.pmData.defaultProfileConfig) as CProfile;
         if (channel == HermesChannels.uuid) {
             defaultProfile.userID = channelUserId;
         }

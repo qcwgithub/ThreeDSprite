@@ -65,9 +65,9 @@ class Program
         }
         return argMap;
     }
-    static _SqlConfig initSqlConfig(string name, string purposeLowerCase)
+    static SqlConfig initSqlConfig(string name, string purposeLowerCase)
     {
-        return new _SqlConfig
+        return new SqlConfig
         {
             connectionLimit = 10,
             user = $"user_{purposeLowerCase}_{name}",
@@ -359,7 +359,7 @@ class Program
 
             s.utils = new Utils();
             s.scUtils = new SCUtils();
-            s.jsonUtils = new JsonUtils();
+            s.JSON = new JsonUtils();
 
             s.sqlLog = new SqlLog();
             s.sqlLog.server = s;

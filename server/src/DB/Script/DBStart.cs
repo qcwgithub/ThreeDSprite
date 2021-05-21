@@ -26,7 +26,7 @@ public class DBStart : DBHandler
 
         // this.dispatcher.dispatch(MsgType.DBStart, {}, this.utils.emptyReply);
         SqlConfig config = this.dbData.sqlConfig;
-        this.dbData.mySqlConnStr = string.Format("server={0};user={1};database={2};password={3}",
+        this.dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
             this.baseScript.myLoc().inIp, config.user, config.database);
 
         // https://dev.mysql.com/doc/connector-net/en/connector-net-connections-pooling.html

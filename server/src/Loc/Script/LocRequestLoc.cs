@@ -1,12 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 
 public class LocRequestLoc : LocHandler
 {
     public override MsgType msgType { get { return MsgType.LocRequestLoc; } }
 
-    async MyResponse handle(object socket, MsgLocRequestLoc msg)
+    public override IEnumerator handle(object socket, object _msg, MyResponse r)
     {
-        this.logger.info("LocRequestConfig ids: " + JSON.stringify(msg.ids));
+        var msg = _msg as MsgLocRequestLoc;
+        this.logger.info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
 
         if (msg.ids == null)
         {
@@ -20,7 +22,7 @@ public class LocRequestLoc : LocHandler
         if (msg.ids.Count == 0)
         {
             r.err = ECode.Success;
-        yield break;
+            yield break;
         }
 
         // 取到所有为止
@@ -33,7 +35,7 @@ public class LocRequestLoc : LocHandler
             LocServerInfo info;
             if (!this.locData.map.TryGetValue(id, out info) || info == null)
             {
-                await this.baseScript.waitYield(1000);
+                yield return this.baseScript.waitYield(1000);
             }
             else
             {
@@ -47,9 +49,6 @@ public class LocRequestLoc : LocHandler
         }
 
         r.err = ECode.Success;
-
-        .res = res;
-
-        yield break;
+        r.res = res;
     }
 }

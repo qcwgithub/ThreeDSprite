@@ -8,7 +8,7 @@ public class DBTest : DBHandler {
         //     queryStr: "SELECT playerId FROM player_id;"
         // },
         // (object rep) => {
-        //     server.logger.info("DBTest rep: " + JSON.stringify(rep));
+        //     server.logger.info("DBTest rep: " + this.server.JSON.stringify(rep));
         // });
 
         var a = msg;

@@ -76,7 +76,7 @@ public class DBQuery : DBHandler
             {
                 if (error)
                 {
-                    this.baseScript.error("DBQuery error: " + JSON.stringify(error));
+                    this.baseScript.error("DBQuery error: " + this.server.JSON.stringify(error));
                     var res = new ResMysqlError { code = error.code, errno = error.errno };
                     waiter.finish(new MyResponse(ECode.SqlError, res));
                 }

@@ -40,7 +40,7 @@ public class AAATest : AAAHandler
         //     var r = yield server.waitYield(2000);
         //     if (server.dbAccountSocket != null && server.networkHelper.isConnected(server.dbAccountSocket)) {   
         //         var test_r = yield server.sendYield(server.dbAccountSocket, MsgType.DBTest, {});
-        //         server.logger.info("test_r: " + JSON.stringify(test_r));
+        //         server.logger.info("test_r: " + this.server.JSON.stringify(test_r));
         //     }
         // }
 
