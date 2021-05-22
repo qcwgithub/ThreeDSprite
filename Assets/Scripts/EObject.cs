@@ -8,6 +8,7 @@ public enum EType
     Floor,
     Stair,
     BoxObstacle,
+    Tree,
 }
 
 public enum FloorComposition
@@ -18,6 +19,7 @@ public enum FloorComposition
 public enum BoxObstacleComposition
 {
     ChildrenBoxCollidersBox,
+    SelfBoxColliderBox,
 }
 
 public enum StairComposition
@@ -115,8 +117,12 @@ public class EObject : MonoBehaviour
         switch (this.BoxObstacleComposition)
         {
             case BoxObstacleComposition.ChildrenBoxCollidersBox:
+            case BoxObstacleComposition.SelfBoxColliderBox:
                 {
-                    BoxCollider[] colliders = this.GetComponentsInChildren<BoxCollider>(false);
+                    BoxCollider[] colliders = 
+                        this.BoxObstacleComposition == BoxObstacleComposition.ChildrenBoxCollidersBox 
+                        ? this.GetComponentsInChildren<BoxCollider>(false)
+                        : new BoxCollider[] { this.GetComponent<BoxCollider>() };
                     for (int i = 0; i < colliders.Length; i++)
                     {
                         Bounds bound = colliders[i].bounds;
@@ -137,6 +143,29 @@ public class EObject : MonoBehaviour
 
         return data;
     }
+    public LTreeData ToTreeData()
+    {
+        LTreeData data = new LTreeData();
+        data.Id = this.Id;
+
+        BoxCollider[] colliders = new BoxCollider[] { this.GetComponent<BoxCollider>() };
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Bounds bound = colliders[i].bounds;
+            Vector3 min = bound.min;
+            Vector3 max = bound.max;
+
+            if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
+            if (i == 0 || min.y < data.Min.y) data.Min.y = min.y;
+            if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
+
+            if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
+            if (i == 0 || max.y > data.Max.y) data.Max.y = max.y;
+            if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+        }
+
+        return data;
+    }
     public LMapData ToMapData()
     {
         LMapData data = new LMapData();
@@ -145,6 +174,7 @@ public class EObject : MonoBehaviour
         var Floors = new List<LFloorData>();
         var Stairs = new List<LStairData>();
         var BoxObstacles = new List<LBoxObstacleData>();
+        var Trees = new List<LTreeData>();
 
         EObject[] objects = this.GetComponentsInChildren<EObject>(false);
         for (int i = 0; i < objects.Length; i++)
@@ -161,12 +191,16 @@ public class EObject : MonoBehaviour
                 case EType.BoxObstacle:
                     BoxObstacles.Add(obj.ToBoxObstaleData());
                     break;
+                case EType.Tree:
+                    Trees.Add(obj.ToTreeData());
+                    break;
             }
         }
 
         data.Floors = Floors.ToArray();
         data.Stairs = Stairs.ToArray();
         data.BoxObstacles = BoxObstacles.ToArray();
+        data.Trees = Trees.ToArray();
 
         return data;
     }

@@ -266,6 +266,23 @@ public class MyAlignEditor : EditorWindow
             this.targets[i].transform.position = p;
         }
     }
+    private void RandomSelectsInRect()
+    {
+        var array = Selection.gameObjects;
+        int L = array.Length;
+        if (L == 0)
+        {
+            Debug.Log("Selection.gameObjects.Length == 0");
+            return;
+        }
+
+        for (int i = 0; i < L; i++)
+        {
+            Vector3 p = new Vector3(Random.Range(this.RandomTopLeft.x, this.RandomBottomRight.x), this.RandomTopLeft.y,
+                Random.Range(this.RandomTopLeft.z, this.RandomBottomRight.z));
+            array[i].transform.position = p;
+        }
+    }
 
     private void OnGUI()
     {
@@ -354,6 +371,10 @@ public class MyAlignEditor : EditorWindow
         if (GUILayout.Button("Random targets in rect"))
         {
             this.RandomTargetsInRect();
+        }
+        if (GUILayout.Button("Random selects in rect"))
+        {
+            this.RandomSelectsInRect();
         }
 
         //click = GUILayout.Button("Clone");

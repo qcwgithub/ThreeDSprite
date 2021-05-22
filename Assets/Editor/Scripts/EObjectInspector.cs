@@ -118,6 +118,14 @@ public class EObjectInspector : Editor
                     }
                     break;
 
+                case EType.Tree:
+                    {
+                        CTree ob = obj.gameObject.AddComponent<CTree>();
+                        ob.Id = obj.Id;
+                        DestroyImmediate(obj);
+                    }
+                    break;
+
                 default:
                     Debug.LogError("Unknown EType: " + obj.Type.ToString());
                     break;

@@ -9,6 +9,7 @@ public class LFloor : LObject, IWalkable
     {
         this.Data = data;
     }
+    public override LObjectType Type { get { return LObjectType.Floor; } }
 
     //public override int Priority { get { return 1; } }
 
@@ -79,5 +80,15 @@ public class LFloor : LObject, IWalkable
             return false;
         }
         return true;
+    }
+
+    public override void AddToOctree(BoundsOctree<LObject> octree)
+    {
+        Vector3 min = LVector3.ToVector3(this.Data.Min);
+        Vector3 max = LVector3.ToVector3(this.Data.Max);
+        Vector3 center = (min + max) / 2;
+        Vector3 size = max - min;
+
+        octree.Add(this, new Bounds(center, size));
     }
 }

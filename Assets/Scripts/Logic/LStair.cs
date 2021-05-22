@@ -15,6 +15,7 @@ public class LStair : LObject, IWalkable
     {
         this.Data = data;
     }
+    public override LObjectType Type { get { return LObjectType.Stair; } }
 
     protected bool CheckXZOutOfRange(Vector3 pos)
     {
@@ -128,5 +129,14 @@ public class LStair : LObject, IWalkable
             return false;
         }
         return true;
+    }
+    public override void AddToOctree(BoundsOctree<LObject> octree)
+    {
+        Vector3 min = LVector3.ToVector3(this.Data.Min);
+        Vector3 max = LVector3.ToVector3(this.Data.Max);
+        Vector3 center = (min + max) / 2;
+        Vector3 size = max - min;
+
+        octree.Add(this, new Bounds(center, size));
     }
 }

@@ -11,6 +11,7 @@ public class LBoxObstacle : LObject, IObstacle
         this.Data = data;
         this.Y = data.Max.y;
     }
+    public override LObjectType Type { get { return LObjectType.BoxObstacle; } }
 
     public virtual bool LimitMove(Vector3 from, ref Vector3 delta)
     {
@@ -43,5 +44,16 @@ public class LBoxObstacle : LObject, IObstacle
             ret = true;
         }
         return ret;
+    }
+
+
+    public override void AddToOctree(BoundsOctree<LObject> octree)
+    {
+        Vector3 min = LVector3.ToVector3(this.Data.Min);
+        Vector3 max = LVector3.ToVector3(this.Data.Max);
+        Vector3 center = (min + max) / 2;
+        Vector3 size = max - min;
+
+        octree.Add(this, new Bounds(center, size));
     }
 }

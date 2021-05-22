@@ -8,6 +8,7 @@ public class LCharacter : LObject
     {
 
     }
+    public override LObjectType Type { get { return LObjectType.Character; } }
     public event Action<Vector3> PosChanged;
 
     private IWalkable walkable;
@@ -43,5 +44,10 @@ public class LCharacter : LObject
                 this.PosChanged(value);
             }
         }
+    }
+
+    public override void AddToOctree(BoundsOctree<LObject> octree)
+    {
+        
     }
 }

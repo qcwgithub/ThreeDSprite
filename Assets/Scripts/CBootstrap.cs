@@ -41,7 +41,7 @@ public class CBootstrap : MonoBehaviour
 
         LCharacter lChar = new LCharacter(10000);
         lChar.Pos = this.Character.transform.position;
-        this.Character.Apply(lChar);
+        this.Character.Apply(lChar, cMap);
         this.InputManager.OnInput += (Vector3 dir) =>
         {
             if (lChar.Walkable == null)
@@ -54,5 +54,10 @@ public class CBootstrap : MonoBehaviour
                 lMap.Move(lChar, delta);
             }
         };
+    }
+
+    private void Update()
+    {
+        
     }
 }

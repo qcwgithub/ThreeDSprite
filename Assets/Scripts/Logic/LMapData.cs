@@ -49,4 +49,12 @@ public class LMapData
     public LFloorData[] Floors;
     public LStairData[] Stairs;
     public LBoxObstacleData[] BoxObstacles;
+    public LTreeData[] Trees;
+}
+
+public class LTreeData
+{
+    public int Id;
+    public LVector3 Min;
+    public LVector3 Max;
 }

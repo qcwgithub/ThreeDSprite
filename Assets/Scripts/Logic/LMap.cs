@@ -7,7 +7,8 @@ public class LMap
     public Dictionary<int, LObject> DictObjects = new Dictionary<int, LObject>();
     private List<IWalkable> Walkables = new List<IWalkable>();
     private List<IObstacle> Obstacles = new List<IObstacle>();
-
+    private List<LTree> Trees = new List<LTree>();
+    public BoundsOctree<LObject> Octree { get; private set; }
     public LMap(LMapData data)
     {
         this.Data = data; 
@@ -33,6 +34,21 @@ public class LMap
             LBoxObstacle obstacle = new LBoxObstacle(obData);
             this.Obstacles.Add(obstacle);
             this.DictObjects.Add(obstacle.Id, obstacle);
+        }
+
+        for (int i = 0; i < data.Trees.Length; i++)
+        {
+            LTreeData treeData = data.Trees[i];
+            LTree tree = new LTree(treeData);
+            this.Trees.Add(tree);
+            this.DictObjects.Add(tree.Id, tree);
+        }
+
+        // create octree
+        this.Octree = new BoundsOctree<LObject>(15, Vector3.zero, 1f, 1.2f);
+        foreach (var kv in this.DictObjects)
+        {
+            kv.Value.AddToOctree(this.Octree);
         }
     }
 
