@@ -5,7 +5,7 @@ using UnityEngine;
 public class LFloor : LObject, IWalkable
 {
     public LFloorData Data { get; private set; }
-    public LFloor(LFloorData data): base(data.Id)
+    public LFloor(LMap lMap, LFloorData data): base(lMap, data.Id)
     {
         this.Data = data;
     }

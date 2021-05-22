@@ -6,7 +6,7 @@ public class LBoxObstacle : LObject, IObstacle
 {
     public LBoxObstacleData Data { get; private set; }
     public float Y { get; private set; }
-    public LBoxObstacle(LBoxObstacleData data): base(data.Id)
+    public LBoxObstacle(LMap lMap, LBoxObstacleData data): base(lMap, data.Id)
     {
         this.Data = data;
         this.Y = data.Max.y;

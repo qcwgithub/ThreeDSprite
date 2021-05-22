@@ -9,13 +9,14 @@ public class LMap
     private List<IObstacle> Obstacles = new List<IObstacle>();
     private List<LTree> Trees = new List<LTree>();
     public BoundsOctree<LObject> Octree { get; private set; }
+    private HashSet<int> needUpdates = new HashSet<int>();
     public LMap(LMapData data)
     {
         this.Data = data; 
         for (int i = 0; i < data.Floors.Length; i++)
         {
             LFloorData floorData = data.Floors[i];
-            LFloor floor = new LFloor(floorData);
+            LFloor floor = new LFloor(this, floorData);
             this.Walkables.Add(floor);
             this.DictObjects.Add(floor.Id, floor);
         }
@@ -23,7 +24,7 @@ public class LMap
         for (int i = 0; i < data.Stairs.Length; i++)
         {
             LStairData stairData = data.Stairs[i];
-            LStair stair = new LStair(stairData);
+            LStair stair = new LStair(this, stairData);
             this.Walkables.Add(stair);
             this.DictObjects.Add(stair.Id, stair);
         }
@@ -31,7 +32,7 @@ public class LMap
         for (int i = 0; i < data.BoxObstacles.Length; i++)
         {
             LBoxObstacleData obData = data.BoxObstacles[i];
-            LBoxObstacle obstacle = new LBoxObstacle(obData);
+            LBoxObstacle obstacle = new LBoxObstacle(this, obData);
             this.Obstacles.Add(obstacle);
             this.DictObjects.Add(obstacle.Id, obstacle);
         }
@@ -39,7 +40,7 @@ public class LMap
         for (int i = 0; i < data.Trees.Length; i++)
         {
             LTreeData treeData = data.Trees[i];
-            LTree tree = new LTree(treeData);
+            LTree tree = new LTree(this, treeData);
             this.Trees.Add(tree);
             this.DictObjects.Add(tree.Id, tree);
         }
@@ -62,6 +63,33 @@ public class LMap
         return obj;
     }
 
+    private List<int> toRemoves = new List<int>();
+    public void RemoveObject(int id)
+    {
+        LObject obj = this.GetObject(id);
+        if (obj == null)
+        {
+            return;
+        }
+
+
+    }
+
+    //public bool FindAWalkable(LCharacter lChar)
+    //{
+    //    for (int i = 0; i < lChar.Collidings.Count; i++)
+    //    {
+    //        IWalkable walkable = lChar.Collidings[i] as IWalkable;
+    //        if (walkable != null && walkable != preWalkable && walkable.CanAccept(from, delta))
+    //        {
+    //            lChar.Walkable = walkable;
+    //            PredictMoveResult result = walkable.PredictMove(from, delta);
+    //            y = result.Y;
+    //            break;
+    //        }
+    //    }
+    //}
+
     public void Move(LCharacter lChar, Vector3 delta)
     {
         Vector3 from = lChar.Pos;
@@ -78,23 +106,41 @@ public class LMap
             }
             else
             {
-                Debug.Log("Out of range, " + ((LObject)lChar.Walkable).Id);
+                Debug.Log("Out of range, " + lChar.Walkable.ToString());
                 lChar.Walkable = null;
             }
         }
 
         if (lChar.Walkable == null)
         {
-            for (int i = 0; i < this.Walkables.Count; i++)
+            // find a new walkables
+            for (int i = 0; i < lChar.Collidings.Count; i++)
             {
-                if (this.Walkables[i] != preWalkable && this.Walkables[i].CanAccept(from, delta))
+                IWalkable walkable = lChar.Collidings[i] as IWalkable;
+                if (walkable == null || walkable == preWalkable)
                 {
-                    lChar.Walkable = this.Walkables[i];
-                    PredictMoveResult result = this.Walkables[i].PredictMove(from, delta);
+                    continue;
+                }
+                if (walkable.CanAccept(from, delta))
+                {
+                    lChar.Walkable = walkable;
+                    PredictMoveResult result = walkable.PredictMove(from, delta);
                     y = result.Y;
                     break;
                 }
             }
+
+            // old implement
+            //for (int i = 0; i < this.Walkables.Count; i++)
+            //{
+            //    if (this.Walkables[i] != preWalkable && this.Walkables[i].CanAccept(from, delta))
+            //    {
+            //        lChar.Walkable = this.Walkables[i];
+            //        PredictMoveResult result = this.Walkables[i].PredictMove(from, delta);
+            //        y = result.Y;
+            //        break;
+            //    }
+            //}
         }
 
         if (lChar.Walkable != null)
@@ -102,13 +148,24 @@ public class LMap
             delta.y = y - from.y;
         }
 
-        for (int i = 0; i < this.Obstacles.Count; i++)
+        // limit by obstacles
+        for (int i = 0; i < lChar.Collidings.Count; i++)
         {
-            if (this.Obstacles[i].LimitMove(from, ref delta))
+            IObstacle ob = lChar.Collidings[i] as IObstacle;
+            if (ob != null && ob.LimitMove(from, ref delta))
             {
                 break;
             }
         }
+
+        // old implement
+        //for (int i = 0; i < this.Obstacles.Count; i++)
+        //{
+        //    if (this.Obstacles[i].LimitMove(from, ref delta))
+        //    {
+        //        break;
+        //    }
+        //}
 
         lChar.Pos = from + delta;
     }
@@ -121,6 +178,22 @@ public class LMap
 
     public void AddCharacter(LCharacter lChar)
     {
-        
+        this.DictObjects.Add(lChar.Id, lChar);
+    }
+
+    public void AddNeedUpdate(int id)
+    {
+        this.needUpdates.Add(id);
+    }
+
+    private bool updating = false;
+    public void Update()
+    {
+        this.updating = true;
+        foreach (var id in this.needUpdates)
+        {
+            this.GetObject(id).Update();
+        }
+        this.updating = false;
     }
 }

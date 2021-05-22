@@ -25,6 +25,8 @@ public class CBootstrap : MonoBehaviour
 
         LMapData mapData = JsonUtils.FromJson<LMapData>(textAsset.text);
         LMap lMap = new LMap(mapData);
+        LCharacter lChar = new LCharacter(lMap, 10000);
+        lMap.AddCharacter(lChar);
 
         Debug.Log("Object count: " + lMap.DictObjects.Count);
 
@@ -39,7 +41,6 @@ public class CBootstrap : MonoBehaviour
         CMap cMap = go.GetComponent<CMap>();
         cMap.Apply(lMap);
 
-        LCharacter lChar = new LCharacter(10000);
         lChar.Pos = this.Character.transform.position;
         this.Character.Apply(lChar, cMap);
         this.InputManager.OnInput += (Vector3 dir) =>

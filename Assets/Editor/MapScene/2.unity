@@ -7389,6 +7389,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 476281481}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &476281483 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5769961515726648831, guid: 92dbf8c62b4d8e947b0d22997fd694f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 476281481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &476281484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476281483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 64
+  Type: 3
+  StairDir: 0
+  FloorComposition: 0
+  BoxObstacleComposition: 1
+  StairComposition: 0
 --- !u!1001 &476506824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8101,6 +8125,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 530795117}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &530795119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -607772179931974456, guid: 92dbf8c62b4d8e947b0d22997fd694f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 530795117}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &530795120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530795119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 62
+  Type: 3
+  StairDir: 0
+  FloorComposition: 0
+  BoxObstacleComposition: 1
+  StairComposition: 0
 --- !u!1001 &531559447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10359,6 +10407,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 681115996}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &681115998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -595215928813336857, guid: 92dbf8c62b4d8e947b0d22997fd694f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 681115996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &681115999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681115998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 61
+  Type: 3
+  StairDir: 0
+  FloorComposition: 0
+  BoxObstacleComposition: 1
+  StairComposition: 0
 --- !u!1001 &684261670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10821,6 +10893,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 732270676}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &732270678 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -595215928813336857, guid: 92dbf8c62b4d8e947b0d22997fd694f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 732270676}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &732270679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732270678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 60
+  Type: 3
+  StairDir: 0
+  FloorComposition: 0
+  BoxObstacleComposition: 1
+  StairComposition: 0
 --- !u!1001 &734193396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12089,6 +12185,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 849515064}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &849515066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -607772179931974456, guid: 92dbf8c62b4d8e947b0d22997fd694f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 849515064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &849515067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849515066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 63
+  Type: 3
+  StairDir: 0
+  FloorComposition: 0
+  BoxObstacleComposition: 1
+  StairComposition: 0
 --- !u!1 &853018491
 GameObject:
   m_ObjectHideFlags: 0
@@ -12114,7 +12234,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853018491}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 19.16}
+  m_LocalPosition: {x: 0, y: 0, z: 13.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2021398896}
@@ -21263,6 +21383,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1477947728}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1477947730 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5769961515726648831, guid: 92dbf8c62b4d8e947b0d22997fd694f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1477947728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1477947731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477947730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 65
+  Type: 3
+  StairDir: 0
+  FloorComposition: 0
+  BoxObstacleComposition: 1
+  StairComposition: 0
 --- !u!1001 &1485456485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23989,7 +24133,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1673057417}
-  - component: {fileID: 1673057419}
   m_Layer: 0
   m_Name: Pillars
   m_TagString: Untagged
@@ -24025,24 +24168,6 @@ Transform:
   m_Father: {fileID: 2015462754}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1673057419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673057416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Id: 34
-  Type: 3
-  StairDir: 0
-  FloorComposition: 0
-  BoxObstacleComposition: 0
-  StairComposition: 0
 --- !u!1001 &1674173799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27889,6 +28014,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1955676965}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1955676967 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -595215928813336857, guid: 92dbf8c62b4d8e947b0d22997fd694f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1955676965}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1955676968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955676967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e9c676108d4ee46a4b7bebd3312a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 59
+  Type: 3
+  StairDir: 0
+  FloorComposition: 0
+  BoxObstacleComposition: 1
+  StairComposition: 0
 --- !u!1 &1958684933
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public enum StairDir
 public class LStair : LObject, IWalkable
 {
     public LStairData Data { get; private set; }
-    public LStair(LStairData data) : base(data.Id)
+    public LStair(LMap lMap, LStairData data) : base(lMap, data.Id)
     {
         this.Data = data;
     }

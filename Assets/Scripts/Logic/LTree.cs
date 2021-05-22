@@ -5,7 +5,7 @@ using UnityEngine;
 public class LTree : LObject
 {
     public LTreeData Data { get; private set; }
-    public LTree(LTreeData data) : base(data.Id)
+    public LTree(LMap lMap, LTreeData data) : base(lMap, data.Id)
     {
         this.Data = data;
     }
