@@ -111,13 +111,26 @@ public class LMap
             }
         }
 
-        if (lChar.Walkable == null)
+        // find a new walkables
+        int index = 0;
+        if (lChar.Walkable != null)
         {
-            // find a new walkables
-            for (int i = 0; i < lChar.Collidings.Count; i++)
+            index = lChar.Collidings.FindIndex(_ => _.obj is IWalkable && (_.obj as IWalkable) == preWalkable);
+            if (index >= 0)
             {
-                IWalkable walkable = lChar.Collidings[i] as IWalkable;
-                if (walkable == null || walkable == preWalkable)
+                index++;
+            }
+        }
+        if (index >= 0)
+        {
+            for (; index < lChar.Collidings.Count; index++)
+            {
+                IWalkable walkable = lChar.Collidings[index].obj as IWalkable;
+                if (walkable == null)
+                {
+                    continue;
+                }
+                if (walkable == preWalkable)
                 {
                     continue;
                 }
@@ -129,18 +142,6 @@ public class LMap
                     break;
                 }
             }
-
-            // old implement
-            //for (int i = 0; i < this.Walkables.Count; i++)
-            //{
-            //    if (this.Walkables[i] != preWalkable && this.Walkables[i].CanAccept(from, delta))
-            //    {
-            //        lChar.Walkable = this.Walkables[i];
-            //        PredictMoveResult result = this.Walkables[i].PredictMove(from, delta);
-            //        y = result.Y;
-            //        break;
-            //    }
-            //}
         }
 
         if (lChar.Walkable != null)
@@ -151,7 +152,7 @@ public class LMap
         // limit by obstacles
         for (int i = 0; i < lChar.Collidings.Count; i++)
         {
-            IObstacle ob = lChar.Collidings[i] as IObstacle;
+            IObstacle ob = lChar.Collidings[i].obj as IObstacle;
             if (ob != null && ob.LimitMove(from, ref delta))
             {
                 break;

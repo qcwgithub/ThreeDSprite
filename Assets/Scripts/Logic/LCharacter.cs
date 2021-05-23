@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
+public struct LObject_Time
+{
+    public LObject obj;
+    public float time;
+}
+
+
 public class LCharacter : LObject
 {
     public LCharacter(LMap lMap, int id) : base(lMap, id)
@@ -24,9 +31,9 @@ public class LCharacter : LObject
                 return;
             }
             this.walkable = value;
-            //Debug.Log(string.Format("{0} -> {1}", 
-            //    pre == null ? "null" : pre.Id.ToString(), 
-            //    value == null ? "null" : value.Id.ToString()));
+            Debug.Log(string.Format("{0} -> {1}",
+                pre == null ? "null" : pre.ToString(),
+                value == null ? "null" : value.ToString()));
         }
     }
 
@@ -48,19 +55,38 @@ public class LCharacter : LObject
     }
 
     private List<LObject> colliding1 = new List<LObject>();
-    public List<LObject> Collidings { get; } = new List<LObject>();
+    public List<LObject_Time> Collidings { get; } = new List<LObject_Time>();
     public override void Update()
     {
         Bounds bounds = new Bounds(this.Pos, new Vector3(0.4f, 0.4f, 0.4f));
         this.colliding1.Clear();
         this.lMap.Octree.GetColliding(this.colliding1, bounds);
 
+        for (int i = 0; i < this.Collidings.Count; i++)
+        {
+            if (!this.colliding1.Exists(_ => _.Id == this.Collidings[i].obj.Id))
+            {
+                //Debug.Log("Remove Coillision " + this.Collidings[i].obj.ToString());
+                this.Collidings.RemoveAt(i);
+                i--;
+            }
+        }
+
+        for (int i = 0; i < this.colliding1.Count; i++)
+        {
+            if (!this.Collidings.Exists(_ => _.obj.Id == this.colliding1[i].Id))
+            {
+                //Debug.Log("Add Coillision " + this.colliding1[i].ToString());
+                this.Collidings.Add(new LObject_Time { obj = this.colliding1[i], time = Time.time });
+            }
+        }
+        /*
         bool different = this.colliding1.Count != this.Collidings.Count;
         if (!different)
         {
             for (int i = 0; i < this.colliding1.Count; i++)
             {
-                if (this.colliding1[i].Id != this.Collidings[i].Id)
+                if (this.colliding1[i].Id != this.Collidings[i].obj.Id)
                 {
                     different = true;
                     break;
@@ -81,8 +107,9 @@ public class LCharacter : LObject
             }
             Debug.Log(sb.ToString());
             //
-            this.Collidings.Clear();
-            this.Collidings.AddRange(this.colliding1);
+            //this.Collidings.Clear();
+            //this.Collidings.AddRange(this.colliding1);
         }
+        */
     }
 }

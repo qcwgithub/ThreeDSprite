@@ -6,6 +6,8 @@ public class CMap : MonoBehaviour
 {
     public int Id;
     public LMap lMap { get; private set; }
+    public bool DrawGizmos_BoundsTree = false;
+    public bool DrawGizmos_ObjectBounds = false;
     public void Apply(LMap lMap)
     {
         this.lMap = lMap;
@@ -19,18 +21,23 @@ public class CMap : MonoBehaviour
                 Debug.LogError("lObj is null, id: " + cObj.Id);
                 continue;
             }
-            cObj.Apply(lObj);
+            cObj.Apply(this, lObj);
         }
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
+        if (!this.DrawGizmos_BoundsTree)
+        {
+            return;
+        }
         var boundsTree = this.lMap.Octree;
         boundsTree.DrawAllBounds(); // Draw node boundaries
         boundsTree.DrawAllObjects(); // Draw object boundaries
         boundsTree.DrawCollisionChecks(); // Draw the last *numCollisionsToSave* collision check boundaries
     }
-
+#endif
     private void Update()
     {
         this.lMap.Update();
