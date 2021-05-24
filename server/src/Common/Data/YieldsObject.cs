@@ -25,13 +25,13 @@ public class RequestObject
         // 2 dispatcher中本来就保证会回复---- 也不行，他只处理没有返回值的情况
         this.timer = this.server.baseScript.setTimer(() =>
         {
-            this.doReply(new MyResponse(ECode.Timeout, null));
+            this.doReply(ECode.Timeout, null);
         }, 30000);
     }
     
     private bool replied = false;
     private int timer = -1;
-    private void doReply(MyResponse r)
+    private void doReply(ECode e, string r)
     {
         if (this.replied)
         {
@@ -44,7 +44,7 @@ public class RequestObject
             this.timer = -1;
         }
 
-        this.completeSource.TrySetResult(r);
+        this.completeSource.TrySetResult(new MyResponse(e, r));
     }
 }
 
@@ -57,8 +57,8 @@ public class WaitCallBack
         this.completeSource = new TaskCompletionSource<MyResponse>();
     }
     
-    public void finish(MyResponse r)
+    public void finish(ECode e, string r)
     {
-        this.completeSource.TrySetResult(r);
+        this.completeSource.TrySetResult(new MyResponse(e, r));
     }
 }

@@ -7,6 +7,24 @@ using System.Threading.Tasks;
 // only for connect
 public class MyWebSocketC : MyWebSocket
 {
+    public Action<object> onConnect = null;
+    public Action<object> onDisconnect = null;
+
+    protected override void CallOnConnect()
+    {
+        if (this.onConnect != null)
+        {
+            this.onConnect(this);
+        }
+    }
+    protected override void CallOnDisconnect()
+    {
+        if (this.onDisconnect != null)
+        {
+            this.onDisconnect(this);
+        }
+    }
+
     public string url = null;
     public int reconnectInterval = 3000;
     public async Task connectAsync()

@@ -14,13 +14,13 @@ public class DBStart : DBHandler
         this.server.logger.info("MySqlConnection StateChange %s -> %s", e.OriginalState.ToString(), e.CurrentState.ToString());
     }
 
-    public override async Task<MyResponse> handle(object socket, object _msg/* no use */)
+    public override async Task<MyResponse> handle(object socket, string _msg/* no use */)
     {
         MyResponse r = null;
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        r = await this.baseScript.connectAsync(ServerConst.LOC_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.LOC_ID);
         this.baseData.locSocket = r.res;
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 

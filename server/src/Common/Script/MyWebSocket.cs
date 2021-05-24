@@ -8,8 +8,6 @@ public class MyWebSocket
     public int mySocketId = -1;
     public Server server;
     public WebSocket socket;
-    public Action<object, bool> onConnect = null;
-    public Action<object, bool> onDisconnect = null;
 
     public object Player = null;
     public int clientTimestamp = 0;
@@ -19,6 +17,8 @@ public class MyWebSocket
     const int ReceiveChunkSize = 1024;
     const int SendChunkSize = 1024;
 
+    protected virtual void CallOnConnect() { }
+    protected virtual void CallOnDisconnect() { }
 
     public bool IsConnected()
     {
@@ -40,7 +40,7 @@ public class MyWebSocket
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
                         await this.socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                        this.onDisconnect(this);
+                        this.CallOnDisconnect();
                     }
                     else
                     {
@@ -55,7 +55,7 @@ public class MyWebSocket
         }
         catch (Exception ex)
         {
-            this.onDisconnect(this);
+            this.CallOnDisconnect();
         }
         finally
         {

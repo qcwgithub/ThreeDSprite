@@ -12,7 +12,7 @@ public class AAAStart : AAAHandler
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        r = await this.baseScript.connectAsync(ServerConst.LOC_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.LOC_ID);
         this.baseData.locSocket = r.res;
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
@@ -20,15 +20,15 @@ public class AAAStart : AAAHandler
         r = await this.baseScript.requestLocationYield(new int[] { ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID });
 
         // connect to dbAccount
-        r = await this.baseScript.connectAsync(ServerConst.DB_ACCOUNT_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.DB_ACCOUNT_ID);
         this.baseData.dbAccountSocket = r.res;
 
         // connect to dbPlayer
-        r = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID);
         this.baseData.dbPlayerSocket = r.res;
 
         // connect to dbLog
-        r = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID);
         this.baseData.dbLogSocket = r.res;
 
         // load next player id

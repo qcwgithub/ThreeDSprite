@@ -20,13 +20,13 @@ public class MessageDispatcher : IScript {
         this.server.baseData.handlers.Remove(type);
         return handler;
     }
-    private readonly Action<MyResponse> emptyReply = (MyResponse r) => {};
+    private readonly Action<ECode, string> emptyReply = (e,r) => { };
 
     // about reply
     // 1 处理网络来的请求，reply 是回复请求
     // 2 自己调用 dispatch 的，reply 没什么用，为了统一，赋值为 utils.emptyReply
     // reply()的参数统一为 MyResponse
-    public async Task<MyResponse> dispatch(object socket, MsgType type, object msg, Action<MyResponse> reply) {
+    public async void dispatch(object socket, MsgType type, string msg, Action<ECode, string> reply) {
         if (reply == null) {
             reply = this.emptyReply;
         }
@@ -34,13 +34,15 @@ public class MessageDispatcher : IScript {
         Handler handler;
         if (!this.server.baseData.handlers.TryGetValue(type, out handler)) {
             this.server.baseScript.error("no handler for message %d, %s", type, type.ToString());
-            return ECode.Error;
+            reply(ECode.Error, null);
+            return;
         }
         
         // try {
             // MyResponse res = new MyResponse(ECode.Error, null);
-            return await handler.handle(socket, msg);
-            // this.server.coroutineMgr.iterate(ie, () => {
+            var r = await handler.handle(socket, msg);
+        reply(r.err, r.res == null ? null : this.server.JSON.stringify(r.res));    
+        // this.server.coroutineMgr.iterate(ie, () => {
             //     handler.postHandle(socket, msg);
             //     reply(res);
             // });

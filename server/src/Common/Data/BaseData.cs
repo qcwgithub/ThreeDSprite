@@ -42,4 +42,6 @@ public class BaseData {
 
     public int errorCount = 0;
     public int defaultDateTime = 0;
+
+    public Random random = new Random();
 }

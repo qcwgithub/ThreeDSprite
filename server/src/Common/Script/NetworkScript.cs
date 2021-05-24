@@ -21,7 +21,8 @@ public class NetworkScript
     }
     public void closeSocket(object socket)
     {
-        ((MyWebSocket)socket).closeImmediately();
+        // todo
+        //((MyWebSocket)socket).closeImmediately();
     }
 
     public void bindPlayerAndSocket(PMPlayerInfo player, object socket, int clientTimestamp)
@@ -50,7 +51,7 @@ public class NetworkScript
         return (PMPlayerInfo)((MyWebSocket)socket).Player;
     }
 
-    public async Task<object> connectAsync(string url, Action<object, bool> onConnect, Action<object, bool> onDisconnect)
+    public async Task<object> connectAsync(string url, Action<object> onConnect, Action<object> onDisconnect)
     {
         var ws = new MyWebSocketC();
         ws.mySocketId = this.server.baseData.socketId++;
@@ -138,8 +139,7 @@ public class NetworkScript
             ws.socket = webSocketContext.WebSocket;
             ws.onConnect = onConnect;
             ws.onDisconnect = onDisconnect;
-            onConnect(ws, fromServer);
-
+            ws.isConnectFromServer = fromServer;
             // start ping
             ws.setPing();
         }

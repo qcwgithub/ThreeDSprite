@@ -134,16 +134,19 @@ public class BaseScript : IScript
         this.logger.info("connectYield " + url);
         string to = Utils.numberId2stringId(toId);
 
+        string msgOnConnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
+        string msgOnDisconnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
+
         object s = await this.server.network.connectAsync(url,
-            (object socket, bool isServer/* always true */) =>
+            (object socket) =>
             { // onconnect
                 //this.logger.info("-> %s: connected", to);
-                this.dispatcher.dispatch(socket, MsgType.OnConnect, new MsgOnConnect { isListen = false, isServer = true }, null);
+                this.dispatcher.dispatch(socket, MsgType.OnConnect, msgOnConnect, null);
             },
-            (object socket, bool isServer/* always true */) =>
+            (object socket) =>
             { // onDisconnect
                 //this.error("-> %s: disconnected", to);
-                this.dispatcher.dispatch(socket, MsgType.OnDisconnect, new MsgOnConnect { isListen = false, isServer = true }, null);
+                this.dispatcher.dispatch(socket, MsgType.OnDisconnect, msgOnDisconnect, null);
             });
 
         return ECode.Success;
@@ -151,13 +154,19 @@ public class BaseScript : IScript
 
     public void listen(Func<bool> acceptClient)
     {
+        string msgOnConnect_true = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = true });
+        string msgOnDisconnect_true = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = true });
+
+        string msgOnConnect_false= this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
+        string msgOnDisconnect_false= this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
+
         int port = this.myLoc().port;
         this.server.network.listenAsync(port, acceptClient, (object socket, bool isServer) =>
         {
-            this.dispatcher.dispatch(socket, MsgType.OnConnect, new MsgOnConnect { isListen = true, isServer = isServer }, null);
+            this.dispatcher.dispatch(socket, MsgType.OnConnect, isServer ? msgOnConnect_true : msgOnConnect_false, null);
         }, (object socket, bool isServer) =>
         {
-            this.dispatcher.dispatch(socket, MsgType.OnDisconnect, new MsgOnConnect { isListen = true, isServer = isServer }, null);
+            this.dispatcher.dispatch(socket, MsgType.OnDisconnect, isServer ? msgOnDisconnect_true : msgOnDisconnect_false, null);
         });
     }
 
@@ -166,17 +175,10 @@ public class BaseScript : IScript
     {
         return new RequestObject(this.server, socket, type, msg).Task;
     }
-    public void send(object socket, MsgType type, object msg, Action<MyResponse> cb)
+    public void send(object socket, MsgType type, object msg, Action<ECode, string> cb)
     {
         string msg2 = this.server.JSON.stringify(msg);
-        Action<ECode, string> cb2 = null;
-        if (cb !=  null)
-        {
-            cb2 = (e, s) => {
-                cb(new MyResponse(e, this.castMsg<))
-            };
-        }
-        this.server.network.send(socket, type, msg2);
+        this.server.network.send(socket, type, msg2, cb);
     }
     public T castMsg<T>(string msg)
     {
@@ -204,12 +206,12 @@ public class BaseScript : IScript
     public Task<MyResponse> sendToSelfYield(MsgType type, object msg)
     {
         var waiter = new WaitCallBack();
-        this.dispatcher.dispatch(null, type, msg, (MyResponse r) => waiter.finish(r));
+        this.dispatcher.dispatch(null, type, this.server.JSON.stringify(msg), (e, r) => waiter.finish(e, r));
         return waiter.Task;
     }
     public void sendToSelf(MsgType type, object msg)
     {
-        this.dispatcher.dispatch(null, type, msg, null);
+        this.dispatcher.dispatch(null, type, this.server.JSON.stringify(msg), null);
     }
 
 

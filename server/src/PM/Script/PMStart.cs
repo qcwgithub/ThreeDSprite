@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 public class PMStart : PMHandler {
     public override MsgType msgType { get { return MsgType.Start; } }
 
-    public override async Task<MyResponse> handle(object socket, object msg/* no use */) {
+    public override async Task<MyResponse> handle(object socket, string msg/* no use */) {
         var data = this.pmData;
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        var r = await this.baseScript.connectAsync(ServerConst.LOC_ID, true);
+        var r = await this.baseScript.connectAsync(ServerConst.LOC_ID);
         this.baseData.locSocket = r.res;
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
@@ -18,15 +18,15 @@ public class PMStart : PMHandler {
         r = await this.baseScript.requestLocationYield(new int[] { ServerConst.AAA_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID });
 
         // connect to dbPlayer
-        r = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID);
         this.baseData.dbPlayerSocket = r.res;
 
         // connect to dbLog
-        r = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID);
         this.baseData.dbLogSocket = r.res;
 
         // connect to AAA
-        r = await this.baseScript.connectAsync(ServerConst.AAA_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.AAA_ID);
         data.aaaSocket = r.res;
 
         data.alive.timer = this.baseScript.setTimerLoop(1000, MsgType.PMKeepAliveToAAA, new object());
