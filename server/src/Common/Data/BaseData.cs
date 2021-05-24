@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class BaseData {
@@ -33,9 +34,11 @@ public class BaseData {
     public Dictionary<string, object> sanyMap = new Dictionary<string, object>();
 
     // for websocket
-    public object pendingRequests = null; // = {};
+    public Dictionary<int, Action<ECode, string>> pendingRequests = new Dictionary<int, Action<ECode, string>>();
     public int msgSeq = 1;
     public int socketId = 90000;
+    public object listenerObject;
+    public Dictionary<int, object> connectSockets = new Dictionary<int, object>();
 
     public int errorCount = 0;
     public int defaultDateTime = 0;

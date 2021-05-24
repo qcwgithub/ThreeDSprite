@@ -36,7 +36,7 @@ public class BaseScript : IScript
             Console.WriteLine("loc == null, id: " + id);
             // process.exit(1);
         }
-        return this.server.netProto.urlForServer(loc.inIp, loc.port);
+        return this.server.network.urlForServer(loc.inIp, loc.port);
     }
     public Loc getKnownLoc(int id)
     {
@@ -128,39 +128,23 @@ public class BaseScript : IScript
         return ECode.Success;
     }
 
-    public async Task<MyResponse> connectYield(int toId, bool waitConnected)
+    public async Task<MyResponse> connectAsync(int toId)
     {
         string url = this.getKnownUrlForServer(toId);
-        //this.logger.info("connectYield " + url);
+        this.logger.info("connectYield " + url);
         string to = Utils.numberId2stringId(toId);
 
-        var s = this.server.netProto.connect(url,
-            (object socket) =>
+        object s = await this.server.network.connectAsync(url,
+            (object socket, bool isServer/* always true */) =>
             { // onconnect
                 //this.logger.info("-> %s: connected", to);
                 this.dispatcher.dispatch(socket, MsgType.OnConnect, new MsgOnConnect { isListen = false, isServer = true }, null);
             },
-            (object socket) =>
+            (object socket, bool isServer/* always true */) =>
             { // onDisconnect
                 //this.error("-> %s: disconnected", to);
                 this.dispatcher.dispatch(socket, MsgType.OnDisconnect, new MsgOnConnect { isListen = false, isServer = true }, null);
             });
-
-        if (waitConnected)
-        {
-            while (true)
-            {
-                if (!this.server.netProto.isConnected(s))
-                {
-                    this.logger.debug("wait 500");
-                    await this.waitYield(500);
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
 
         return ECode.Success;
     }
@@ -168,7 +152,7 @@ public class BaseScript : IScript
     public void listen(Func<bool> acceptClient)
     {
         int port = this.myLoc().port;
-        this.server.netProto.listen(port, acceptClient, (object socket, bool isServer) =>
+        this.server.network.listenAsync(port, acceptClient, (object socket, bool isServer) =>
         {
             this.dispatcher.dispatch(socket, MsgType.OnConnect, new MsgOnConnect { isListen = true, isServer = isServer }, null);
         }, (object socket, bool isServer) =>
@@ -182,9 +166,21 @@ public class BaseScript : IScript
     {
         return new RequestObject(this.server, socket, type, msg).Task;
     }
-    public void send(object socket, MsgType type, object msg)
+    public void send(object socket, MsgType type, object msg, Action<MyResponse> cb)
     {
-        this.server.netProto.send(socket, type, msg, null);
+        string msg2 = this.server.JSON.stringify(msg);
+        Action<ECode, string> cb2 = null;
+        if (cb !=  null)
+        {
+            cb2 = (e, s) => {
+                cb(new MyResponse(e, this.castMsg<))
+            };
+        }
+        this.server.network.send(socket, type, msg2);
+    }
+    public T castMsg<T>(string msg)
+    {
+        return this.server.JSON.parse<T>(msg);
     }
     // public queryDbAccountYield(string queryStr): any {
     //     return new RequestObject(this.server, this.baseData.dbAccountSocket, MsgType.DBQuery, { queryStr: queryStr });

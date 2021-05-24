@@ -6,9 +6,9 @@ public class LocBroadcast : LocHandler
 {
     public override MsgType msgType { get { return MsgType.Broadcast; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgLocBroadcast;
+        var msg = this.baseScript.castMsg<MsgLocBroadcast>(_msg);
         this.logger.info("LocBroadcast, ids: %s, msgType: %s", this.server.JSON.stringify(msg.ids), msg.msgType.ToString());
 
         // 只允许全部有效
@@ -23,7 +23,7 @@ public class LocBroadcast : LocHandler
             LocServerInfo info;
             if (!this.locData.map.TryGetValue(id, out info) ||
                 info.socket == null ||
-                !this.server.netProto.isConnected(info.socket))
+                !this.server.network.isConnected(info.socket))
             {
                 this.baseScript.error("LocBroadcast failed, invalid id: " + id);
                 return ECode.Error;
@@ -40,7 +40,7 @@ public class LocBroadcast : LocHandler
             }
 
             LocServerInfo info = this.locData.map[id];
-            this.server.netProto.send(info.socket, msg.msgType, msg.msg, null);
+            this.server.network.send(info.socket, msg.msgType, msg.msg, null);
         }
         this.logger.debug("LocBroadcast success");
         return ECode.Success;

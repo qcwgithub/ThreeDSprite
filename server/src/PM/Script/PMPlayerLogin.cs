@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 public class PMPlayerLogin : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMPlayerLogin; } }
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgLoginPM;
+        var msg = this.baseScript.castMsg<MsgLoginPM>(_msg);
         // this.logger.info("PMPlayerLogin playerId: " + msg.playerId);
 
         if (msg.playerId <= 0 || msg.token == null)
@@ -42,15 +42,15 @@ public class PMPlayerLogin : PMHandler
         {
             // 情况1 同一个客户端意外地登录2次
             // 情况2 客户端A已经登录，B再登录
-            this.logger.info("2 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, this.server.netProto.getSocketId(oldSocket));
+            this.logger.info("2 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, this.server.network.getSocketId(oldSocket));
             var resMisc = new ResMisc
             {
-                oldSocketTimestamp = this.server.netProto.getSocketClientTimestamp(oldSocket),
+                oldSocketTimestamp = this.server.network.getSocketClientTimestamp(oldSocket),
             };
             return new MyResponse(ECode.OldSocket, resMisc);
         }
 
-        var oldPlayer = this.server.netProto.getPlayer(socket);
+        var oldPlayer = this.server.network.getPlayer(socket);
         if (oldPlayer != null)
         {
             // 情况1 同一个客户端意外地登录2次
@@ -64,7 +64,7 @@ public class PMPlayerLogin : PMHandler
             this.pmScript.clearDestroyTimer(player);
         }
 
-        this.server.netProto.bindPlayerAndSocket(player, socket, msg.timestamp);
+        this.server.network.bindPlayerAndSocket(player, socket, msg.timestamp);
         // this.baseScript.removePending(this.server.networkHelper.getSocketId(socket));
 
         if (!msg.isReconnect)

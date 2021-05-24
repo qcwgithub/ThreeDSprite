@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 public class PMPlayerSave : PMHandler {
     public override MsgType msgType { get { return MsgType.PMPlayerSave; } }
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgPlayerSCSave;
+        var msg = this.baseScript.castMsg<MsgPlayerSCSave>(_msg);
         var player = this.pmData.GetPlayerInfo(msg.playerId);
         if (player == null) {
             this.baseScript.error("%s place: %s, playerId: %d, player == null!!", this.msgName, msg.place, msg.playerId);

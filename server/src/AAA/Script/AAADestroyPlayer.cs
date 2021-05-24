@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 public class AAADestroyPlayer : AAAHandler {
     public override MsgType msgType { get { return MsgType.AAADestroyPlayer; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg) {
-        var msg = _msg as MsgDestroyPlayer;
+    public override async Task<MyResponse> handle(object socket, string _msg) {
+        var msg = this.baseScript.castMsg<MsgDestroyPlayer>(_msg);
         var aaaData = this.aaaData;
         var aaaScript = this.aaaScript;
         this.logger.info("%s place: %s, playerId: %d, preCount: %d", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);
@@ -29,7 +29,7 @@ public class AAADestroyPlayer : AAAHandler {
             var pmInfo = aaaData.GetPlayerManagerInfo(playerInfo.pmId);
             if (pmInfo != null) {
                 var msgPm = new MsgDestroyPlayer { playerId = playerInfo.id, place = msg.place };
-                this.server.netProto.send(pmInfo.socket, MsgType.PMDestroyPlayer, msgPm, null);
+                this.baseScript.send(pmInfo.socket, MsgType.PMDestroyPlayer, msgPm, null);
             }
             else {
                 this.baseScript.error("%s player pm is null, playerId: %d, pmId: %d", this.msgName, msg.playerId, playerInfo.pmId);

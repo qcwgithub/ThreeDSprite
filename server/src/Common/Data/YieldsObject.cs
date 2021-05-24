@@ -18,7 +18,7 @@ public class RequestObject
         this.type = type;
         this.msg = msg;
         
-        this.server.netProto.send(this.socket, this.type, this.msg, (MyResponse r) => this.doReply(r));
+        this.server.baseScript.send(this.socket, this.type, this.msg, this.doReply);
 
         // 保底，可以考虑去掉，因为：
         // 1 客户端可以自己做 ----不行啊，有服务器的

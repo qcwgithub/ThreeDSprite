@@ -29,7 +29,7 @@ public class Server : IGameScripts
     //// common ------------------------------
     public BaseData baseData = null;
     public BaseScript baseScript = null;
-    public INetworkProtocol netProto = null;
+    public NetworkScript network = null;
 
     public MessageDispatcher dispatcher = null;
     public CoroutineManager coroutineMgr = null;

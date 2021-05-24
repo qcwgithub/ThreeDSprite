@@ -6,9 +6,9 @@ public class AAAAction : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgAAAAction;
+        var msg = this.baseScript.castMsg<MsgAAAAction>(_msg);
 
         this.logger.info("%s", this.msgName);
         var aaaData = this.server.aaaData;

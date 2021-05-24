@@ -7,9 +7,9 @@ public class DBQuery : DBHandler
 {
     public override MsgType msgType { get { return MsgType.DBQuery; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgDBQuery;
+        var msg = this.baseScript.castMsg<MsgDBQuery>(_msg);
         this.logger.debug("DBQuery: " + msg.queryStr);
         // find operation
         int spaceIndex = msg.queryStr.IndexOf(' ');

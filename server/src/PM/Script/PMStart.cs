@@ -10,7 +10,7 @@ public class PMStart : PMHandler {
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        var r = await this.baseScript.connectYield(ServerConst.LOC_ID, true);
+        var r = await this.baseScript.connectAsync(ServerConst.LOC_ID, true);
         this.baseData.locSocket = r.res;
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
@@ -18,15 +18,15 @@ public class PMStart : PMHandler {
         r = await this.baseScript.requestLocationYield(new int[] { ServerConst.AAA_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID });
 
         // connect to dbPlayer
-        r = await this.baseScript.connectYield(ServerConst.DB_PLAYER_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID, true);
         this.baseData.dbPlayerSocket = r.res;
 
         // connect to dbLog
-        r = await this.baseScript.connectYield(ServerConst.DB_LOG_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID, true);
         this.baseData.dbLogSocket = r.res;
 
         // connect to AAA
-        r = await this.baseScript.connectYield(ServerConst.AAA_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.AAA_ID, true);
         data.aaaSocket = r.res;
 
         data.alive.timer = this.baseScript.setTimerLoop(1000, MsgType.PMKeepAliveToAAA, new object());

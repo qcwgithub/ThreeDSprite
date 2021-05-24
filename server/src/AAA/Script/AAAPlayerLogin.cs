@@ -124,9 +124,9 @@ public class AAAPlayerLogin : AAAHandler
     //     return new MyResponse(ECode.Success, accountInfo);
     // }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgLoginAAA;
+        var msg = this.baseScript.castMsg<MsgLoginAAA>(_msg);
 
         var logger = this.logger;
         var aaaData = this.aaaData;
@@ -272,7 +272,7 @@ public class AAAPlayerLogin : AAAHandler
                 var v = kv.Value;
                 if (!v.allowNewPlayer)
                     continue;
-                if (!this.server.netProto.isConnected(v.socket))
+                if (!this.server.network.isConnected(v.socket))
                     continue;
 
                 if (pm == null || v.playerCount < pm.playerCount)

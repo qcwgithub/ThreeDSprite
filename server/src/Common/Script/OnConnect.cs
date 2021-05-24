@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 public class OnConnect : Handler {
     public override MsgType msgType { get { return MsgType.OnConnect; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg) {
-        var msg = _msg as MsgOnConnect;
-        this.logger.debug("OnConnect socket id: " + this.server.netProto.getSocketId(socket));
+    public override async Task<MyResponse> handle(object socket, string _msg) {
+        var msg = this.baseScript.castMsg<MsgOnConnect>(_msg);
+        this.logger.debug("OnConnect socket id: " + this.server.network.getSocketId(socket));
         object s = socket;
-        this.server.netProto.removeCustomMessageListener(s);
+        this.server.network.removeCustomMessageListener(s);
 
         bool isClient = !msg.isServer;
 
         // 消息入口
-        this.server.netProto.setCustomMessageListener(s, (MsgType type2, object msg2, Action<MyResponse> reply2) => {
+        this.server.network.setCustomMessageListener(s, (MsgType type2, string msg2, Action<ECode, string> reply2) => {
             if (isClient && type2 < MsgType.ClientStart) {
                 this.baseScript.error("receive invalid message from client! " + type2.ToString());
                 if (reply2 != null) {
-                    reply2(new MyResponse(ECode.Exception));
+                    reply2(ECode.Exception, null);
                 }
                 return;
             }
@@ -26,7 +26,7 @@ public class OnConnect : Handler {
             if (msg2 == null) {
                 this.baseScript.error("message must be object!! type: " + type2.ToString());
                 if (reply2 != null) {
-                    reply2(new MyResponse(ECode.Exception));
+                    reply2(ECode.Exception, null);
                 }
                 return;
             }

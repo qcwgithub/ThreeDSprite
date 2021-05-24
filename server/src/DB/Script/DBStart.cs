@@ -20,7 +20,7 @@ public class DBStart : DBHandler
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        r = await this.baseScript.connectYield(ServerConst.LOC_ID, true);
+        r = await this.baseScript.connectAsync(ServerConst.LOC_ID, true);
         this.baseData.locSocket = r.res;
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 

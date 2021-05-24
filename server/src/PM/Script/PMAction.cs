@@ -7,9 +7,9 @@ public class PMAction : PMHandler
 {
     public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgPMAction;
+        var msg = this.baseScript.castMsg<MsgPMAction>(_msg);
         this.logger.info("%s", this.msgName);
         PMData pmData = this.pmData;
 

@@ -6,10 +6,10 @@ public class PMChangeChannel : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMChangeChannel; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgChangeChannel;
-        var player = this.server.netProto.getPlayer(socket);
+        var msg = this.baseScript.castMsg<MsgChangeChannel>(_msg);
+        var player = this.server.network.getPlayer(socket);
         if (player == null)
         {
             return ECode.PlayerNotExist;

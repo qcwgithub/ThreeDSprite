@@ -7,7 +7,7 @@ public class AAAGetSummary : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
         this.logger.debug("AAAGetSummary");
         var data = this.aaaData;

@@ -6,9 +6,9 @@ public class AAAOnPMAlive : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAAOnPMAlive; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgPMAlive;
+        var msg = this.baseScript.castMsg<MsgPMAlive>(_msg);
         var data = this.aaaData;
         var script = this.aaaScript;
         var logger = this.logger;

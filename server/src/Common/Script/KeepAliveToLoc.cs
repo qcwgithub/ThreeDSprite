@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 public class KeepAliveToLoc : Handler
 {
     public override MsgType msgType { get { return MsgType.KeepAliveToLoc; } }
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        if (!this.server.netProto.isConnected(this.baseData.locSocket))
+        if (!this.server.network.isConnected(this.baseData.locSocket))
         {
             this.baseData.locNeedReport = true;
             return ECode.Success;

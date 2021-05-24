@@ -55,7 +55,7 @@ public class PMScript : IScript
             player.destroyTimer = -1;
             this.logger.info("send destroy playerId: " + player.id);
             MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.id, place = "pmDestroyTimer" };
-            this.server.netProto.send(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, null);
+            this.server.network.send(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, null);
         }, SEC * 1000);
     }
 

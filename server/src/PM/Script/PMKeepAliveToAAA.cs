@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 public class PMKeepAliveToAAA : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMKeepAliveToAAA; } }
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
         PMData pmData = this.pmData; var alive = this.pmData.alive;
         var s = pmData.aaaSocket;
-        if (!this.server.netProto.isConnected(s))
+        if (!this.server.network.isConnected(s))
         {
             alive.count = 10;
             return ECode.Success;

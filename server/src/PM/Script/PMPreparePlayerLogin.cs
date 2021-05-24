@@ -6,9 +6,9 @@ public class PMPreparePlayerLogin : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMPreparePlayerLogin; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgPreparePlayerLogin;
+        var msg = this.baseScript.castMsg<MsgPreparePlayerLogin>(_msg);
         var data = this.pmData;
         var script = this.pmScript;
         var logger = this.logger;
@@ -23,11 +23,11 @@ public class PMPreparePlayerLogin : PMHandler
             {
                 // 情况1 同一个客户端意外地登录2次
                 // 情况2 客户端A已经登录，B再登录
-                this.logger.info("1 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, this.server.netProto.getSocketId(oldSocket));
+                this.logger.info("1 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, this.server.network.getSocketId(oldSocket));
 
                 var resMisc = new ResMisc
                 {
-                    oldSocketTimestamp = this.server.netProto.getSocketClientTimestamp(oldSocket),
+                    oldSocketTimestamp = this.server.network.getSocketClientTimestamp(oldSocket),
                 };
                 return new MyResponse(ECode.OldSocket, resMisc);
             }

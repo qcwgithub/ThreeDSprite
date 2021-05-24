@@ -4,9 +4,9 @@ public class LocReportLoc : LocHandler
 {
     public override MsgType msgType { get { return MsgType.LocReportLoc; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgLocReportLoc;
+        var msg = this.baseScript.castMsg<MsgLocReportLoc>(_msg);
         this.logger.info("+" + msg.id);
         if (msg.id == ServerConst.MONITOR_ID)
         {
@@ -15,7 +15,7 @@ public class LocReportLoc : LocHandler
         }
 
         LocServerInfo info;
-        if (this.locData.map.TryGetValue(msg.id, out info) && info != null && info.socket != null && this.server.netProto.isConnected(info.socket))
+        if (this.locData.map.TryGetValue(msg.id, out info) && info != null && info.socket != null && this.server.network.isConnected(info.socket))
         {
             this.baseScript.error("server id used, id: " + msg.id);
             return ECode.ServerIdUsed;

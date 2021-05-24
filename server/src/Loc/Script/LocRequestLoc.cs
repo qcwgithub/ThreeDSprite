@@ -6,9 +6,9 @@ public class LocRequestLoc : LocHandler
 {
     public override MsgType msgType { get { return MsgType.LocRequestLoc; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
-        var msg = _msg as MsgLocRequestLoc;
+        var msg = this.baseScript.castMsg<MsgLocRequestLoc>(_msg);
         this.logger.info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
 
         if (msg.ids == null)

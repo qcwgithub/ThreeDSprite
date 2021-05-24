@@ -7,12 +7,12 @@ public class AAALoadPlayerId : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAALoadPlayerId; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
         // 这个属于启动时必做的，可以使用 while
         while (true)
         {
-            if (!this.server.netProto.isConnected(this.baseData.dbAccountSocket))
+            if (!this.server.network.isConnected(this.baseData.dbAccountSocket))
             {
                 // server.logger.info("AAALoadPlayerId db not connected");
                 await this.baseScript.waitYield(1000);

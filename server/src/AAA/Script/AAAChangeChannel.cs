@@ -6,10 +6,10 @@ public class AAAChangeChannel : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAAChangeChannel; } }
 
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
         MyResponse r = null;
-        var msg = _msg as MsgChangeChannel;
+        var msg = this.baseScript.castMsg<MsgChangeChannel>(_msg);
 
         var logger = this.logger;
         var aaaData = this.aaaData;

@@ -15,7 +15,7 @@ public class SqlLog : IScript
             values = values,
             expectedAffectedRows = expectedAffectedRows,
         };
-        this.server.netProto.send(this.baseData.dbLogSocket, MsgType.DBQuery, msg, (MyResponse r) =>
+        this.server.network.send(this.baseData.dbLogSocket, MsgType.DBQuery, msg, (MyResponse r) =>
         {
             if (r.err != ECode.Success)
             {

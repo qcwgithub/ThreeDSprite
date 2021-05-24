@@ -25,7 +25,7 @@ public class AAATest : AAAHandler
 
     public bool ddd = true;
     public string sss = "NEW";
-    public override async Task<MyResponse> handle(object socket, object _msg)
+    public override async Task<MyResponse> handle(object socket, string _msg)
     {
         if (!this.ddd)
         {

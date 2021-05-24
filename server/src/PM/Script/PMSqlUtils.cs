@@ -95,7 +95,7 @@ public class PMSqlUtils : SqlUtils
             values = values,
             expectedAffectedRows = 1,
         };
-        this.server.netProto.send(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, (MyResponse r) =>
+        this.server.network.send(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, (MyResponse r) =>
         {
             if (r.err != ECode.Success)
             {
