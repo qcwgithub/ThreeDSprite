@@ -2,6 +2,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using log4net;
+using log4net.Config;
+using log4net.Repository;
 
 class _Loaders_
 {
@@ -76,6 +79,12 @@ public class ServerCreator
             password = $"gbits*{purposeLowerCase}*{name}*user*2020",
             database = $"{purposeLowerCase}_{name}",
         };
+    }
+
+    static void SetupLogger()
+    {
+        ILoggerRepository repository = LogManager.CreateRepository("NETCoreRepository");
+        XmlConfigurator.Configure(repository, new System.IO.FileInfo($"./Config/log4net{ext}.xml"));
     }
 
     public static JsonUtils JSON = new JsonUtils();
