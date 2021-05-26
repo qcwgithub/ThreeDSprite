@@ -6,9 +6,9 @@ public class AAAAction : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgAAAAction>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgAAAAction>(_msg);
 
         this.logger.info("%s", this.msgName);
         var aaaData = this.server.aaaData;
@@ -43,8 +43,8 @@ public class AAAAction : AAAHandler
                         script = msg.pmPlayerRunScript.script,
                     }
                 };
-                await this.server.baseScript.sendYield(pm.socket, MsgType.ServerAction, msgAction);
-                await this.server.baseScript.waitYield(10);
+                await pm.socket.sendAsync(MsgType.ServerAction, msgAction);
+                await this.server.baseScript.waitAsync(10);
             }
         }
 
@@ -67,7 +67,7 @@ public class AAAAction : AAAHandler
 
                 var msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
                 this.server.baseScript.sendToSelf(MsgType.AAADestroyPlayer, msgDestroy);
-                await this.server.baseScript.waitYield(10);
+                await this.server.baseScript.waitAsync(10);
             }
         }
 
@@ -83,7 +83,7 @@ public class AAAAction : AAAHandler
                 }
                 var msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
                 this.server.baseScript.sendToSelf(MsgType.AAADestroyPlayer, msgDestroy);
-                await this.server.baseScript.waitYield(10);
+                await this.server.baseScript.waitAsync(10);
             }
         }
 

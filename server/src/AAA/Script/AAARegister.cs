@@ -12,12 +12,6 @@ public class AAARegister : BaseRegister {
         server.dispatcher.addHandler(new AAAGetSummary());
         server.dispatcher.addHandler(new AAAShutdown());
 
-        server.dispatcher.addHandler(new AAAPayLtListenNotify());
-        server.dispatcher.addHandler(new AAAPayLtHandleNotify());
-        
-        server.dispatcher.addHandler(new AAAPayIvyListenNotify());
-        server.dispatcher.addHandler(new AAAPayIvyHandleNotify());
-
         server.dispatcher.addHandler(new AAAAction());
     }
 }

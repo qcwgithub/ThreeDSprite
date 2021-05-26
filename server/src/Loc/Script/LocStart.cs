@@ -4,7 +4,7 @@ public class LocStart : Handler
 {
     public override MsgType msgType { get { return MsgType.Start; } }
 
-    public override Task<MyResponse> handle(object socket, object msg/* no use */)
+    public override Task<MyResponse> handle(ISocket socket, string msg/* no use */)
     {
         this.baseScript.setState(ServerState.Starting);
 

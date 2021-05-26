@@ -2,37 +2,116 @@ using System;
 using System.Text;
 using System.Net.WebSockets;
 using System.Threading;
+using System.Threading.Tasks;
 
-public class MyWebSocket
+public abstract class MyWebSocket : ISocket
 {
-    public int mySocketId = -1;
-    public Server server;
-    public WebSocket socket;
-
-    public object Player = null;
-    public int clientTimestamp = 0;
-    public Action<MsgType, string, Action<ECode, string>> MessageListener = null;
-
-    protected CancellationTokenSource cancellationTaskSource = new CancellationTokenSource();
     const int ReceiveChunkSize = 1024;
     const int SendChunkSize = 1024;
 
-    protected virtual void CallOnConnect() { }
-    protected virtual void CallOnDisconnect() { }
+    public int socketId { get; protected set; }
+    public Server server { get; protected set; }
+    public WebSocketData data { get { return this.server.baseData.webSocketData; } }
+    public WebSocket socket { get; protected set; }
+    protected CancellationTokenSource cancellationTaskSource;
+    public MyWebSocket(int socketId, Server server)
+    {
+        this.socketId = socketId;
+        this.server = server;
+        this.cancellationTaskSource = new CancellationTokenSource();
+    }
 
-    public bool IsConnected()
+    public void send(MsgType type, object msg, Action<ECode, string> cb)
+    {
+        if (!this.isConnected())
+        {
+            if (cb != null)
+            {
+                cb(ECode.NotConnected, null);
+            }
+            return;
+        }
+
+        var str = this.server.JSON.stringify(msg);
+        var seq = this.data.msgSeq++;
+        var message = this.encodeSend(seq, type, str);
+        if (cb != null)
+        {
+            this.data.pendingRequests.Add(seq, cb);
+        }
+        this.Send(message);
+    }
+    public async Task<MyResponse> sendAsync(MsgType type, object msg)
+    {
+        if (!this.isConnected())
+        {
+            return ECode.NotConnected;
+        }
+        return await new RequestObject(this.server, this, type, msg).Task;
+    }
+
+    public bool isConnected()
     {
         return this.socket != null && this.socket.State == WebSocketState.Open;
     }
 
+    public int getId()
+    {
+        return this.socketId;
+    }
+
+    public void close()
+    {
+
+    }
+
+
+    public Action<MsgType, string, Action<ECode, string>> MessageListener { get; set; }
+    public void setCustomMessageListener(Action<MsgType, string, Action<ECode, string>> fun)
+    {
+        this.MessageListener = fun;
+    }
+
+    public void removeCustomMessageListener()
+    {
+        this.MessageListener = null;
+    }
+
+    public PMPlayerInfo Player { get; set; }
+    public int clientTimestamp { get; set; }
+    public void bindPlayer(PMPlayerInfo player, int clientTimestamp)
+    {
+        player.socket = this;
+        this.Player = player;
+        this.clientTimestamp = clientTimestamp;
+    }
+    public void unbindPlayer(PMPlayerInfo player)
+    {
+        player.socket = null;
+        this.Player = null;
+        this.clientTimestamp = 0;
+    }
+
+    public int getClientTimestamp()
+    {
+        return this.clientTimestamp;
+    }
+
+    public PMPlayerInfo getPlayer()
+    {
+        return this.Player;
+    }
+
+    protected abstract void doOnDisconnect();
+
     protected async void startRecv()
     {
-        var buffer = new byte[ReceiveChunkSize];
         try
         {
+            var buffer = new byte[ReceiveChunkSize];
+            var builder = new StringBuilder();
             while (this.socket.State == WebSocketState.Open)
             {
-                var stringResult = new StringBuilder();
                 WebSocketReceiveResult result;
                 do
                 {
@@ -40,22 +119,23 @@ public class MyWebSocket
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
                         await this.socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                        this.CallOnDisconnect();
+                        this.doOnDisconnect();
                     }
                     else
                     {
                         var str = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                        stringResult.Append(str);
+                        builder.Append(str);
                     }
                 }
                 while (!result.EndOfMessage);
 
-                this.onMsg(stringResult.ToString());
+                this.OnMsg(builder.ToString());
+                builder.Clear();
             }
         }
         catch (Exception ex)
         {
-            this.CallOnDisconnect();
+            this.doOnDisconnect();
         }
         finally
         {
@@ -63,14 +143,18 @@ public class MyWebSocket
         }
     }
 
-    protected string encode_reply(int seq, ECode e, string replyMsg)
+    protected string encodeReply(int seq, ECode e, string replyMsg)
     {
+        if (replyMsg == null)
+        {
+            replyMsg = "";
+        }
         // seq must < 0
         string message = string.Format("{0}_{1}_{2}", seq, (int)e, replyMsg);
         return message;
     }
 
-    protected string encode_send(int seq, MsgType msgType, string msg)
+    protected string encodeSend(int seq, MsgType msgType, string msg)
     {
         // seq must > 0
         string message = string.Format("{0}_{1}_{2}", seq, (int)msgType, msg);
@@ -80,8 +164,8 @@ public class MyWebSocket
     // return false if failed
     // when seq > 0: msgType
     // when seq < 0: ecode
-    protected bool decode(string message, 
-        out int seq, 
+    protected bool decode(string message,
+        out int seq,
         out MsgType msgType, out ECode ecode,
         out string msg)
     {
@@ -129,18 +213,8 @@ public class MyWebSocket
         return true;
     }
 
-    public void send(MsgType type, string msg, Action<ECode, string> cb)
-    {        
-        var seq = this.server.baseData.msgSeq++;
-        var message = this.encode_send(seq, type, msg);
-        if (cb != null)
-        {
-            this.server.baseData.pendingRequests.Add(seq, cb);
-        }
-        this.send(message);
-    }
 
-    protected async void send(string message)
+    protected async void Send(string message)
     {
         if (this.socket.State != WebSocketState.Open)
         {
@@ -169,13 +243,13 @@ public class MyWebSocket
         }
     }
 
-    protected virtual void onMsg(string data)
+    protected virtual void OnMsg(string data)
     {
         //// 1 ping pong
         if (data == "ping")
         {
             // this.server.logger.info("receive ping, send pong");
-            this.send("pong");
+            this.Send("pong");
             return;
         }
 
@@ -185,6 +259,7 @@ public class MyWebSocket
         string msg;
         if (!this.decode(data, out seq, out msgType, out eCode, out msg))
         {
+            Console.WriteLine("Decode message failed, " + data);
             return;
         }
 
@@ -192,9 +267,9 @@ public class MyWebSocket
         if (seq < 0)
         {
             Action<ECode, string> responseFun;
-            if (this.server.baseData.pendingRequests.TryGetValue(-seq, out responseFun))
+            if (this.data.pendingRequests.TryGetValue(-seq, out responseFun))
             {
-                this.server.baseData.pendingRequests.Remove(-seq);
+                this.data.pendingRequests.Remove(-seq);
                 responseFun(eCode, msg);
             }
         }
@@ -206,7 +281,7 @@ public class MyWebSocket
             {
                 this.MessageListener(msgType, msg, (ECode e2, string msg2) =>
                 {
-                    this.send(this.encode_reply(-seq, e2, msg2));
+                    this.Send(this.encodeReply(-seq, e2, msg2));
                 });
             }
         }

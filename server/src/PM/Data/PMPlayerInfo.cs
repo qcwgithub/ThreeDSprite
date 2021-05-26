@@ -8,7 +8,7 @@ public class PMPlayerInfo : IProfileInput
     public CProfile profile { get; set; }
 
     public Server server { get; set; }
-    public object socket = null;
+    public ISocket socket = null;
     public string channel = null;
     public string channelUserId = null;
     public string token = null;

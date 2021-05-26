@@ -26,7 +26,7 @@ public class MessageDispatcher : IScript {
     // 1 处理网络来的请求，reply 是回复请求
     // 2 自己调用 dispatch 的，reply 没什么用，为了统一，赋值为 utils.emptyReply
     // reply()的参数统一为 MyResponse
-    public async void dispatch(object socket, MsgType type, string msg, Action<ECode, string> reply) {
+    public async void dispatch(ISocket socket, MsgType type, string msg, Action<ECode, string> reply) {
         if (reply == null) {
             reply = this.emptyReply;
         }
@@ -41,7 +41,7 @@ public class MessageDispatcher : IScript {
         // try {
             // MyResponse res = new MyResponse(ECode.Error, null);
             var r = await handler.handle(socket, msg);
-        reply(r.err, r.res == null ? null : this.server.JSON.stringify(r.res));    
+            reply(r.err, r.res == null ? null : this.server.JSON.stringify(r.res));    
         // this.server.coroutineMgr.iterate(ie, () => {
             //     handler.postHandle(socket, msg);
             //     reply(res);

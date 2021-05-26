@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 public class AAAChannel_Apple : IScript
 {
     public Server server { get; set; }
-    public async Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)
+    public Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)
     {
         var res = new AAAVerifyAccountResult
         {
@@ -19,6 +19,6 @@ public class AAAChannel_Apple : IScript
             res.accountMustExist = true;
         }
 
-        return new MyResponse(ECode.Success, res);
+        return Task.FromResult(new MyResponse(ECode.Success, res));
     }
 }

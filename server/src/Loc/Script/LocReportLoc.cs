@@ -4,21 +4,21 @@ public class LocReportLoc : LocHandler
 {
     public override MsgType msgType { get { return MsgType.LocReportLoc; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgLocReportLoc>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgLocReportLoc>(_msg);
         this.logger.info("+" + msg.id);
         if (msg.id == ServerConst.MONITOR_ID)
         {
             // monitor 不受限制
-            return ECode.Success;
+            return Task.FromResult(new MyResponse(ECode.Success));
         }
 
         LocServerInfo info;
-        if (this.locData.map.TryGetValue(msg.id, out info) && info != null && info.socket != null && this.server.network.isConnected(info.socket))
+        if (this.locData.map.TryGetValue(msg.id, out info) && info != null && info.socket != null && info.socket.isConnected())
         {
             this.baseScript.error("server id used, id: " + msg.id);
-            return ECode.ServerIdUsed;
+            return Task.FromResult(new MyResponse(ECode.ServerIdUsed));
         }
 
         info = new LocServerInfo();
@@ -26,6 +26,6 @@ public class LocReportLoc : LocHandler
         info.loc = msg.loc;
         info.socket = socket;
         this.locData.map.Add(info.id, info);
-        return ECode.Success;
+        return Task.FromResult(new MyResponse(ECode.Success));
     }
 }

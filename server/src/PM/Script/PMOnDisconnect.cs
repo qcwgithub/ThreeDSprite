@@ -6,17 +6,17 @@ public class PMOnDisconnect : OnDisconnect
 {
     public override MsgType msgType { get { return MsgType.OnDisconnect; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
         await base.handle(socket, _msg);
 
-        var msg = this.baseScript.castMsg<MsgOnConnect>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgOnConnect>(_msg);
         if (msg.isServer)
         {
             return ECode.Success;
         }
 
-        var player = this.server.network.getPlayer(socket);
+        var player = socket.getPlayer();
         if (player == null)
         {
             return ECode.Success;
@@ -24,8 +24,8 @@ public class PMOnDisconnect : OnDisconnect
 
         if (player.socket != null)
         {
-            this.server.network.removeCustomMessageListener(player.socket);
-            this.server.network.unbindPlayerAndSocket(player, player.socket);
+            player.socket.removeCustomMessageListener();
+            player.socket.unbindPlayer(player);
         }
         
         this.server.sqlLog.player_logout(player);

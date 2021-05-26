@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 public class PMPlayerSave : PMHandler {
     public override MsgType msgType { get { return MsgType.PMPlayerSave; } }
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgPlayerSCSave>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgPlayerSCSave>(_msg);
         var player = this.pmData.GetPlayerInfo(msg.playerId);
         if (player == null) {
             this.baseScript.error("%s place: %s, playerId: %d, player == null!!", this.msgName, msg.place, msg.playerId);
-            return ECode.PlayerNotExist;
+            return Task.FromResult(new MyResponse(ECode.PlayerNotExist));
         }
 
         var obj = this.server.pmSqlUtils.beginSave(player);
@@ -29,6 +29,6 @@ public class PMPlayerSave : PMHandler {
         this.logger.info("%s place: %s, playerId: %d, fields: [%s]", this.msgName, msg.place, player.id, fieldsStr);
 
         //// reply
-        return ECode.Success;
+        return Task.FromResult(new MyResponse(ECode.Success));
     }
 }

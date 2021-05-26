@@ -1,13 +1,14 @@
 using System.Collections;
+using System.Threading.Tasks;
 
 public class DBGetSummary : DBHandler
 {
     public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
         this.logger.debug("DBGetSummary");
-        yield break;
+        return Task.FromResult(new MyResponse(ECode.Success, null));
 
         // var info = {
         //     workingDir: process.cwd(),

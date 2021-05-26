@@ -17,12 +17,12 @@ public class BaseScript : IScript
     {
         this.server.baseData.errorCount++;
         this.server.logger.error(message, args);
-        this.server.errorLogger.error(message, args);
+        // this.server.errorLogger.error(message, args);
     }
 
     public void addKnownLoc(Loc loc)
     {
-        this.baseData.knownLocs.Add(loc.id, loc);
+        this.baseData.knownLocs[loc.id] = loc;
     }
     public Loc myLoc()
     {
@@ -36,7 +36,7 @@ public class BaseScript : IScript
             Console.WriteLine("loc == null, id: " + id);
             // process.exit(1);
         }
-        return this.server.network.urlForServer(loc.inIp, loc.port);
+        return this.server.serverNetwork.urlForServer(loc.inIp, loc.port);
     }
     public Loc getKnownLoc(int id)
     {
@@ -100,23 +100,23 @@ public class BaseScript : IScript
     }
 
     // ids=null 表示全部，monitor使用
-    public async Task<MyResponse> requestLocationYield(int[] ids)
+    public async Task<MyResponse> requestLocationAsync(int[] ids)
     {
         this.logger.info("requstLoc " + this.server.JSON.stringify(ids));
         while (true)
         {
-            var r = await this.sendYield(
-                this.baseData.locSocket,
+            var r = await this.baseData.locSocket.sendAsync(
                 MsgType.LocRequestLoc,
                 new MsgLocRequestLoc { ids = new List<int>(ids) });
 
             if (r.err != ECode.Success)
             {
-                await this.waitYield(1000);
+                await this.waitAsync(1000);
             }
             else
             {
-                List<Loc> locs = (r.res as ResLocRequestLoc).locs;
+                var res = this.server.JSON.parse<ResLocRequestLoc>(r.res as string);
+                List<Loc> locs = res.locs;
                 for (int i = 0; i < locs.Count; i++)
                 {
                     this.addKnownLoc(locs[i]);
@@ -128,7 +128,7 @@ public class BaseScript : IScript
         return ECode.Success;
     }
 
-    public async Task<MyResponse> connectAsync(int toId)
+    public async Task<ISocket> connectAsync(int toId)
     {
         string url = this.getKnownUrlForServer(toId);
         this.logger.info("connectYield " + url);
@@ -137,19 +137,19 @@ public class BaseScript : IScript
         string msgOnConnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
         string msgOnDisconnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
 
-        object s = await this.server.network.connectAsync(url,
-            (object socket) =>
+        ISocket s = await this.server.serverNetwork.connectAsync(url,
+            (ISocket socket) =>
             { // onconnect
                 //this.logger.info("-> %s: connected", to);
                 this.dispatcher.dispatch(socket, MsgType.OnConnect, msgOnConnect, null);
             },
-            (object socket) =>
+            (ISocket socket) =>
             { // onDisconnect
                 //this.error("-> %s: disconnected", to);
                 this.dispatcher.dispatch(socket, MsgType.OnDisconnect, msgOnDisconnect, null);
             });
 
-        return ECode.Success;
+        return s;
     }
 
     public void listen(Func<bool> acceptClient)
@@ -161,26 +161,16 @@ public class BaseScript : IScript
         string msgOnDisconnect_false= this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
 
         int port = this.myLoc().port;
-        this.server.network.listenAsync(port, acceptClient, (object socket, bool isServer) =>
+        this.server.serverNetwork.listen(port, acceptClient, (ISocket socket, bool isServer) =>
         {
             this.dispatcher.dispatch(socket, MsgType.OnConnect, isServer ? msgOnConnect_true : msgOnConnect_false, null);
-        }, (object socket, bool isServer) =>
+        }, (ISocket socket, bool isServer) =>
         {
             this.dispatcher.dispatch(socket, MsgType.OnDisconnect, isServer ? msgOnDisconnect_true : msgOnDisconnect_false, null);
         });
     }
-
-    ////// yield /////
-    public Task<MyResponse> sendYield(object socket, MsgType type, object msg)
-    {
-        return new RequestObject(this.server, socket, type, msg).Task;
-    }
-    public void send(object socket, MsgType type, object msg, Action<ECode, string> cb)
-    {
-        string msg2 = this.server.JSON.stringify(msg);
-        this.server.network.send(socket, type, msg2, cb);
-    }
-    public T castMsg<T>(string msg)
+    
+    public T decodeMsg<T>(string msg)
     {
         return this.server.JSON.parse<T>(msg);
     }
@@ -196,7 +186,7 @@ public class BaseScript : IScript
     // public queryDbLog(string queryStr) {
     //     this.server.netProto.send(this.baseData.dbLogSocket, MsgType.DBQuery, { queryStr: queryStr }, null);
     // }
-    public Task waitYield(int timeoutMs)
+    public Task waitAsync(int timeoutMs)
     {
         return Task.Delay(timeoutMs);
     }
@@ -214,22 +204,22 @@ public class BaseScript : IScript
         this.dispatcher.dispatch(null, type, this.server.JSON.stringify(msg), null);
     }
 
-
     ///////// timer ///////////
-    public int setTimerOnce(int timeMs, MsgType type, object msg, Action<MyResponse> reply = null)
+    public int setTimerOnce(int timeMs, MsgType type, object msg, Action<ECode, string> reply = null)
     {
-        // return setTimeout(() =>
-        // {
-        //     this.dispatcher.dispatch(null, type, msg, reply);
-        // }, timeMs);
-        return -1;
+        string msgStr = this.server.JSON.stringify(msg);
+        return this.server.timerScript.setTimer(() =>
+        {
+            this.dispatcher.dispatch(null, type, msgStr, reply);
+        }, timeMs);
     }
 
-    public int setTimerLoop(int timeMs, MsgType type, object msg, Action<MyResponse> reply = null)
+    public int setTimerLoop(int timeMs, MsgType type, object msg, Action<ECode, string> reply = null)
     {
-        return setInterval(() =>
+        string msgStr = this.server.JSON.stringify(msg);
+        return this.server.timerScript.setInterval(() =>
         {
-            this.dispatcher.dispatch(null, type, msg, reply);
+            this.dispatcher.dispatch(null, type, msgStr, reply);
         }, timeMs);
     }
 
@@ -249,6 +239,7 @@ public class BaseScript : IScript
 
     public void setState(ServerState s)
     {
+        
         this.baseData.state = s;
         if (this.logger != null)
         {
@@ -288,29 +279,10 @@ public class BaseScript : IScript
         return obj;
     }
 
+    // AAA 服务器没有 GameScript
     DateTime baseDate = new DateTime(1970, 1, 1);
     public int getTimeMs()
     {
         return (int)(DateTime.Now - baseDate).TotalMilliseconds;
-    }
-
-    public int setTimer(Action action, int timeoutMs)
-    {
-        return -1;
-    }
-
-    public void clearTimer(int timer)
-    {
-
-    }
-
-    public int setInterval(Action action, int timeoutMs)
-    {
-        return -1;
-    }
-
-    public void clearInterval(int timer)
-    {
-
     }
 }

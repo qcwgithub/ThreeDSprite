@@ -5,28 +5,28 @@ using System.Threading.Tasks;
 public class PMPlayerLogin : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMPlayerLogin; } }
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgLoginPM>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgLoginPM>(_msg);
         // this.logger.info("PMPlayerLogin playerId: " + msg.playerId);
 
         if (msg.playerId <= 0 || msg.token == null)
         {
             // 客户端遇到这个错误会转连AAA
-            return ECode.InvalidParam;
+            return Task.FromResult(new MyResponse(ECode.InvalidParam));
         }
 
         var player = this.pmData.GetPlayerInfo(msg.playerId);
         if (player == null)
         {
             // 客户端遇到这个错误会转连AAA
-            return ECode.ShouldLoginAAA;
+            return Task.FromResult(new MyResponse(ECode.ShouldLoginAAA));
         }
 
         if (msg.token != player.token)
         {
             // 客户端遇到这个错误会转连AAA
-            return ECode.InvalidToken;
+            return Task.FromResult(new MyResponse(ECode.InvalidToken));
         }
 
         this.logger.info("%s playerId: %d, preCount: %d", this.msgName, player.id, this.pmData.playerInfos.Count);
@@ -42,21 +42,21 @@ public class PMPlayerLogin : PMHandler
         {
             // 情况1 同一个客户端意外地登录2次
             // 情况2 客户端A已经登录，B再登录
-            this.logger.info("2 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, this.server.network.getSocketId(oldSocket));
+            this.logger.info("2 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, oldSocket.getId());
             var resMisc = new ResMisc
             {
-                oldSocketTimestamp = this.server.network.getSocketClientTimestamp(oldSocket),
+                oldSocketTimestamp = oldSocket.getClientTimestamp(),
             };
-            return new MyResponse(ECode.OldSocket, resMisc);
+            return Task.FromResult(new MyResponse(ECode.OldSocket, resMisc));
         }
 
-        var oldPlayer = this.server.network.getPlayer(socket);
+        var oldPlayer = socket.getPlayer();
         if (oldPlayer != null)
         {
             // 情况1 同一个客户端意外地登录2次
             // 情况2 客户端A已经登录，B再登录
             this.baseScript.error("playerId %d, ECode.OldPlayer %d", player.id, oldPlayer.id);
-            return ECode.OldPlayer;
+            return Task.FromResult(new MyResponse(ECode.OldPlayer));
         }
 
         if (player.destroyTimer != -1)
@@ -64,7 +64,7 @@ public class PMPlayerLogin : PMHandler
             this.pmScript.clearDestroyTimer(player);
         }
 
-        this.server.network.bindPlayerAndSocket(player, socket, msg.timestamp);
+        socket.bindPlayer(player, msg.timestamp);
         // this.baseScript.removePending(this.server.networkHelper.getSocketId(socket));
 
         if (!msg.isReconnect)
@@ -106,6 +106,6 @@ public class PMPlayerLogin : PMHandler
             script = null,
         };
 
-        return new MyResponse(ECode.Success, res);
+        return Task.FromResult(new MyResponse(ECode.Success, res));
     }
 }

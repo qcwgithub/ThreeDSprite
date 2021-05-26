@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 public class AAADestroyPlayer : AAAHandler {
     public override MsgType msgType { get { return MsgType.AAADestroyPlayer; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg) {
-        var msg = this.baseScript.castMsg<MsgDestroyPlayer>(_msg);
+    public override Task<MyResponse> handle(ISocket socket, string _msg) {
+        var msg = this.baseScript.decodeMsg<MsgDestroyPlayer>(_msg);
         var aaaData = this.aaaData;
         var aaaScript = this.aaaScript;
         this.logger.info("%s place: %s, playerId: %d, preCount: %d", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);
@@ -14,13 +14,13 @@ public class AAADestroyPlayer : AAAHandler {
         var playerlock = "player_" + msg.playerId;
         if (this.baseScript.isLocked(playerlock)) {
             this.logger.info("%s player is busy, playerId: %d", this.msgName, msg.playerId);
-            return ECode.PlayerLock;
+            return Task.FromResult(new MyResponse(ECode.PlayerLock));
         }
 
         AAAPlayerInfo playerInfo = aaaData.GetPlayerInfo(msg.playerId);
         if (playerInfo == null) {
             this.baseScript.error("%s player not exit, playerId: %d", this.msgName, msg.playerId);
-            return ECode.PlayerNotExist;
+            return Task.FromResult(new MyResponse(ECode.PlayerNotExist));
         }
 
         aaaData.playerInfos.Remove(msg.playerId);
@@ -29,13 +29,13 @@ public class AAADestroyPlayer : AAAHandler {
             var pmInfo = aaaData.GetPlayerManagerInfo(playerInfo.pmId);
             if (pmInfo != null) {
                 var msgPm = new MsgDestroyPlayer { playerId = playerInfo.id, place = msg.place };
-                this.baseScript.send(pmInfo.socket, MsgType.PMDestroyPlayer, msgPm, null);
+                pmInfo.socket.send(MsgType.PMDestroyPlayer, msgPm, null);
             }
             else {
                 this.baseScript.error("%s player pm is null, playerId: %d, pmId: %d", this.msgName, msg.playerId, playerInfo.pmId);
             }
         }
 
-        return ECode.Success;
+        return Task.FromResult(new MyResponse(ECode.Success));
     }
 }

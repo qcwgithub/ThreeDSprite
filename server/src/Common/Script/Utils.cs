@@ -1,51 +1,33 @@
 
 public class Utils
 {
-    static string getTrace(/*object caller*/)
-    {
-        // var original = Error.prepareStackTrace;
-        var object error = { };
-        // Error.prepareStackTrace = prepareStackTrace;
-        Error.captureStackTrace(error, null/*caller || Utils.getTrace*/);
-        var stack = error.stack;
-        // Error.prepareStackTrace = original;
-        return stack;
-    }
-
     static public string numberId2stringId(int id)
     {
-        switch (id)
-        {
-            case ServerConst.LOC_ID:
-                return "loc";
-
-            case ServerConst.AAA_ID:
-                return "aaa";
-
-            case ServerConst.WEB_ID:
-                return "web";
-
-            case ServerConst.DB_ACCOUNT_ID:
-                return "dbAccount";
-
-            case ServerConst.DB_PLAYER_ID:
-                return "dbPlayer";
-
-            case ServerConst.DB_LOG_ID:
-                return "dbLog";
-
-            case ServerConst.MONITOR_ID:
-                return "monitor";
-
-            default:
-                {
-                    if (id < ServerConst.PM_START_ID || id > ServerConst.PM_END_ID)
-                    {
-                        return null;
-                    }
-                    return "pm" + id;
-                }
+        if (id == ServerConst.LOC_ID) {
+            return "loc";
         }
+        if (id == ServerConst.AAA_ID) {
+            return "aaa";
+        }
+        if (id == ServerConst.WEB_ID) {
+            return "web";
+        }
+        if (id == ServerConst.DB_ACCOUNT_ID) {
+            return "dbAccount";
+        }
+        if (id == ServerConst.DB_PLAYER_ID) {
+            return "dbPlayer";
+        }
+        if (id == ServerConst.DB_LOG_ID) {
+            return "dbLog";
+        }
+        if (id == ServerConst.MONITOR_ID) {
+            return "monitor";
+        }
+        if (id >= ServerConst.PM_START_ID && id <= ServerConst.PM_END_ID) {
+            return "pm" + id;
+        }
+        return null;
     }
     public int stringId2numberId(string id)
     {
@@ -74,7 +56,7 @@ public class Utils
 
             default:
                 {
-                    return parseInt(id.substring("pm".length));
+                    return int.Parse(id.Substring("pm".Length));
                 }
         }
     }

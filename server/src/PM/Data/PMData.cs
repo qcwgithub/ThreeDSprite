@@ -9,7 +9,7 @@ public class _Active {
 
 public class PMData : IGameConfigs {
     // aaa socket
-    public object aaaSocket = null;
+    public ISocket aaaSocket = null;
 
     // playerId -> PlayerData
     public Dictionary<int, PMPlayerInfo> playerInfos = new Dictionary<int, PMPlayerInfo>();

@@ -11,7 +11,7 @@ public abstract class Handler : IScript
     public MessageDispatcher dispatcher { get { return this.server.dispatcher; } }
 
     public abstract MsgType msgType { get; }
-    public abstract Task<MyResponse> handle(object socket, string _msg);
+    public abstract Task<MyResponse> handle(ISocket socket, string _msg);
     public virtual void postHandle(object socket, object msg) { }
     public string msgName { get { return this.msgType.ToString(); } }
 }

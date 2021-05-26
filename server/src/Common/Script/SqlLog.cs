@@ -15,11 +15,11 @@ public class SqlLog : IScript
             values = values,
             expectedAffectedRows = expectedAffectedRows,
         };
-        this.server.network.send(this.baseData.dbLogSocket, MsgType.DBQuery, msg, (MyResponse r) =>
+        this.baseData.dbLogSocket.send(MsgType.DBQuery, msg, (e, r) =>
         {
-            if (r.err != ECode.Success)
+            if (e != ECode.Success)
             {
-                this.server.baseScript.error("SqlLog.doQuery failed. %s, %s", r.err, queryStr);
+                this.server.baseScript.error("SqlLog.doQuery failed. %s, %s", e, queryStr);
             }
         });
     }

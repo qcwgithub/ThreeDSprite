@@ -6,30 +6,26 @@ public class AAAStart : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.Start; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
         MyResponse r = null;
         this.baseScript.setState(ServerState.Starting);
 
         // connect to loc
-        r = await this.baseScript.connectAsync(ServerConst.LOC_ID);
-        this.baseData.locSocket = r.res;
+        this.baseData.locSocket = await this.baseScript.connectAsync(ServerConst.LOC_ID);
         this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
         // request location(s)
-        r = await this.baseScript.requestLocationYield(new int[] { ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID });
+        r = await this.baseScript.requestLocationAsync(new int[] { ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID });
 
         // connect to dbAccount
-        r = await this.baseScript.connectAsync(ServerConst.DB_ACCOUNT_ID);
-        this.baseData.dbAccountSocket = r.res;
+        this.baseData.dbAccountSocket = await this.baseScript.connectAsync(ServerConst.DB_ACCOUNT_ID);
 
         // connect to dbPlayer
-        r = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID);
-        this.baseData.dbPlayerSocket = r.res;
+        this.baseData.dbPlayerSocket = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID);
 
         // connect to dbLog
-        r = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID);
-        this.baseData.dbLogSocket = r.res;
+        this.baseData.dbLogSocket = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID);
 
         // load next player id
         r = await this.baseScript.sendToSelfYield(MsgType.AAALoadPlayerId, new object());

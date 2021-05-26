@@ -7,9 +7,9 @@ public class PMAction : PMHandler
 {
     public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgPMAction>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgPMAction>(_msg);
         this.logger.info("%s", this.msgName);
         PMData pmData = this.pmData;
 
@@ -26,7 +26,7 @@ public class PMAction : PMHandler
                 playerList = null,
                 allowNewPlayer = pmData.allowNewPlayer,
             };
-            await this.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAAOnPMAlive, msgAlive);
+            await this.pmData.aaaSocket.sendAsync(MsgType.AAAOnPMAlive, msgAlive);
         }
 
         if (msg.allowClientConnect != null)
@@ -83,8 +83,8 @@ public class PMAction : PMHandler
                 }
 
                 MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                await this.server.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
-                await this.server.baseScript.waitYield(10);
+                await this.pmData.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
+                await this.server.baseScript.waitAsync(10);
             }
         }
 
@@ -99,8 +99,8 @@ public class PMAction : PMHandler
                     continue;
                 }
                 MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                await this.server.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
-                await this.server.baseScript.waitYield(10);
+                await this.pmData.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
+                await this.server.baseScript.waitAsync(10);
             }
         }
 

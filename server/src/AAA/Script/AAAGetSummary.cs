@@ -7,7 +7,7 @@ public class AAAGetSummary : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
         this.logger.debug("AAAGetSummary");
         var data = this.aaaData;
@@ -25,6 +25,6 @@ public class AAAGetSummary : AAAHandler
         };
         // m.accountInfos_size = data.accountInfos.size;
 
-        return new MyResponse(ECode.Success, new List<Dictionary<string, string>> { info });
+        return Task.FromResult(new MyResponse(ECode.Success, new List<Dictionary<string, string>> { info }));
     }
 }

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 public class PMKeepAliveToAAA : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMKeepAliveToAAA; } }
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
         PMData pmData = this.pmData; var alive = this.pmData.alive;
         var s = pmData.aaaSocket;
-        if (!this.server.network.isConnected(s))
+        if (!s.isConnected())
         {
             alive.count = 10;
             return ECode.Success;
@@ -52,7 +52,7 @@ public class PMKeepAliveToAAA : PMHandler
             playerList = playerList,
             allowNewPlayer = pmData.allowNewPlayer,
         };
-        var r = await this.baseScript.sendYield(s, MsgType.AAAOnPMAlive, msgAlive);
+        var r = await s.sendAsync(MsgType.AAAOnPMAlive, msgAlive);
 
         if (r.err != ECode.Success)
         {

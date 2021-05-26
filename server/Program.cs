@@ -13,7 +13,7 @@ public class Program
         List<Server> servers = ServerCreator.Create(args);
         foreach (Server server in servers)
         {
-            server.dispatcher.dispatch(null, MsgType.Start, new object(), null);
+            server.dispatcher.dispatch(null, MsgType.Start, null, null);
         }
 
         while (true)

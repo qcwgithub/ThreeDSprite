@@ -9,7 +9,8 @@ class _Loaders_
 
     public static T loadHomeJson<T>(string f)
     {
-        return JSON.parse<T>(File.ReadAllText(Environment.SpecialFolder.Personal + "/config/" + f, Encoding.UTF8));
+        string personalPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        return JSON.parse<T>(File.ReadAllText(personalPath + "/config/" + f, Encoding.UTF8));
     }
 
     public static T loadConfigJson<T>(string f, Purpose purpose)
@@ -52,7 +53,7 @@ public class ServerCreator
     static Dictionary<string, string> ParseArguments(string[] args)
     {
         var argMap = new Dictionary<string, string>();
-        for (int i = 1; i < args.Length; i++)
+        for (int i = 0; i < args.Length; i++)
         {
             var arg = args[i];
             int index = arg.IndexOf('=');
@@ -119,7 +120,6 @@ public class ServerCreator
             int id = serverIds[i];
             var h = new _Helper_();
             h.id = id;
-            list.Add(h);
 
             if (id == ServerConst.LOC_ID)
             {
@@ -154,9 +154,6 @@ public class ServerCreator
                 s.channelApple = new AAAChannel_Apple();
                 s.channelApple.server = s;
 
-                // s.channelLeiting = null;//new AAAChannel_Leiting();
-                // s.channelLeiting.server = s;
-
                 s.channelIvy = new AAAChannel_Ivy();
                 s.channelIvy.server = s;
 
@@ -165,7 +162,7 @@ public class ServerCreator
             }
             else if (id == ServerConst.WEB_ID)
             {
-
+                continue;
             }
             else if (id == ServerConst.DB_ACCOUNT_ID)
             {
@@ -227,92 +224,16 @@ public class ServerCreator
                 {
                     pmData.allowNewPlayer = true;
                 }
-
-                // s.probability = new Probability().init(pmData, s);
-                // s.turnTableScript = new TurnTableScript().init(pmData, s);
-                // s.shoppingMallScript = new ShoppingMallScript().init(pmData, s);
-                // s.dailySigninScript = new DailySigninScript().init(pmData, s);
-                // s.adDiamondScript = new ADDiamondScript().init(pmData, s);
-                // s.loginRewardScript = new LoginRewardScript().init(pmData, s);
-                // s.shipScript = new ShipScript().init(pmData, s);
-                // s.vipScript = new VipScript().init(pmData, s);
-                // s.commonScript = new CommonScript().init(pmData, s);
-
-                // s.dailyTaskScript = new DailyTaskScript().init(pmData, s);
-                // s.townTaskScript = new TownTaskScript().init(pmData, s);
-                // s.doctorKTaskScript = new DoctorKTaskScript().init(pmData, s);
-                // s.storyTaskScript = new StoryTaskScript().init(pmData, s);
-                // s.townScript = new TownScript().init(pmData, s);
-
-                // s.freeBoxScript = new FreeBoxScript().init(pmData, s);
-                // s.buildingScript = new BuildingScript().init(pmData, s);
-                // s.bankScript = new BankScript().init(pmData, s);
-                // s.offlineScript = new OfflineScript().init(pmData, s);
                 s.gameScript = new GameScriptServer();
                 s.gameScript.init(pmData, s);
-                // s.partyScript = new PartyScript().init(pmData, s);
-                // s.ksScript = new KSScript().init(pmData, s);
-                // s.actLevelAwardScript = new ActivityLevelAwardScript().init(pmData, s);
-                // s.actScript = new ActivityScript().init(pmData, s);
-
-                ////
-                // pmData.activityConfig = ConfigScript.processActivityConfig(Loaders.loadGameJson('activity.json'));
-                // pmData.activityLevelAwardConfig = ConfigScript.processActivityLevelAwardConfig(Loaders.loadGameJson('activity_level_award.json'));
-                // pmData.bankConfig = Loaders.loadGameJson('bank.json');
-                // ConfigScript.processBankConfig(pmData.bankConfig);
-
-                // pmData.commonConfig = Loaders.loadGameJson('common.json');
-                // pmData.adConfig = Loaders.loadGameJson('ad.json');
-                // pmData.bonusConfig = Loaders.loadGameJson('bonus.json');
-                // ConfigScript.processBonusCfg(pmData.bonusConfig);
-
-                // pmData.turnTableConfig = Loaders.loadGameJson('casino.json') as CasinoConfig;
-                // ConfigScript.processCasinoConfig(pmData.turnTableConfig);
-
-                // pmData.consumerConfig = Loaders.loadGameJson('consumer.json');
-                // pmData.defaultProfileConfig = Loaders.loadGameText('defaultProfile.json');
-                // pmData.houseConfigs = ConfigScript.processHouseConfig(Loaders.loadGameText('houses.csv'));
-                // pmData.housePriceConfigs = ConfigScript.processHousePriceConfig(Loaders.loadGameText('house_price.csv'));
-                // pmData.iapConfig = ConfigScript.processIapConfig(Loaders.loadGameJson('iap.json'));
-
-                // pmData.npcsConfig.npcConfigs = CsvUtils.parseToObjectArray(Loaders.loadGameText('npc.csv'));
-                // ConfigScript.processNpcsConfig(pmData.npcsConfig);
-
-                // pmData.partyConfig = ConfigScript.processPartyConfig(Loaders.loadGameJson('party.json'), Loaders.loadGameText('party.csv'));
-                // pmData.profileConfig = ConfigScript.processProfileConfig(Loaders.loadGameJson('profile.json'));
-                // pmData.rankConfig = Loaders.loadGameJson('rank.json');
-                // pmData.rewardConfig = Loaders.loadGameJson('reward.json');
-                // pmData.shipConfig = ConfigScript.processShipConfig(Loaders.loadGameJson('ship.json') as ShipConfig);
-                // pmData.shopConfig = Loaders.loadGameJson('shop.json');
-
-                // pmData.townTaskConfig = new TownTaskConfig();
-                // pmData.townTaskConfig.items = CsvUtils.parseToObjectArray(Loaders.loadGameText('task_town.csv'));
-                // ConfigScript.processTownTaskConfig(pmData.townTaskConfig);
-
-                // pmData.dailyTaskConfig = Loaders.loadGameJson('task_daily.json');
-                // ConfigScript.processDailyTaskConfig(pmData.dailyTaskConfig);
-
-                // pmData.doctorKTaskConfig = Loaders.loadGameJson('task_doctork.json');
-                // ConfigScript.processDoctorKTaskConfig(pmData.doctorKTaskConfig);
-
-                // pmData.storyTaskConfig = Loaders.loadGameJson('task_story.json');
-                // ConfigScript.processStoryTaskConfig(pmData.storyTaskConfig);
-
-                // pmData.townConfig = Loaders.loadGameJson('town.json');
-                // ConfigScript.processTownConfig(pmData.townConfig);
-
-                // pmData.ksConfig = Loaders.loadGameJson('kingstreet.json');
-
-                // pmData.buffConfigMap = ConfigScript.processBuffConfig(Loaders.loadGameJson('buffs.json'));
-
-                // pmData.landmarkConfigMap = ConfigScript.processLandmarkConfig(
-                //     Loaders.loadGameText('landmark_ShoppingMall.csv'),
-                //     Loaders.loadGameText('landmark_Casino.csv'),
-                //     Loaders.loadGameText('landmark_DoctorK.csv'));
-
                 h.port = ServerConst.PM_START_PORT + (id - ServerConst.PM_START_ID);
                 h.register = new PMRegister();
             }
+            else
+            {
+                continue;
+            }
+            list.Add(h);
         }
 
 
@@ -352,14 +273,19 @@ public class ServerCreator
             s.baseScript = new BaseScript();
             s.baseScript.server = s;
 
+            s.serverNetwork = new NetProtoTcp();
+            ((NetProtoTcp)s.serverNetwork).server = s;
+            
+            s.timerScript = new TimerScript();
+            s.timerScript.server = s;
+
+            s.logger = new FakeLogger();
+
             // s.netProto = new NetworkProtocolWS();
             // (s.netProto as NetworkProtocolWS).server = s;
 
             s.dispatcher = new MessageDispatcher();
             s.dispatcher.server = s;
-
-            s.coroutineMgr = new CoroutineManager();
-            s.coroutineMgr.server = s;
 
             s.utils = new Utils();
             s.scUtils = new SCUtils();
@@ -394,7 +320,7 @@ public class ServerCreator
             s.baseScript.addKnownLoc(selfLoc);
             h.register.register(s);
         }
-    
+
         var ret = new List<Server>();
         for (int i = 0; i < list.Count; i++)
         {

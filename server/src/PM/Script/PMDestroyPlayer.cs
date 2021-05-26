@@ -6,9 +6,9 @@ public class PMDestroyPlayer : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMDestroyPlayer; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgDestroyPlayer>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgDestroyPlayer>(_msg);
 
         var data = this.pmData;
         var script = this.pmScript;
@@ -25,7 +25,7 @@ public class PMDestroyPlayer : PMHandler
 
         if (player.socket != null)
         {
-            this.server.network.closeSocket(player.socket); // PMOnDisconnect
+            player.socket.close(); // PMOnDisconnect
         }
         
         script.clearDestroyTimer(player, false);

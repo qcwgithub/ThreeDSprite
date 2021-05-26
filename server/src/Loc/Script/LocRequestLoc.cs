@@ -6,9 +6,9 @@ public class LocRequestLoc : LocHandler
 {
     public override MsgType msgType { get { return MsgType.LocRequestLoc; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgLocRequestLoc>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgLocRequestLoc>(_msg);
         this.logger.info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
 
         if (msg.ids == null)
@@ -35,7 +35,7 @@ public class LocRequestLoc : LocHandler
             LocServerInfo info;
             if (!this.locData.map.TryGetValue(id, out info))
             {
-                await this.baseScript.waitYield(1000);
+                await this.baseScript.waitAsync(1000);
             }
             else
             {

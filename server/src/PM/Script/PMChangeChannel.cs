@@ -6,10 +6,10 @@ public class PMChangeChannel : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMChangeChannel; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgChangeChannel>(_msg);
-        var player = this.server.network.getPlayer(socket);
+        var msg = this.baseScript.decodeMsg<MsgChangeChannel>(_msg);
+        var player = socket.getPlayer();
         if (player == null)
         {
             return ECode.PlayerNotExist;
@@ -27,7 +27,7 @@ public class PMChangeChannel : PMHandler
 
         msg.playerId = player.id;
 
-        var r = await this.baseScript.sendYield(this.pmData.aaaSocket, MsgType.AAAChangeChannel, msg);
+        var r = await this.pmData.aaaSocket.sendAsync(MsgType.AAAChangeChannel, msg);
         if (r.err != ECode.Success)
         {
             return r;

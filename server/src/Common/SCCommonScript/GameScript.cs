@@ -3,7 +3,6 @@ public abstract class GameScript : GameScriptBase {
     public abstract int getTodayTime(int hour, int minute, int second, int ms);
     public abstract int setHours(int timeMs, int hour, int minute, int second, int ms);
 
-    
 
     public ECode changeChannelCheck(IProfileInput input, MsgChangeChannel msg, ResChangeChannel res) {
         if (!this.scripts.scUtils.isValidChannelType(msg.channel1) || !this.scripts.scUtils.isValidChannelType(msg.channel2)) {

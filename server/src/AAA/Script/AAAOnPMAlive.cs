@@ -6,9 +6,9 @@ public class AAAOnPMAlive : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAAOnPMAlive; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgPMAlive>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgPMAlive>(_msg);
         var data = this.aaaData;
         var script = this.aaaScript;
         var logger = this.logger;
@@ -67,7 +67,7 @@ public class AAAOnPMAlive : AAAHandler
         if (!data.pmReady && data.pmReadyTimer == -1)
         {
             // 延迟5秒再开始接受客户端连接
-            data.pmReadyTimer = this.baseScript.setTimer(() =>
+            data.pmReadyTimer = this.server.timerScript.setTimer(() =>
             {
                 data.pmReady = true;
                 data.pmReadyTimer = -1;

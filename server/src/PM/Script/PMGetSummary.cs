@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class PMGetSummary : PMHandler {
     public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
         this.logger.debug("PMGetSummary");
         return ECode.Success;

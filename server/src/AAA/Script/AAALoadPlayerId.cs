@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,15 +8,15 @@ public class AAALoadPlayerId : AAAHandler
 {
     public override MsgType msgType { get { return MsgType.AAALoadPlayerId; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
         // 这个属于启动时必做的，可以使用 while
         while (true)
         {
-            if (!this.server.network.isConnected(this.baseData.dbAccountSocket))
+            if (!this.baseData.dbAccountSocket.isConnected())
             {
                 // server.logger.info("AAALoadPlayerId db not connected");
-                await this.baseScript.waitYield(1000);
+                await this.baseScript.waitAsync(1000);
             }
             else
             {
@@ -26,7 +27,8 @@ public class AAALoadPlayerId : AAAHandler
                 }
                 else
                 {
-                    this.aaaData.nextPlayerId = (int)(r.res as Dictionary<string, object>)["playerId"];
+                    var dict = this.server.JSON.parse<Dictionary<string, List<object>>>(r.res as string);
+                    this.aaaData.nextPlayerId = Convert.ToInt32(dict["playerId"][0]);
                     if (this.aaaData.nextPlayerId > 0)
                     {
                         this.logger.info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);

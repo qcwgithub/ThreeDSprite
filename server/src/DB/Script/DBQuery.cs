@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
@@ -7,9 +8,9 @@ public class DBQuery : DBHandler
 {
     public override MsgType msgType { get { return MsgType.DBQuery; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgDBQuery>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgDBQuery>(_msg);
         this.logger.debug("DBQuery: " + msg.queryStr);
         // find operation
         int spaceIndex = msg.queryStr.IndexOf(' ');
@@ -46,72 +47,60 @@ public class DBQuery : DBHandler
             }
         }
 
-        var sqlParams = new MySqlParameter[msg.values.Count];
-        for (int i = 0; i < msg.values.Count; i++)
+        int valueCount = msg.values == null ? 0 : msg.values.Count;
+        var sqlParams = new MySqlParameter[valueCount];
+        for (int i = 0; i < valueCount; i++)
         {
             sqlParams[i] = new MySqlParameter("@" + i, msg.values[i]);
         }
 
+        int affectedRows = 0;
+        object res = null;
         switch (operation)
         {
             case "UPDATE":
             case "INSERT":
-                MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, msg.queryStr, sqlParams);
+                {
+                    affectedRows = await MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, msg.queryStr, sqlParams);
+                }
                 break;
             case "SELECT":
-                MySqlHelper.ExecuteReaderAsync(this.dbData.connectionString, msg.queryStr, sqlParams);
+                {
+                    MySqlDataReader reader = await MySqlHelper.ExecuteReaderAsync(this.dbData.connectionString, msg.queryStr, sqlParams);
+                    var dict = new Dictionary<string, List<object>>();
+                    while (await reader.ReadAsync())
+                    {
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            string key = reader.GetName(i);
+                            object value = reader.GetValue(i);
+                            List<object> list;
+                            if (!dict.TryGetValue(key, out list))
+                            {
+                                list = new List<object>();
+                                dict.Add(key, list);
+                            }
+                            list.Add(value is DBNull ? null : value);
+                        }
+                    }
+                    await reader.CloseAsync();
+                    affectedRows = reader.RecordsAffected;
+                    res = dict;
+                }
                 break;
             default:
                 return ECode.InvalidParam;
         }
 
-        var data = this.dbData;
-        var waiter = new WaitCallBack();
-        
-        Action action =() =>
+        if (msg.expectedAffectedRows >= 0)
         {
-            var cb = (error: mysql.MysqlError, object result/*, object fields*/) =>
+            if (msg.expectedAffectedRows != affectedRows)
             {
-                if (error)
-                {
-                    this.baseScript.error("DBQuery error: " + this.server.JSON.stringify(error));
-                    var res = new ResMysqlError { code = error.code, errno = error.errno };
-                    waiter.finish(new MyResponse(ECode.SqlError, res));
-                }
-                else
-                {
-                    if (msg.expectedAffectedRows >= 0)
-                    {
-                        if (result == null)
-                        {
-                            this.baseScript.error("expectedAffectedRows: %d, result==null, queryStr: %s", msg.expectedAffectedRows, msg.queryStr);
-                        }
-                        else
-                        {
-                            var pkt = result as mysql.OkPacket;
-                            if (pkt.affectedRows != msg.expectedAffectedRows)
-                            {
-                                this.baseScript.error("expectedAffectedRows: %d, okPackage.affectedRows=%s, queryStr: %s",
-                                    msg.expectedAffectedRows,
-                                    (pkt.affectedRows == null ? "null" : pkt.affectedRows.toString()),
-                                    msg.queryStr);
-                            }
-                        }
-                    }
-                    waiter.finish(new MyResponse(ECode.Success, result));
-                }
-            };
-
-            if (msg.values == null)
-            {
-                data.pool.query(msg.queryStr, cb);
+                this.server.logger.error("expectedAffectedRows: %d != affectedRows=%s, queryStr: %s",
+                    msg.expectedAffectedRows, affectedRows, msg.queryStr);
             }
-            else
-            {
-                data.pool.query(msg.queryStr, msg.values, cb);
-            }
-        };
+        }
 
-        return await waiter.Task;
+        return new MyResponse(ECode.Success, res);
     }
 }

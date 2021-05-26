@@ -38,10 +38,10 @@ public class AAAScript : IScript {
             }
         }
         else if (channel == HermesChannels.leiting) {
-            var r = await this.server.channelLeiting.verifyAccount(channelUserId, verifyData);
-            if (r.err != ECode.Success) {
-                return r;
-            }
+            // var r = await this.server.channelLeiting.verifyAccount(channelUserId, verifyData);
+            // if (r.err != ECode.Success) {
+            //     return r;
+            // }
         }
         else if (channel == HermesChannels.ivy) {
             var r = await this.server.channelIvy.verifyAccount(channelUserId, verifyData);

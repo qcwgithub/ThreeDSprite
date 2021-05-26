@@ -6,9 +6,9 @@ public class PMPreparePlayerLogin : PMHandler
 {
     public override MsgType msgType { get { return MsgType.PMPreparePlayerLogin; } }
 
-    public override async Task<MyResponse> handle(object socket, string _msg)
+    public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        var msg = this.baseScript.castMsg<MsgPreparePlayerLogin>(_msg);
+        var msg = this.baseScript.decodeMsg<MsgPreparePlayerLogin>(_msg);
         var data = this.pmData;
         var script = this.pmScript;
         var logger = this.logger;
@@ -23,11 +23,11 @@ public class PMPreparePlayerLogin : PMHandler
             {
                 // 情况1 同一个客户端意外地登录2次
                 // 情况2 客户端A已经登录，B再登录
-                this.logger.info("1 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, this.server.network.getSocketId(oldSocket));
+                this.logger.info("1 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, oldSocket.getId());
 
                 var resMisc = new ResMisc
                 {
-                    oldSocketTimestamp = this.server.network.getSocketClientTimestamp(oldSocket),
+                    oldSocketTimestamp = oldSocket.getClientTimestamp(),
                 };
                 return new MyResponse(ECode.OldSocket, resMisc);
             }
@@ -41,7 +41,8 @@ public class PMPreparePlayerLogin : PMHandler
                 return r;
             }
 
-            if (r.res.length == 0)
+            var dict = this.pmSqlUtils.DecodeSqlRecords(r.res);
+            if (this.pmSqlUtils.GetRecordsCount(dict) == 0)
             {
                 logger.info($"player {msg.playerId} not exist, create a new one!");
                 // player not exist, create player now!
@@ -57,7 +58,8 @@ public class PMPreparePlayerLogin : PMHandler
             else
             {
                 // decode playerInfo
-                player = script.decodePlayer((r.res as SqlTablePlayer[])[0]);
+                var sqlTablePlayer = SqlTablePlayer.FromRecord(dict, 0);
+                player = script.decodePlayer(sqlTablePlayer);
             }
 
             //// runtime 初始化

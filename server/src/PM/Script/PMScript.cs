@@ -50,12 +50,12 @@ public class PMScript : IScript
         this.logger.info("[%s] set destroy timer for playerId: %d, seconds: %d", place, player.id, SEC);
         this.clearDestroyTimer(player, false);
 
-        player.destroyTimer = this.server.baseScript.setTimer(() =>
+        player.destroyTimer = this.server.timerScript.setTimer(() =>
         {
             player.destroyTimer = -1;
             this.logger.info("send destroy playerId: " + player.id);
             MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.id, place = "pmDestroyTimer" };
-            this.server.network.send(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, null);
+            this.pmData.aaaSocket.send(MsgType.AAADestroyPlayer, msgDestroy, null);
         }, SEC * 1000);
     }
 
@@ -67,7 +67,7 @@ public class PMScript : IScript
         }
         if (player.destroyTimer != -1)
         {
-            this.server.baseScript.clearTimer(player.destroyTimer);
+            this.server.timerScript.clearTimer(player.destroyTimer);
             player.destroyTimer = -1;
         }
     }
@@ -78,7 +78,7 @@ public class PMScript : IScript
         this.clearSaveTimer(player);
 
         MsgPlayerSCSave msg = new MsgPlayerSCSave { playerId = player.id, place = "timer" };
-        player.saveTimer = this.server.baseScript.setInterval(() =>
+        player.saveTimer = this.server.timerScript.setInterval(() =>
         {
             this.server.baseScript.sendToSelf(MsgType.PMPlayerSave, msg);
         }, SEC * 1000);
@@ -88,7 +88,7 @@ public class PMScript : IScript
     {
         if (player.saveTimer != -1)
         {
-            this.server.baseScript.clearInterval(player.saveTimer);
+            this.server.timerScript.clearInterval(player.saveTimer);
             player.saveTimer = -1;
         }
     }

@@ -1,20 +1,23 @@
+using System;
+using System.Linq;
+
 public class FakeLogger
 {
     public void debug(params object[] args)
     {
-
+        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
     }
     public void info(params object[] args)
     {
-
+        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
     }
     public void warn(params object[] args)
     {
-        
+        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
     }
     public void error(params object[] args)
     {
-        
+        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
     }
 }
 
@@ -29,16 +32,16 @@ public class Server : IGameScripts
     //// common ------------------------------
     public BaseData baseData = null;
     public BaseScript baseScript = null;
-    public NetworkScript network = null;
+    public INetProto serverNetwork = null;
 
     public MessageDispatcher dispatcher = null;
-    public CoroutineManager coroutineMgr = null;
     public FakeLogger logger = null;
     public FakeLogger errorLogger = null;
     public SqlLog sqlLog = null;
     public Utils utils = null;
     public SCUtils scUtils { get; set; }
     public JsonUtils JSON { get; set; }
+    public TimerScript timerScript { get; set; }
 
     //// aaaa and pm
     // public PayLtSqlUtils payLtSqlUtils = null;
