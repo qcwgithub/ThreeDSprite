@@ -33,7 +33,7 @@ public class MessageDispatcher : IScript {
 
         Handler handler;
         if (!this.server.baseData.handlers.TryGetValue(type, out handler)) {
-            this.server.baseScript.error("no handler for message %d, %s", type, type.ToString());
+            this.server.logger.ErrorFormat("no handler for message {0}", type);
             reply(ECode.Error, null);
             return;
         }

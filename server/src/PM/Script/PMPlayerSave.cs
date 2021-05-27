@@ -9,7 +9,7 @@ public class PMPlayerSave : PMHandler {
         var msg = this.baseScript.decodeMsg<MsgPlayerSCSave>(_msg);
         var player = this.pmData.GetPlayerInfo(msg.playerId);
         if (player == null) {
-            this.baseScript.error("%s place: %s, playerId: %d, player == null!!", this.msgName, msg.place, msg.playerId);
+            this.logger.ErrorFormat("{0} place: {1}, playerId: {2}, player == null!!", this.msgName, msg.place, msg.playerId);
             return Task.FromResult(new MyResponse(ECode.PlayerNotExist));
         }
 
@@ -26,7 +26,7 @@ public class PMPlayerSave : PMHandler {
         {
             fieldsStr = string.Join(null, buffer.ToArray());
         }
-        this.logger.info("%s place: %s, playerId: %d, fields: [%s]", this.msgName, msg.place, player.id, fieldsStr);
+        this.logger.InfoFormat("{0} place: {1}, playerId: {2}, fields: [{3}]", this.msgName, msg.place, player.id, fieldsStr);
 
         //// reply
         return Task.FromResult(new MyResponse(ECode.Success));

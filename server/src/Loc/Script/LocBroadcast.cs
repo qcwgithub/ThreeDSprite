@@ -9,7 +9,7 @@ public class LocBroadcast : LocHandler
     public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
         var msg = this.baseScript.decodeMsg<MsgLocBroadcast>(_msg);
-        this.logger.info("LocBroadcast, ids: %s, msgType: %s", this.server.JSON.stringify(msg.ids), msg.msgType.ToString());
+        this.logger.InfoFormat("LocBroadcast, ids: {0}, msgType: {1}", this.server.JSON.stringify(msg.ids), msg.msgType.ToString());
 
         // 只允许全部有效
         for (int i = 0; i < msg.ids.Length; i++)
@@ -25,7 +25,7 @@ public class LocBroadcast : LocHandler
                 info.socket == null ||
                 !info.socket.isConnected())
             {
-                this.baseScript.error("LocBroadcast failed, invalid id: " + id);
+                this.logger.Error("LocBroadcast failed, invalid id: " + id);
                 return Task.FromResult(new MyResponse(ECode.Error, null));
             }
         }
@@ -42,7 +42,7 @@ public class LocBroadcast : LocHandler
             LocServerInfo info = this.locData.map[id];
             info.socket.send(msg.msgType, msg.msg, null);
         }
-        this.logger.debug("LocBroadcast success");
+        this.logger.Debug("LocBroadcast success");
         return Task.FromResult(new MyResponse(ECode.Success, null));
     }
 }

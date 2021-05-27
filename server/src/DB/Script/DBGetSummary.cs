@@ -7,7 +7,7 @@ public class DBGetSummary : DBHandler
 
     public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        this.logger.debug("DBGetSummary");
+        this.logger.Debug("DBGetSummary");
         return Task.FromResult(new MyResponse(ECode.Success, null));
 
         // var info = {

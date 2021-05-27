@@ -10,8 +10,9 @@ public class DBQuery : DBHandler
 
     public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
+            return ECode.InvalidParam;
         var msg = this.baseScript.decodeMsg<MsgDBQuery>(_msg);
-        this.logger.debug("DBQuery: " + msg.queryStr);
+        this.logger.Debug("DBQuery: " + msg.queryStr);
         // find operation
         int spaceIndex = msg.queryStr.IndexOf(' ');
         if (spaceIndex < 0)
@@ -96,7 +97,7 @@ public class DBQuery : DBHandler
         {
             if (msg.expectedAffectedRows != affectedRows)
             {
-                this.server.logger.error("expectedAffectedRows: %d != affectedRows=%s, queryStr: %s",
+                this.server.logger.ErrorFormat("expectedAffectedRows: {0} != affectedRows={1}, queryStr: {2}",
                     msg.expectedAffectedRows, affectedRows, msg.queryStr);
             }
         }

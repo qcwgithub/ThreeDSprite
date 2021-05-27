@@ -287,7 +287,7 @@ public abstract class MyWebSocket : ISocket
         }
         else
         {
-            this.server.baseScript.error("onMsg wrong seq: " + seq);
+            this.server.logger.Error("onMsg wrong seq: " + seq);
         }
     }
 }

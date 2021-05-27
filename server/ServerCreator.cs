@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using log4net;
 using log4net.Config;
 using log4net.Repository;
+using log4net.Appender;
+using System.Xml;
+using System.Xml.Linq;
 
 class _Loaders_
 {
@@ -16,7 +19,18 @@ class _Loaders_
         return JSON.parse<T>(File.ReadAllText(personalPath + "/config/" + f, Encoding.UTF8));
     }
 
-    public static T loadConfigJson<T>(string f, Purpose purpose)
+    public static string loadConfigText(string f)
+    {
+        return File.ReadAllText("./config/" + f, Encoding.UTF8);
+    }
+    public static XmlElement parseConfigXml(string text)
+    {
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(text);
+        return doc.DocumentElement;
+    }
+
+    public static T loadPurposeConfigJson<T>(string f, Purpose purpose)
     {
         return JSON.parse<T>(File.ReadAllText("./Purposes/" + purpose + "/" + f, Encoding.UTF8));
     }
@@ -81,16 +95,53 @@ public class ServerCreator
         };
     }
 
-    static void SetupLogger()
+    static XmlElement log4netXmlTemplate = null;
+    static ILoggerRepository log4netRepo = null;
+    static void InitLog4net()
     {
-        ILoggerRepository repository = LogManager.CreateRepository("NETCoreRepository");
-        XmlConfigurator.Configure(repository, new System.IO.FileInfo($"./Config/log4net{ext}.xml"));
+        string xmlText = _Loaders_.loadConfigText("log4netConfig.xml");
+        log4netXmlTemplate = _Loaders_.parseConfigXml(xmlText);
+
+        log4netRepo = LogManager.CreateRepository("my_log4net_repo");
+    }
+    static void SetupLoggerForServer(Server server)
+    {
+        XmlElement xmlElement = log4netXmlTemplate.Clone() as XmlElement;
+        XmlNode node = xmlElement.FirstChild;
+        bool modifyAppenderSuccess = false;
+        bool modifyLoggerSuccess = false;
+        while (node != null)
+        {
+            if (!modifyAppenderSuccess && node.Name == "appender" && node.Attributes["name"].Value == "file_appender")
+            {
+                XmlNode node2 = node.FirstChild;
+                while (node2 != null)
+                {
+                    if (node2.Name == "file")
+                    {
+                        node2.Attributes["value"].Value = "./logs/" + Utils.numberId2stringId(server.baseData.id);
+                        modifyAppenderSuccess = true;
+                        break;
+                    }
+                }
+            }
+            if (!modifyLoggerSuccess && node.Name == "logger")
+            {
+                node.Attributes["name"].Value = Utils.numberId2stringId(server.baseData.id);
+                modifyLoggerSuccess = true;
+            }
+            node = node.NextSibling;
+        }
+        XmlConfigurator.Configure(log4netRepo, xmlElement);
+        ILog logger = LogManager.GetLogger(Utils.numberId2stringId(server.baseData.id));
+        server.logger = logger;
     }
 
     public static JsonUtils JSON = new JsonUtils();
     public static List<Server> Create(string[] args)
     {
         _Loaders_.JSON = JSON;
+        InitLog4net();
 
         //Console.WriteLine("Hello World!");
         var argMap = ParseArguments(args);
@@ -119,8 +170,8 @@ public class ServerCreator
         ServerConst.initPorts(purpose);
 
         var thisMachineConfig = _Loaders_.loadHomeJson<ThisMachineConfig>("thisMachineConfig.json");
-        var locConfig = _Loaders_.loadConfigJson<_LocConfig_>("locConfig.json", purpose);
-        var versionConfig = _Loaders_.loadConfigJson<_VersionConfig_>("version.json", purpose);
+        var locConfig = _Loaders_.loadPurposeConfigJson<_LocConfig_>("locConfig.json", purpose);
+        var versionConfig = _Loaders_.loadPurposeConfigJson<_VersionConfig_>("version.json", purpose);
         var purposeLowerCase = purpose.ToString().ToLower();
 
         var list = new List<_Helper_>();
@@ -284,11 +335,11 @@ public class ServerCreator
 
             s.serverNetwork = new NetProtoTcp();
             ((NetProtoTcp)s.serverNetwork).server = s;
-            
+
             s.timerScript = new TimerScript();
             s.timerScript.server = s;
 
-            s.logger = new FakeLogger();
+            SetupLoggerForServer(s);
 
             // s.netProto = new NetworkProtocolWS();
             // (s.netProto as NetworkProtocolWS).server = s;

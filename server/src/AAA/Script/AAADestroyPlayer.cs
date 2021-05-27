@@ -9,17 +9,17 @@ public class AAADestroyPlayer : AAAHandler {
         var msg = this.baseScript.decodeMsg<MsgDestroyPlayer>(_msg);
         var aaaData = this.aaaData;
         var aaaScript = this.aaaScript;
-        this.logger.info("%s place: %s, playerId: %d, preCount: %d", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);
+        this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);
 
         var playerlock = "player_" + msg.playerId;
         if (this.baseScript.isLocked(playerlock)) {
-            this.logger.info("%s player is busy, playerId: %d", this.msgName, msg.playerId);
+            this.logger.InfoFormat("{0} player is busy, playerId: {1}", this.msgName, msg.playerId);
             return Task.FromResult(new MyResponse(ECode.PlayerLock));
         }
 
         AAAPlayerInfo playerInfo = aaaData.GetPlayerInfo(msg.playerId);
         if (playerInfo == null) {
-            this.baseScript.error("%s player not exit, playerId: %d", this.msgName, msg.playerId);
+            this.server.logger.ErrorFormat("{0} player not exit, playerId: {1}", this.msgName, msg.playerId);
             return Task.FromResult(new MyResponse(ECode.PlayerNotExist));
         }
 
@@ -32,7 +32,7 @@ public class AAADestroyPlayer : AAAHandler {
                 pmInfo.socket.send(MsgType.PMDestroyPlayer, msgPm, null);
             }
             else {
-                this.baseScript.error("%s player pm is null, playerId: %d, pmId: %d", this.msgName, msg.playerId, playerInfo.pmId);
+                this.server.logger.ErrorFormat("{0} player pm is null, playerId: {1}, pmId: {2}", this.msgName, msg.playerId, playerInfo.pmId);
             }
         }
 

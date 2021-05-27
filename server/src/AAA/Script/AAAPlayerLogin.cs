@@ -18,7 +18,7 @@ public class AAAPlayerLogin : AAAHandler
         SqlTableAccount accountInfo = null;
 
         var playerId = this.aaaData.nextPlayerId++;
-        this.logger.info($"account {channel},{channelUserId} does not exist, new playerId: {playerId}");
+        this.logger.Info($"account {channel},{channelUserId} does not exist, new playerId: {playerId}");
         var r = await this.server.aaaSqlUtils.updatePlayerIdYield(this.aaaData.nextPlayerId);
         if (r.err != ECode.Success)
         {
@@ -134,7 +134,7 @@ public class AAAPlayerLogin : AAAHandler
 
         if (!(aaaData.nextPlayerId > 0))
         {
-            logger.info("server not ready");
+            logger.Info("server not ready");
             //r.err = ECode.ServerNotReady;
             return ECode.ServerNotReady;
         }
@@ -170,7 +170,7 @@ public class AAAPlayerLogin : AAAHandler
         {
             return ECode.InvalidPlatform;
         }
-        this.logger.info("%s channel:%s, channelUserId:%s version:%s ", this.msgName, msg.channel, msg.channelUserId, msg.version);
+        this.logger.InfoFormat("{0} channel:{1}, channelUserId:{2} version:{3} ", this.msgName, msg.channel, msg.channelUserId, msg.version);
 
         // 验证登录
         var r = await this.aaaScript.verifyAccount(msg.channel, msg.channelUserId, msg.verifyData);
@@ -264,7 +264,7 @@ public class AAAPlayerLogin : AAAHandler
         AAAPlayerManagerInfo pm = null;
         if (player.pmId == 0)
         {
-            logger.info("alloc pm for playerId: " + player.id);
+            logger.Info("alloc pm for playerId: " + player.id);
 
             // 查找人数最少的pm
             foreach (var kv in aaaData.playerManagerInfos)
@@ -287,13 +287,13 @@ public class AAAPlayerLogin : AAAHandler
             pm = aaaData.GetPlayerManagerInfo(player.pmId);
             if (pm == null)
             {
-                this.server.baseScript.error("playerPM == null, pmId: " + player.pmId);
+                this.server.logger.Error("playerPM == null, pmId: " + player.pmId);
             }
         }
 
         if (pm == null)
         {
-            this.server.baseScript.error("no available pm!");
+            this.server.logger.Error("no available pm!");
             return ECode.NoAvailablePlayerManager;
         }
 

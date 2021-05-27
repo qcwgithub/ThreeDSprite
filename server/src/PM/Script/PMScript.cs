@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class PMScript : IScript
 {
     public Server server { get; set; }
-    public FakeLogger logger { get { return this.server.logger; } }
+    public log4net.ILog logger { get { return this.server.logger; } }
     public PMData pmData { get { return this.server.pmData; } }
 
     public bool acceptClient()
@@ -27,7 +27,7 @@ public class PMScript : IScript
         }
         catch (Exception ex)
         {
-            this.server.baseScript.error("toJsonOrNull " + ex);
+            this.server.logger.Error("toJsonOrNull " + ex);
             obj = null;
         }
         return obj;
@@ -47,13 +47,13 @@ public class PMScript : IScript
     public void setDestroyTimer(PMPlayerInfo player, string place)
     {
         var SEC = this.pmData.playerDestroyTimeoutS;
-        this.logger.info("[%s] set destroy timer for playerId: %d, seconds: %d", place, player.id, SEC);
+        this.logger.InfoFormat("[{0}] set destroy timer for playerId: {1}, seconds: {2}", place, player.id, SEC);
         this.clearDestroyTimer(player, false);
 
         player.destroyTimer = this.server.timerScript.setTimer(() =>
         {
             player.destroyTimer = -1;
-            this.logger.info("send destroy playerId: " + player.id);
+            this.logger.Info("send destroy playerId: " + player.id);
             MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.id, place = "pmDestroyTimer" };
             this.pmData.aaaSocket.send(MsgType.AAADestroyPlayer, msgDestroy, null);
         }, SEC * 1000);
@@ -63,7 +63,7 @@ public class PMScript : IScript
     {
         if (log)
         {
-            this.logger.info("clear destroy timer for playerId: " + player.id);
+            this.logger.Info("clear destroy timer for playerId: " + player.id);
         }
         if (player.destroyTimer != -1)
         {
@@ -133,12 +133,12 @@ public class PMScript : IScript
 
     public void playerOperInfo(Handler handler, int playerId)
     {
-        this.server.logger.info("%s playerId: %d", handler.msgName, playerId);
+        this.server.logger.InfoFormat("{0} playerId: {1}", handler.msgName, playerId);
     }
 
     public ECode playerOperError(Handler handler, int playerId, ECode e)
     {
-        this.server.baseScript.error("%s playerId: %d, ECode.%s", handler.msgName, playerId, e);
+        this.server.logger.ErrorFormat("{0} playerId: {1}, ECode.{2}", handler.msgName, playerId, e);
         return e;
     }
 }

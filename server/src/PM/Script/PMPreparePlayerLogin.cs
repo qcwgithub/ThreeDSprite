@@ -13,7 +13,7 @@ public class PMPreparePlayerLogin : PMHandler
         var script = this.pmScript;
         var logger = this.logger;
 
-        this.logger.info("%s playerId: %d", this.msgName, msg.playerId);
+        this.logger.InfoFormat("{0} playerId: {1}", this.msgName, msg.playerId);
 
         var player = data.GetPlayerInfo(msg.playerId);
         if (player != null)
@@ -23,7 +23,7 @@ public class PMPreparePlayerLogin : PMHandler
             {
                 // 情况1 同一个客户端意外地登录2次
                 // 情况2 客户端A已经登录，B再登录
-                this.logger.info("1 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, oldSocket.getId());
+                this.logger.InfoFormat("1 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, oldSocket.getId());
 
                 var resMisc = new ResMisc
                 {
@@ -44,7 +44,7 @@ public class PMPreparePlayerLogin : PMHandler
             var dict = this.pmSqlUtils.DecodeSqlRecords(r.res);
             if (this.pmSqlUtils.GetRecordsCount(dict) == 0)
             {
-                logger.info($"player {msg.playerId} not exist, create a new one!");
+                logger.Info($"player {msg.playerId} not exist, create a new one!");
                 // player not exist, create player now!
                 player = this.server.pmScriptCreateNewPlayer.newPlayer(msg.playerId, msg.channel, msg.channelUserId, msg.userName);
 

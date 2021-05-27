@@ -29,7 +29,7 @@ public class PMPlayerLogin : PMHandler
             return Task.FromResult(new MyResponse(ECode.InvalidToken));
         }
 
-        this.logger.info("%s playerId: %d, preCount: %d", this.msgName, player.id, this.pmData.playerInfos.Count);
+        this.logger.InfoFormat("{0} playerId: {1}, preCount: {2}", this.msgName, player.id, this.pmData.playerInfos.Count);
 
         // if (this.baseScript.isMessageListenerAdded(socket)) {
         //     this.logger.info("PMPlayerLogin playerId: " + msg2.playerId + " MessageListenerAdded");
@@ -42,7 +42,7 @@ public class PMPlayerLogin : PMHandler
         {
             // 情况1 同一个客户端意外地登录2次
             // 情况2 客户端A已经登录，B再登录
-            this.logger.info("2 playerId: %d, ECode.OldSocket oldSocket: %s", player.id, oldSocket.getId());
+            this.logger.InfoFormat("2 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, oldSocket.getId());
             var resMisc = new ResMisc
             {
                 oldSocketTimestamp = oldSocket.getClientTimestamp(),
@@ -55,7 +55,7 @@ public class PMPlayerLogin : PMHandler
         {
             // 情况1 同一个客户端意外地登录2次
             // 情况2 客户端A已经登录，B再登录
-            this.baseScript.error("playerId %d, ECode.OldPlayer %d", player.id, oldPlayer.id);
+            this.logger.ErrorFormat("playerId {0}, ECode.OldPlayer {1}", player.id, oldPlayer.id);
             return Task.FromResult(new MyResponse(ECode.OldPlayer));
         }
 

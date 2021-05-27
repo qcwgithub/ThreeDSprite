@@ -1,27 +1,6 @@
 using System;
 using System.Linq;
 
-public class FakeLogger
-{
-    public void debug(params object[] args)
-    {
-        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
-    }
-    public void info(params object[] args)
-    {
-        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
-    }
-    public void warn(params object[] args)
-    {
-        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
-    }
-    public void error(params object[] args)
-    {
-        Console.WriteLine(string.Join(null, args.Select((obj, i) => obj.ToString()).ToArray()));
-    }
-}
-
-
 // Server 提供给 IScript 数据、其他脚本的访问
 public class Server : IGameScripts
 {
@@ -35,8 +14,7 @@ public class Server : IGameScripts
     public INetProto serverNetwork = null;
 
     public MessageDispatcher dispatcher = null;
-    public FakeLogger logger = null;
-    public FakeLogger errorLogger = null;
+    public log4net.ILog logger = null;
     public SqlLog sqlLog = null;
     public Utils utils = null;
     public SCUtils scUtils { get; set; }

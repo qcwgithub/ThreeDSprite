@@ -19,7 +19,7 @@ public class SqlLog : IScript
         {
             if (e != ECode.Success)
             {
-                this.server.baseScript.error("SqlLog.doQuery failed. %s, %s", e, queryStr);
+                this.server.logger.ErrorFormat("SqlLog.doQuery failed. {0}, {1}", e, queryStr);
             }
         });
     }

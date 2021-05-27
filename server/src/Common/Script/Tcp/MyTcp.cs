@@ -87,7 +87,7 @@ public abstract class MyTcp : ISocket
 
     protected void onError(string e)
     {
-        this.server.logger.info("ERROR " + e);
+        this.server.logger.Error("ERROR " + e);
     }
 
     private void onComplete(object sender, SocketAsyncEventArgs e)
@@ -453,7 +453,7 @@ public abstract class MyTcp : ISocket
         //// 2 response message
         if (seq < 0)
         {
-            this.server.logger.info("recv response " + eCode + ", " + msg);
+            // this.server.logger.Info("recv response " + eCode + ", " + msg);
 
             Action<ECode, string> responseFun;
             if (this.data.pendingRequests.TryGetValue(-seq, out responseFun))
@@ -463,14 +463,14 @@ public abstract class MyTcp : ISocket
             }
             else
             {
-                this.server.logger.info("NO response fun for " + (-seq));
+                this.server.logger.Error("NO response fun for " + (-seq));
             }
         }
 
         //// 3 receive message
         else if (seq > 0)
         {
-            this.server.logger.info("recv message " + msgType + ", " + msg);
+            // this.server.logger.Info("recv message " + msgType + ", " + msg);
             if (this.MessageListener != null)
             {
                 this.MessageListener(msgType, msg, (ECode e2, string msg2) =>
@@ -480,12 +480,12 @@ public abstract class MyTcp : ISocket
             }
             else
             {
-                this.server.logger.info("NO message listener for " + msgType);
+                this.server.logger.Warn("NO message listener for " + msgType);
             }
         }
         else
         {
-            this.server.baseScript.error("onMsg wrong seq: " + seq);
+            this.server.logger.Error("onMsg wrong seq: " + seq);
         }
     }
     #endregion

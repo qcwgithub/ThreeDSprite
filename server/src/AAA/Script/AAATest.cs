@@ -8,19 +8,19 @@ public class AAATest : AAAHandler
 
     private async Task<MyResponse> sub2()
     {
-        this.logger.debug("AAATest, 3..." + this.sss);
+        this.logger.Debug("AAATest, 3..." + this.sss);
         await this.baseScript.waitAsync(10000);
-        this.logger.debug("AAATest, 4..." + this.sss);
+        this.logger.Debug("AAATest, 4..." + this.sss);
         return ECode.Success;
     }
 
     private async Task<MyResponse> sub1()
     {
-        this.logger.debug("AAATest, 2..." + this.sss);
+        this.logger.Debug("AAATest, 2..." + this.sss);
         var r = await this.sub2();
-        this.logger.debug("AAATest, 5..." + this.sss);
+        this.logger.Debug("AAATest, 5..." + this.sss);
         r = await this.sub2();
-        this.logger.debug("AAATest, 6..." + this.sss);
+        this.logger.Debug("AAATest, 6..." + this.sss);
         await this.baseScript.waitAsync(5000);
         return ECode.Success;
     }
@@ -31,9 +31,9 @@ public class AAATest : AAAHandler
     {
         this.ddd = false;
 
-        this.logger.debug("AAATest, 1..." + this.sss);
+        this.logger.Debug("AAATest, 1..." + this.sss);
         var r = await this.sub1();
-        this.logger.debug("AAATest, 7...!!???" + this.sss);
+        this.logger.Debug("AAATest, 7...!!???" + this.sss);
         return ECode.Success;
 
         // while (true) {

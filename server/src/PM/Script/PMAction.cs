@@ -10,13 +10,13 @@ public class PMAction : PMHandler
     public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
         var msg = this.baseScript.decodeMsg<MsgPMAction>(_msg);
-        this.logger.info("%s", this.msgName);
+        this.logger.Info(this.msgName);
         PMData pmData = this.pmData;
 
         if (msg.allowNewPlayer != null)
         {
             pmData.allowNewPlayer = (msg.allowNewPlayer == "true");
-            this.logger.info("allowNewPlayer -> " + msg.allowNewPlayer);
+            this.logger.Info("allowNewPlayer -> " + msg.allowNewPlayer);
 
             var msgAlive = new MsgPMAlive
             {
@@ -32,17 +32,17 @@ public class PMAction : PMHandler
         if (msg.allowClientConnect != null)
         {
             pmData.allowClientConnect = msg.allowClientConnect == "true";
-            this.logger.info("allowClientConnect -> " + msg.allowClientConnect);
+            this.logger.Info("allowClientConnect -> " + msg.allowClientConnect);
         }
         if (msg.playerDestroyTimeoutS != null)
         {
             pmData.playerDestroyTimeoutS = int.Parse(msg.playerDestroyTimeoutS);
-            this.logger.info("playerDestroyTimeoutS -> " + msg.playerDestroyTimeoutS);
+            this.logger.Info("playerDestroyTimeoutS -> " + msg.playerDestroyTimeoutS);
         }
         if (msg.playerSCSaveIntervalS != null)
         {
             pmData.playerSCSaveIntervalS = int.Parse(msg.playerSCSaveIntervalS);
-            this.logger.info("playerSCSaveIntervalS -> " + msg.playerSCSaveIntervalS);
+            this.logger.Info("playerSCSaveIntervalS -> " + msg.playerSCSaveIntervalS);
         }
 
         // if (msg.playerRunScript) {
@@ -70,7 +70,7 @@ public class PMAction : PMHandler
         {
             while (true)
             {
-                this.logger.info("%s destroyAllPlayers left %d", this.msgName, pmData.playerInfos.Count);
+                this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, pmData.playerInfos.Count);
                 if (pmData.playerInfos.Count == 0)
                 {
                     break;
@@ -92,7 +92,7 @@ public class PMAction : PMHandler
         {
             for (int i = 0; i < msg.destroyPlayerIds.Count; i++)
             {
-                this.logger.info("%s destroyPlayerIds left %d", this.msgName, msg.destroyPlayerIds.Count - i);
+                this.logger.InfoFormat("{0} destroyPlayerIds left {1}", this.msgName, msg.destroyPlayerIds.Count - i);
                 var playerId = msg.destroyPlayerIds[i];
                 if (!pmData.playerInfos.ContainsKey(playerId))
                 {

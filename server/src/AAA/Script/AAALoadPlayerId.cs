@@ -23,7 +23,7 @@ public class AAALoadPlayerId : AAAHandler
                 var r = await this.server.aaaSqlUtils.selectPlayerIdYield();
                 if (r.err != ECode.Success)
                 {
-                    this.baseScript.error("AAALoadPlayerId failed." + r.err);
+                    this.logger.Error("AAALoadPlayerId failed." + r.err);
                 }
                 else
                 {
@@ -31,7 +31,7 @@ public class AAALoadPlayerId : AAAHandler
                     this.aaaData.nextPlayerId = Convert.ToInt32(dict["playerId"][0]);
                     if (this.aaaData.nextPlayerId > 0)
                     {
-                        this.logger.info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);
+                        this.logger.Info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);
                         this.aaaData.playerIdReady = true;
                     }
                     break;

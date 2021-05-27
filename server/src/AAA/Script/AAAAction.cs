@@ -10,7 +10,7 @@ public class AAAAction : AAAHandler
     {
         var msg = this.baseScript.decodeMsg<MsgAAAAction>(_msg);
 
-        this.logger.info("%s", this.msgName);
+        this.logger.Info(this.msgName);
         var aaaData = this.server.aaaData;
 
         if (msg.active != null)
@@ -26,13 +26,13 @@ public class AAAAction : AAAHandler
                 var player = aaaData.GetPlayerInfo(playerId);
                 if (player == null)
                 {
-                    this.logger.info("%s playerRunScript player==null, playerId: %d", this.msgName, playerId);
+                    this.logger.InfoFormat("{0} playerRunScript player==null, playerId: {1}", this.msgName, playerId);
                     continue;
                 }
                 var pm = aaaData.GetPlayerManagerInfo(player.pmId);
                 if (pm == null)
                 {
-                    this.logger.info("%s playerRunScript pm==null, playerId: %d, pmId: %d", this.msgName, playerId, player.pmId);
+                    this.logger.InfoFormat("{0} playerRunScript pm==null, playerId: {1}, pmId: {2}", this.msgName, playerId, player.pmId);
                     continue;
                 }
                 MsgPMAction msgAction = new MsgPMAction
@@ -52,7 +52,7 @@ public class AAAAction : AAAHandler
         {
             while (true)
             {
-                this.logger.info("%s destroyAllPlayers left %d", this.msgName, aaaData.playerInfos.Count);
+                this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, aaaData.playerInfos.Count);
                 if (aaaData.playerInfos.Count == 0)
                 {
                     break;
@@ -75,7 +75,7 @@ public class AAAAction : AAAHandler
         {
             for (int i = 0; i < msg.destroyPlayerIds.Count; i++)
             {
-                this.logger.info("%s destroyPlayerIds left %d", this.msgName, msg.destroyPlayerIds.Count - i);
+                this.logger.InfoFormat("{0} destroyPlayerIds left {1}", this.msgName, msg.destroyPlayerIds.Count - i);
                 var playerId = msg.destroyPlayerIds[i];
                 if (!aaaData.playerInfos.ContainsKey(playerId))
                 {

@@ -10,15 +10,8 @@ public class BaseScript : IScript
     public Server server { get; set; }
 
     public BaseData baseData { get { return this.server.baseData; } }
-    public FakeLogger logger { get { return this.server.logger; } }
+    public log4net.ILog logger { get { return this.server.logger; } }
     public MessageDispatcher dispatcher { get { return this.server.dispatcher; } }
-
-    public void error(string message, params object[] args)
-    {
-        this.server.baseData.errorCount++;
-        this.server.logger.error(message, args);
-        // this.server.errorLogger.error(message, args);
-    }
 
     public void addKnownLoc(Loc loc)
     {
@@ -102,7 +95,7 @@ public class BaseScript : IScript
     // ids=null 表示全部，monitor使用
     public async Task<MyResponse> requestLocationAsync(int[] ids)
     {
-        this.logger.info("requstLoc " + this.server.JSON.stringify(ids));
+        this.logger.Info("requstLoc " + this.server.JSON.stringify(ids));
         while (true)
         {
             var r = await this.baseData.locSocket.sendAsync(
@@ -124,14 +117,14 @@ public class BaseScript : IScript
                 break;
             }
         }
-        this.logger.info("requstLocation OK");
+        this.logger.Info("requstLocation OK");
         return ECode.Success;
     }
 
     public async Task<ISocket> connectAsync(int toId)
     {
         string url = this.getKnownUrlForServer(toId);
-        this.logger.info("connectYield " + url);
+        this.logger.Info("connectYield " + url);
         string to = Utils.numberId2stringId(toId);
 
         string msgOnConnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
@@ -243,7 +236,7 @@ public class BaseScript : IScript
         this.baseData.state = s;
         if (this.logger != null)
         {
-            this.logger.info(s);
+            this.logger.Info(s);
         }
         else
         {

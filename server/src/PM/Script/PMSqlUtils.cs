@@ -24,7 +24,7 @@ public class PMSqlUtils : SqlUtils
         }
         if (L != values.Count)
         {
-            this.server.baseScript.error("createInsertQueryStr fields.length != values.length");
+            this.server.logger.Error("createInsertQueryStr fields.length != values.length");
             return null;
         }
 
@@ -62,7 +62,7 @@ public class PMSqlUtils : SqlUtils
         }
         if (L != values.Count)
         {
-            this.server.baseScript.error("saveFieldBatch fields.length != values.length");
+            this.server.logger.Error("saveFieldBatch fields.length != values.length");
             return null;
         }
 
@@ -99,7 +99,7 @@ public class PMSqlUtils : SqlUtils
         {
             if (e != ECode.Success)
             {
-                this.server.baseScript.error("saveFieldBatch failed. " + queryStr);
+                this.server.logger.Error("saveFieldBatch failed. " + queryStr);
             }
         });
     }

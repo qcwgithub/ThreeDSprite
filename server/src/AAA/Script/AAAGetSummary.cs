@@ -9,7 +9,7 @@ public class AAAGetSummary : AAAHandler
 
     public override Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        this.logger.debug("AAAGetSummary");
+        this.logger.Debug("AAAGetSummary");
         var data = this.aaaData;
 
         var info = new Dictionary<string, string> {

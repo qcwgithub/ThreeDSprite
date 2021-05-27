@@ -7,7 +7,7 @@ public class LocGetSummary : LocHandler
 
     public override Task<MyResponse> handle(ISocket socket, string msg)
     {
-        this.logger.debug("LocGetSummary");
+        this.logger.Debug("LocGetSummary");
         return Task.FromResult(new MyResponse(ECode.Success, null));
     }
 }

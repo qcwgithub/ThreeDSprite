@@ -15,7 +15,7 @@ public class PMChangeChannel : PMHandler
             return ECode.PlayerNotExist;
         }
 
-        this.logger.info("%s playerId: %d, (%s,%s) -> (%s,%s)", this.msgName, player.id, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2);
+        this.logger.InfoFormat("{0} playerId: {1}, ({2},{3}) -> ({4},{5})", this.msgName, player.id, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2);
 
         var resPM = new ResChangeChannel();
         var err = this.server.gameScript.changeChannelCheck(player, msg, resPM);

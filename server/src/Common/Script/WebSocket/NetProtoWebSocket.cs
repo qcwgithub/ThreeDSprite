@@ -42,7 +42,7 @@ public class NetProtoWebSocket : INetProto, IScript
         var httpListener = new HttpListener();
         httpListener.Prefixes.Add("http://*:" + port + "/");
         httpListener.Start();
-        this.server.logger.info("listening on " + port);
+        this.server.logger.Info("listening on " + port);
 
         while (true)
         {
@@ -58,7 +58,7 @@ public class NetProtoWebSocket : INetProto, IScript
                 string purpose = request.QueryString.Get("purpose");
                 if (purpose != this.server.purpose.ToString())
                 {
-                    this.server.baseScript.error("connect from different purpose " + purpose);
+                    this.server.logger.Error("connect from different purpose " + purpose);
                     response.StatusCode = 401;
                     response.Close();
                     continue;
@@ -69,7 +69,7 @@ public class NetProtoWebSocket : INetProto, IScript
             {
                 if (!acceptClient())
                 {
-                    this.server.logger.info("client - server not ready!");
+                    this.server.logger.Info("client - server not ready!");
                     // next(new Error('client - server not ready!'));
 
                     response.StatusCode = 503;
@@ -81,7 +81,7 @@ public class NetProtoWebSocket : INetProto, IScript
 
             if (!request.IsWebSocketRequest)
             {
-                this.server.logger.error("!IsWebSocketRequest, isServer ? " + fromServer);
+                this.server.logger.Error("!IsWebSocketRequest, isServer ? " + fromServer);
                 response.StatusCode = 401;
                 response.Close();
                 continue;

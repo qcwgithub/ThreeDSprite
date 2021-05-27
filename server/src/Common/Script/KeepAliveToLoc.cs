@@ -16,7 +16,7 @@ public class KeepAliveToLoc : Handler
         if (this.baseData.locNeedReport)
         {
             int id = this.server.baseScript.myLoc().id;
-        this.server.logger.info("Keey alive to loc " + id);
+        this.server.logger.Info("Keey alive to loc " + id);
             this.baseData.locNeedReport = false;
 
             var r = await this.baseData.locSocket.sendAsync(

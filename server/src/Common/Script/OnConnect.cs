@@ -7,7 +7,7 @@ public class OnConnect : Handler {
 
     public override async Task<MyResponse> handle(ISocket socket, string _msg) {
         var msg = this.baseScript.decodeMsg<MsgOnConnect>(_msg);
-        this.logger.debug("OnConnect socket id: " + socket.getId());
+        this.logger.Debug("OnConnect socket id: " + socket.getId());
         var s = socket;
         s.removeCustomMessageListener();
 
@@ -16,7 +16,7 @@ public class OnConnect : Handler {
         // 消息入口
         s.setCustomMessageListener((MsgType type2, string msg2, Action<ECode, string> reply2) => {
             if (isClient && type2 < MsgType.ClientStart) {
-                this.baseScript.error("receive invalid message from client! " + type2.ToString());
+                this.server.logger.Error("receive invalid message from client! " + type2.ToString());
                 if (reply2 != null) {
                     reply2(ECode.Exception, null);
                 }
@@ -24,7 +24,7 @@ public class OnConnect : Handler {
             }
 
             if (msg2 == null) {
-                this.baseScript.error("message must be object!! type: " + type2.ToString());
+                this.server.logger.Error("message must be object!! type: " + type2.ToString());
                 if (reply2 != null) {
                     reply2(ECode.Exception, null);
                 }

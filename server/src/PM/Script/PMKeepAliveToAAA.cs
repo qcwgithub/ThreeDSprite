@@ -35,7 +35,7 @@ public class PMKeepAliveToAAA : PMHandler
         List<int> playerList = null;
         if (alive.requirePlayerList)
         {
-            this.logger.info("alive.requirePlayerList = true");
+            this.logger.Info("alive.requirePlayerList = true");
             alive.requirePlayerList = false;
             playerList = new List<int>();
             foreach (var kv in pmData.playerInfos)
@@ -56,7 +56,7 @@ public class PMKeepAliveToAAA : PMHandler
 
         if (r.err != ECode.Success)
         {
-            this.baseScript.error("PMKeepAliveToAAA error: " + r.err);
+            this.logger.Error("PMKeepAliveToAAA error: " + r.err);
         }
         else
         {

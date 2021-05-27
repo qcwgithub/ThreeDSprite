@@ -7,7 +7,7 @@ public class PMGetSummary : PMHandler {
 
     public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-        this.logger.debug("PMGetSummary");
+        this.logger.Debug("PMGetSummary");
         return ECode.Success;
 
         // var info = {

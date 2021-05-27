@@ -8,7 +8,7 @@ public class DBStart : DBHandler
 
     private void onConnectionStateChange(object sender, StateChangeEventArgs e)
     {
-        this.server.logger.info("MySqlConnection StateChange %s -> %s", e.OriginalState.ToString(), e.CurrentState.ToString());
+        this.server.logger.InfoFormat("MySqlConnection StateChange {0} -> {1}", e.OriginalState, e.CurrentState);
     }
 
     public override async Task<MyResponse> handle(ISocket socket, string _msg/* no use */)

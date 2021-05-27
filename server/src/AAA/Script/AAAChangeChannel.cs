@@ -17,11 +17,11 @@ public class AAAChangeChannel : AAAHandler
 
         if (!(aaaData.nextPlayerId > 0))
         {
-            logger.info("server not ready");
+            logger.Info("server not ready");
             return ECode.ServerNotReady;
         }
 
-        this.logger.info("AAAChangeChannel playerId: %d, (%s,%s) -> (%s,%s), %s", msg.playerId, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2, this.server.JSON.stringify(msg.verifyData2));
+        this.logger.InfoFormat("AAAChangeChannel playerId: {0}, ({1},{2}) -> ({3},{4}), {5}", msg.playerId, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2, this.server.JSON.stringify(msg.verifyData2));
 
         // 和 gameScript.changeChannelCheck 一样的实现，但是这里没有办法调用 gameScript
         if (!this.server.scUtils.isValidChannelType(msg.channel1) || !this.server.scUtils.isValidChannelType(msg.channel2))

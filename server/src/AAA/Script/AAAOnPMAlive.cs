@@ -19,7 +19,7 @@ public class AAAOnPMAlive : AAAHandler
         var pm = data.GetPlayerManagerInfo(msg.id);
         if (pm == null)
         {
-            logger.info("pm connected, id: " + msg.id);
+            logger.Info("pm connected, id: " + msg.id);
             newAdd = true;
 
             pm = new AAAPlayerManagerInfo();
@@ -32,7 +32,7 @@ public class AAAOnPMAlive : AAAHandler
         {
             if (msg.playerList.Count > 0)
             {
-                logger.info("recover player ids...length: %d, pmId: %d", msg.playerList.Count, pm.id);
+                logger.InfoFormat("recover player ids...length: {0}, pmId: {1}", msg.playerList.Count, pm.id);
             }
 
             for (int i = 0; i < msg.playerList.Count; i++)
@@ -43,12 +43,12 @@ public class AAAOnPMAlive : AAAHandler
                 {
                     if (player.pmId != pm.id)
                     {
-                        this.server.baseScript.error("player pm conflict, player.pmId: %d, pm.id: %d", player.pmId, pm.id);
+                        this.server.logger.ErrorFormat("player pm conflict, player.pmId: {0}, pm.id: {1}", player.pmId, pm.id);
                     }
                 }
                 else
                 {
-                    logger.warn("recover playerId: %d, pmId: %d", playerId, pm.id);
+                    logger.WarnFormat("recover playerId: {0}, pmId: {1}", playerId, pm.id);
                     player = new AAAPlayerInfo();
                     player.id = playerId;
                     player.pmId = pm.id;

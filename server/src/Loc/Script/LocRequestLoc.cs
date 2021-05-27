@@ -9,7 +9,7 @@ public class LocRequestLoc : LocHandler
     public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
         var msg = this.baseScript.decodeMsg<MsgLocRequestLoc>(_msg);
-        this.logger.info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
+        this.logger.Info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
 
         if (msg.ids == null)
         {
