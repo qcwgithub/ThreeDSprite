@@ -128,7 +128,7 @@ public abstract class TcpClient : TcpClientBasic, ISocket
         // this.sendBuffer.Write(bytes, 0, bytes.Length);
 
         // test
-        string checkMessage = Encoding.UTF8.GetString(bytes, sizeof(int), bytes.Length - sizeof(int));
+        // string checkMessage = Encoding.UTF8.GetString(bytes, sizeof(int), bytes.Length - sizeof(int));
 
         this.sendList.Add(bytes);
         this.startSend();
