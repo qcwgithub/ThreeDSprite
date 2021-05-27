@@ -1,18 +1,14 @@
 using System;
-using System.Net.Sockets;
 using System.Threading.Tasks;
-using System.IO;
-using System.Net;
 
 // 用于服务器连接服务器
-public class MyTcpC : MyTcp
+public class TcpClientConnect : TcpClient
 {
     string url;
     Action<ISocket> onConnect;
     Action<ISocket> onDisconnect;
-    IPEndPoint ipEndPoint = null;
 
-    public MyTcpC(int socketId, Server server, string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
+    public TcpClientConnect(int socketId, Server server, string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
         : base(socketId, server)
     {
         this.url = url;
@@ -24,21 +20,12 @@ public class MyTcpC : MyTcp
         string p = this.url.Substring(index + 1);
         int port = int.Parse(p);
 
-        IPAddress[] addresses = Dns.GetHostAddresses(host);
-        foreach (IPAddress address in addresses)
-        {
-            if (address.AddressFamily == AddressFamily.InterNetwork)
-            {
-                this.ipEndPoint = new IPEndPoint(address, port);
-                this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                this.socket.NoDelay = true;
-                break;
-            }
-        }
+        _initConnectSocket(host, port);
     }
 
-    protected override void didOnDisconnect()
+    protected override void onDisconnectComplete()
     {
+        base.onDisconnectComplete();
         Console.WriteLine("Server disconnect");
 
         if (this.onDisconnect != null)
@@ -61,12 +48,7 @@ public class MyTcpC : MyTcp
         while (true)
         {
             this.connecting = true;
-
-            this.outArgs.RemoteEndPoint = this.ipEndPoint;
-            bool completed = !this.socket.ConnectAsync(this.outArgs);
-
-            if (completed)
-                this.onConnectComplete(this.outArgs);
+            _connectAsync();
 
             while (this.connecting)
                 await Task.Delay(10);
@@ -76,18 +58,10 @@ public class MyTcpC : MyTcp
         }
     }
 
-    protected override void onConnectComplete(object o)
+    protected override void onConnectComplete()
     {
         this.connecting = false;
-        SocketAsyncEventArgs e = (SocketAsyncEventArgs)o;
 
-        if (e.SocketError != SocketError.Success)
-        {
-            this.onError("SocketError." + e.SocketError);
-            return;
-        }
-
-        e.RemoteEndPoint = null;
         this.connected = true;
         this.startRecv();
         this.startSend();

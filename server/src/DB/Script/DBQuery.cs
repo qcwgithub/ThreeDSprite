@@ -10,7 +10,6 @@ public class DBQuery : DBHandler
 
     public override async Task<MyResponse> handle(ISocket socket, string _msg)
     {
-            return ECode.InvalidParam;
         var msg = this.baseScript.decodeMsg<MsgDBQuery>(_msg);
         this.logger.Debug("DBQuery: " + msg.queryStr);
         // find operation

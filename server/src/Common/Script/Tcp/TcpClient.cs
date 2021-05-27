@@ -1,44 +1,19 @@
 using System;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Net.Sockets;
-using System.IO;
-using Model;
 using System.Collections.Generic;
 
-public abstract class MyTcp : ISocket
+public abstract class TcpClient : TcpClientBasic, ISocket
 {
     public int socketId { get; protected set; }
-    public Socket socket { get; protected set; }
     public Server server { get; protected set; }
     public TcpData data { get { return this.server.baseData.tcpData; } }
-    protected CancellationTokenSource cancellationTaskSource;
-    protected CancellationToken cancellationToken;
-    protected SocketAsyncEventArgs innArgs;
-    protected SocketAsyncEventArgs outArgs;
-    // protected Model.RingBuffer recvBuffer;
-    // protected Model.RingBuffer sendBuffer;
-    // private Model.TcpPacket parser;
-    // private byte[] packetSizeCache;
-    // private MemoryStream memoryStream;
     protected bool connected;
     protected bool sending;
-    public MyTcp(int socketId, Server server)
+    public TcpClient(int socketId, Server server) : base()
     {
         this.socketId = socketId;
         this.server = server;
-        this.cancellationTaskSource = new CancellationTokenSource();
-        this.cancellationToken = this.cancellationTaskSource.Token;
-        this.innArgs = new SocketAsyncEventArgs();
-        this.outArgs = new SocketAsyncEventArgs();
-        this.innArgs.Completed += this.onComplete;
-        this.outArgs.Completed += this.onComplete;
-        // this.recvBuffer = new Model.RingBuffer();
-        // this.sendBuffer = new Model.RingBuffer();
-        // this.packetSizeCache = new byte[4];
-        // this.memoryStream = this.data.MemoryStreamManager.GetStream("message", ushort.MaxValue);
-        //this.parser = new Model.TcpPacket(NetPacket.PacketSizeLength4, this.recvBuffer, this.memoryStream);
         this.sending = false;
         this.connected = false;
     }
@@ -85,38 +60,12 @@ public abstract class MyTcp : ISocket
         return this.Player;
     }
 
-    protected void onError(string e)
+    protected override void onError(string e)
     {
         this.server.logger.Error("ERROR " + e);
     }
 
-    private void onComplete(object sender, SocketAsyncEventArgs e)
-    {
-        switch (e.LastOperation)
-        {
-            case SocketAsyncOperation.Connect:
-                ET.ThreadSynchronizationContext.Instance.Post(this.onConnectComplete, e);
-                break;
-            case SocketAsyncOperation.Receive:
-                ET.ThreadSynchronizationContext.Instance.Post(this.onRecvComplete, e);
-                break;
-            case SocketAsyncOperation.Send:
-                ET.ThreadSynchronizationContext.Instance.Post(this.onSendComplete, e);
-                break;
-            case SocketAsyncOperation.Disconnect:
-                ET.ThreadSynchronizationContext.Instance.Post(this.onDisconnectComplete, e);
-                break;
-            default:
-                throw new Exception($"socket error: {e.LastOperation}");
-        }
-    }
-
     #region connect
-
-    protected virtual void onConnectComplete(object o)
-    {
-
-    }
     #endregion
 
     #region send
@@ -138,7 +87,7 @@ public abstract class MyTcp : ISocket
         {
             this.data.pendingRequests.Add(seq, cb);
         }
-        
+
         // int length = Encoding.UTF8.GetByteCount(message);
         // var bytes = new byte[length + 4];
 
@@ -149,7 +98,8 @@ public abstract class MyTcp : ISocket
     public async Task<MyResponse> sendAsync(MsgType type, object msg)
     {
         var cs = new TaskCompletionSource<MyResponse>();
-        this.send(type, msg, (e, r) => {
+        this.send(type, msg, (e, r) =>
+        {
             bool success = cs.TrySetResult(new MyResponse(e, r));
             if (!success)
             {
@@ -177,8 +127,8 @@ public abstract class MyTcp : ISocket
         // this.sendBuffer.Write(this.packetSizeCache, 0, this.packetSizeCache.Length);
         // this.sendBuffer.Write(bytes, 0, bytes.Length);
 
-    // test
-    string checkMessage = Encoding.UTF8.GetString(bytes, sizeof(int), bytes.Length - sizeof(int));
+        // test
+        string checkMessage = Encoding.UTF8.GetString(bytes, sizeof(int), bytes.Length - sizeof(int));
 
         this.sendList.Add(bytes);
         this.startSend();
@@ -190,72 +140,17 @@ public abstract class MyTcp : ISocket
             return;
         }
 
-        // 没有数据需要发送
-        // if (this.sendBuffer.Length == 0)
-        // {
-        //     this.sending = false;
-        //     return;
-        // }
-
         this.sending = true;
-
-        // int sendSize = this.sendBuffer.ChunkSize - this.sendBuffer.FirstIndex;
-        // if (sendSize > this.sendBuffer.Length)
-        // {
-        //     sendSize = (int)this.sendBuffer.Length;
-        // }
-
-        // this.sendAsync(this.sendBuffer.First, this.sendBuffer.FirstIndex, sendSize);
+        
         var bytes = this.sendList[this.sendList.Count - 1];
         this.sendList.RemoveAt(this.sendList.Count - 1);
-        this.outArgs.SetBuffer(bytes, 0, bytes.Length);
-        bool completed = !this.socket.SendAsync(this.outArgs);
-        if (completed)
-        {
-            this.onSendComplete(this.outArgs);
-        }
-    }
-    // public void sendAsync(byte[] buffer, int offset, int count)
-    // {
-    //     try
-    //     {
-    //         this.outArgs.SetBuffer(buffer, offset, count);
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         throw new Exception($"socket set buffer error: {buffer.Length}, {offset}, {count}", e);
-    //     }
-    //     bool completed = !this.socket.SendAsync(this.outArgs);
-    //     if (completed)
-    //     {
-    //         this.onSendComplete(this.outArgs);
-    //     }
-    // }
 
-    private void onSendComplete(object o)
+        _sendAsync(bytes, 0, bytes.Length);
+    }
+
+    protected override void onSendComplete()
     {
         this.sending = false;
-        SocketAsyncEventArgs e = (SocketAsyncEventArgs)o;
-
-        if (e.SocketError != SocketError.Success)
-        {
-            this.onError("SocketError." + e.SocketError);
-            return;
-        }
-
-        if (e.BytesTransferred == 0)
-        {
-            this.onError("ErrorCode.ERR_PeerDisconnect");
-            return;
-        }
-
-        // this.sendBuffer.FirstIndex += e.BytesTransferred;
-        // if (this.sendBuffer.FirstIndex == this.sendBuffer.ChunkSize)
-        // {
-        //     this.sendBuffer.FirstIndex = 0;
-        //     this.sendBuffer.RemoveFirst();
-        // }
-
         this.startSend();
     }
     #endregion
@@ -265,52 +160,11 @@ public abstract class MyTcp : ISocket
     private int recvOffset = 0;
     protected void startRecv()
     {
-        // int size = this.recvBuffer.ChunkSize - this.recvBuffer.LastIndex;
-        // this.recvAsync(this.recvBuffer.Last, this.recvBuffer.LastIndex, size);
-        this.recvAsync(this.recvBuffer, this.recvOffset, this.recvBuffer.Length - this.recvOffset);
+        _recvAsync(this.recvBuffer, this.recvOffset, this.recvBuffer.Length - this.recvOffset);
     }
-
-    private void recvAsync(byte[] buffer, int offset, int count)
+    protected override void onRecvComplete(int bytesTransferred)
     {
-        try
-        {
-            this.innArgs.SetBuffer(buffer, offset, count);
-        }
-        catch (Exception e)
-        {
-            throw new Exception($"socket set buffer error: {buffer.Length}, {offset}, {count}", e);
-        }
-
-        bool completed = !this.socket.ReceiveAsync(this.innArgs);
-        if (completed)
-        {
-            this.onRecvComplete(this.innArgs);
-        }
-    }
-    private void onRecvComplete(object o)
-    {
-        SocketAsyncEventArgs e = (SocketAsyncEventArgs)o;
-
-        if (e.SocketError != SocketError.Success)
-        {
-            this.onError("SocketError." + e.SocketError);
-            return;
-        }
-
-        if (e.BytesTransferred == 0)
-        {
-            this.onError("ErrorCode.ERR_PeerDisconnect");
-            return;
-        }
-
-        // this.recvBuffer.LastIndex += e.BytesTransferred;
-        // if (this.recvBuffer.LastIndex == this.recvBuffer.ChunkSize)
-        // {
-        //     this.recvBuffer.AddLast();
-        //     this.recvBuffer.LastIndex = 0;
-        // }
-
-        this.recvOffset += e.BytesTransferred;
+        this.recvOffset += bytesTransferred;
         if (this.recvOffset >= sizeof(int))
         {
             int length = BitConverter.ToInt32(this.recvBuffer, 0);
@@ -323,7 +177,7 @@ public abstract class MyTcp : ISocket
                 this.recvOffset = 0;
             }
         }
-        
+
         if (this.recvOffset >= this.recvBuffer.Length)
         {
             var newBuffer = new byte[this.recvBuffer.Length * 2];
@@ -337,13 +191,9 @@ public abstract class MyTcp : ISocket
     #endregion
 
     #region disconnect
-    protected abstract void didOnDisconnect();
-    protected void onDisconnectComplete(object o)
+    protected override void onDisconnectComplete()
     {
         this.connected = false;
-        SocketAsyncEventArgs e = (SocketAsyncEventArgs)o;
-        this.onError("SocketError." + e.SocketError);
-        this.didOnDisconnect();
     }
     #endregion
 

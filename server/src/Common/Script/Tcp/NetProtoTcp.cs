@@ -36,7 +36,7 @@ public class NetProtoTcp : INetProto, IScript
 
     public async Task<ISocket> connectAsync(string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
     {
-        var tcp = new MyTcpC(this.data.socketId++, this.server, url, onConnect, onDisconnect);
+        var tcp = new TcpClientConnect(this.data.socketId++, this.server, url, onConnect, onDisconnect);
         await tcp.start();
         return tcp;
     }
@@ -73,7 +73,7 @@ public class NetProtoTcp : INetProto, IScript
         }
 
         bool isServer = true; // TODO
-        var s = new MyTcpS(this.data.socketId++, this.server, e.AcceptSocket, isServer, this.data.onConnect, this.data.onDisconnect);
+        var s = new TcpClientAccept(this.data.socketId++, this.server, e.AcceptSocket, isServer, this.data.onConnect, this.data.onDisconnect);
         s.start();
 
         // continue accept

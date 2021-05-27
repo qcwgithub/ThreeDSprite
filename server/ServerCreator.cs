@@ -95,53 +95,96 @@ public class ServerCreator
         };
     }
 
-    static XmlElement log4netXmlTemplate = null;
-    static ILoggerRepository log4netRepo = null;
-    static void InitLog4net()
+    static ILoggerRepository log4netRepo;
+    static void InitLog4net(List<string> loggerNamesToAdd)
     {
         string xmlText = _Loaders_.loadConfigText("log4netConfig.xml");
-        log4netXmlTemplate = _Loaders_.parseConfigXml(xmlText);
+        XmlElement xmlRoot = _Loaders_.parseConfigXml(xmlText);
 
-        log4netRepo = LogManager.CreateRepository("my_log4net_repo");
-    }
-    static void SetupLoggerForServer(Server server)
-    {
-        XmlElement xmlElement = log4netXmlTemplate.Clone() as XmlElement;
-        XmlNode node = xmlElement.FirstChild;
-        bool modifyAppenderSuccess = false;
-        bool modifyLoggerSuccess = false;
+        // find templates
+        XmlNode fileAppenderTemplate = null;
+        XmlNode loggerTemplate = null;
+
+        XmlNode node = xmlRoot.FirstChild;
         while (node != null)
         {
-            if (!modifyAppenderSuccess && node.Name == "appender" && node.Attributes["name"].Value == "file_appender")
+            if (fileAppenderTemplate == null && node.Name == "appender" && node.Attributes["name"].Value == "file")
             {
-                XmlNode node2 = node.FirstChild;
-                while (node2 != null)
-                {
-                    if (node2.Name == "file")
-                    {
-                        node2.Attributes["value"].Value = "./logs/" + Utils.numberId2stringId(server.baseData.id);
-                        modifyAppenderSuccess = true;
-                        break;
-                    }
-                }
+                fileAppenderTemplate = node;
             }
-            if (!modifyLoggerSuccess && node.Name == "logger")
+            if (loggerTemplate == null && node.Name == "logger")
             {
-                node.Attributes["name"].Value = Utils.numberId2stringId(server.baseData.id);
-                modifyLoggerSuccess = true;
+                loggerTemplate = node;
             }
             node = node.NextSibling;
         }
-        XmlConfigurator.Configure(log4netRepo, xmlElement);
-        ILog logger = LogManager.GetLogger(Utils.numberId2stringId(server.baseData.id));
-        server.logger = logger;
+
+        if (fileAppenderTemplate == null || loggerTemplate == null)
+        {
+            throw new Exception("init log4net failed 1");
+        }
+
+        // 
+        foreach (string loggerName in loggerNamesToAdd)
+        {
+            // 1
+            XmlNode fileAppender = fileAppenderTemplate.Clone();
+            fileAppenderTemplate.ParentNode.AppendChild(fileAppender);
+
+            fileAppender.Attributes["name"].Value = "file_" + loggerName;
+            bool success = false;
+            node = fileAppender.FirstChild;
+            while (node != null)
+            {
+                if (node.Name == "file")
+                {
+                    success = true;
+                    node.Attributes["value"].Value = "./logs/" + loggerName;
+                    break;
+                }
+                node = node.NextSibling;
+            }
+            if (!success)
+            {
+                throw new Exception("init log4net failed 2");
+            }
+
+            // 2
+            XmlNode logger = loggerTemplate.Clone();
+            loggerTemplate.ParentNode.AppendChild(logger);
+
+            logger.Attributes["name"].Value = loggerName;
+            success = false;
+            node = logger.FirstChild;
+            while (node != null)
+            {
+                if (node.Name == "appender-ref" && node.Attributes["ref"].Value == "file")
+                {
+                    success = true;
+                    node.Attributes["ref"].Value = "file_" + loggerName;
+                    break;
+                }
+                node = node.NextSibling;
+            }
+            if (!success)
+            {
+                throw new Exception("init log4net failed 3");
+            }
+        }
+
+        log4netRepo = LogManager.CreateRepository("my_log4net_repo");
+        XmlConfigurator.Configure(log4netRepo, xmlRoot);
+    }
+    static void SetupLoggerForServer(Server server)
+    {
+        string stringId = Utils.numberId2stringId(server.baseData.id);
+        server.logger = LogManager.GetLogger(log4netRepo.Name, stringId);
     }
 
     public static JsonUtils JSON = new JsonUtils();
     public static List<Server> Create(string[] args)
     {
         _Loaders_.JSON = JSON;
-        InitLog4net();
 
         //Console.WriteLine("Hello World!");
         var argMap = ParseArguments(args);
@@ -307,13 +350,17 @@ public class ServerCreator
         var timezoneOffset = (int)TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalMinutes;
 
         var allServers = new List<Server>();
+        List<string> loggerNamesToAdd = new List<string>();
         for (int i = 0; i < list.Count; i++)
         {
             var h = list[i];
             //addLogConfig(Utils.numberId2stringId(h.id));
             //addLogConfig('error-' + Utils.numberId2stringId(h.id));
             allServers.Add(h.s);
+            loggerNamesToAdd.Add(Utils.numberId2stringId(h.id));
         }
+
+        InitLog4net(loggerNamesToAdd);
 
         // 公共字段
         for (int i = 0; i < list.Count; i++)
