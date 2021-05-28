@@ -2,35 +2,38 @@ using System.Collections;
 using System.Threading.Tasks;
 using Data;
 
-public class KeepAliveToLoc : Handler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.KeepAliveToLoc; } }
-    public override async Task<MyResponse> handle(ISocket socket, string _msg)
+    public class KeepAliveToLoc<T> : Handler<T> where T: Server
     {
-        if (!this.baseData.locSocket.isConnected())
+        public override MsgType msgType { get { return MsgType.KeepAliveToLoc; } }
+        public override async Task<MyResponse> handle(ISocket socket, string _msg)
         {
-            this.baseData.locNeedReport = true;
+            if (!this.baseData.locSocket.isConnected())
+            {
+                this.baseData.locNeedReport = true;
+                return ECode.Success;
+            }
+
+
+            if (this.baseData.locNeedReport)
+            {
+                int id = this.server.baseScript.myLoc().id;
+                this.server.logger.Info("Keey alive to loc " + id);
+                this.baseData.locNeedReport = false;
+
+                var r = await this.baseData.locSocket.sendAsync(
+                    MsgType.LocReportLoc,
+                    new MsgLocReportLoc { id = this.baseData.id, loc = this.baseScript.myLoc() }
+                );
+                if (r.err != ECode.Success)
+                {
+                    // console.error("!canStart: " + r.err);
+                    // process.exit(1);
+                }
+            }
+
             return ECode.Success;
         }
-
-
-        if (this.baseData.locNeedReport)
-        {
-            int id = this.server.baseScript.myLoc().id;
-        this.server.logger.Info("Keey alive to loc " + id);
-            this.baseData.locNeedReport = false;
-
-            var r = await this.baseData.locSocket.sendAsync(
-                MsgType.LocReportLoc,
-                new MsgLocReportLoc { id = this.baseData.id, loc = this.baseScript.myLoc() }
-            );
-            if (r.err != ECode.Success)
-            {
-                // console.error("!canStart: " + r.err);
-                // process.exit(1);
-            }
-        }
-
-        return ECode.Success;
     }
 }

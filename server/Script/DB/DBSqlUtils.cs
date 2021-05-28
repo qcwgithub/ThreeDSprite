@@ -1,3 +1,7 @@
-public class DBSqlUtils : SqlUtils {
+namespace Script
+{
+    public class DBSqlUtils : SqlUtils<DBServer>
+    {
 
+    }
 }

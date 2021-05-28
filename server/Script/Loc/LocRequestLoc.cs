@@ -3,52 +3,55 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data;
 
-public class LocRequestLoc : LocHandler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.LocRequestLoc; } }
-
-    public override async Task<MyResponse> handle(ISocket socket, string _msg)
+    public class LocRequestLoc : LocHandler
     {
-        var msg = this.baseScript.decodeMsg<MsgLocRequestLoc>(_msg);
-        this.logger.Info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
+        public override MsgType msgType { get { return MsgType.LocRequestLoc; } }
 
-        if (msg.ids == null)
+        public override async Task<MyResponse> handle(ISocket socket, string _msg)
         {
-            msg.ids = new List<int>();
-            foreach (var kv in this.locData.map)
-            {
-                msg.ids.Add(kv.Key);
-            }
-        }
+            var msg = this.baseScript.decodeMsg<MsgLocRequestLoc>(_msg);
+            this.logger.Info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
 
-        if (msg.ids.Count == 0)
-        {
-            return ECode.Success;
-        }
-
-        // 取到所有为止
-        int index = 0;
-        var res = new ResLocRequestLoc();
-        res.locs = new List<Loc>();
-        while (true)
-        {
-            int id = msg.ids[index];
-            LocServerInfo info;
-            if (!this.locData.map.TryGetValue(id, out info))
+            if (msg.ids == null)
             {
-                await this.baseScript.waitAsync(1000);
-            }
-            else
-            {
-                res.locs.Add(info.loc);
-                index++;
-                if (index == msg.ids.Count)
+                msg.ids = new List<int>();
+                foreach (var kv in this.locData.map)
                 {
-                    break;
+                    msg.ids.Add(kv.Key);
                 }
             }
-        }
 
-        return new MyResponse(ECode.Success, res);
+            if (msg.ids.Count == 0)
+            {
+                return ECode.Success;
+            }
+
+            // 取到所有为止
+            int index = 0;
+            var res = new ResLocRequestLoc();
+            res.locs = new List<Loc>();
+            while (true)
+            {
+                int id = msg.ids[index];
+                LocServerInfo info;
+                if (!this.locData.map.TryGetValue(id, out info))
+                {
+                    await this.baseScript.waitAsync(1000);
+                }
+                else
+                {
+                    res.locs.Add(info.loc);
+                    index++;
+                    if (index == msg.ids.Count)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return new MyResponse(ECode.Success, res);
+        }
     }
 }

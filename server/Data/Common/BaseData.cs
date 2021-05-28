@@ -23,8 +23,6 @@ namespace Data
 
         public HashSet<string> locks = new HashSet<string>();
 
-        public List<Server> allServers = new List<Server>();
-
         // state
         public ServerState state = ServerState.Initing;
 

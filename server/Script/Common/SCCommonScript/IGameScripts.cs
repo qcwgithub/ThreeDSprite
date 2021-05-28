@@ -1,3 +1,4 @@
-public interface IGameScripts {
+public interface IGameScripts
+{
     SCUtils scUtils { get; }
 }

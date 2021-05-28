@@ -1,17 +1,20 @@
 using System.Threading.Tasks;
 using Data;
 
-public class LocStart : Handler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.Start; } }
-
-    public override Task<MyResponse> handle(ISocket socket, string msg/* no use */)
+    public class LocStart : LocHandler
     {
-        this.baseScript.setState(ServerState.Starting);
+        public override MsgType msgType { get { return MsgType.Start; } }
 
-        this.baseScript.listen(() => false);
+        public override Task<MyResponse> handle(ISocket socket, string msg/* no use */)
+        {
+            this.baseScript.setState(ServerState.Starting);
 
-        this.baseScript.setState(ServerState.Started);
-        return Task.FromResult(new MyResponse(ECode.Success));
+            this.baseScript.listen(() => false);
+
+            this.baseScript.setState(ServerState.Started);
+            return Task.FromResult(new MyResponse(ECode.Success));
+        }
     }
 }

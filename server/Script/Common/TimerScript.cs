@@ -1,72 +1,78 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data;
 
-public class TimerData
+namespace Script
 {
-    public TimerScript parent;
-    public int id;
-    public Action action;
-    public int timeoutMs;
-    public bool loop;
-    public bool cancelled = false;
-
-    public async void Start()
+    public class TimerData
     {
-        while (true)
+        public TimerScript parent;
+        public int id;
+        public Action action;
+        public int timeoutMs;
+        public bool loop;
+        public bool cancelled = false;
+
+        public async void Start()
         {
-            await Task.Delay(this.timeoutMs);
-            if (this.cancelled)
+            while (true)
             {
-                break;
+                await Task.Delay(this.timeoutMs);
+                if (this.cancelled)
+                {
+                    break;
+                }
+                this.action();
+                if (!this.loop)
+                {
+                    break;
+                }
             }
-            this.action();
-            if (!this.loop)
-            {
-                break;
-            }
-        }
-        this.parent.clearTimer(this.id);
-    }
-}
-
-// 临时方案
-public class TimerScript : IScript
-{
-    public Server server { get; set; }
-
-    private int nextId = 1;
-    public Dictionary<int, TimerData> Dict = new Dictionary<int, TimerData>();
-
-    public int setTimer(Action action, int timeoutMs)
-    {
-        var timer = new TimerData { parent = this, id = this.nextId++, action = action, timeoutMs = timeoutMs, loop = false };
-        this.Dict.Add(timer.id, timer);
-        timer.Start();
-        return timer.id;
-    }
-
-    public void clearTimer(int timer)
-    {
-        TimerData timerData;
-        if (this.Dict.TryGetValue(timer, out timerData)) {
-            timerData.cancelled = true;
+            this.parent.clearTimer(this.id);
         }
     }
 
-    public int setInterval(Action action, int timeoutMs)
+    // 临时方案
+    public class TimerScript : IScript<Server>
     {
-        var timer = new TimerData { parent = this, id = this.nextId++, action = action, timeoutMs = timeoutMs, loop = true };
-        this.Dict.Add(timer.id, timer);
-        timer.Start();
-        return timer.id;
-    }
+        public Server server { get; set; }
 
-    public void clearInterval(int timer)
-    {
-        TimerData timerData;
-        if (this.Dict.TryGetValue(timer, out timerData)) {
-            timerData.cancelled = true;
+        private int nextId = 1;
+        public Dictionary<int, TimerData> Dict = new Dictionary<int, TimerData>();
+
+        public int setTimer(Action action, int timeoutMs)
+        {
+            var timer = new TimerData { parent = this, id = this.nextId++, action = action, timeoutMs = timeoutMs, loop = false };
+            this.Dict.Add(timer.id, timer);
+            timer.Start();
+            return timer.id;
+        }
+
+        public void clearTimer(int timer)
+        {
+            TimerData timerData;
+            if (this.Dict.TryGetValue(timer, out timerData))
+            {
+                timerData.cancelled = true;
+            }
+        }
+
+        public int setInterval(Action action, int timeoutMs)
+        {
+            var timer = new TimerData { parent = this, id = this.nextId++, action = action, timeoutMs = timeoutMs, loop = true };
+            this.Dict.Add(timer.id, timer);
+            timer.Start();
+            return timer.id;
+        }
+
+        public void clearInterval(int timer)
+        {
+            TimerData timerData;
+            if (this.Dict.TryGetValue(timer, out timerData))
+            {
+                timerData.cancelled = true;
+            }
         }
     }
 }

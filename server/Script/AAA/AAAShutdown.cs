@@ -1,3 +1,7 @@
-public class AAAShutdown : OnShutdown {
-    
+namespace Script
+{
+    public class AAAShutdown : OnShutdown<AAAServer>
+    {
+
+    }
 }

@@ -2,61 +2,64 @@ using System;
 using System.Collections;
 using System.Threading.Tasks;
 
-public class RequestObject
+namespace Script
 {
-    private Server server;
-    private MsgType type;
-    private object msg;
-    private TaskCompletionSource<MyResponse> completeSource;
-    public Task<MyResponse> Task { get { return this.completeSource.Task; } }
-    public RequestObject(Server server, ISocket socket, MsgType type, object msg)
+    public class RequestObject
     {
-        this.completeSource = new TaskCompletionSource<MyResponse>();
-        this.server = server;
-        this.type = type;
-        this.msg = msg;
-        
-        socket.send(this.type, this.msg, this.doReply);
+        private Server server;
+        private MsgType type;
+        private object msg;
+        private TaskCompletionSource<MyResponse> completeSource;
+        public Task<MyResponse> Task { get { return this.completeSource.Task; } }
+        public RequestObject(Server server, ISocket socket, MsgType type, object msg)
+        {
+            this.completeSource = new TaskCompletionSource<MyResponse>();
+            this.server = server;
+            this.type = type;
+            this.msg = msg;
 
-        // 保底，可以考虑去掉，因为：
-        // 1 客户端可以自己做 ----不行啊，有服务器的
-        // 2 dispatcher中本来就保证会回复---- 也不行，他只处理没有返回值的情况
-        this.timer = this.server.timerScript.setTimer(() =>
-        {
-            this.doReply(ECode.Timeout, null);
-        }, 30000);
-    }
-    
-    private bool replied = false;
-    private int timer = -1;
-    private void doReply(ECode e, string r)
-    {
-        if (this.replied)
-        {
-            return;
-        }
-        this.replied = true;
-        if (this.timer != -1)
-        {
-            this.server.timerScript.clearTimer(this.timer);
-            this.timer = -1;
+            socket.send(this.type, this.msg, this.doReply);
+
+            // 保底，可以考虑去掉，因为：
+            // 1 客户端可以自己做 ----不行啊，有服务器的
+            // 2 dispatcher中本来就保证会回复---- 也不行，他只处理没有返回值的情况
+            this.timer = this.server.timerScript.setTimer(() =>
+            {
+                this.doReply(ECode.Timeout, null);
+            }, 30000);
         }
 
-        this.completeSource.TrySetResult(new MyResponse(e, r));
-    }
-}
+        private bool replied = false;
+        private int timer = -1;
+        private void doReply(ECode e, string r)
+        {
+            if (this.replied)
+            {
+                return;
+            }
+            this.replied = true;
+            if (this.timer != -1)
+            {
+                this.server.timerScript.clearTimer(this.timer);
+                this.timer = -1;
+            }
 
-public class WaitCallBack
-{
-    private TaskCompletionSource<MyResponse> completeSource;
-    public Task<MyResponse> Task { get { return this.completeSource.Task; } }
-    public WaitCallBack()
-    {        
-        this.completeSource = new TaskCompletionSource<MyResponse>();
+            this.completeSource.TrySetResult(new MyResponse(e, r));
+        }
     }
-    
-    public void finish(ECode e, string r)
+
+    public class WaitCallBack
     {
-        this.completeSource.TrySetResult(new MyResponse(e, r));
+        private TaskCompletionSource<MyResponse> completeSource;
+        public Task<MyResponse> Task { get { return this.completeSource.Task; } }
+        public WaitCallBack()
+        {
+            this.completeSource = new TaskCompletionSource<MyResponse>();
+        }
+
+        public void finish(ECode e, string r)
+        {
+            this.completeSource.TrySetResult(new MyResponse(e, r));
+        }
     }
 }

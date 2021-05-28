@@ -4,107 +4,110 @@ using System.Collections;
 using System.Threading.Tasks;
 using Data;
 
-public class PMAction : PMHandler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.ServerAction; } }
-
-    public override async Task<MyResponse> handle(ISocket socket, string _msg)
+    public class PMAction : PMHandler
     {
-        var msg = this.baseScript.decodeMsg<MsgPMAction>(_msg);
-        this.logger.Info(this.msgName);
-        PMData pmData = this.pmData;
+        public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-        if (msg.allowNewPlayer != null)
+        public override async Task<MyResponse> handle(ISocket socket, string _msg)
         {
-            pmData.allowNewPlayer = (msg.allowNewPlayer == "true");
-            this.logger.Info("allowNewPlayer -> " + msg.allowNewPlayer);
+            var msg = this.baseScript.decodeMsg<MsgPMAction>(_msg);
+            this.logger.Info(this.msgName);
+            PMData pmData = this.data;
 
-            var msgAlive = new MsgPMAlive
+            if (msg.allowNewPlayer != null)
             {
-                id = this.baseData.id,
-                playerCount = pmData.playerInfos.Count,
-                loc = this.baseScript.myLoc(),
-                playerList = null,
-                allowNewPlayer = pmData.allowNewPlayer,
-            };
-            await this.pmData.aaaSocket.sendAsync(MsgType.AAAOnPMAlive, msgAlive);
-        }
+                pmData.allowNewPlayer = (msg.allowNewPlayer == "true");
+                this.logger.Info("allowNewPlayer -> " + msg.allowNewPlayer);
 
-        if (msg.allowClientConnect != null)
-        {
-            pmData.allowClientConnect = msg.allowClientConnect == "true";
-            this.logger.Info("allowClientConnect -> " + msg.allowClientConnect);
-        }
-        if (msg.playerDestroyTimeoutS != null)
-        {
-            pmData.playerDestroyTimeoutS = int.Parse(msg.playerDestroyTimeoutS);
-            this.logger.Info("playerDestroyTimeoutS -> " + msg.playerDestroyTimeoutS);
-        }
-        if (msg.playerSCSaveIntervalS != null)
-        {
-            pmData.playerSCSaveIntervalS = int.Parse(msg.playerSCSaveIntervalS);
-            this.logger.Info("playerSCSaveIntervalS -> " + msg.playerSCSaveIntervalS);
-        }
-
-        // if (msg.playerRunScript) {
-        //     var script = msg.playerRunScript.script;
-        //     var S = "[function(server,player){";
-        //     var E = "}]";
-        //     if (!script.startsWith(S)) {
-        //         script = S + script + E;
-        //         // this.logger.warn("%s auto wrap %s...%s", this.msgName, S, E);
-        //     }
-
-        // var fun: (server: Server, PMPlayerInfo player) => void = eval(script)[0];
-        // for (int i = 0; i < msg.playerRunScript.playerIds.length; i++) {
-        //     var playerId = msg.playerRunScript.playerIds[i];
-        //     var player = pmData.playerInfos.get(playerId);
-        //     if (player == null) {
-        //         this.logger.info("%s playerRunScript player==null, playerId: %d", this.msgName, playerId);
-        //         continue;
-        //     }
-        //     fun(this.server, player);
-        // }
-        // }
-
-        if (msg.destroyAll == "true")
-        {
-            while (true)
-            {
-                this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, pmData.playerInfos.Count);
-                if (pmData.playerInfos.Count == 0)
+                var msgAlive = new MsgPMAlive
                 {
-                    break;
-                }
-                int playerId = 0;
-                foreach (var kv in pmData.playerInfos)
-                {
-                    playerId = kv.Key;
-                    break;
-                }
-
-                MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                await this.pmData.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
-                await this.server.baseScript.waitAsync(10);
+                    id = this.baseData.id,
+                    playerCount = pmData.playerInfos.Count,
+                    loc = this.baseScript.myLoc(),
+                    playerList = null,
+                    allowNewPlayer = pmData.allowNewPlayer,
+                };
+                await this.data.aaaSocket.sendAsync(MsgType.AAAOnPMAlive, msgAlive);
             }
-        }
 
-        if (msg.destroyPlayerIds != null)
-        {
-            for (int i = 0; i < msg.destroyPlayerIds.Count; i++)
+            if (msg.allowClientConnect != null)
             {
-                this.logger.InfoFormat("{0} destroyPlayerIds left {1}", this.msgName, msg.destroyPlayerIds.Count - i);
-                var playerId = msg.destroyPlayerIds[i];
-                if (!pmData.playerInfos.ContainsKey(playerId))
-                {
-                    continue;
-                }
-                MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                await this.pmData.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
-                await this.server.baseScript.waitAsync(10);
+                pmData.allowClientConnect = msg.allowClientConnect == "true";
+                this.logger.Info("allowClientConnect -> " + msg.allowClientConnect);
             }
-        }
+            if (msg.playerDestroyTimeoutS != null)
+            {
+                pmData.playerDestroyTimeoutS = int.Parse(msg.playerDestroyTimeoutS);
+                this.logger.Info("playerDestroyTimeoutS -> " + msg.playerDestroyTimeoutS);
+            }
+            if (msg.playerSCSaveIntervalS != null)
+            {
+                pmData.playerSCSaveIntervalS = int.Parse(msg.playerSCSaveIntervalS);
+                this.logger.Info("playerSCSaveIntervalS -> " + msg.playerSCSaveIntervalS);
+            }
 
-        return ECode.Success;
+            // if (msg.playerRunScript) {
+            //     var script = msg.playerRunScript.script;
+            //     var S = "[function(server,player){";
+            //     var E = "}]";
+            //     if (!script.startsWith(S)) {
+            //         script = S + script + E;
+            //         // this.logger.warn("%s auto wrap %s...%s", this.msgName, S, E);
+            //     }
+
+            // var fun: (server: Server, PMPlayerInfo player) => void = eval(script)[0];
+            // for (int i = 0; i < msg.playerRunScript.playerIds.length; i++) {
+            //     var playerId = msg.playerRunScript.playerIds[i];
+            //     var player = pmData.playerInfos.get(playerId);
+            //     if (player == null) {
+            //         this.logger.info("%s playerRunScript player==null, playerId: %d", this.msgName, playerId);
+            //         continue;
+            //     }
+            //     fun(this.server, player);
+            // }
+            // }
+
+            if (msg.destroyAll == "true")
+            {
+                while (true)
+                {
+                    this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, pmData.playerInfos.Count);
+                    if (pmData.playerInfos.Count == 0)
+                    {
+                        break;
+                    }
+                    int playerId = 0;
+                    foreach (var kv in pmData.playerInfos)
+                    {
+                        playerId = kv.Key;
+                        break;
+                    }
+
+                    MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
+                    await this.data.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
+                    await this.server.baseScript.waitAsync(10);
+                }
+            }
+
+            if (msg.destroyPlayerIds != null)
+            {
+                for (int i = 0; i < msg.destroyPlayerIds.Count; i++)
+                {
+                    this.logger.InfoFormat("{0} destroyPlayerIds left {1}", this.msgName, msg.destroyPlayerIds.Count - i);
+                    var playerId = msg.destroyPlayerIds[i];
+                    if (!pmData.playerInfos.ContainsKey(playerId))
+                    {
+                        continue;
+                    }
+                    MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
+                    await this.data.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
+                    await this.server.baseScript.waitAsync(10);
+                }
+            }
+
+            return ECode.Success;
+        }
     }
 }

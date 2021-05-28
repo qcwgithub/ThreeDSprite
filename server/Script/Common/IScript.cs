@@ -1,7 +1,9 @@
-// 脚本
-// 不可以相互继承
-// 不可以有变量
-public interface IScript
+using Data;
+
+namespace Script
 {
-    Server server { get; }
+    public interface IScript<T> where T : Server
+    {
+        T server { get; }
+    }
 }

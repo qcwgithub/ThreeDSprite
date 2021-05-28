@@ -4,40 +4,43 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class AAALoadPlayerId : AAAHandler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.AAALoadPlayerId; } }
-
-    public override async Task<MyResponse> handle(ISocket socket, string _msg)
+    public class AAALoadPlayerId : AAAHandler
     {
-        // 这个属于启动时必做的，可以使用 while
-        while (true)
+        public override MsgType msgType { get { return MsgType.AAALoadPlayerId; } }
+
+        public override async Task<MyResponse> handle(ISocket socket, string _msg)
         {
-            if (!this.baseData.dbAccountSocket.isConnected())
+            // 这个属于启动时必做的，可以使用 while
+            while (true)
             {
-                // server.logger.info("AAALoadPlayerId db not connected");
-                await this.baseScript.waitAsync(1000);
-            }
-            else
-            {
-                var r = await this.server.aaaSqlUtils.selectPlayerIdYield();
-                if (r.err != ECode.Success)
+                if (!this.baseData.dbAccountSocket.isConnected())
                 {
-                    this.logger.Error("AAALoadPlayerId failed." + r.err);
+                    // server.logger.info("AAALoadPlayerId db not connected");
+                    await this.baseScript.waitAsync(1000);
                 }
                 else
                 {
-                    var dict = this.server.JSON.parse<Dictionary<string, List<object>>>(r.res as string);
-                    this.aaaData.nextPlayerId = Convert.ToInt32(dict["playerId"][0]);
-                    if (this.aaaData.nextPlayerId > 0)
+                    var r = await this.server.aaaSqlUtils.selectPlayerIdYield();
+                    if (r.err != ECode.Success)
                     {
-                        this.logger.Info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);
-                        this.aaaData.playerIdReady = true;
+                        this.logger.Error("AAALoadPlayerId failed." + r.err);
                     }
-                    break;
+                    else
+                    {
+                        var dict = this.server.JSON.parse<Dictionary<string, List<object>>>(r.res as string);
+                        this.aaaData.nextPlayerId = Convert.ToInt32(dict["playerId"][0]);
+                        if (this.aaaData.nextPlayerId > 0)
+                        {
+                            this.logger.Info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);
+                            this.aaaData.playerIdReady = true;
+                        }
+                        break;
+                    }
                 }
             }
+            return ECode.Success;
         }
-        return ECode.Success;
     }
 }

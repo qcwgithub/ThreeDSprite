@@ -3,42 +3,45 @@ using System.Collections;
 using System.Threading.Tasks;
 using Data;
 
-public class AAAStart : AAAHandler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.Start; } }
-
-    public override async Task<MyResponse> handle(ISocket socket, string _msg)
+    public class AAAStart : AAAHandler
     {
-        MyResponse r = null;
-        this.baseScript.setState(ServerState.Starting);
+        public override MsgType msgType { get { return MsgType.Start; } }
 
-        // connect to loc
-        this.baseData.locSocket = await this.baseScript.connectAsync(ServerConst.LOC_ID);
-        this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
+        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        {
+            MyResponse r = null;
+            this.baseScript.setState(ServerState.Starting);
 
-        // request location(s)
-        r = await this.baseScript.requestLocationAsync(new int[] { ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID });
+            // connect to loc
+            this.baseData.locSocket = await this.baseScript.connectAsync(ServerConst.LOC_ID);
+            this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
-        // connect to dbAccount
-        this.baseData.dbAccountSocket = await this.baseScript.connectAsync(ServerConst.DB_ACCOUNT_ID);
+            // request location(s)
+            r = await this.baseScript.requestLocationAsync(new int[] { ServerConst.DB_ACCOUNT_ID, ServerConst.DB_PLAYER_ID, ServerConst.DB_LOG_ID });
 
-        // connect to dbPlayer
-        this.baseData.dbPlayerSocket = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID);
+            // connect to dbAccount
+            this.baseData.dbAccountSocket = await this.baseScript.connectAsync(ServerConst.DB_ACCOUNT_ID);
 
-        // connect to dbLog
-        this.baseData.dbLogSocket = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID);
+            // connect to dbPlayer
+            this.baseData.dbPlayerSocket = await this.baseScript.connectAsync(ServerConst.DB_PLAYER_ID);
 
-        // load next player id
-        r = await this.baseScript.sendToSelfYield(MsgType.AAALoadPlayerId, new object());
+            // connect to dbLog
+            this.baseData.dbLogSocket = await this.baseScript.connectAsync(ServerConst.DB_LOG_ID);
 
-        // 
-        this.baseScript.sendToSelf(MsgType.AAAPayLtListenNotify, new object());
-        this.baseScript.sendToSelf(MsgType.AAAPayIvyListenNotify, new object());
+            // load next player id
+            r = await this.baseScript.sendToSelfYield(MsgType.AAALoadPlayerId, new object());
 
-        // listen
-        this.baseScript.listen(() => this.server.aaaScript.acceptClient());
+            // 
+            this.baseScript.sendToSelf(MsgType.AAAPayLtListenNotify, new object());
+            this.baseScript.sendToSelf(MsgType.AAAPayIvyListenNotify, new object());
 
-        this.baseScript.setState(ServerState.Started);
-        return ECode.Success;
+            // listen
+            this.baseScript.listen(() => this.server.aaaScript.acceptClient());
+
+            this.baseScript.setState(ServerState.Started);
+            return ECode.Success;
+        }
     }
 }

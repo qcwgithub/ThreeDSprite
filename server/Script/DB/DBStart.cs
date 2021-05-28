@@ -3,33 +3,36 @@ using System.Data;
 using System.Threading.Tasks;
 using Data;
 
-public class DBStart : DBHandler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.Start; } }
-
-    private void onConnectionStateChange(object sender, StateChangeEventArgs e)
+    public class DBStart : DBHandler
     {
-        this.server.logger.InfoFormat("MySqlConnection StateChange {0} -> {1}", e.OriginalState, e.CurrentState);
-    }
+        public override MsgType msgType { get { return MsgType.Start; } }
 
-    public override async Task<MyResponse> handle(ISocket socket, string _msg/* no use */)
-    {
-        this.baseScript.setState(ServerState.Starting);
+        private void onConnectionStateChange(object sender, StateChangeEventArgs e)
+        {
+            this.server.logger.InfoFormat("MySqlConnection StateChange {0} -> {1}", e.OriginalState, e.CurrentState);
+        }
 
-        // connect to loc
-        this.baseData.locSocket = await this.baseScript.connectAsync(ServerConst.LOC_ID);
-        this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
+        public override async Task<MyResponse> handle(ISocket socket, string _msg/* no use */)
+        {
+            this.baseScript.setState(ServerState.Starting);
 
-        this.baseScript.listen(() => false);
+            // connect to loc
+            this.baseData.locSocket = await this.baseScript.connectAsync(ServerConst.LOC_ID);
+            this.baseScript.setTimerLoop(1000, MsgType.KeepAliveToLoc, new object());
 
-        // this.dispatcher.dispatch(MsgType.DBStart, {}, this.utils.emptyReply);
-        SqlConfig config = this.dbData.sqlConfig;
-        this.dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
-            this.baseScript.myLoc().inIp, config.user, config.database, config.password);
+            this.baseScript.listen(() => false);
 
-        // 把 TIMESTAMP DATETIME 转换为整数，毫秒
+            // this.dispatcher.dispatch(MsgType.DBStart, {}, this.utils.emptyReply);
+            SqlConfig config = this.dbData.sqlConfig;
+            this.dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
+                this.baseScript.myLoc().inIp, config.user, config.database, config.password);
 
-        this.baseScript.setState(ServerState.Started);
-        return ECode.Success;
+            // 把 TIMESTAMP DATETIME 转换为整数，毫秒
+
+            this.baseScript.setState(ServerState.Started);
+            return ECode.Success;
+        }
     }
 }

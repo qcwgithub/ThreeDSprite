@@ -3,78 +3,81 @@ using System.Collections;
 using System.Threading.Tasks;
 using Data;
 
-public class AAAOnPMAlive : AAAHandler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.AAAOnPMAlive; } }
-
-    public override async Task<MyResponse> handle(ISocket socket, string _msg)
+    public class AAAOnPMAlive : AAAHandler
     {
-        var msg = this.baseScript.decodeMsg<MsgPMAlive>(_msg);
-        var data = this.aaaData;
-        var script = this.aaaScript;
-        var logger = this.logger;
+        public override MsgType msgType { get { return MsgType.AAAOnPMAlive; } }
 
-        this.baseScript.addKnownLoc(msg.loc);
-
-        var newAdd = false;
-        var pm = data.GetPlayerManagerInfo(msg.id);
-        if (pm == null)
+        public override async Task<MyResponse> handle(ISocket socket, string _msg)
         {
-            logger.Info("pm connected, id: " + msg.id);
-            newAdd = true;
+            var msg = this.baseScript.decodeMsg<MsgPMAlive>(_msg);
+            var data = this.aaaData;
+            var script = this.aaaScript;
+            var logger = this.logger;
 
-            pm = new AAAPlayerManagerInfo();
-            pm.id = msg.id;
-            data.playerManagerInfos.Add(msg.id, pm);
-        }
+            this.baseScript.addKnownLoc(msg.loc);
 
-        // 如果AAA挂，尝试恢复玩家数据
-        if (msg.playerList != null)
-        {
-            if (msg.playerList.Count > 0)
+            var newAdd = false;
+            var pm = data.GetPlayerManagerInfo(msg.id);
+            if (pm == null)
             {
-                logger.InfoFormat("recover player ids...length: {0}, pmId: {1}", msg.playerList.Count, pm.id);
+                logger.Info("pm connected, id: " + msg.id);
+                newAdd = true;
+
+                pm = new AAAPlayerManagerInfo();
+                pm.id = msg.id;
+                data.playerManagerInfos.Add(msg.id, pm);
             }
 
-            for (int i = 0; i < msg.playerList.Count; i++)
+            // 如果AAA挂，尝试恢复玩家数据
+            if (msg.playerList != null)
             {
-                var playerId = msg.playerList[i];
-                var player = data.GetPlayerInfo(playerId);
-                if (player != null)
+                if (msg.playerList.Count > 0)
                 {
-                    if (player.pmId != pm.id)
+                    logger.InfoFormat("recover player ids...length: {0}, pmId: {1}", msg.playerList.Count, pm.id);
+                }
+
+                for (int i = 0; i < msg.playerList.Count; i++)
+                {
+                    var playerId = msg.playerList[i];
+                    var player = data.GetPlayerInfo(playerId);
+                    if (player != null)
                     {
-                        this.server.logger.ErrorFormat("player pm conflict, player.pmId: {0}, pm.id: {1}", player.pmId, pm.id);
+                        if (player.pmId != pm.id)
+                        {
+                            this.server.logger.ErrorFormat("player pm conflict, player.pmId: {0}, pm.id: {1}", player.pmId, pm.id);
+                        }
+                    }
+                    else
+                    {
+                        logger.WarnFormat("recover playerId: {0}, pmId: {1}", playerId, pm.id);
+                        player = new AAAPlayerInfo();
+                        player.id = playerId;
+                        player.pmId = pm.id;
+                        // player.socket = null;
+                        data.playerInfos.Add(playerId, player);
                     }
                 }
-                else
-                {
-                    logger.WarnFormat("recover playerId: {0}, pmId: {1}", playerId, pm.id);
-                    player = new AAAPlayerInfo();
-                    player.id = playerId;
-                    player.pmId = pm.id;
-                    // player.socket = null;
-                    data.playerInfos.Add(playerId, player);
-                }
             }
-        }
 
-        pm.socket = socket;
-        pm.playerCount = msg.playerCount;
-        pm.allowNewPlayer = msg.allowNewPlayer;
+            pm.socket = socket;
+            pm.playerCount = msg.playerCount;
+            pm.allowNewPlayer = msg.allowNewPlayer;
 
-        // this.baseScript.removePending(this.server.networkHelper.getSocketId(socket));
+            // this.baseScript.removePending(this.server.networkHelper.getSocketId(socket));
 
-        if (!data.pmReady && data.pmReadyTimer == -1)
-        {
-            // 延迟5秒再开始接受客户端连接
-            data.pmReadyTimer = this.server.timerScript.setTimer(() =>
+            if (!data.pmReady && data.pmReadyTimer == -1)
             {
-                data.pmReady = true;
-                data.pmReadyTimer = -1;
-            }, 5000);
-        }
+                // 延迟5秒再开始接受客户端连接
+                data.pmReadyTimer = this.server.timerScript.setTimer(() =>
+                {
+                    data.pmReady = true;
+                    data.pmReadyTimer = -1;
+                }, 5000);
+            }
 
-        return new MyResponse(ECode.Success, new ResPMAlive { requirePlayerList = newAdd });
+            return new MyResponse(ECode.Success, new ResPMAlive { requirePlayerList = newAdd });
+        }
     }
 }

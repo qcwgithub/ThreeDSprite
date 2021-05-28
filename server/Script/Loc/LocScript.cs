@@ -1,4 +1,7 @@
-public class LocScript : IScript
+namespace Script
 {
-    public Server server { get; set; }
+    public class LocScript : IScript<LocServer>
+    {
+        public LocServer server { get; set; }
+    }
 }

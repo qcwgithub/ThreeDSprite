@@ -10,8 +10,8 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/server.dll",
-            "args": ["purpose=Hermes", "ids=all"],
+            "program": "${workspaceFolder}/Data/bin/Debug/netcoreapp3.1/Data.dll",
+            "args": ["${workspaceFolder}/Script/bin/Debug/netcoreapp3.1/Script.dll", "purpose=Hermes", "ids=all"],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",

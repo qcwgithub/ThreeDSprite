@@ -1,6 +1,10 @@
 using Data;
-public abstract class LocHandler : Handler
+
+namespace Script
 {
-    public LocData locData { get { return this.server.locData; } }
-    public LocScript locScript { get { return this.server.locScript; } }
+    public abstract class LocHandler : Handler<LocServer>
+    {
+        public LocData locData { get { return this.server.locData; } }
+        public LocScript locScript { get { return this.server.locScript; } }
+    }
 }

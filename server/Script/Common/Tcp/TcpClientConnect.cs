@@ -1,72 +1,75 @@
 using System;
 using System.Threading.Tasks;
 
-// 用于服务器连接服务器
-public class TcpClientConnect : TcpClient
+namespace Script
 {
-    string url;
-    Action<ISocket> onConnect;
-    Action<ISocket> onDisconnect;
-
-    public TcpClientConnect(int socketId, Server server, string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
-        : base(socketId, server)
+    // 用于服务器连接服务器
+    public class TcpClientConnect : TcpClient
     {
-        this.url = url;
-        this.onConnect = onConnect;
-        this.onDisconnect = onDisconnect;
+        string url;
+        Action<ISocket> onConnect;
+        Action<ISocket> onDisconnect;
 
-        int index = this.url.LastIndexOf(':');
-        string host = this.url.Substring(0, index);
-        string p = this.url.Substring(index + 1);
-        int port = int.Parse(p);
-
-        _initConnectSocket(host, port);
-    }
-
-    protected override void onDisconnectComplete()
-    {
-        base.onDisconnectComplete();
-        Console.WriteLine("Server disconnect");
-
-        if (this.onDisconnect != null)
-            this.onDisconnect(this);
-
-        this.connectUntilSuccess();
-    }
-
-    public override async Task start()
-    {
-        await this.connectUntilSuccess();
-    }
-
-    private bool connecting = false;
-    protected async Task connectUntilSuccess()
-    {
-        if (this.connecting || this.connected)
-            return;
-            
-        while (true)
+        public TcpClientConnect(int socketId, Server server, string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
+            : base(socketId, server)
         {
-            this.connecting = true;
-            _connectAsync();
+            this.url = url;
+            this.onConnect = onConnect;
+            this.onDisconnect = onDisconnect;
 
-            while (this.connecting)
-                await Task.Delay(10);
+            int index = this.url.LastIndexOf(':');
+            string host = this.url.Substring(0, index);
+            string p = this.url.Substring(index + 1);
+            int port = int.Parse(p);
 
-            if (this.connected)
-                break;
+            _initConnectSocket(host, port);
         }
-    }
 
-    protected override void onConnectComplete()
-    {
-        this.connecting = false;
+        protected override void onDisconnectComplete()
+        {
+            base.onDisconnectComplete();
+            Console.WriteLine("Server disconnect");
 
-        this.connected = true;
-        this.startRecv();
-        this.startSend();
+            if (this.onDisconnect != null)
+                this.onDisconnect(this);
 
-        if (this.onConnect != null)
-            this.onConnect(this);
+            this.connectUntilSuccess();
+        }
+
+        public override async Task start()
+        {
+            await this.connectUntilSuccess();
+        }
+
+        private bool connecting = false;
+        protected async Task connectUntilSuccess()
+        {
+            if (this.connecting || this.connected)
+                return;
+
+            while (true)
+            {
+                this.connecting = true;
+                _connectAsync();
+
+                while (this.connecting)
+                    await Task.Delay(10);
+
+                if (this.connected)
+                    break;
+            }
+        }
+
+        protected override void onConnectComplete()
+        {
+            this.connecting = false;
+
+            this.connected = true;
+            this.startRecv();
+            this.startSend();
+
+            if (this.onConnect != null)
+                this.onConnect(this);
+        }
     }
 }

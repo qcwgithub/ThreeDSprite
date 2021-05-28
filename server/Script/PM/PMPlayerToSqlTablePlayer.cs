@@ -1,13 +1,18 @@
-
 using Data;
-public class PMPlayerToSqlTablePlayer : IScript {
-    public Server server { get; set; }
 
-    public SqlTablePlayer convert(PMPlayerInfo player) {
-        var tb = new SqlTablePlayer();
-        tb.id = player.id;
+namespace Script
+{
+    public class PMPlayerToSqlTablePlayer : IScript<PMServer>
+    {
+        public PMServer server { get; set; }
 
-        var p = player.profile;
-        return tb;
+        public SqlTablePlayer convert(PMPlayerInfo player)
+        {
+            var tb = new SqlTablePlayer();
+            tb.id = player.id;
+
+            var p = player.profile;
+            return tb;
+        }
     }
 }

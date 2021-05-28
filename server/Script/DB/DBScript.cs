@@ -1,8 +1,7 @@
-public class DBScript : IScript {
-    private Server _server;
-    public Server server
+namespace Script
+{
+    public class DBScript : IScript<DBServer>
     {
-        get { return this.server; }
-        set { this._server = value; }
+        public DBServer server { get; set; }
     }
 }

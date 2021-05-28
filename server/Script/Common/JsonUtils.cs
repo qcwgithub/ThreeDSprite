@@ -1,15 +1,15 @@
-
-public class JsonUtils : IScript
+namespace Script
 {
-    public Server server { get; set; }
-
-    public string stringify(object obj)
+    public class JsonUtils
     {
-        return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
-    }
+        public string stringify(object obj)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+        }
 
-    public T parse<T>(string json)
-    {
-        return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
+        public T parse<T>(string json)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
+        }
     }
 }

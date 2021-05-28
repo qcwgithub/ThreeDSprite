@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Threading.Tasks;
 
-public class DBGetSummary : DBHandler
+namespace Script
 {
-    public override MsgType msgType { get { return MsgType.GetSummary; } }
-
-    public override Task<MyResponse> handle(ISocket socket, string _msg)
+    public class DBGetSummary : DBHandler
     {
-        this.logger.Debug("DBGetSummary");
-        return Task.FromResult(new MyResponse(ECode.Success, null));
+        public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-        // var info = {
-        //     workingDir: process.cwd(),
-        //     purpose: Purpose[this.server.purpose],
-        //     id: this.baseData.id,
-        //     name: Utils.numberId2stringId(this.baseData.id),
-        //     queryCount: this.dbData.queryCount,
-        //     error: this.baseData.errorCount,
-        //     uncauchtException: this.baseData.processData.uncaughtExceptionCount,
-        // };
-        // return new MyResponse(ECode.Success, [info]);
+        public override Task<MyResponse> handle(ISocket socket, string _msg)
+        {
+            this.logger.Debug("DBGetSummary");
+            return Task.FromResult(new MyResponse(ECode.Success, null));
+
+            // var info = {
+            //     workingDir: process.cwd(),
+            //     purpose: Purpose[this.server.purpose],
+            //     id: this.baseData.id,
+            //     name: Utils.numberId2stringId(this.baseData.id),
+            //     queryCount: this.dbData.queryCount,
+            //     error: this.baseData.errorCount,
+            //     uncauchtException: this.baseData.processData.uncaughtExceptionCount,
+            // };
+            // return new MyResponse(ECode.Success, [info]);
+        }
     }
 }

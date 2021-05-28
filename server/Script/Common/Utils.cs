@@ -1,6 +1,15 @@
 
 public class Utils
 {
+    public bool isValidChannelType(string channelType)
+    {
+        return channelType == HermesChannels.debug ||
+            channelType == HermesChannels.uuid ||
+            channelType == HermesChannels.apple ||
+            channelType == HermesChannels.leiting ||
+            channelType == HermesChannels.ivy;
+    }
+    
     static public string numberId2stringId(int id)
     {
         if (id == ServerConst.LOC_ID) {

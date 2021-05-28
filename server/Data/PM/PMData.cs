@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace Data
 {
-
     public class _Active
     {
         public bool first;

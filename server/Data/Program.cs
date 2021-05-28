@@ -1,31 +1,36 @@
 ﻿using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Reflection;
 
-public class Program
+namespace Data
 {
-    static void Main(string[] args)
-    {        
-        //------------------------
-        // 异步方法全部会回掉到主线程
-        SynchronizationContext.SetSynchronizationContext(ET.ThreadSynchronizationContext.Instance);
-
-        List<Server> servers = ServerCreator.Create(args);
-        foreach (Server server in servers)
+    public class Program
+    {
+        static void Main(string[] args)
         {
-            server.dispatcher.dispatch(null, MsgType.Start, null, null);
-        }
+            var globalData = new GlobalData();
 
-        while (true)
-        {
-            try
+            // load dll
+            var assembly = Assembly.LoadFile(args[0]);
+            var scriptEntry = (IScriptEntry) assembly.CreateInstance("Script.ScriptEntry");
+            if (!scriptEntry.OnLoad(args, globalData))
             {
-                Thread.Sleep(1);
-                ET.ThreadSynchronizationContext.Instance.Update();
+                Console.WriteLine("!scriptEntry.OnLoad()");
+                return;
             }
-            catch (Exception e)
+
+            while (true)
             {
-                Console.WriteLine(e);
+                try
+                {
+                    Thread.Sleep(1);
+                    ET.ThreadSynchronizationContext.Instance.Update();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
     }

@@ -4,18 +4,24 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data;
 
-public class AAAChannel_Debug : IScript {
-    public Server server { get; set; }
-    public async Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)
+namespace Script
+{
+    public class AAAChannel_Debug : IScript<AAAServer>
     {
-        if (!this.server.baseScript.isDevelopment()) {
-            return ECode.Error;
+        public AAAServer server { get; set; }
+        public async Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)
+        {
+            if (!this.server.baseScript.isDevelopment())
+            {
+                return ECode.Error;
+            }
+            var res = new AAAVerifyAccountResult
+            {
+                accountMustExist = false,
+                data = null
+            };
+
+            return new MyResponse(ECode.Success, res);
         }
-        var res = new AAAVerifyAccountResult {
-            accountMustExist = false,
-            data = null
-        };
-        
-        return new MyResponse(ECode.Success, res);
     }
 }
