@@ -34,7 +34,7 @@ namespace Script
     }
 
     // 临时方案
-    public class TimerScript : IScript<Server>
+    public class TimerScript : IServerScript<Server>
     {
         public Server server { get; set; }
 

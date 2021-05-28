@@ -6,7 +6,7 @@ using Data;
 
 namespace Script
 {
-    public class AAAScript : IScript<AAAServer>
+    public class AAAScript : IServerScript<AAAServer>
     {
         public AAAServer server { get; set; }
         public AAAData aaaData { get { return this.server.aaaData; } }

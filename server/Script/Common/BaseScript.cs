@@ -8,7 +8,7 @@ using Data;
 
 namespace Script
 {
-    public class BaseScript : IScript<Server>
+    public class BaseScript : IServerScript<Server>
     {
         public Server server { get; set; }
         public BaseData baseData { get { return this.server.baseData; }}

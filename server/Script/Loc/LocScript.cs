@@ -1,6 +1,6 @@
 namespace Script
 {
-    public class LocScript : IScript<LocServer>
+    public class LocScript : IServerScript<LocServer>
     {
         public LocServer server { get; set; }
     }

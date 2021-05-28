@@ -6,7 +6,7 @@ using Data;
 
 namespace Script
 {
-    public class AAAChannel_Apple : IScript<AAAServer>
+    public class AAAChannel_Apple : IServerScript<AAAServer>
     {
         public AAAServer server { get; set; }
         public Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)

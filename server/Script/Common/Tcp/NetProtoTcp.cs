@@ -7,7 +7,7 @@ using Data;
 
 namespace Script
 {
-    public class NetProtoTcp : INetProto, IScript<Server>
+    public class NetProtoTcp : INetProto, IServerScript<Server>
     {
         public Server server { get; set; }
         public TcpData data { get { return this.server.baseData.tcpData; } }
@@ -39,7 +39,7 @@ namespace Script
                     throw new Exception($"socket accept error: {e.LastOperation}");
             }
         }
-        private void accept(SocketAsyncEventArgs e, Socket socket)
+        private void acceptAsync(SocketAsyncEventArgs e, Socket socket)
         {
             e.AcceptSocket = null;
             bool completed = !socket.AcceptAsync(e);
@@ -55,7 +55,7 @@ namespace Script
             if (e.SocketError != SocketError.Success)
             {
                 //Log.Error($"accept error {innArgs.SocketError}");
-                this.accept(e, this.data.socket);
+                this.acceptAsync(e, this.data.socket);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Script
             s.start();
 
             // continue accept
-            this.accept(e, this.data.socket);
+            this.acceptAsync(e, this.data.socket);
         }
 
         public void listen(int port, Func<bool> acceptClient, Action<ISocket, bool> onConnect, Action<ISocket, bool> onDisconnect)
@@ -81,7 +81,7 @@ namespace Script
             this.data.onConnect = onConnect;
             this.data.onDisconnect = onDisconnect;
 
-            this.accept(e, socket);
+            this.acceptAsync(e, socket);
         }
     }
 }

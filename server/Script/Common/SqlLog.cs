@@ -4,7 +4,7 @@ using Data;
 
 namespace Script
 {
-    public class SqlLog : IScript<Server>
+    public class SqlLog : IServerScript<Server>
     {
         public Server server { get; set; }
         public BaseScript baseScript { get { return this.server.baseScript; } }

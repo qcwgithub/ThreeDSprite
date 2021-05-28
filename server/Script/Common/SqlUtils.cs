@@ -4,7 +4,7 @@ using Data;
 
 namespace Script
 {
-    public class SqlUtils<T> : IScript<T> where T : Server
+    public class SqlUtils<T> : IServerScript<T> where T : Server
     {
         public T server { get; set; }
         public BaseScript baseScript { get { return this.server.baseScript; } }

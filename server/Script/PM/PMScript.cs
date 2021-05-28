@@ -4,7 +4,7 @@ using Data;
 
 namespace Script
 {
-    public class PMScript : IScript<PMServer>
+    public class PMScript : IServerScript<PMServer>
     {
         public PMServer server { get; set; }
         public PMData pmData { get { return this.server.pmData; }}

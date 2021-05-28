@@ -1,6 +1,6 @@
 namespace Script
 {
-    public class DBScript : IScript<DBServer>
+    public class DBScript : IServerScript<DBServer>
     {
         public DBServer server { get; set; }
     }

@@ -6,7 +6,7 @@ using Data;
 
 namespace Script
 {
-    public class AAAChannel_Debug : IScript<AAAServer>
+    public class AAAChannel_Debug : IServerScript<AAAServer>
     {
         public AAAServer server { get; set; }
         public async Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)

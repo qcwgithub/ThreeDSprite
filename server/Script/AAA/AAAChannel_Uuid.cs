@@ -6,7 +6,7 @@ using Data;
 
 namespace Script
 {
-    public class AAAChannel_Uuid : IScript<AAAServer>
+    public class AAAChannel_Uuid : IServerScript<AAAServer>
     {
         public AAAServer server { get; set; }
 

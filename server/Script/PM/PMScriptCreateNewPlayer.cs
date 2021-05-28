@@ -2,7 +2,7 @@ using Data;
 
 namespace Script
 {
-    public class PMScriptCreateNewPlayer : IScript<PMServer>
+    public class PMScriptCreateNewPlayer : IServerScript<PMServer>
     {
         public PMServer server { get; set; }
         

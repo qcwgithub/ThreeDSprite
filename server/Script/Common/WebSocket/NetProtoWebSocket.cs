@@ -6,7 +6,7 @@ using Data;
 
 namespace Script
 {
-    public class NetProtoWebSocket : INetProto, IScript<Server>
+    public class NetProtoWebSocket : INetProto, IServerScript<Server>
     {
         public Server server { get; set; }
         public WebSocketData data { get { return this.server.baseData.webSocketData; } }

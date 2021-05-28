@@ -5,7 +5,7 @@ using Data;
 
 namespace Script
 {
-    public class MessageDispatcher : IScript<Server>
+    public class MessageDispatcher : IServerScript<Server>
     {
         public Server server { get; set; }
 

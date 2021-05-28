@@ -5,7 +5,7 @@ using Data;
 
 namespace Script
 {
-    public abstract class Handler<T> : IHandler, IScript<T> where T : Server
+    public abstract class Handler<T> : IHandler, IServerScript<T> where T : Server
     {
         public T server { get; set; }
         public BaseData baseData { get { return this.server.baseData; } }

@@ -2,7 +2,7 @@ using Data;
 
 namespace Script
 {
-    public class PMPlayerToSqlTablePlayer : IScript<PMServer>
+    public class PMPlayerToSqlTablePlayer : IServerScript<PMServer>
     {
         public PMServer server { get; set; }
 
