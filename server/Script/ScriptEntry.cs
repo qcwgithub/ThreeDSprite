@@ -111,15 +111,36 @@ namespace Script
             XmlConfigurator.Configure(log4netRepo, xmlRoot);
         }
 
-        void createData(int id, ServerData data)
+        void InitBaseData(BaseData baseData, int serverId)
         {
+            baseData.id = serverId;
+
+            baseData.knownLocs[this.global.locLoc.id] = global.locLoc;
+
+            var selfLoc = new Loc
+            {
+                id = serverId,
+                inIp = this.global.thisMachineConfig.inIp,
+                outIp = this.global.thisMachineConfig.outIp,
+                outDomain = this.global.thisMachineConfig.outDomain,
+                port = ServerConst.getPortByServerId(serverId),
+            };
+            baseData.knownLocs[selfLoc.id] = selfLoc;
+
+            baseData.logger = LogManager.GetLogger(this.log4netRepo.Name, Utils.numberId2stringId(serverId));
+        }
+        BaseData CreateData(int id)
+        {
+            BaseData data = null;
             if (id == ServerConst.LOC_ID)
             {
-                data.locData = new LocData();
+                data = new LocData();
+                this.InitBaseData(data, id);
             }
             else if (id == ServerConst.AAA_ID)
             {
-                data.aaaData = new AAAData();
+                data = new AAAData();
+                this.InitBaseData(data, id);
             }
             else if (id == ServerConst.WEB_ID)
             {
@@ -127,86 +148,77 @@ namespace Script
             }
             else if (id == ServerConst.DB_ACCOUNT_ID)
             {
-                data.dbData = new DBData();
+                data = new DBData();
+                this.InitBaseData(data, id);
             }
             else if (id == ServerConst.DB_PLAYER_ID)
             {
-                data.dbData = new DBData();
+                data = new DBData();
+                this.InitBaseData(data, id);
             }
             else if (id == ServerConst.DB_LOG_ID)
             {
-                data.dbData = new DBData();
+                data = new DBData();
+                this.InitBaseData(data, id);
             }
             else if (id >= ServerConst.PM_START_ID && id <= ServerConst.PM_END_ID)
             {
-                data.pmData = new PMData();
+                data = new PMData();
+                this.InitBaseData(data, id);
             }
+
+            return data;
         }
 
-        private bool InitDataOnce(string[] args, GlobalData data)
+        private GlobalData global;
+        private bool InitDataOnce(string[] args, GlobalData global)
         {
-            data.processData = new ProcessData();
+            this.global = global;
+            global.processData = new ProcessData();
             var timezoneOffset = (int)TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalMinutes;
 
             var argMap = ParseArguments(args);
             string ids = argMap["ids"];
             if (ids == "all")
-                data.serverIds = new List<int> { 1, 2, 3, 11, 12, 13, 101 };
+                global.serverIds = new List<int> { 1, 2, 3, 11, 12, 13, 101 };
             else
-                data.serverIds = JSON.parse<List<int>>(ids);
+                global.serverIds = JSON.parse<List<int>>(ids);
 
-            if (data.serverIds == null || data.serverIds.Count == 0)
+            if (global.serverIds == null || global.serverIds.Count == 0)
             {
                 Console.WriteLine("serverIds.Count == 0");
                 return false;
             }
 
-            data.purpose = Enum.Parse<Purpose>(argMap["purpose"]);
-            data.timezoneOffset = timezoneOffset;
-            ServerConst.initPorts(data.purpose);
+            global.purpose = Enum.Parse<Purpose>(argMap["purpose"]);
+            global.timezoneOffset = timezoneOffset;
+            ServerConst.initPorts(global.purpose);
 
-            var versionConfig = _Loaders_.loadPurposeConfigJson<_VersionConfig_>("version.json", data.purpose);
-            data.androidVersion = versionConfig.android;
-            data.iOSVersion = versionConfig.ios;
+            var versionConfig = _Loaders_.loadPurposeConfigJson<_VersionConfig_>("version.json", global.purpose);
+            global.androidVersion = versionConfig.android;
+            global.iOSVersion = versionConfig.ios;
 
             //// per-server data
 
-            var thisMachineConfig = _Loaders_.loadHomeJson<ThisMachineConfig>("thisMachineConfig.json");
-            var locConfig = _Loaders_.loadPurposeConfigJson<_LocConfig_>("locConfig.json", data.purpose);
+            global.thisMachineConfig = _Loaders_.loadHomeJson<ThisMachineConfig>("thisMachineConfig.json");
 
-            var locloc = new Loc();
-            locloc.id = ServerConst.LOC_ID;
-            locloc.inIp = locConfig.host;
-            locloc.outIp = null;
-            locloc.outDomain = null;
-            locloc.port = ServerConst.LOC_PORT;
-
-            this.InitLog4net(data.serverIds.Select(_ => Utils.numberId2stringId(_)).ToList());
-
-            data.serverDatas = new Dictionary<int, ServerData>();
-            foreach (var serverId in data.serverIds)
+            var locConfig = _Loaders_.loadPurposeConfigJson<_LocConfig_>("locConfig.json", global.purpose);
+            global.locLoc = new Loc()
             {
-                ServerData serverData = new ServerData();
+                id = ServerConst.LOC_ID,
+                inIp = locConfig.host,
+                outIp = null,
+                outDomain = null,
+                port = ServerConst.LOC_PORT,
+            };
 
-                // baseData
-                var baseData = serverData.baseData = new BaseData();
-                baseData.id = serverId;
+            this.InitLog4net(global.serverIds.Select(_ => Utils.numberId2stringId(_)).ToList());
 
-                baseData.knownLocs[locloc.id] = locloc;
-
-                var selfLoc = new Loc
-                {
-                    id = serverId,
-                    inIp = thisMachineConfig.inIp,
-                    outIp = thisMachineConfig.outIp,
-                    outDomain = thisMachineConfig.outDomain,
-                    port = ServerConst.getPortByServerId(serverId),
-                };
-                baseData.knownLocs[selfLoc.id] = selfLoc;
-
-                baseData.logger = LogManager.GetLogger(this.log4netRepo.Name, Utils.numberId2stringId(serverId));
-                this.createData(serverId, serverData);
-                data.serverDatas.Add(serverId, serverData);
+            global.serverDatas = new Dictionary<int, BaseData>();
+            foreach (var serverId in global.serverIds)
+            {
+                var data = this.CreateData(serverId);
+                global.serverDatas.Add(serverId, data);
             }
             return true;
         }

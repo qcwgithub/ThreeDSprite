@@ -11,7 +11,7 @@ namespace Data
         public int timer;
     }
 
-    public class PMData : IGameConfigs
+    public class PMData : BaseData, IGameConfigs
     {
         // aaa socket
         public ISocket aaaSocket = null;

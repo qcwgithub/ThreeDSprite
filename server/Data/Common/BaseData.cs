@@ -4,7 +4,7 @@ using log4net;
 
 namespace Data
 {
-    public class BaseData
+    public abstract class BaseData
     {
         public bool replyServerTime = true;
 
