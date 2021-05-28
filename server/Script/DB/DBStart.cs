@@ -24,11 +24,6 @@ namespace Script
 
             this.baseScript.listen(() => false);
 
-            // this.dispatcher.dispatch(MsgType.DBStart, {}, this.utils.emptyReply);
-            SqlConfig config = this.dbData.sqlConfig;
-            this.dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
-                this.baseScript.myLoc().inIp, config.user, config.database, config.password);
-
             // 把 TIMESTAMP DATETIME 转换为整数，毫秒
 
             this.baseScript.setState(ServerState.Started);

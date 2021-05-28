@@ -47,21 +47,27 @@ namespace Script
                 var dbData = new DBData();
                 data = dbData;
                 this.InitBaseData(data, id);
-                dbData.sqlConfig = this.configLoader.AccountSqlConfig;
+                var sqlConfig = dbData.sqlConfig = this.configLoader.AccountSqlConfig;
+                dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
+                    dbData.knownLocs[dbData.id].inIp, sqlConfig.user, sqlConfig.database, sqlConfig.password);
             }
             else if (id == ServerConst.DB_PLAYER_ID)
             {
                 var dbData = new DBData();
                 data = dbData;
                 this.InitBaseData(data, id);
-                dbData.sqlConfig = this.configLoader.PlayerSqlConfig;
+                var sqlConfig = dbData.sqlConfig = this.configLoader.PlayerSqlConfig;
+                dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
+                    dbData.knownLocs[dbData.id].inIp, sqlConfig.user, sqlConfig.database, sqlConfig.password);
             }
             else if (id == ServerConst.DB_LOG_ID)
             {
                 var dbData = new DBData();
                 data = dbData;
                 this.InitBaseData(data, id);
-                dbData.sqlConfig = this.configLoader.LogSqlConfig;
+                var sqlConfig = dbData.sqlConfig = this.configLoader.LogSqlConfig;
+                dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
+                    dbData.knownLocs[dbData.id].inIp, sqlConfig.user, sqlConfig.database, sqlConfig.password);
             }
             else if (id >= ServerConst.PM_START_ID && id <= ServerConst.PM_END_ID)
             {

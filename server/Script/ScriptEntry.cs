@@ -30,7 +30,7 @@ namespace Script
             return argMap;
         }
 
-        bool InitOnce(string[] args, GlobalData global, JsonUtils JSON)
+        bool InitDataOnce(string[] args, GlobalData global, JsonUtils JSON)
         {
             var argMap = this.ParseArguments(args);
 
@@ -58,9 +58,6 @@ namespace Script
             var dataCreation = new DataCreation();
             dataCreation.Create(global, configLoader, serverIds, purpose, log4NetCreation);
 
-            //------------------------
-            // 异步方法全部会回掉到主线程
-            SynchronizationContext.SetSynchronizationContext(ET.ThreadSynchronizationContext.Instance);
             return true;
         }
 
@@ -69,19 +66,24 @@ namespace Script
             JsonUtils JSON = new JsonUtils();
             if (!global.inited)
             {
-                if (!this.InitOnce(args, global, JSON))
+                if (!this.InitDataOnce(args, global, JSON))
                 {
                     return false;
                 }
+
                 global.inited = true;
+
+                //------------------------
+                // 异步方法全部会回掉到主线程
+                SynchronizationContext.SetSynchronizationContext(ET.ThreadSynchronizationContext.Instance);
             }
 
             var serverCreation = new ServerCreation();
             List<Server> servers = serverCreation.Create(global);
-            foreach (Server server in servers)
-            {
-                server.dispatcher.dispatch(null, MsgType.Start, null, null);
-            }
+            // foreach (Server server in servers)
+            // {
+            //     server.dispatcher.dispatch(null, MsgType.Start, null, null);
+            // }
 
             return true;
         }

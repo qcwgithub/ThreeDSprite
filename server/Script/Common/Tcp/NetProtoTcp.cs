@@ -70,12 +70,13 @@ namespace Script
         public void listen(int port, Func<bool> acceptClient, Action<ISocket, bool> onConnect, Action<ISocket, bool> onDisconnect)
         {
             var socket = this.data.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            var e = this.data.e = new SocketAsyncEventArgs();
+
             socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 
             socket.Bind(new IPEndPoint(IPAddress.Any, port));
             socket.Listen(1000);
 
-            var e = this.data.e = new SocketAsyncEventArgs();
             e.Completed += this.onComplete;
 
             this.data.onConnect = onConnect;

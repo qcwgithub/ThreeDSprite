@@ -9,7 +9,7 @@ using System.Net;
 public abstract class TcpClientBasic
 {
     Socket _socket;
-    IPEndPoint ipEndPointForConnect = null;
+    IPEndPoint ipEndPointForConnect;
     CancellationTokenSource _cancellationTaskSource;
     CancellationToken _cancellationToken;
     SocketAsyncEventArgs _innArgs;

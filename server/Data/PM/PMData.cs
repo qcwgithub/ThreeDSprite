@@ -12,9 +12,6 @@ namespace Data
 
     public class PMData : BaseData, IGameConfigs
     {
-        // aaa socket
-        public ISocket aaaSocket = null;
-
         // playerId -> PlayerData
         public Dictionary<int, PMPlayerInfo> playerInfos = new Dictionary<int, PMPlayerInfo>();
         public PMPlayerInfo GetPlayerInfo(int id)

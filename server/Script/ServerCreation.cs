@@ -25,11 +25,9 @@ namespace Script
             s.sqlLog = new SqlLog { server = s };
 
             s.dispatcher.addHandler(new OnShutdown<T> { server = s });
-            // server.dispatcher.addHandler(new OnReloadScript());
-            // server.dispatcher.addHandler(new OnRunScript());
-            s.dispatcher.addHandler(new OnConnect<T> { server = s });
-            s.dispatcher.addHandler(new OnDisconnect<T> { server = s });
-            s.dispatcher.addHandler(new KeepAliveToLoc<T> { server = s });
+            // s.dispatcher.addHandler(new OnConnect<T> { server = s });
+            // s.dispatcher.addHandler(new OnDisconnect<T> { server = s });
+            // s.dispatcher.addHandler(new KeepAliveToLoc<T> { server = s });
         }
 
         GlobalData global;
@@ -40,6 +38,7 @@ namespace Script
             for (int i = 0; i < data.serverIds.Count; i++)
             {
                 int id = data.serverIds[i];
+                if (id != ServerConst.LOC_ID) continue;
 
                 if (id == ServerConst.LOC_ID)
                 {
@@ -48,13 +47,13 @@ namespace Script
                     
                     this.InitBase(s);
 
-                    s.locScript = new LocScript { server = s };
-                    s.dispatcher.addHandler(new LocStart { server = s });
-                    s.dispatcher.addHandler(new LocOnDisconnect { server = s });
-                    s.dispatcher.addHandler(new LocReportLoc { server = s });
-                    s.dispatcher.addHandler(new LocRequestLoc { server = s });
-                    s.dispatcher.addHandler(new LocBroadcast { server = s });
-                    s.dispatcher.addHandler(new LocGetSummary { server = s });
+                    // s.locScript = new LocScript { server = s };
+                    // s.dispatcher.addHandler(new LocStart { server = s });
+                    // s.dispatcher.addHandler(new LocOnDisconnect { server = s });
+                    // s.dispatcher.addHandler(new LocReportLoc { server = s });
+                    // s.dispatcher.addHandler(new LocRequestLoc { server = s });
+                    // s.dispatcher.addHandler(new LocBroadcast { server = s });
+                    // s.dispatcher.addHandler(new LocGetSummary { server = s });
                     list.Add(s);
                 }
                 else if (id == ServerConst.AAA_ID)
