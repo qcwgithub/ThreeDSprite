@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Data
 {
-    public class AAAData : BaseData
+    public class AAAData : ServerBaseData
     {
         public bool active = true;  // false表示不接受客户端连接
         public bool playerIdReady = false;

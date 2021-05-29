@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Data
 {
-    public class GlobalData
+    public class DataEntry
     {
         public bool inited = false;
         public ProcessData processData;
@@ -16,6 +16,6 @@ namespace Data
         public ThisMachineConfig thisMachineConfig;
         public Loc locLoc;
 
-        public Dictionary<int, BaseData> serverDatas;
+        public Dictionary<int, ServerBaseData> serverDatas;
     }
 }

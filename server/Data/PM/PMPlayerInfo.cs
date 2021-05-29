@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Data
 {
     // 纯数据，无逻辑
-    public class PMPlayerInfo : IProfileInput
+    public sealed class PMPlayerInfo : IProfileInput
     {
         public CProfile profile { get; set; }
 

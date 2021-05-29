@@ -11,7 +11,7 @@ namespace Script
     public class BaseScript : IServerScript<Server>
     {
         public Server server { get; set; }
-        public BaseData baseData { get { return this.server.baseData; }}
+        public ServerBaseData baseData { get { return this.server.baseData; }}
         public log4net.ILog logger { get { return this.server.logger; } }
         public MessageDispatcher dispatcher { get { return this.server.dispatcher; } }
 
@@ -31,7 +31,7 @@ namespace Script
                 Console.WriteLine("loc == null, id: " + id);
                 // process.exit(1);
             }
-            return this.server.serverNetwork.urlForServer(loc.inIp, loc.port);
+            return this.server.tcp.urlForServer(loc.inIp, loc.port);
         }
         public Loc getKnownLoc(int id)
         {
@@ -121,7 +121,7 @@ namespace Script
             string msgOnConnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
             string msgOnDisconnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
 
-            ISocket s = await this.server.serverNetwork.connectAsync(url,
+            ISocket s = await this.server.tcp.connectAsync(url,
                 (ISocket socket) =>
                 { // onconnect
                   //this.logger.info("-> %s: connected", to);
@@ -145,7 +145,7 @@ namespace Script
             string msgOnDisconnect_false = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
 
             int port = this.myLoc().port;
-            this.server.serverNetwork.listen(port, acceptClient, (ISocket socket, bool isServer) =>
+            this.server.tcp.listen(port, acceptClient, (ISocket socket, bool isServer) =>
             {
                 this.dispatcher.dispatch(socket, MsgType.OnConnect, isServer ? msgOnConnect_true : msgOnConnect_false, null);
             }, (ISocket socket, bool isServer) =>
@@ -236,7 +236,7 @@ namespace Script
             {
                 bool canExit = true;
 
-                foreach (var kv in this.server.globalData.serverDatas)
+                foreach (var kv in this.server.dataEntry.serverDatas)
                 {
                     if (kv.Key == ServerConst.MONITOR_ID)
                     {

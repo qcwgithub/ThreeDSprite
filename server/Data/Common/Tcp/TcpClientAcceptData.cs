@@ -2,17 +2,17 @@ using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace Script
+namespace Data
 {
-    public class TcpClientAccept : TcpClient
+    public class TcpClientAcceptData : TcpClientData
     {
         public bool isConnectFromServer { get; protected set; }
         public Action<ISocket, bool> onConnect { get; protected set; }
         public Action<ISocket, bool> onDisconnect { get; protected set; }
 
-        public TcpClientAccept(int socketId, Server server,
+        public TcpClientAcceptData(int socketId, TcpData data,
             Socket socket, bool isConnectFromServer, Action<ISocket, bool> onConnect, Action<ISocket, bool> onDisconnect)
-            : base(socketId, server)
+            : base(socketId, data)
         {
             _initAcceptSocket(socket);
             this.isConnectFromServer = isConnectFromServer;

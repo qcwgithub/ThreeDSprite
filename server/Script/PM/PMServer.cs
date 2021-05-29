@@ -4,9 +4,13 @@ namespace Script
 {
     public class PMServer : Server, IGameScripts
     {
-        public override BaseData baseData { get { return this.pmData; } }
-        
-        public PMData pmData;
+        public PMData pmData
+        {
+            get
+            {
+                return (PMData)this.baseData;
+            }
+        }
         public PMScript pmScript;
         public PMSqlUtils pmSqlUtils;
         public PMPlayerToSqlTablePlayer pmPlayerToSqlTablePlayer;
@@ -14,5 +18,31 @@ namespace Script
 
         public SCUtils scUtils { get; set; }
         public GameScript gameScript;
+
+        public override void Create(DataEntry dataEntry, int id)
+        {
+            base.Create(dataEntry, id);
+            base.AddHandler<PMServer>();
+
+            this.pmScript = new PMScript { server = this };
+            this.pmSqlUtils = new PMSqlUtils { server = this };
+            this.pmPlayerToSqlTablePlayer = new PMPlayerToSqlTablePlayer { server = this };
+            this.pmScriptCreateNewPlayer = new PMScriptCreateNewPlayer { server = this };
+
+            this.gameScript = new GameScriptServer();
+            this.gameScript.init(this.pmData, this);
+
+            this.scUtils = new SCUtils();
+            this.scUtils.init(this.pmData, this);
+
+            this.dispatcher.addHandler(new PMStart { server = this });
+            this.dispatcher.addHandler(new PMOnDisconnect { server = this });
+            this.dispatcher.addHandler(new PMKeepAliveToAAA { server = this });
+            this.dispatcher.addHandler(new PMPlayerLogin { server = this });
+            this.dispatcher.addHandler(new PMChangeChannel { server = this });
+            this.dispatcher.addHandler(new PMPreparePlayerLogin { server = this });
+            this.dispatcher.addHandler(new PMDestroyPlayer { server = this });
+            this.dispatcher.addHandler(new PMAction { server = this });
+        }
     }
 }

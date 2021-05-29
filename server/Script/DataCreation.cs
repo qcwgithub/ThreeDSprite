@@ -6,18 +6,19 @@ namespace Script
 {
     public class DataCreation
     {
-        void InitBaseData(BaseData baseData, int serverId)
+        void InitBaseData(ServerBaseData baseData, int serverId)
         {
             baseData.id = serverId;
 
-            baseData.knownLocs[this.global.locLoc.id] = global.locLoc;
+            baseData.tcpData = new NetProtoTcp();
+            baseData.knownLocs[this.dataEntry.locLoc.id] = dataEntry.locLoc;
 
             var selfLoc = new Loc
             {
                 id = serverId,
-                inIp = this.global.thisMachineConfig.inIp,
-                outIp = this.global.thisMachineConfig.outIp,
-                outDomain = this.global.thisMachineConfig.outDomain,
+                inIp = this.dataEntry.thisMachineConfig.inIp,
+                outIp = this.dataEntry.thisMachineConfig.outIp,
+                outDomain = this.dataEntry.thisMachineConfig.outDomain,
                 port = ServerConst.getPortByServerId(serverId),
             };
             baseData.knownLocs[selfLoc.id] = selfLoc;
@@ -25,84 +26,104 @@ namespace Script
             baseData.logger = this.log4NetCreation.getLogger(Utils.numberId2stringId(serverId));
         }
 
-        BaseData CreateData(int id)
+        LocData CreateLocData(int id)
         {
-            BaseData data = null;
+            var data = new LocData();
+            InitBaseData(data, id);
+            return data;
+        }
+
+        AAAData CreateAAAData(int id)
+        {
+            var data = new AAAData();
+            InitBaseData(data, id);
+            return data;
+        }
+
+        DBData CreateDBData(int id)
+        {
+            var data = new DBData();
+            InitBaseData(data, id);
+            if (id == ServerConst.DB_ACCOUNT_ID)
+            {
+                data.sqlConfig = this.configLoader.AccountSqlConfig;
+            }
+            else if (id == ServerConst.DB_PLAYER_ID)
+            {
+                data.sqlConfig = this.configLoader.PlayerSqlConfig;
+            }
+            else
+            {
+                data.sqlConfig = this.configLoader.LogSqlConfig;
+            }
+
+            data.connectionString = string.Format("server={0};user={1};database={2};password={3}",
+                data.knownLocs[data.id].inIp,
+                data.sqlConfig.user,
+                data.sqlConfig.database,
+                data.sqlConfig.password);
+
+            return data;
+        }
+
+        PMData CreatePMData(int id)
+        {
+            var data = new PMData();
+            InitBaseData(data, id);
+            return data;
+        }
+
+        ServerBaseData CreateData(int id)
+        {
             if (id == ServerConst.LOC_ID)
             {
-                data = new LocData();
-                this.InitBaseData(data, id);
+                return CreateLocData(id);
             }
             else if (id == ServerConst.AAA_ID)
             {
-                data = new AAAData();
-                this.InitBaseData(data, id);
+                return CreateAAAData(id);
             }
             else if (id == ServerConst.WEB_ID)
             {
 
             }
-            else if (id == ServerConst.DB_ACCOUNT_ID)
+            else if (id == ServerConst.DB_ACCOUNT_ID ||
+                id == ServerConst.DB_PLAYER_ID ||
+                id == ServerConst.DB_LOG_ID)
             {
-                var dbData = new DBData();
-                data = dbData;
-                this.InitBaseData(data, id);
-                var sqlConfig = dbData.sqlConfig = this.configLoader.AccountSqlConfig;
-                dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
-                    dbData.knownLocs[dbData.id].inIp, sqlConfig.user, sqlConfig.database, sqlConfig.password);
-            }
-            else if (id == ServerConst.DB_PLAYER_ID)
-            {
-                var dbData = new DBData();
-                data = dbData;
-                this.InitBaseData(data, id);
-                var sqlConfig = dbData.sqlConfig = this.configLoader.PlayerSqlConfig;
-                dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
-                    dbData.knownLocs[dbData.id].inIp, sqlConfig.user, sqlConfig.database, sqlConfig.password);
-            }
-            else if (id == ServerConst.DB_LOG_ID)
-            {
-                var dbData = new DBData();
-                data = dbData;
-                this.InitBaseData(data, id);
-                var sqlConfig = dbData.sqlConfig = this.configLoader.LogSqlConfig;
-                dbData.connectionString = string.Format("server={0};user={1};database={2};password={3}",
-                    dbData.knownLocs[dbData.id].inIp, sqlConfig.user, sqlConfig.database, sqlConfig.password);
+                return CreateDBData(id);
             }
             else if (id >= ServerConst.PM_START_ID && id <= ServerConst.PM_END_ID)
             {
-                data = new PMData();
-                this.InitBaseData(data, id);
+                return CreatePMData(id);
             }
 
-            return data;
+            return null;
         }
 
-        GlobalData global;
+        DataEntry dataEntry;
         ConfigLoader configLoader;
         Log4netCreation log4NetCreation;
-        public void Create(GlobalData global, ConfigLoader configLoader, List<int> serverIds, Purpose purpose, Log4netCreation log4NetCreation)
+        public void Create(DataEntry dataEntry, ConfigLoader configLoader, List<int> serverIds, Purpose purpose, Log4netCreation log4NetCreation)
         {
-            this.global = global;
+            this.dataEntry = dataEntry;
             this.configLoader = configLoader;
             this.log4NetCreation = log4NetCreation;
 
-            global.processData = new ProcessData();
-            global.serverIds = serverIds;
-            global.purpose = purpose;
-            var timezoneOffset = (int)TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalMinutes;
-
-            global.timezoneOffset = timezoneOffset;
-            ServerConst.initPorts(global.purpose);
+            dataEntry.processData = new ProcessData();
+            dataEntry.serverIds = serverIds;
+            dataEntry.purpose = purpose;
+            dataEntry.timezoneOffset = (int)TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalMinutes;
+            ServerConst.initPorts(dataEntry.purpose);
 
             var versionConfig = configLoader.VersionConfig;
-            global.androidVersion = versionConfig.android;
-            global.iOSVersion = versionConfig.ios;
+            dataEntry.androidVersion = versionConfig.android;
+            dataEntry.iOSVersion = versionConfig.ios;
 
             //// per-server data
 
-            global.thisMachineConfig = configLoader.ThisMachineConfig;
-            global.locLoc = new Loc()
+            dataEntry.thisMachineConfig = configLoader.ThisMachineConfig;
+            dataEntry.locLoc = new Loc()
             {
                 id = ServerConst.LOC_ID,
                 inIp = configLoader.LocConfig.host,
@@ -111,11 +132,10 @@ namespace Script
                 port = ServerConst.LOC_PORT,
             };
 
-            global.serverDatas = new Dictionary<int, BaseData>();
-            foreach (var serverId in global.serverIds)
+            dataEntry.serverDatas = new Dictionary<int, ServerBaseData>();
+            foreach (var serverId in dataEntry.serverIds)
             {
-                var data = this.CreateData(serverId);
-                global.serverDatas.Add(serverId, data);
+                dataEntry.serverDatas.Add(serverId, this.CreateData(serverId));
             }
         }
     }

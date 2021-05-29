@@ -151,16 +151,16 @@ namespace Script
             // 检查版本号
             if (msg.platform == "android")
             {
-                if (this.server.globalData.purpose != Purpose.Test && // 测试版本不检查版本号
-                    (msg.version != this.server.globalData.androidVersion))
+                if (this.server.dataEntry.purpose != Purpose.Test && // 测试版本不检查版本号
+                    (msg.version != this.server.dataEntry.androidVersion))
                 {
                     return ECode.LowVersion;
                 }
             }
             else if (msg.platform == "ios")
             {
-                if (this.server.globalData.purpose != Purpose.Test && // 测试版本不检查版本号
-                    (msg.version != this.server.globalData.iOSVersion))
+                if (this.server.dataEntry.purpose != Purpose.Test && // 测试版本不检查版本号
+                    (msg.version != this.server.dataEntry.iOSVersion))
                 {
                     return ECode.LowVersion;
                 }

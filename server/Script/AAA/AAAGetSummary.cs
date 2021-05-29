@@ -16,14 +16,14 @@ namespace Script
 
             var info = new Dictionary<string, string> {
             { "workingDir", "" },//process.cwd(),
-            { "purpose", this.server.globalData.purpose.ToString() },
+            { "purpose", this.server.dataEntry.purpose.ToString() },
             { "id", this.baseData.id.ToString() },
             { "name", Utils.numberId2stringId(this.baseData.id) },
             { "playerInfos_size", data.playerInfos.Count.ToString() },
             { "playerManagerInfos_size", data.playerManagerInfos.Count.ToString() },
             { "nextPlayerId", data.nextPlayerId.ToString() },
             { "error", this.baseData.errorCount.ToString() },
-            { "uncauchtException", this.server.globalData.processData.uncaughtExceptionCount.ToString() },
+            { "uncauchtException", this.server.dataEntry.processData.uncaughtExceptionCount.ToString() },
         };
             // m.accountInfos_size = data.accountInfos.size;
 

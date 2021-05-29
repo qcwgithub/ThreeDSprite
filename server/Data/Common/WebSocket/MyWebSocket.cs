@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Data;
 
-namespace Script
+namespace Data
 {
     public abstract class MyWebSocket : ISocket
     {
@@ -13,14 +13,13 @@ namespace Script
         const int SendChunkSize = 1024;
 
         public int socketId { get; protected set; }
-        public Server server { get; protected set; }
-        public WebSocketData data { get { return this.server.baseData.webSocketData; } }
+        public WebSocketData data { get; protected set; }
         public WebSocket socket { get; protected set; }
         protected CancellationTokenSource cancellationTaskSource;
-        public MyWebSocket(int socketId, Server server)
+        public MyWebSocket(int socketId, WebSocketData data)
         {
             this.socketId = socketId;
-            this.server = server;
+            this.data = data;
             this.cancellationTaskSource = new CancellationTokenSource();
         }
 

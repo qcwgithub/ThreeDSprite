@@ -93,7 +93,7 @@ namespace Script
                 keepSyncProfile = true,
                 profile = (msg.isReconnect ? null : player.profile), // 重连不用发送 profile，省流量，同时客户端在重连时并不需要使用
                 timeMs = this.server.gameScript.getTime(),
-                timezoneOffset = this.server.globalData.timezoneOffset,
+                timezoneOffset = this.server.dataEntry.timezoneOffset,
 
                 // 几个时间相关的，在登录时发给客户端
                 // offlineBonusTime = player.profile.offlineBonus.time,

@@ -4,12 +4,15 @@ using log4net;
 
 namespace Data
 {
-    public abstract class BaseData
+    public abstract class ServerBaseData
     {
         public bool replyServerTime = true;
 
         // id: 所有服务器都不同
         public int id;
+        public IScriptProxy scriptProxy;
+
+        public TcpData tcpData;
 
         /////////////////////////////////////////////////////////////////////
         public ISocket aaaSocket;
@@ -19,7 +22,6 @@ namespace Data
         public ISocket dbLogSocket;
         public Dictionary<MsgType, IHandler> handlers = new Dictionary<MsgType, IHandler>();
         public WebSocketData webSocketData = new WebSocketData();
-        public TcpData tcpData = new TcpData();
         /////////////////////////////////////////////////////////////////////
 
         public Dictionary<int, Loc> knownLocs = new Dictionary<int, Loc>();

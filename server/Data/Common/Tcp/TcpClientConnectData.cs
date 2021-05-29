@@ -1,21 +1,17 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Script
+namespace Data
 {
     // 用于服务器连接服务器
-    public class TcpClientConnect : TcpClient
+    public class TcpClientConnectData : TcpClientData
     {
         string url;
-        Action<ISocket> onConnect;
-        Action<ISocket> onDisconnect;
 
-        public TcpClientConnect(int socketId, Server server, string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
-            : base(socketId, server)
+        public TcpClientConnectData(int socketId, ServerBaseData serverData, string url)
+            : base(socketId, serverData)
         {
             this.url = url;
-            this.onConnect = onConnect;
-            this.onDisconnect = onDisconnect;
 
             int index = this.url.LastIndexOf(':');
             string host = this.url.Substring(0, index);
@@ -30,9 +26,7 @@ namespace Script
             base.onDisconnectComplete();
             Console.WriteLine("Server disconnect");
 
-            if (this.onDisconnect != null)
-                this.onDisconnect(this);
-
+            this.serverData.scriptProxy.onDisconnect(true, this);
             this.connectUntilSuccess();
         }
 
@@ -67,9 +61,8 @@ namespace Script
             this.connected = true;
             this.startRecv();
             this.startSend();
-
-            if (this.onConnect != null)
-                this.onConnect(this);
+            
+            this.serverData.scriptProxy.onConnect(true, this);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Net;
 
-public abstract class TcpClientBasic
+public abstract class TcpClientBasicData
 {
     Socket _socket;
     IPEndPoint ipEndPointForConnect;
@@ -15,7 +15,7 @@ public abstract class TcpClientBasic
     SocketAsyncEventArgs _innArgs;
     SocketAsyncEventArgs _outArgs;
 
-    public TcpClientBasic()
+    public TcpClientBasicData()
     {
         _cancellationTaskSource = new CancellationTokenSource();
         _cancellationToken = _cancellationTaskSource.Token;

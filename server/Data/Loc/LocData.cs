@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Data
 {
-    public class LocData : BaseData
+    public sealed class LocData : ServerBaseData
     {
         public Dictionary<int, LocServerInfo> map = new Dictionary<int, LocServerInfo>();
     }

@@ -10,7 +10,7 @@ namespace Data
         public int timer;
     }
 
-    public class PMData : BaseData, IGameConfigs
+    public sealed class PMData : ServerBaseData, IGameConfigs
     {
         // playerId -> PlayerData
         public Dictionary<int, PMPlayerInfo> playerInfos = new Dictionary<int, PMPlayerInfo>();

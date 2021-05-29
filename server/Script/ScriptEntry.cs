@@ -30,7 +30,7 @@ namespace Script
             return argMap;
         }
 
-        bool InitDataOnce(string[] args, GlobalData global, JsonUtils JSON)
+        bool InitDataOnce(string[] args, DataEntry global, JsonUtils JSON)
         {
             var argMap = this.ParseArguments(args);
 
@@ -61,7 +61,7 @@ namespace Script
             return true;
         }
 
-        public bool OnLoad(string[] args, GlobalData global)
+        public bool OnLoad(string[] args, DataEntry global)
         {
             JsonUtils JSON = new JsonUtils();
             if (!global.inited)

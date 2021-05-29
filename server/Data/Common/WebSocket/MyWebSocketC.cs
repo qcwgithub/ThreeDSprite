@@ -3,7 +3,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Script
+namespace Data
 {
     // 只用于服务器连接服务器
     public class MyWebSocketC : MyWebSocket
@@ -12,8 +12,8 @@ namespace Script
         public Action<ISocket> onConnect { get; protected set; }
         public Action<ISocket> onDisconnect { get; protected set; }
 
-        public MyWebSocketC(int socketId, Server server, string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
-            : base(socketId, server)
+        public MyWebSocketC(int socketId, WebSocketData data, string url, Action<ISocket> onConnect, Action<ISocket> onDisconnect)
+            : base(socketId, data)
         {
             this.url = url;
             this.onConnect = onConnect;

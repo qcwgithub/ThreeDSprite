@@ -4,12 +4,11 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Data;
 
-namespace Script
+namespace Data
 {
     public class NetProtoWebSocket : INetProto, IServerScript<Server>
     {
-        public Server server { get; set; }
-        public WebSocketData data { get { return this.server.baseData.webSocketData; } }
+        public WebSocketData data { get; set; }
         public string urlForServer(string host, int port)
         {
             var url = "ws://" + host + ":" + port;
@@ -80,7 +79,7 @@ namespace Script
 
                 HttpListenerWebSocketContext webSocketContext = await context.AcceptWebSocketAsync(null);
 
-                var ws = new MyWebSocketS(this.data.socketId++, server, webSocketContext.WebSocket, fromServer, onConnect, onDisconnect);
+                var ws = new MyWebSocketS(this.data.socketId++, this.data, webSocketContext.WebSocket, fromServer, onConnect, onDisconnect);
             }
         }
     }

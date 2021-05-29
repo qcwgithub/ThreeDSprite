@@ -8,7 +8,7 @@ namespace Script
     public abstract class Handler<T> : IHandler, IServerScript<T> where T : Server
     {
         public T server { get; set; }
-        public BaseData baseData { get { return this.server.baseData; } }
+        public ServerBaseData baseData { get { return this.server.baseData; } }
         public BaseScript baseScript { get { return this.server.baseScript; } }
         public log4net.ILog logger { get { return this.server.logger; } }
         public MessageDispatcher dispatcher { get { return this.server.dispatcher; } }

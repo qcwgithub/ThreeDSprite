@@ -4,19 +4,26 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Data;
 
-namespace Script
+namespace Data
 {
-    public abstract class TcpClient : TcpClientBasic, ISocket
+    public abstract class TcpClientData : TcpClientBasicData, ISocket
     {
         public int socketId { get; protected set; }
-        public Server server { get; protected set; }
-        public TcpData data { get { return this.server.baseData.tcpData; } }
+        public ServerBaseData serverData { get; private set; }
+        public TcpData tcpData
+        {
+            get
+            {
+                return this.serverData.tcpData;
+            }
+        }
+        
         protected bool connected;
         protected bool sending;
-        public TcpClient(int socketId, Server server) : base()
+        public TcpClientData(int socketId, ServerBaseData serverData) : base()
         {
             this.socketId = socketId;
-            this.server = server;
+            this.serverData = serverData;
             this.sending = false;
             this.connected = false;
         }
@@ -84,11 +91,11 @@ namespace Script
                 return;
             }
             var str = this.server.JSON.stringify(msg);
-            var seq = this.data.msgSeq++;
+            var seq = this.tcpData.msgSeq++;
             var message = this.encodeSend(seq, type, str);
             if (cb != null)
             {
-                this.data.pendingRequests.Add(seq, cb);
+                this.tcpData.pendingRequests.Add(seq, cb);
             }
 
             // int length = Encoding.UTF8.GetByteCount(message);
@@ -309,9 +316,9 @@ namespace Script
                 // this.server.logger.Info("recv response " + eCode + ", " + msg);
 
                 Action<ECode, string> responseFun;
-                if (this.data.pendingRequests.TryGetValue(-seq, out responseFun))
+                if (this.tcpData.pendingRequests.TryGetValue(-seq, out responseFun))
                 {
-                    this.data.pendingRequests.Remove(-seq);
+                    this.tcpData.pendingRequests.Remove(-seq);
                     responseFun(eCode, msg);
                 }
                 else

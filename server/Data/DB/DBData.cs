@@ -11,7 +11,7 @@ namespace Data
         public string database;
     }
 
-    public class DBData : BaseData
+    public sealed class DBData : ServerBaseData
     {
         public SqlConfig sqlConfig;
         public string connectionString;

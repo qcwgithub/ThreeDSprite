@@ -25,7 +25,7 @@ namespace Data
 
     public class Program
     {
-        static WeakReference LoadAssembly(string[] args, GlobalData globalData)
+        static WeakReference LoadAssembly(string[] args, DataEntry globalData)
         {
             var context = new MyAssemblyLoadContext();
             var weakRef = new WeakReference(context);
@@ -39,7 +39,7 @@ namespace Data
 
         static void Main(string[] args)
         {
-            var globalData = new GlobalData();
+            var globalData = new DataEntry();
             var contextList = new List<WeakReference>();
 
             contextList.Add(LoadAssembly(args, globalData));
