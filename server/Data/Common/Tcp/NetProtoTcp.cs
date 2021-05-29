@@ -7,10 +7,9 @@ using Data;
 
 namespace Script
 {
-    public class NetProtoTcp : INetProto, IServerScript<Server>
+    public class NetProtoTcp
     {
-        public Server server { get; set; }
-        public TcpData data { get { return this.server.baseData.tcpData; } }
+        public TcpData data;
 
         public string urlForServer(string host, int port)
         {
@@ -28,17 +27,18 @@ namespace Script
             return tcp;
         }
 
-        private void onComplete(object sender, SocketAsyncEventArgs e)
+        private void onComplete(SocketAsyncEventArgs e)
         {
             switch (e.LastOperation)
             {
                 case SocketAsyncOperation.Accept:
-                    ET.ThreadSynchronizationContext.Instance.Post(this.onAcceptComplete, e);
+                    this.onAcceptComplete(e);
                     break;
                 default:
                     throw new Exception($"socket accept error: {e.LastOperation}");
             }
         }
+        
         private void acceptAsync(SocketAsyncEventArgs e, Socket socket)
         {
             e.AcceptSocket = null;
@@ -49,9 +49,8 @@ namespace Script
             }
         }
 
-        private void onAcceptComplete(object _e)
+        private void onAcceptComplete(SocketAsyncEventArgs e)
         {
-            var e = (SocketAsyncEventArgs)_e;
             if (e.SocketError != SocketError.Success)
             {
                 //Log.Error($"accept error {innArgs.SocketError}");
@@ -70,14 +69,13 @@ namespace Script
         public void listen(int port, Func<bool> acceptClient, Action<ISocket, bool> onConnect, Action<ISocket, bool> onDisconnect)
         {
             var socket = this.data.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var e = this.data.e = new SocketAsyncEventArgs();
+            var e = this.data.listenSocketArg = new SocketAsyncEventArgs();
+            this.data.onListenSocketComplete = this.onComplete;
 
             socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 
             socket.Bind(new IPEndPoint(IPAddress.Any, port));
             socket.Listen(1000);
-
-            e.Completed += this.onComplete;
 
             this.data.onConnect = onConnect;
             this.data.onDisconnect = onDisconnect;

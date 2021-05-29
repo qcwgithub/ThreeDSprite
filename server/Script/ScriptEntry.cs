@@ -87,5 +87,10 @@ namespace Script
 
             return true;
         }
+
+        public void OnUnload()
+        {
+            
+        }
     }
 }

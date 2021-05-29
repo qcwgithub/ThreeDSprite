@@ -39,5 +39,7 @@ namespace Data
 
         public Random random = new Random();
         public ILog logger;
+
+        /////////////////////////////////////////////////////////////////////
     }
 }
