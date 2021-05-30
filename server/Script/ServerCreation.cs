@@ -20,7 +20,6 @@ namespace Script
             for (int i = 0; i < dataEntry.serverIds.Count; i++)
             {
                 int id = dataEntry.serverIds[i];
-                if (id != ServerConst.LOC_ID) continue;
 
                 if (id == ServerConst.LOC_ID)
                 {

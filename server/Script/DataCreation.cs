@@ -10,7 +10,7 @@ namespace Script
         {
             baseData.id = serverId;
 
-            baseData.tcpListener = new TcpListenerScript();
+            baseData.tcpListener = new TcpListenerData() { serverData = baseData };
             baseData.knownLocs[this.dataEntry.locLoc.id] = dataEntry.locLoc;
 
             var selfLoc = new Loc

@@ -32,10 +32,10 @@ namespace Script
 
         public async Task<TcpClientData> connectAsync(string url)
         {
-            @this.connectorData = new TcpClientData();
-            this.server.tcpClientScript.connectorConstructor(@this.connectorData, url, @this.socketId++, this.server.baseData);
-            await this.server.tcpClientScript.start(@this.connectorData);
-            return @this.connectorData;
+            var connectorData = new TcpClientData();
+            this.server.tcpClientScript.connectorConstructor(connectorData, url, @this.socketId++, this.server.baseData);
+            await this.server.tcpClientScript.start(connectorData);
+            return connectorData;
         }
 
         string msgOnConnect = null;
@@ -139,6 +139,31 @@ namespace Script
 
             // continue accept
             this.acceptAsync(e);
+        }
+
+        public void onMessage(TcpClientData socket, bool fromServer, MsgType type, string msg, Action<ECode, string> reply)
+        {
+            if (!fromServer && type < MsgType.ClientStart)
+            {
+                this.server.logger.Error("receive invalid message from client! " + type.ToString());
+                if (reply != null)
+                {
+                    reply(ECode.Exception, null);
+                }
+                return;
+            }
+
+            if (string.IsNullOrEmpty(msg))
+            {
+                this.server.logger.Error("message must be object!! type: " + type.ToString());
+                if (reply != null)
+                {
+                    reply(ECode.Exception, null);
+                }
+                return;
+            }
+
+            this.server.dispatcher.dispatch(socket, type, msg, reply);
         }
     }
 }

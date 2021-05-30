@@ -38,7 +38,7 @@ namespace Script
                 if (pmInfo != null)
                 {
                     var msgPm = new MsgDestroyPlayer { playerId = playerInfo.id, place = msg.place };
-                    pmInfo.socket.send(MsgType.PMDestroyPlayer, msgPm, null);
+                    this.tcpClientScript.send(pmInfo.socket, MsgType.PMDestroyPlayer, msgPm, null);
                 }
                 else
                 {

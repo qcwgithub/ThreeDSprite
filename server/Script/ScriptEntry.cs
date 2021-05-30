@@ -80,10 +80,10 @@ namespace Script
 
             var serverCreation = new ServerCreation();
             List<Server> servers = serverCreation.Create(global);
-            // foreach (Server server in servers)
-            // {
-            //     server.dispatcher.dispatch(null, MsgType.Start, null, null);
-            // }
+            foreach (Server server in servers)
+            {
+                server.dispatcher.dispatch(null, MsgType.Start, null, null);
+            }
 
             return true;
         }

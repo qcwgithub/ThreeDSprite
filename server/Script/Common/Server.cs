@@ -40,6 +40,9 @@ namespace Script
             this.logger = this.baseData.logger;
 
             this.baseScript = new BaseScript { server = this };
+            this.tcpListenerScript = new TcpListenerScript { server = this };
+            this.tcpClientScript = new TcpClientScript { server = this };
+
             this.timerScript = new TimerScript { server = this };
             this.dispatcher = new MessageDispatcher { server = this };
             this.utils = new Utils();
@@ -50,34 +53,6 @@ namespace Script
             scriptProxy.onTcpListenerComplete = (TcpListenerData listener, SocketAsyncEventArgs e) => this.tcpListenerScript.onTcpListenerComplete(e);
             scriptProxy.onTcpClientComplete = (TcpClientData tcpClient, SocketAsyncEventArgs e) => this.tcpClientScript.onTcpClientComplete(tcpClient, e);
             this.baseData.scriptProxy = scriptProxy;
-        }
-
-        public void onMessage(Data.TcpClientData socket, bool fromServer, MsgType type, string msg, Action<ECode, string> reply)
-        {
-            if (!fromServer && type < MsgType.ClientStart)
-            {
-                this.logger.Error("receive invalid message from client! " + type.ToString());
-                if (reply != null)
-                {
-                    reply(ECode.Exception, null);
-                }
-                return;
-            }
-
-            if (string.IsNullOrEmpty(msg))
-            {
-                this.logger.Error("message must be object!! type: " + type.ToString());
-                if (reply != null)
-                {
-                    reply(ECode.Exception, null);
-                }
-                return;
-            }
-            // assign socket here
-            // msg2.socket = s;
-
-            // 发送方没有要求回复时，reply2 为 null
-            this.dispatcher.dispatch(socket, type, msg, reply);
         }
     }
 }

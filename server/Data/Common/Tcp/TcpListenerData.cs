@@ -16,8 +16,8 @@ namespace Data
         public int msgSeq = 1;
         public int socketId = 90000;
         
+        // public TcpClientData connectorData;
         public TcpClientData acceptorData;
-        public TcpClientData connectorData;
 
         // 此函数是多线程，因此必须放在 Data
         public void _eCompleted_multiThreaded(object sender, SocketAsyncEventArgs e)

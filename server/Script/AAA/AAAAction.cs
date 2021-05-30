@@ -46,7 +46,7 @@ namespace Script
                             script = msg.pmPlayerRunScript.script,
                         }
                     };
-                    await pm.socket.sendAsync(MsgType.ServerAction, msgAction);
+                    await this.server.tcpClientScript.sendAsync(pm.socket, MsgType.ServerAction, msgAction);
                     await this.server.baseScript.waitAsync(10);
                 }
             }

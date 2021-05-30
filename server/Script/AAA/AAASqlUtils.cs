@@ -15,7 +15,7 @@ namespace Script
                 queryStr = "SELECT playerId FROM player_id;",
                 values = null,
             };
-            return await this.server.baseData.dbAccountSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbAccountSocket, MsgType.DBQuery, msg);
         }
         public async Task<MyResponse> updatePlayerIdYield(int playerId)
         {
@@ -25,7 +25,7 @@ namespace Script
                 values = new List<object> { playerId },
                 expectedAffectedRows = 1,
             };
-            return await this.server.baseData.dbAccountSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbAccountSocket, MsgType.DBQuery, msg);
         }
 
         private SqlTableAccount decodeAccount(List<SqlTableAccount> sqlDatas)
@@ -41,12 +41,12 @@ namespace Script
 
         private async Task<MyResponse> doQueryAccountYield(MsgDBQuery msg)
         {
-            return await this.server.baseData.dbAccountSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbAccountSocket, MsgType.DBQuery, msg);
         }
 
         private async Task<MyResponse> queryAccountAndDecode(MsgDBQuery msg)
         {
-            var r = await this.server.baseData.dbAccountSocket.sendAsync(MsgType.DBQuery, msg);
+            var r = await this.server.tcpClientScript.sendAsync(this.server.baseData.dbAccountSocket, MsgType.DBQuery, msg);
             if (r.err != ECode.Success)
             {
                 return r;
@@ -101,7 +101,7 @@ namespace Script
                 values = new List<object> { false, playerId },
                 expectedAffectedRows = 1,
             };
-            this.server.baseData.dbAccountSocket.send(MsgType.DBQuery, msg, null);
+            this.server.tcpClientScript.send(this.server.baseData.dbAccountSocket, MsgType.DBQuery, msg, null);
         }
         public async Task<MyResponse> banAccountYield(int playerId, int unbanTime, string banReason)
         {
@@ -126,7 +126,7 @@ namespace Script
             };
             msg.valueTypes = new Dictionary<int, int>();
             msg.valueTypes[msg.values.Count - 4] = (int)MyDBValueType.DateTime;
-            return await this.server.baseData.dbAccountSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbAccountSocket, MsgType.DBQuery, msg);
         }
 
         // (channel1, channelUserId1) -> (channel2, channelUserId2)

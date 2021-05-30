@@ -54,34 +54,34 @@ namespace Data
                     Thread.Sleep(1);
                     ET.ThreadSynchronizationContext.Instance.Update();
 
-                    if (loadAgain)
-                    {
-                        if (DateTime.Now.Subtract(time).TotalSeconds >= 5)
-                        {
-                            loadAgain = false;
-                            contextList.Add(LoadAssembly(args, globalData));
-                        }
-                    }
-                    else
-                    {
-                        DateTime now = DateTime.Now;
-                        if (now.Subtract(time).TotalSeconds >= 2)
-                        {
-                            time = now;
-                            //PrintInfo();
-                            for (int i = 0; i < contextList.Count; i++)
-                            {
-                                if (!contextList[i].IsAlive)
-                                {
-                                    contextList.RemoveAt(i);
-                                    i--;
-                                }
-                            }
-                            Console.WriteLine("Alive count: " + contextList.Count);
-                            GC.Collect();
-                            // GC.WaitForPendingFinalizers();
-                        }
-                    }
+                //     if (loadAgain)
+                //     {
+                //         if (DateTime.Now.Subtract(time).TotalSeconds >= 5)
+                //         {
+                //             loadAgain = false;
+                //             contextList.Add(LoadAssembly(args, globalData));
+                //         }
+                //     }
+                //     else
+                //     {
+                //         DateTime now = DateTime.Now;
+                //         if (now.Subtract(time).TotalSeconds >= 2)
+                //         {
+                //             time = now;
+                //             //PrintInfo();
+                //             for (int i = 0; i < contextList.Count; i++)
+                //             {
+                //                 if (!contextList[i].IsAlive)
+                //                 {
+                //                     contextList.RemoveAt(i);
+                //                     i--;
+                //                 }
+                //             }
+                //             Console.WriteLine("Alive count: " + contextList.Count);
+                //             GC.Collect();
+                //             // GC.WaitForPendingFinalizers();
+                //         }
+                //     }
                 }
                 catch (Exception e)
                 {
