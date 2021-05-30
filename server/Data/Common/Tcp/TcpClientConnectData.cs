@@ -20,39 +20,40 @@ namespace Data
 
             _initConnectSocket(host, port);
         }
+        public override bool isMessageFromServer { get { return true; } }
 
+        public virtual bool isConnector { get {return true;} }
         protected override void onDisconnectComplete()
         {
             base.onDisconnectComplete();
             Console.WriteLine("Server disconnect");
 
-            this.serverData.scriptProxy.onDisconnect(true, this);
+            this.serverData.scriptProxy.connectorOnDisconnect(this);
             this.connectUntilSuccess();
         }
 
-        public override async Task start()
-        {
-            await this.connectUntilSuccess();
-        }
+        // public override async Task start()
+        // {
+        //     await this.connectUntilSuccess();
+        // }
 
-        private bool connecting = false;
-        protected async Task connectUntilSuccess()
-        {
-            if (this.connecting || this.connected)
-                return;
+        // protected async Task connectUntilSuccess()
+        // {
+        //     if (this.connecting || this.connected)
+        //         return;
 
-            while (true)
-            {
-                this.connecting = true;
-                _connectAsync();
+        //     while (true)
+        //     {
+        //         this.connecting = true;
+        //         _connectAsync();
 
-                while (this.connecting)
-                    await Task.Delay(10);
+        //         while (this.connecting)
+        //             await Task.Delay(10);
 
-                if (this.connected)
-                    break;
-            }
-        }
+        //         if (this.connected)
+        //             break;
+        //     }
+        // }
 
         protected override void onConnectComplete()
         {
@@ -61,8 +62,8 @@ namespace Data
             this.connected = true;
             this.startRecv();
             this.startSend();
-            
-            this.serverData.scriptProxy.onConnect(true, this);
+
+            this.serverData.scriptProxy.connectorOnConnect(this);
         }
     }
 }

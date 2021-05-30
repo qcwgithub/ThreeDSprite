@@ -7,19 +7,16 @@ namespace Data
     public class TcpClientAcceptData : TcpClientData
     {
         public bool isConnectFromServer { get; protected set; }
-        public Action<ISocket, bool> onConnect { get; protected set; }
-        public Action<ISocket, bool> onDisconnect { get; protected set; }
 
-        public TcpClientAcceptData(int socketId, TcpData data,
-            Socket socket, bool isConnectFromServer, Action<ISocket, bool> onConnect, Action<ISocket, bool> onDisconnect)
-            : base(socketId, data)
+        public TcpClientAcceptData(int socketId, ServerBaseData serverData,
+            Socket socket, bool isConnectFromServer)
+            : base(socketId, serverData)
         {
             _initAcceptSocket(socket);
             this.isConnectFromServer = isConnectFromServer;
-            this.onConnect = onConnect;
-            this.onDisconnect = onDisconnect;
             this.connected = true;
         }
+        public override bool isMessageFromServer { get { return this.isConnectFromServer; } }
 
         protected override void onConnectComplete()
         {
@@ -29,10 +26,7 @@ namespace Data
         protected override void onDisconnectComplete()
         {
             base.onDisconnectComplete();
-            if (this.onDisconnect != null)
-            {
-                this.onDisconnect(this, this.isConnectFromServer);
-            }
+            this.serverData.scriptProxy.acceptorOnDisconnect(this, this.isConnectFromServer);
         }
 
         public override Task start()
@@ -40,10 +34,7 @@ namespace Data
             this.startRecv();
             this.startSend();
 
-            if (this.onConnect != null)
-            {
-                this.onConnect(this, this.isConnectFromServer);
-            }
+            this.serverData.scriptProxy.acceptorOnConnect(this, this.isConnectFromServer);
             return Task.CompletedTask;
         }
     }

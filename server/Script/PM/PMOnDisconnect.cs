@@ -27,7 +27,6 @@ namespace Script
 
             if (player.socket != null)
             {
-                player.socket.removeCustomMessageListener();
                 player.socket.unbindPlayer(player);
             }
 

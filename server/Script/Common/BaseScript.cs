@@ -115,43 +115,17 @@ namespace Script
         public async Task<ISocket> connectAsync(int toId)
         {
             string url = this.getKnownUrlForServer(toId);
-            this.logger.Info("connectYield " + url);
-            string to = Utils.numberId2stringId(toId);
+            this.logger.Info("connect to server... " + url);
+            // string to = Utils.numberId2stringId(toId);
 
-            string msgOnConnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
-            string msgOnDisconnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
-
-            ISocket s = await this.server.tcp.connectAsync(url,
-                (ISocket socket) =>
-                { // onconnect
-                  //this.logger.info("-> %s: connected", to);
-                this.dispatcher.dispatch(socket, MsgType.OnConnect, msgOnConnect, null);
-                },
-                (ISocket socket) =>
-                { // onDisconnect
-                  //this.error("-> %s: disconnected", to);
-                this.dispatcher.dispatch(socket, MsgType.OnDisconnect, msgOnDisconnect, null);
-                });
-
+            ISocket s = await this.server.tcp.connectAsync(url);
             return s;
         }
 
         public void listen(Func<bool> acceptClient)
         {
-            string msgOnConnect_true = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = true });
-            string msgOnDisconnect_true = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = true });
-
-            string msgOnConnect_false = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
-            string msgOnDisconnect_false = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
-
             int port = this.myLoc().port;
-            this.server.tcp.listen(port, acceptClient, (ISocket socket, bool isServer) =>
-            {
-                this.dispatcher.dispatch(socket, MsgType.OnConnect, isServer ? msgOnConnect_true : msgOnConnect_false, null);
-            }, (ISocket socket, bool isServer) =>
-            {
-                this.dispatcher.dispatch(socket, MsgType.OnDisconnect, isServer ? msgOnDisconnect_true : msgOnDisconnect_false, null);
-            });
+            this.server.tcp.listen(port, acceptClient);
         }
 
         public T decodeMsg<T>(string msg)
