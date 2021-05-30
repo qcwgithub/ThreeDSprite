@@ -8,11 +8,11 @@ namespace Script
     public class PMKeepAliveToAAA : PMHandler
     {
         public override MsgType msgType { get { return MsgType.PMKeepAliveToAAA; } }
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             PMData pmData = this.data; var alive = this.data.alive;
             var s = pmData.aaaSocket;
-            if (!s.isConnected())
+            if (!this.tcpClientScript.isConnected(s))
             {
                 alive.count = 10;
                 return ECode.Success;
@@ -55,7 +55,7 @@ namespace Script
                 playerList = playerList,
                 allowNewPlayer = pmData.allowNewPlayer,
             };
-            var r = await s.sendAsync(MsgType.AAAOnPMAlive, msgAlive);
+            var r = await this.tcpClientScript.sendAsync(s, MsgType.AAAOnPMAlive, msgAlive);
 
             if (r.err != ECode.Success)
             {

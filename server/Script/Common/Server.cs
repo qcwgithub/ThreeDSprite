@@ -15,7 +15,8 @@ namespace Script
         public log4net.ILog logger { get; private set; }
 
         public BaseScript baseScript;
-        public NetProtoTcp tcp;
+        public TcpListenerScript tcpListenerScript;
+        public TcpClientScript tcpClientScript;
 
         public MessageDispatcher dispatcher;
         public SqlLog sqlLog;
@@ -44,10 +45,14 @@ namespace Script
             this.utils = new Utils();
             this.JSON = new JsonUtils();
             this.sqlLog = new SqlLog { server = this };
-            this.baseData.scriptProxy = this.tcp;
+
+            var scriptProxy = new ScriptProxy();
+            scriptProxy.onTcpListenerComplete = (TcpListenerData listener, SocketAsyncEventArgs e) => this.tcpListenerScript.onTcpListenerComplete(e);
+            scriptProxy.onTcpClientComplete = (TcpClientData tcpClient, SocketAsyncEventArgs e) => this.tcpClientScript.onTcpClientComplete(tcpClient, e);
+            this.baseData.scriptProxy = scriptProxy;
         }
 
-        public void onMessage(ISocket socket, bool fromServer, MsgType type, string msg, Action<ECode, string> reply)
+        public void onMessage(Data.TcpClientData socket, bool fromServer, MsgType type, string msg, Action<ECode, string> reply)
         {
             if (!fromServer && type < MsgType.ClientStart)
             {

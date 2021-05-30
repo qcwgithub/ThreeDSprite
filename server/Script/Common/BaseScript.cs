@@ -31,7 +31,7 @@ namespace Script
                 Console.WriteLine("loc == null, id: " + id);
                 // process.exit(1);
             }
-            return this.server.tcp.urlForServer(loc.inIp, loc.port);
+            return this.server.tcpListenerScript.urlForServer(loc.inIp, loc.port);
         }
         public Loc getKnownLoc(int id)
         {
@@ -89,7 +89,7 @@ namespace Script
             this.logger.Info("requstLoc " + this.server.JSON.stringify(ids));
             while (true)
             {
-                var r = await this.baseData.locSocket.sendAsync(
+                var r = await this.server.tcpClientScript.sendAsync(this.baseData.locSocket, 
                     MsgType.LocRequestLoc,
                     new MsgLocRequestLoc { ids = new List<int>(ids) });
 
@@ -112,20 +112,20 @@ namespace Script
             return ECode.Success;
         }
 
-        public async Task<ISocket> connectAsync(int toId)
+        public async Task<TcpClientData> connectAsync(int toId)
         {
             string url = this.getKnownUrlForServer(toId);
             this.logger.Info("connect to server... " + url);
             // string to = Utils.numberId2stringId(toId);
 
-            ISocket s = await this.server.tcp.connectAsync(url);
+            TcpClientData s = await this.server.tcpListenerScript.connectAsync(url);
             return s;
         }
 
         public void listen(Func<bool> acceptClient)
         {
             int port = this.myLoc().port;
-            this.server.tcp.listen(port, acceptClient);
+            this.server.tcpListenerScript.listen(port, acceptClient);
         }
 
         public T decodeMsg<T>(string msg)

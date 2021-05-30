@@ -1,69 +1,69 @@
-using System;
-using System.Threading.Tasks;
+// using System;
+// using System.Threading.Tasks;
 
-namespace Data
-{
-    // 用于服务器连接服务器
-    public class TcpClientConnectData : TcpClientData
-    {
-        string url;
+// namespace Data
+// {
+//     // 用于服务器连接服务器
+//     public class TcpClientConnectData : TcpClientData
+//     {
+//         string url;
 
-        public TcpClientConnectData(int socketId, ServerBaseData serverData, string url)
-            : base(socketId, serverData)
-        {
-            this.url = url;
+//         public TcpClientConnectData(int socketId, ServerBaseData serverData, string url)
+//             : base(socketId, serverData)
+//         {
+//             this.url = url;
 
-            int index = this.url.LastIndexOf(':');
-            string host = this.url.Substring(0, index);
-            string p = this.url.Substring(index + 1);
-            int port = int.Parse(p);
+//             int index = this.url.LastIndexOf(':');
+//             string host = this.url.Substring(0, index);
+//             string p = this.url.Substring(index + 1);
+//             int port = int.Parse(p);
 
-            _initConnectSocket(host, port);
-        }
-        public override bool isMessageFromServer { get { return true; } }
+//             _initConnectSocket(host, port);
+//         }
+//         public override bool isMessageFromServer { get { return true; } }
 
-        public virtual bool isConnector { get {return true;} }
-        protected override void onDisconnectComplete()
-        {
-            base.onDisconnectComplete();
-            Console.WriteLine("Server disconnect");
+//         public virtual bool isConnector { get {return true;} }
+//         protected override void onDisconnectComplete()
+//         {
+//             base.onDisconnectComplete();
+//             Console.WriteLine("Server disconnect");
 
-            this.serverData.scriptProxy.connectorOnDisconnect(this);
-            this.connectUntilSuccess();
-        }
+//             this.serverData.scriptProxy.connectorOnDisconnect(this);
+//             this.connectUntilSuccess();
+//         }
 
-        // public override async Task start()
-        // {
-        //     await this.connectUntilSuccess();
-        // }
+//         // public override async Task start()
+//         // {
+//         //     await this.connectUntilSuccess();
+//         // }
 
-        // protected async Task connectUntilSuccess()
-        // {
-        //     if (this.connecting || this.connected)
-        //         return;
+//         // protected async Task connectUntilSuccess()
+//         // {
+//         //     if (this.connecting || this.connected)
+//         //         return;
 
-        //     while (true)
-        //     {
-        //         this.connecting = true;
-        //         _connectAsync();
+//         //     while (true)
+//         //     {
+//         //         this.connecting = true;
+//         //         _connectAsync();
 
-        //         while (this.connecting)
-        //             await Task.Delay(10);
+//         //         while (this.connecting)
+//         //             await Task.Delay(10);
 
-        //         if (this.connected)
-        //             break;
-        //     }
-        // }
+//         //         if (this.connected)
+//         //             break;
+//         //     }
+//         // }
 
-        protected override void onConnectComplete()
-        {
-            this.connecting = false;
+//         protected override void onConnectComplete()
+//         {
+//             this.connecting = false;
 
-            this.connected = true;
-            this.startRecv();
-            this.startSend();
+//             this.connected = true;
+//             this.startRecv();
+//             this.startSend();
 
-            this.serverData.scriptProxy.connectorOnConnect(this);
-        }
-    }
-}
+//             this.serverData.scriptProxy.connectorOnConnect(this);
+//         }
+//     }
+// }

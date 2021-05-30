@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.Start; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             MyResponse r = null;
             this.baseScript.setState(ServerState.Starting);

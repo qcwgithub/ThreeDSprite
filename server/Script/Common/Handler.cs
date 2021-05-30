@@ -12,9 +12,10 @@ namespace Script
         public BaseScript baseScript { get { return this.server.baseScript; } }
         public log4net.ILog logger { get { return this.server.logger; } }
         public MessageDispatcher dispatcher { get { return this.server.dispatcher; } }
+        public TcpClientScript tcpClientScript { get { return this.server.tcpClientScript; } }
 
         public abstract MsgType msgType { get; }
-        public abstract Task<MyResponse> handle(ISocket socket, string _msg);
+        public abstract Task<MyResponse> handle(TcpClientData socket, string _msg);
         public virtual void postHandle(object socket, object msg) { }
         public string msgName { get { return this.msgType.ToString(); } }
     }

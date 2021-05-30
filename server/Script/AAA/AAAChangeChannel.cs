@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.AAAChangeChannel; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             MyResponse r = null;
             var msg = this.baseScript.decodeMsg<MsgChangeChannel>(_msg);

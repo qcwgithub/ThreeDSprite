@@ -127,7 +127,7 @@ namespace Script
         //     return new MyResponse(ECode.Success, accountInfo);
         // }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgLoginAAA>(_msg);
 
@@ -275,7 +275,7 @@ namespace Script
                     var v = kv.Value;
                     if (!v.allowNewPlayer)
                         continue;
-                    if (!v.socket.isConnected())
+                    if (!this.tcpClientScript.isConnected(v.socket))
                         continue;
 
                     if (pm == null || v.playerCount < pm.playerCount)
@@ -310,7 +310,7 @@ namespace Script
                 channelUserId = msg.channelUserId,
                 userName = aaaUserInfo.userName,
             };
-            r = await pm.socket.sendAsync(MsgType.PMPreparePlayerLogin, pmMsg);
+            r = await this.tcpClientScript.sendAsync(pm.socket, MsgType.PMPreparePlayerLogin, pmMsg);
             if (r.err != ECode.Success)
             {
                 return r;

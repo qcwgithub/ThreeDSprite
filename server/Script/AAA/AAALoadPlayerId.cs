@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data;
 
 namespace Script
 {
@@ -10,12 +11,12 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.AAALoadPlayerId; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             // 这个属于启动时必做的，可以使用 while
             while (true)
             {
-                if (!this.baseData.dbAccountSocket.isConnected())
+                if (!this.tcpClientScript.isConnected(this.baseData.dbAccountSocket))
                 {
                     // server.logger.info("AAALoadPlayerId db not connected");
                     await this.baseScript.waitAsync(1000);

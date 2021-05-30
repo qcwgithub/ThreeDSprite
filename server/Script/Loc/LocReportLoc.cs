@@ -7,7 +7,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.LocReportLoc; } }
 
-        public override Task<MyResponse> handle(ISocket socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgLocReportLoc>(_msg);
             this.logger.Info("+" + msg.id);
@@ -18,7 +18,7 @@ namespace Script
             }
 
             LocServerInfo info;
-            if (this.locData.map.TryGetValue(msg.id, out info) && info != null && info.socket != null && info.socket.isConnected())
+            if (this.locData.map.TryGetValue(msg.id, out info) && info != null && info.socket != null && this.server.tcpClientScript.isConnected(info.socket))
             {
                 this.server.logger.Error("server id used, id: " + msg.id);
                 return Task.FromResult(new MyResponse(ECode.ServerIdUsed));

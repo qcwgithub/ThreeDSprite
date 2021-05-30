@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.Broadcast; } }
 
-        public override Task<MyResponse> handle(ISocket socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgLocBroadcast>(_msg);
             this.logger.InfoFormat("LocBroadcast, ids: {0}, msgType: {1}", this.server.JSON.stringify(msg.ids), msg.msgType.ToString());
@@ -26,7 +26,7 @@ namespace Script
                 LocServerInfo info;
                 if (!this.locData.map.TryGetValue(id, out info) ||
                     info.socket == null ||
-                    !info.socket.isConnected())
+                    !this.server.tcpClientScript.isConnected(info.socket))
                 {
                     this.logger.Error("LocBroadcast failed, invalid id: " + id);
                     return Task.FromResult(new MyResponse(ECode.Error, null));
@@ -43,7 +43,7 @@ namespace Script
                 }
 
                 LocServerInfo info = this.locData.map[id];
-                info.socket.send(msg.msgType, msg.msg, null);
+                this.server.tcpClientScript.send(info.socket, msg.msgType, msg.msg, null);
             }
             this.logger.Debug("LocBroadcast success");
             return Task.FromResult(new MyResponse(ECode.Success, null));

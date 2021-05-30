@@ -7,7 +7,7 @@ namespace Script
     public class PMPlayerLogin : PMHandler
     {
         public override MsgType msgType { get { return MsgType.PMPlayerLogin; } }
-        public override Task<MyResponse> handle(ISocket socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgLoginPM>(_msg);
             // this.logger.info("PMPlayerLogin playerId: " + msg.playerId);
@@ -44,15 +44,15 @@ namespace Script
             {
                 // 情况1 同一个客户端意外地登录2次
                 // 情况2 客户端A已经登录，B再登录
-                this.logger.InfoFormat("2 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, oldSocket.getId());
+                this.logger.InfoFormat("2 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, this.tcpClientScript.getId(oldSocket));
                 var resMisc = new ResMisc
                 {
-                    oldSocketTimestamp = oldSocket.getClientTimestamp(),
+                    oldSocketTimestamp = this.tcpClientScript.getClientTimestamp(oldSocket),
                 };
                 return Task.FromResult(new MyResponse(ECode.OldSocket, resMisc));
             }
 
-            var oldPlayer = socket.getPlayer();
+            var oldPlayer = this.tcpClientScript.getPlayer(socket);
             if (oldPlayer != null)
             {
                 // 情况1 同一个客户端意外地登录2次
@@ -66,7 +66,7 @@ namespace Script
                 this.pmScript.clearDestroyTimer(player);
             }
 
-            socket.bindPlayer(player, msg.timestamp);
+            this.server.tcpClientScript.bindPlayer(socket, player, msg.timestamp);
             // this.baseScript.removePending(this.server.networkHelper.getSocketId(socket));
 
             if (!msg.isReconnect)

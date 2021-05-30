@@ -14,7 +14,7 @@ namespace Script
             this.server.logger.InfoFormat("MySqlConnection StateChange {0} -> {1}", e.OriginalState, e.CurrentState);
         }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg/* no use */)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg/* no use */)
         {
             this.baseScript.setState(ServerState.Starting);
 

@@ -17,7 +17,7 @@ namespace Script
                 values = values,
                 expectedAffectedRows = expectedAffectedRows,
             };
-            this.server.baseData.dbLogSocket.send(MsgType.DBQuery, msg, (e, r) =>
+            this.server.tcpClientScript.send(this.server.baseData.dbLogSocket, MsgType.DBQuery, msg, (e, r) =>
             {
                 if (e != ECode.Success)
                 {

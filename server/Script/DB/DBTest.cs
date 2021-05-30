@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Data;
 
 namespace Script
 {
@@ -7,7 +8,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.DBTest; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string msg)
         {
             // server.setTimerOnce(50, "DBQuery", {
             //     queryStr: "SELECT playerId FROM player_id;"

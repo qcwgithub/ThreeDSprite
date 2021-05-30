@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Threading.Tasks;
+using Data;
 
 namespace Script
 {
@@ -29,7 +30,7 @@ namespace Script
 
         public bool ddd = true;
         public string sss = "NEW";
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             this.ddd = false;
 

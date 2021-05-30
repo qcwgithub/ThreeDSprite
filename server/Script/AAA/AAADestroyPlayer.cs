@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.AAADestroyPlayer; } }
 
-        public override Task<MyResponse> handle(ISocket socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgDestroyPlayer>(_msg);
             var aaaData = this.aaaData;

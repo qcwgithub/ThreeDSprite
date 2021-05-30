@@ -9,7 +9,7 @@ namespace Data
     {
         public CProfile profile { get; set; }
 
-        public ISocket socket = null;
+        public TcpClientData socket = null;
         public string channel = null;
         public string channelUserId = null;
         public string token = null;

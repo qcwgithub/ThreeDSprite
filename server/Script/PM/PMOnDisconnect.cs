@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.OnDisconnect; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             await base.handle(socket, _msg);
 
@@ -19,7 +19,7 @@ namespace Script
                 return ECode.Success;
             }
 
-            var player = socket.getPlayer();
+            var player = this.tcpClientScript.getPlayer(socket);
             if (player == null)
             {
                 return ECode.Success;
@@ -27,7 +27,7 @@ namespace Script
 
             if (player.socket != null)
             {
-                player.socket.unbindPlayer(player);
+                this.tcpClientScript.unbindPlayer(player.socket, player);
             }
 
             this.server.sqlLog.player_logout(player);

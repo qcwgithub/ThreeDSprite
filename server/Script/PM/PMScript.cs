@@ -57,7 +57,7 @@ namespace Script
                 player.destroyTimer = -1;
                 this.logger.Info("send destroy playerId: " + player.id);
                 MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.id, place = "pmDestroyTimer" };
-                this.pmData.aaaSocket.send(MsgType.AAADestroyPlayer, msgDestroy, null);
+                this.server.tcpClientScript.send(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, null);
             }, SEC * 1000);
         }
 

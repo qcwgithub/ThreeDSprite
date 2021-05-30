@@ -8,7 +8,7 @@ namespace Script
     public class PMPlayerSave : PMHandler
     {
         public override MsgType msgType { get { return MsgType.PMPlayerSave; } }
-        public override Task<MyResponse> handle(ISocket socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgPlayerSCSave>(_msg);
             var player = this.data.GetPlayerInfo(msg.playerId);

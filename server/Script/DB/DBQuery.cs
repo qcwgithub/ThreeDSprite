@@ -11,7 +11,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.DBQuery; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgDBQuery>(_msg);
             this.logger.Debug("DBQuery: " + msg.queryStr);

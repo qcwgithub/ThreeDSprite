@@ -10,7 +10,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgPMAction>(_msg);
             this.logger.Info(this.msgName);
@@ -29,7 +29,7 @@ namespace Script
                     playerList = null,
                     allowNewPlayer = pmData.allowNewPlayer,
                 };
-                await this.data.aaaSocket.sendAsync(MsgType.AAAOnPMAlive, msgAlive);
+                await this.tcpClientScript.sendAsync(this.data.aaaSocket, MsgType.AAAOnPMAlive, msgAlive);
             }
 
             if (msg.allowClientConnect != null)
@@ -86,7 +86,7 @@ namespace Script
                     }
 
                     MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                    await this.data.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
+                    await this.tcpClientScript.sendAsync(this.data.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
                     await this.server.baseScript.waitAsync(10);
                 }
             }
@@ -102,7 +102,7 @@ namespace Script
                         continue;
                     }
                     MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                    await this.data.aaaSocket.sendAsync(MsgType.AAADestroyPlayer, msgDestroy);
+                    await this.tcpClientScript.sendAsync(this.data.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
                     await this.server.baseScript.waitAsync(10);
                 }
             }

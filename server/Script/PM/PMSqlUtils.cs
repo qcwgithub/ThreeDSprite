@@ -15,7 +15,7 @@ namespace Script
                 queryStr = "SELECT * FROM player WHERE id=@0;",
                 values = new List<object> { playerId }
             };
-            return await this.server.baseData.dbPlayerSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
         }
 
         private string createInsertQueryStr(PMPlayerInfo player, List<string> fields, List<object> values)
@@ -98,7 +98,7 @@ namespace Script
                 values = values,
                 expectedAffectedRows = 1,
             };
-            this.server.baseData.dbPlayerSocket.send(MsgType.DBQuery, msg, (e, r) =>
+            this.server.tcpClientScript.send(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, (e, r) =>
             {
                 if (e != ECode.Success)
                 {
@@ -121,7 +121,7 @@ namespace Script
                 values = values,
                 expectedAffectedRows = 1,
             };
-            return await this.server.baseData.dbPlayerSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
         }
 
         // 仅用于新玩家
@@ -156,7 +156,7 @@ namespace Script
                 expectedAffectedRows = 1,
             };
 
-            return await this.server.baseData.dbPlayerSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
         }
 
         public async Task<MyResponse> insertPayiOSYield(int playerId, string env, int id, string productId, string bundleId, int quantity, string transactionId, string originalTransactionId, int purchaseDateMs, int expiresDateMs)
@@ -172,7 +172,7 @@ namespace Script
             msg.valueTypes = new Dictionary<int, int>();
             msg.valueTypes[values.Count - 2] = (int)MyDBValueType.DateTime;
             msg.valueTypes[values.Count - 1] = (int)MyDBValueType.DateTime;
-            return await this.server.baseData.dbPlayerSocket.sendAsync(MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
         }
 
         private PMSqlHelpObject newHelpObject(PMPlayerInfo player)

@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.PMPreparePlayerLogin; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgPreparePlayerLogin>(_msg);
             var data = this.data;
@@ -26,11 +26,11 @@ namespace Script
                 {
                     // 情况1 同一个客户端意外地登录2次
                     // 情况2 客户端A已经登录，B再登录
-                    this.logger.InfoFormat("1 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, oldSocket.getId());
+                    this.logger.InfoFormat("1 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, this.tcpClientScript.getId(oldSocket));
 
                     var resMisc = new ResMisc
                     {
-                        oldSocketTimestamp = oldSocket.getClientTimestamp(),
+                        oldSocketTimestamp = this.tcpClientScript.getClientTimestamp(oldSocket),
                     };
                     return new MyResponse(ECode.OldSocket, resMisc);
                 }

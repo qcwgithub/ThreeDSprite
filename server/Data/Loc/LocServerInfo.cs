@@ -4,6 +4,6 @@ namespace Data
     {
         public int id;
         public Loc loc;
-        public ISocket socket;
+        public TcpClientData socket;
     }
 }

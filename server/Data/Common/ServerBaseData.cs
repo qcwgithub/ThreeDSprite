@@ -10,16 +10,16 @@ namespace Data
 
         // id: 所有服务器都不同
         public int id;
-        public IScriptProxy scriptProxy;
+        public ScriptProxy scriptProxy;
 
-        public TcpData tcpData;
+        public TcpListenerData tcpListener;
 
         /////////////////////////////////////////////////////////////////////
-        public ISocket aaaSocket;
-        public ISocket locSocket;
-        public ISocket dbAccountSocket;
-        public ISocket dbPlayerSocket;
-        public ISocket dbLogSocket;
+        public TcpClientData aaaSocket;
+        public TcpClientData locSocket;
+        public TcpClientData dbAccountSocket;
+        public TcpClientData dbPlayerSocket;
+        public TcpClientData dbLogSocket;
         public Dictionary<MsgType, IHandler> handlers = new Dictionary<MsgType, IHandler>();
         public WebSocketData webSocketData = new WebSocketData();
         /////////////////////////////////////////////////////////////////////

@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.PMDestroyPlayer; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgDestroyPlayer>(_msg);
 
@@ -28,7 +28,7 @@ namespace Script
 
             if (player.socket != null)
             {
-                player.socket.close(); // PMOnDisconnect
+                this.tcpClientScript.close(player.socket); // PMOnDisconnect
             }
 
             script.clearDestroyTimer(player, false);

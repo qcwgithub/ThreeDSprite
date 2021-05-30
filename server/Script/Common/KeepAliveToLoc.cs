@@ -7,9 +7,9 @@ namespace Script
     public class KeepAliveToLoc<T> : Handler<T> where T: Server
     {
         public override MsgType msgType { get { return MsgType.KeepAliveToLoc; } }
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
-            if (!this.baseData.locSocket.isConnected())
+            if (!this.server.tcpClientScript.isConnected(this.baseData.locSocket))
             {
                 this.baseData.locNeedReport = true;
                 return ECode.Success;
@@ -22,7 +22,7 @@ namespace Script
                 this.server.logger.Info("Keey alive to loc " + id);
                 this.baseData.locNeedReport = false;
 
-                var r = await this.baseData.locSocket.sendAsync(
+                var r = await this.tcpClientScript.sendAsync(this.baseData.locSocket, 
                     MsgType.LocReportLoc,
                     new MsgLocReportLoc { id = this.baseData.id, loc = this.baseScript.myLoc() }
                 );

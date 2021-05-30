@@ -9,7 +9,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.LocRequestLoc; } }
 
-        public override async Task<MyResponse> handle(ISocket socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
         {
             var msg = this.baseScript.decodeMsg<MsgLocRequestLoc>(_msg);
             this.logger.Info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
