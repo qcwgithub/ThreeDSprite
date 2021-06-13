@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\data.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

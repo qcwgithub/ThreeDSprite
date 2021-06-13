@@ -1,6 +1,6 @@
 namespace Data
 {
-    public class AAAPlayerInfo
+    public sealed class AAAPlayerInfo
     {
         public int id = 0; // playerId
                            // object socket = null;

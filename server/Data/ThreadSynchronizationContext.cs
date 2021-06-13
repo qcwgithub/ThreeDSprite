@@ -33,9 +33,9 @@ namespace ET
                 {
                     a();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(e);
+                    Data.Program.LogToLoggerOrConsole("Post exception ", ex, "error");
                 }
             }
         }
@@ -55,7 +55,7 @@ namespace ET
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Data.Program.LogToLoggerOrConsole("Post exception ", ex, "error");
                 }
 
                 return;

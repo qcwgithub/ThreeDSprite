@@ -1,0 +1,26 @@
+aaaAction [2] {
+	"pmPlayerRunScript": null,
+	"active": null,
+	"destroyAll": null,
+	"destroyPlayerIds": [130915]
+}
+
+// examples
+reloadScript [101]
+shutDown [1,2,4,11,12,13,101]
+pmAction [101] {
+	"playerRunScript": null,
+	"allowNewPlayer": null,
+	"allowClientConnect": null,
+	"playerDestroyTimeoutS": 120,
+	"playerSCSaveIntervalS": 60,
+	"destroyAll": null,
+	"destroyPlayerIds": null
+}
+
+aaaAction [2] {
+	"pmPlayerRunScript": null,
+	"active": null,
+	"destroyAll": null,
+	"destroyPlayerIds": null
+}

@@ -2,8 +2,7 @@ using System.Collections.Generic;
 
 namespace Data
 {
-
-    public class MsgPreparePlayerLogin
+    public class MsgPreparePlayerLogin : ISerializable
     {
         public int playerId;
         public string token;
@@ -11,7 +10,7 @@ namespace Data
         public string channelUserId;
         public string userName;
     }
-    public class ResPreparePlayerLogin
+    public class ResPreparePlayerLogin : ISerializable
     {
         public bool needUploadProfile;
     }
@@ -30,19 +29,12 @@ namespace Data
         gameScript,
     }
 
-    public class MsgReloadScript
+    public class MsgReloadScript : ISerializable
     {
-        // 要使用的JS文件
-        public string[] jsFiles;
-        // 对应的类型
-        // 
-        public ReloadType[] types;
-
-        //
-        public string[] varNames;
+        public string dllPath;
     }
 
-    public class MsgRunScript
+    public class MsgRunScript : ISerializable
     {
         public string script;
     }
@@ -51,12 +43,99 @@ namespace Data
     {
         DateTime = 1,
     }
-    public class MsgDBQuery
+    public abstract class MsgDBQuery
     {
         public string queryStr;
         public List<object> values;
         public Dictionary<int, int> valueTypes;//?: any; // null, or: index of values -> MyDBValueType
         public int expectedAffectedRows;//?: number;
+        
+        public int expectedCount;
+    }
+
+    public class MsgQueryAccountByPlayerId : ISerializable
+    {
+        public int playerId;
+    }
+
+    public class MsgQueryAccountByChannel : ISerializable
+    {
+        public string channel;
+        public string channelUserId;
+    }
+
+    public class MsgQueryAccountForChangeChannel : ISerializable
+    {
+        public string channel;
+        public string channelUserId;
+        public string notExistChannel;
+        public string notExistChannelUserId;
+    }
+
+    public class ResQueryAccount : ISerializable
+    {
+        public List<SqlTableAccount> list;
+    }
+
+    public class MsgDBInsertAccount : ISerializable
+    {
+        public SqlTableAccount accountInfo;
+    }
+    
+    public class MsgDBChangeChannel : ISerializable
+    {
+        public string channel1;
+        public string channelUserId1;
+        public string channel2;
+        public string channelUserId2;
+        public string userInfo;
+    }
+
+    public class MsgQueryPlayerById : ISerializable
+    {
+        public int playerId;
+    }
+
+    public class ResQueryPlayer : ISerializable
+    {
+        public List<SqlTablePlayer> list;
+    }
+
+    public class MsgLogPlayerLogin : ISerializable
+    {
+        public int playerId;
+    }
+    public class MsgLogPlayerLogout : ISerializable
+    {
+        public int playerId;
+    }
+    public class MsgLogChangeChannel : ISerializable
+    {
+        public int playerId;
+        public string channel1;
+        public string channelUserId1;
+        public string channel2;
+        public string channelUserId2;
+    }
+
+    public class MsgSavePlayer : ISerializable {}
+
+    public class MsgInsertPlayer : ISerializable
+    {
+        public SqlTablePlayer player;
+    }
+    public class MsgInsertPayiOS : ISerializable
+    {
+        public int playerId;
+        public string env;
+        public int id;
+        public string productId;
+        public string bundleId;
+        public int quantity;
+        public string transactionId;
+        public string originalTransactionId;
+        public int purchaseDateMs;
+        public int expiresDateMs;
     }
 
     public class LtPayResult
@@ -96,13 +175,17 @@ namespace Data
         public string payload;    // 透传字段，是我们自己的订单号
     }
 
-    public class MsgPlayerSCSave
+    public class MsgPlayerSCSave : ISerializable
     {
         public int playerId;
         public string place;
     }
 
-    public class MsgDestroyPlayer
+    public class MsgSendDestroyPlayer : ISerializable
+    {
+        public int playerId;
+    }
+    public class MsgDestroyPlayer : ISerializable
     {
         public int playerId;
         public string place;
@@ -113,7 +196,7 @@ namespace Data
         public List<int> playerIds;
         public string script;
     }
-    public class MsgPMAction
+    public class MsgPMAction : ISerializable
     {
         public _PRS playerRunScript;
         public string allowNewPlayer; // false 表示 AAA 不会分配新玩家到此 PM
@@ -124,7 +207,7 @@ namespace Data
         public List<int> destroyPlayerIds;
     }
 
-    public class MsgPMAlive
+    public class MsgPMAlive : ISerializable
     {
         public int id;
         public int playerCount;
@@ -133,7 +216,7 @@ namespace Data
         public bool allowNewPlayer;
     }
 
-    public class MsgAAAAction
+    public class MsgAAAAction : ISerializable
     {
         public _PRS pmPlayerRunScript; // 发送至 PM
         public string active;
@@ -141,42 +224,66 @@ namespace Data
         public List<int> destroyPlayerIds;
     }
 
-    public class MsgOnConnect
+    public class MsgOnConnect : ISerializable
     {
-        public bool isListen;
-        public bool isServer;
+        public bool isAcceptor;
+        // public bool isServer;
+    }
+    public class MsgOnDisconnect : ISerializable
+    {
+        public bool isAcceptor;
+        // public bool isServer;
+    }
+    public class MsgOnClose : ISerializable
+    {
+        public bool isAcceptor;
+        // public bool isServer;
     }
 
-    public class MsgLocBroadcast
+    public class MsgLocBroadcast : ISerializable
     {
-        public int[] ids;
+        public List<int> ids;
         public MsgType msgType;
-        public object msg;
+        public virtual object getMsg() { return null; }
+        public virtual void setMsg(object _msg) {}
     }
 
-    public class MsgLocReportLoc
+    public class MsgLocBroadcastMsgAAAAction : MsgLocBroadcast
+    {
+        public MsgAAAAction msg;
+        public override object getMsg() { return msg; }
+        public override void setMsg(object _msg) { msg = (MsgAAAAction)_msg; }
+    }
+    public class MsgLocBroadcastMsgPMAction : MsgLocBroadcast
+    {
+        public MsgPMAction msg;
+        public override object getMsg() { return msg; }
+        public override void setMsg(object _msg) { msg = (MsgPMAction)_msg; }
+    }
+
+    public class MsgLocReportLoc : ISerializable
     {
         public int id;
         public Loc loc;
     }
 
-    public class MsgLocRequestLoc
+    public class MsgLocRequestLoc : ISerializable
     {
         public List<int> ids;
     }
 
-    public class ResLocRequestLoc
+    public class ResLocRequestLoc : ISerializable
     {
         public List<Loc> locs;
     }
 
-    public class MsgKeepAliveToLoc
+    public class MsgKeepAliveToLoc : ISerializable
     {
         public bool isListen;
         public bool isServer;
     }
 
-    public class ResPMAlive
+    public class ResPMAlive : ISerializable
     {
         public bool requirePlayerList;
     }

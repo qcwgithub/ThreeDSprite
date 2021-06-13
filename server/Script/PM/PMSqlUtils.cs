@@ -8,14 +8,15 @@ namespace Script
 {
     public class PMSqlUtils : SqlUtils<PMServer>
     {
-        public async Task<MyResponse> selectPlayerYield(int playerId)
+        private Task<MyResponse> queryDBPlayer(MsgType msgType, object msg)
         {
-            var msg = new MsgDBQuery
-            {
-                queryStr = "SELECT * FROM player WHERE id=@0;",
-                values = new List<object> { playerId }
-            };
-            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+            return this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, msgType, msg);
+        }
+
+        public async Task<MyResponse> queryPlayerAsync(int playerId)
+        {
+            var msg = new MsgQueryPlayerById { playerId = playerId };
+            return await this.queryDBPlayer(MsgType.DBQueryPlayerById, msg);
         }
 
         private string createInsertQueryStr(PMPlayerInfo player, List<string> fields, List<object> values)
@@ -87,92 +88,45 @@ namespace Script
 
         private void saveFieldBatch(PMPlayerInfo player, List<string> fields, List<object> values)
         {
-            var queryStr = this.createUpdateQueryStr(player, fields, values);
-            if (queryStr == null)
-            {
-                return;
-            }
-            var msg = new MsgDBQuery
-            {
-                queryStr = queryStr,
-                values = values,
-                expectedAffectedRows = 1,
-            };
-            this.server.tcpClientScript.send(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg, (e, r) =>
-            {
-                if (e != ECode.Success)
-                {
-                    this.server.logger.Error("saveFieldBatch failed. " + queryStr);
-                }
-            });
+            var msg = new MsgSavePlayer();
+            this.queryDBPlayer(MsgType.DBSavePlayer, msg);
         }
 
-        public async Task<MyResponse> saveFieldBatchYield(PMPlayerInfo player, List<string> fields, List<object> values)
+        public Task<MyResponse> saveFieldBatchAsync(PMPlayerInfo player, List<string> fields, List<object> values)
         {
-            var queryStr = this.createUpdateQueryStr(player, fields, values);
-            if (queryStr == null)
-            {
-                return ECode.Error;
-            }
-
-            var msg = new MsgDBQuery
-            {
-                queryStr = queryStr,
-                values = values,
-                expectedAffectedRows = 1,
-            };
-            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+            var msg = new MsgSavePlayer();
+            return this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBSavePlayer, msg);
         }
 
         // 仅用于新玩家
         public async Task<MyResponse> insertPlayerYield(PMPlayerInfo player)
         {
-            var obj = new PMSqlHelpObject();
-            obj.player = player;
-            obj.fields = new List<string>();
-            obj.values = new List<object>();
-
-            //#region autoInsertPlayer >>>>>>>>自动生成区域开始
-
-            //#endregion autoInsertPlayer <<<<<<<<自动生成区域结束
-
-            // 注意索引被后面使用
-            obj.fields.Add("createTime");
-            obj.values.Add(this.server.gameScript.getTime());
-            var valueTypes = new Dictionary<int, int>();
-            valueTypes[obj.fields.Count - 1] = (int)MyDBValueType.DateTime;
-
-            var queryStr = this.createInsertQueryStr(player, obj.fields, obj.values);
-            if (queryStr == null)
+            var msg = new MsgInsertPlayer
             {
-                return ECode.Error;
-            }
-
-            var msg = new MsgDBQuery
-            {
-                queryStr = queryStr,
-                values = obj.values,
-                valueTypes = valueTypes,
-                expectedAffectedRows = 1,
+                player = new SqlTablePlayer{
+                    id = player.id,
+                }
             };
 
-            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBInsertPlayer, msg);
         }
 
         public async Task<MyResponse> insertPayiOSYield(int playerId, string env, int id, string productId, string bundleId, int quantity, string transactionId, string originalTransactionId, int purchaseDateMs, int expiresDateMs)
         {
-            var queryStr = "INSERT INTO payios (playerId,env,id,productId,bundleId,quantity,transactionId,originalTransactionId,purchaseDate,expiresDate) VALUES (@0,@1,@2,@3,@4,@5,@6,@7,@8,@9)";
-            List<object> values = new List<object> { playerId, env, id, productId, bundleId, quantity, transactionId, originalTransactionId, purchaseDateMs, expiresDateMs };
-            var msg = new MsgDBQuery
+            var msg = new MsgInsertPayiOS
             {
-                queryStr = queryStr,
-                values = values,
-                expectedAffectedRows = 1,
+                playerId = playerId,
+                env = env,
+                id = id,
+                productId = productId,
+                bundleId = bundleId,
+                quantity = quantity,
+                transactionId = transactionId,
+                originalTransactionId = originalTransactionId,
+                purchaseDateMs = purchaseDateMs,
+                expiresDateMs = expiresDateMs,
             };
-            msg.valueTypes = new Dictionary<int, int>();
-            msg.valueTypes[values.Count - 2] = (int)MyDBValueType.DateTime;
-            msg.valueTypes[values.Count - 1] = (int)MyDBValueType.DateTime;
-            return await this.server.tcpClientScript.sendAsync(this.server.baseData.dbPlayerSocket, MsgType.DBQuery, msg);
+            return await this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBInsertPayiOS, msg);
         }
 
         private PMSqlHelpObject newHelpObject(PMPlayerInfo player)
@@ -184,19 +138,19 @@ namespace Script
             return obj;
         }
 
-        public void save(PMPlayerInfo player, Action<PMSqlHelpObject> fun)
-        {
-            var obj = this.newHelpObject(player);
-            fun(obj);
-            this.saveFieldBatch(player, obj.fields, obj.values);
-        }
+        // public void save(PMPlayerInfo player, Action<PMSqlHelpObject> fun)
+        // {
+        //     var obj = this.newHelpObject(player);
+        //     fun(obj);
+        //     this.saveFieldBatch(player, obj.fields, obj.values);
+        // }
 
-        public async Task<MyResponse> saveYield(PMPlayerInfo player, Action<PMSqlHelpObject> fun)
-        {
-            var obj = this.newHelpObject(player);
-            fun(obj);
-            return await this.saveFieldBatchYield(player, obj.fields, obj.values);
-        }
+        // public async Task<MyResponse> saveYield(PMPlayerInfo player, Action<PMSqlHelpObject> fun)
+        // {
+        //     var obj = this.newHelpObject(player);
+        //     fun(obj);
+        //     return await this.saveFieldBatchYield(player, obj.fields, obj.values);
+        // }
 
         public PMSqlHelpObject beginSave(PMPlayerInfo player)
         {
@@ -208,9 +162,9 @@ namespace Script
             this.saveFieldBatch(obj.player, obj.fields, obj.values);
         }
 
-        public async Task<MyResponse> endSaveYield(PMSqlHelpObject obj)
+        public async Task<MyResponse> endSaveAsync(PMSqlHelpObject obj)
         {
-            return await this.saveFieldBatchYield(obj.player, obj.fields, obj.values);
+            return await this.saveFieldBatchAsync(obj.player, obj.fields, obj.values);
         }
     }
 }

@@ -9,10 +9,10 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             this.logger.Debug("PMGetSummary");
-            return ECode.Success;
+            return ECode.Success.toTask();
 
             // var info = {
             //     workingDir: process.cwd(),

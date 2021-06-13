@@ -14,14 +14,14 @@ namespace Script
         {
             if (channelUserId.Length != 36)
             {
-                return Task.FromResult(new MyResponse(ECode.InvalidChannelUserId));
+                return new MyResponse(ECode.InvalidChannelUserId).toTask();
             }
             var res = new AAAVerifyAccountResult
             {
                 accountMustExist = false,
                 data = null
             };
-            return Task.FromResult(new MyResponse(ECode.Success, res));
+            return new MyResponse(ECode.Success, res).toTask();
         }
     }
 }

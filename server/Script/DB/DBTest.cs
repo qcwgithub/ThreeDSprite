@@ -8,7 +8,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.DBTest; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             // server.setTimerOnce(50, "DBQuery", {
             //     queryStr: "SELECT playerId FROM player_id;"
@@ -17,8 +17,8 @@ namespace Script
             //     server.logger.info("DBTest rep: " + this.server.JSON.stringify(rep));
             // });
 
-            var a = msg;
-            await this.baseScript.waitAsync(1000);
+            // var a = msg;
+            await this.server.waitAsync(1000);
             return new MyResponse(ECode.Success, null);
             // a.triggerException();
             // reply(ECode.Success, "hello!!");

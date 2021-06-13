@@ -8,11 +8,10 @@ namespace Script
     public class PMKeepAliveToAAA : PMHandler
     {
         public override MsgType msgType { get { return MsgType.PMKeepAliveToAAA; } }
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket/* null */, object _msg /* null */)
         {
             PMData pmData = this.data; var alive = this.data.alive;
-            var s = pmData.aaaSocket;
-            if (!this.tcpClientScript.isConnected(s))
+            if (!this.server.tcpClientScript.isServerConnected(ServerConst.AAA_ID))
             {
                 alive.count = 10;
                 return ECode.Success;
@@ -28,9 +27,11 @@ namespace Script
                 alive.count++;
                 if (alive.count < 10)
                 {
+                    // this.server.logger.Info("(skip) keep alive to aaa V" + this.server.scriptDllVersion);
                     return ECode.Success;
                 }
             }
+            // this.server.logger.Info("keep alive to aaa V" + this.server.scriptDllVersion);
 
             alive.count = 0;
             alive.first = false;
@@ -51,11 +52,11 @@ namespace Script
             {
                 id = this.baseData.id,
                 playerCount = pmData.playerInfos.Count,
-                loc = this.baseScript.myLoc(),
+                loc = this.server.myLoc(),
                 playerList = playerList,
                 allowNewPlayer = pmData.allowNewPlayer,
             };
-            var r = await this.tcpClientScript.sendAsync(s, MsgType.AAAOnPMAlive, msgAlive);
+            var r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.AAA_ID, MsgType.AAAOnPMAlive, msgAlive);
 
             if (r.err != ECode.Success)
             {
@@ -64,13 +65,21 @@ namespace Script
             else
             {
                 this.data.aaaReady = true;
-                if (r.res != null && (r.res as ResPMAlive).requirePlayerList)
+                var resPMAlive = this.server.castObject<ResPMAlive>(r.res);
+                if (resPMAlive.requirePlayerList)
                 {
                     alive.requirePlayerList = true;
                 }
             }
 
             return ECode.Success;
+        }
+
+
+        public override MyResponse postHandle(object socket, object msg, MyResponse r)
+        {
+            this.server.setTimer(1, this.msgType, null);
+            return r;
         }
     }
 }

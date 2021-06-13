@@ -20,12 +20,17 @@ namespace Script
             XmlElement xmlRoot = configLoader.Log4netConfigXml;
 
             // find templates
+            XmlNode consoleAppender = null;
             XmlNode fileAppenderTemplate = null;
             XmlNode loggerTemplate = null;
 
             XmlNode node = xmlRoot.FirstChild;
             while (node != null)
             {
+                if (consoleAppender == null && node.Name == "appender" && node.Attributes["name"].Value == "console")
+                {
+                    consoleAppender = node;
+                }
                 if (fileAppenderTemplate == null && node.Name == "appender" && node.Attributes["name"].Value == "file")
                 {
                     fileAppenderTemplate = node;
@@ -37,10 +42,23 @@ namespace Script
                 node = node.NextSibling;
             }
 
-            if (fileAppenderTemplate == null || loggerTemplate == null)
+            if (consoleAppender == null || fileAppenderTemplate == null || loggerTemplate == null)
             {
                 throw new Exception("init log4net failed 1");
             }
+#if RELEASE
+            consoleAppender.ParentNode.RemoveChild(consoleAppender);
+            node = loggerTemplate.FirstChild;
+            while (node != null)
+            {
+                if (node.Name == "appender-ref" &&  node.Attributes["ref"].Value == "console")
+                {
+                    node.ParentNode.RemoveChild(node);
+                    break;
+                }
+                node = node.NextSibling;
+            }
+#endif
 
             // 
             foreach (string loggerName in loggerNamesToAdd)
@@ -89,6 +107,9 @@ namespace Script
                     throw new Exception("init log4net failed 3");
                 }
             }
+
+            fileAppenderTemplate.ParentNode.RemoveChild(fileAppenderTemplate);
+            loggerTemplate.ParentNode.RemoveChild(loggerTemplate);
 
             log4netRepo = LogManager.CreateRepository("my_log4net_repo");
             XmlConfigurator.Configure(log4netRepo, xmlRoot);

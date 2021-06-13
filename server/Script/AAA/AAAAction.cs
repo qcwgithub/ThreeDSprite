@@ -9,9 +9,11 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgAAAAction>(_msg);
+            this.server.logger.Info(this.msgName);
+
+            var msg = this.server.castObject<MsgAAAAction>(_msg);
 
             this.logger.Info(this.msgName);
             var aaaData = this.server.aaaData;
@@ -19,6 +21,7 @@ namespace Script
             if (msg.active != null)
             {
                 aaaData.active = msg.active == "true";
+                this.logger.Info("aaaData.active -> " + aaaData.active);
             }
 
             if (msg.pmPlayerRunScript != null)
@@ -46,8 +49,8 @@ namespace Script
                             script = msg.pmPlayerRunScript.script,
                         }
                     };
-                    await this.server.tcpClientScript.sendAsync(pm.socket, MsgType.ServerAction, msgAction);
-                    await this.server.baseScript.waitAsync(10);
+                    await this.server.tcpClientScript.sendToServerAsync(pm.id, MsgType.ServerAction, msgAction);
+                    await this.server.waitAsync(10);
                 }
             }
 
@@ -69,8 +72,8 @@ namespace Script
                     }
 
                     var msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                    this.server.baseScript.sendToSelf(MsgType.AAADestroyPlayer, msgDestroy);
-                    await this.server.baseScript.waitAsync(10);
+                    this.server.proxyDispatch(null, MsgType.AAADestroyPlayer, msgDestroy, null);
+                    await this.server.waitAsync(10);
                 }
             }
 
@@ -85,8 +88,8 @@ namespace Script
                         continue;
                     }
                     var msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                    this.server.baseScript.sendToSelf(MsgType.AAADestroyPlayer, msgDestroy);
-                    await this.server.baseScript.waitAsync(10);
+                    this.server.proxyDispatch(null, MsgType.AAADestroyPlayer, msgDestroy, null);
+                    await this.server.waitAsync(10);
                 }
             }
 

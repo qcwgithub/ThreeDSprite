@@ -9,14 +9,26 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.PMPreparePlayerLogin; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgPreparePlayerLogin>(_msg);
+            var msg = this.server.castObject<MsgPreparePlayerLogin>(_msg);
             var data = this.data;
             var script = this.pmScript;
             var logger = this.logger;
 
             this.logger.InfoFormat("{0} playerId: {1}", this.msgName, msg.playerId);
+
+            if (!data.aaaReady)
+            {
+                logger.InfoFormat("{0} !data.aaaReady", this.msgName);
+                return ECode.ServerNotReady;
+            }
+
+            if (!data.allowClientConnect)
+            {
+                logger.InfoFormat("{0} !data.allowClientConnect", this.msgName);
+                return ECode.ServerNotReady;
+            }
 
             var player = data.GetPlayerInfo(msg.playerId);
             if (player != null)
@@ -26,11 +38,11 @@ namespace Script
                 {
                     // 情况1 同一个客户端意外地登录2次
                     // 情况2 客户端A已经登录，B再登录
-                    this.logger.InfoFormat("1 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, this.tcpClientScript.getId(oldSocket));
+                    this.logger.InfoFormat("1 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, this.server.tcpClientScript.getSocketId(oldSocket));
 
                     var resMisc = new ResMisc
                     {
-                        oldSocketTimestamp = this.tcpClientScript.getClientTimestamp(oldSocket),
+                        oldSocketTimestamp = this.server.tcpClientScript.getClientTimestamp(oldSocket),
                     };
                     return new MyResponse(ECode.OldSocket, resMisc);
                 }
@@ -38,14 +50,14 @@ namespace Script
 
             if (player == null)
             {
-                var r = await this.pmSqlUtils.selectPlayerYield(msg.playerId);
+                var r = await this.pmSqlUtils.queryPlayerAsync(msg.playerId);
                 if (r.err != ECode.Success)
                 {
                     return r;
                 }
 
-                var dict = this.pmSqlUtils.DecodeSqlRecords(r.res);
-                if (this.pmSqlUtils.GetRecordsCount(dict) == 0)
+                var resPlayers = r.res as ResQueryPlayer;
+                if (resPlayers.list.Count == 0)
                 {
                     logger.Info($"player {msg.playerId} not exist, create a new one!");
                     // player not exist, create player now!
@@ -61,7 +73,7 @@ namespace Script
                 else
                 {
                     // decode playerInfo
-                    var sqlTablePlayer = SqlTablePlayer.FromRecord(dict, 0);
+                    var sqlTablePlayer = resPlayers.list[0];
                     player = script.decodePlayer(sqlTablePlayer);
                 }
 
@@ -84,7 +96,7 @@ namespace Script
             player.channelUserId = msg.channelUserId;
             player.token = msg.token;
             script.setDestroyTimer(player, "PMPreparePlayerLogin");
-            if (player.saveTimer == -1)
+            if (player.saveTimer == 0)
             {
                 this.pmScript.setSaveTimer(player);
             }

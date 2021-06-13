@@ -9,10 +9,10 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.LocRequestLoc; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgLocRequestLoc>(_msg);
-            this.logger.Info("LocRequestConfig ids: " + this.server.JSON.stringify(msg.ids));
+            var msg = this.server.castObject<MsgLocRequestLoc>(_msg);
+            this.logger.Info("LocRequestLoc ids: " + this.server.JSON.stringify(msg.ids));
 
             if (msg.ids == null)
             {
@@ -38,7 +38,7 @@ namespace Script
                 LocServerInfo info;
                 if (!this.locData.map.TryGetValue(id, out info))
                 {
-                    await this.baseScript.waitAsync(1000);
+                    await this.server.waitAsync(1000);
                 }
                 else
                 {

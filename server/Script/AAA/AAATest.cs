@@ -12,7 +12,7 @@ namespace Script
         private async Task<MyResponse> sub2()
         {
             this.logger.Debug("AAATest, 3..." + this.sss);
-            await this.baseScript.waitAsync(10000);
+            await this.server.waitAsync(10000);
             this.logger.Debug("AAATest, 4..." + this.sss);
             return ECode.Success;
         }
@@ -24,13 +24,13 @@ namespace Script
             this.logger.Debug("AAATest, 5..." + this.sss);
             r = await this.sub2();
             this.logger.Debug("AAATest, 6..." + this.sss);
-            await this.baseScript.waitAsync(5000);
+            await this.server.waitAsync(5000);
             return ECode.Success;
         }
 
         public bool ddd = true;
         public string sss = "NEW";
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             this.ddd = false;
 

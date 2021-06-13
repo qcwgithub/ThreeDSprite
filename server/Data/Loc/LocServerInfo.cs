@@ -1,9 +1,8 @@
 namespace Data
 {
-    public class LocServerInfo
+    public sealed class LocServerInfo
     {
         public int id;
         public Loc loc;
-        public TcpClientData socket;
     }
 }

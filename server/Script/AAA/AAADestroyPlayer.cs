@@ -9,25 +9,25 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.AAADestroyPlayer; } }
 
-        public override Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket/* null */, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgDestroyPlayer>(_msg);
+            var msg = this.server.castObject<MsgDestroyPlayer>(_msg);
             var aaaData = this.aaaData;
             var aaaScript = this.aaaScript;
             this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);
 
             var playerlock = "player_" + msg.playerId;
-            if (this.baseScript.isLocked(playerlock))
-            {
-                this.logger.InfoFormat("{0} player is busy, playerId: {1}", this.msgName, msg.playerId);
-                return Task.FromResult(new MyResponse(ECode.PlayerLock));
-            }
+            // if (this.baseScript.isLocked(playerlock))
+            // {
+            //     this.logger.InfoFormat("{0} player is busy, playerId: {1}", this.msgName, msg.playerId);
+            //     return ECode.PlayerLock.toTask();
+            // }
 
             AAAPlayerInfo playerInfo = aaaData.GetPlayerInfo(msg.playerId);
             if (playerInfo == null)
             {
                 this.server.logger.ErrorFormat("{0} player not exit, playerId: {1}", this.msgName, msg.playerId);
-                return Task.FromResult(new MyResponse(ECode.PlayerNotExist));
+                return new MyResponse(ECode.PlayerNotExist).toTask();
             }
 
             aaaData.playerInfos.Remove(msg.playerId);
@@ -38,7 +38,7 @@ namespace Script
                 if (pmInfo != null)
                 {
                     var msgPm = new MsgDestroyPlayer { playerId = playerInfo.id, place = msg.place };
-                    this.tcpClientScript.send(pmInfo.socket, MsgType.PMDestroyPlayer, msgPm, null);
+                    this.server.tcpClientScript.sendToServer(pmInfo.id, MsgType.PMDestroyPlayer, msgPm, null);
                 }
                 else
                 {
@@ -46,7 +46,7 @@ namespace Script
                 }
             }
 
-            return Task.FromResult(new MyResponse(ECode.Success));
+            return ECode.Success.toTask();
         }
     }
 }

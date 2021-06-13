@@ -10,7 +10,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-        public override Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             this.logger.Debug("AAAGetSummary");
             var data = this.aaaData;
@@ -28,7 +28,7 @@ namespace Script
         };
             // m.accountInfos_size = data.accountInfos.size;
 
-            return Task.FromResult(new MyResponse(ECode.Success, new List<Dictionary<string, string>> { info }));
+            return new MyResponse(ECode.Success, new List<Dictionary<string, string>> { info }).toTask();
         }
     }
 }

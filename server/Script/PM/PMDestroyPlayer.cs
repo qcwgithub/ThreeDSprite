@@ -9,9 +9,9 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.PMDestroyPlayer; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgDestroyPlayer>(_msg);
+            var msg = this.server.castObject<MsgDestroyPlayer>(_msg);
 
             var data = this.data;
             var script = this.pmScript;
@@ -23,12 +23,12 @@ namespace Script
             if (player == null)
             {
                 logger.InfoFormat("{0} player not exit, playerId: {1}", this.msgName, msg.playerId);
-                return ECode.PlayerNotExist;
+                return ECode.PlayerNotExist.toTask();
             }
 
             if (player.socket != null)
             {
-                this.tcpClientScript.close(player.socket); // PMOnDisconnect
+                this.server.tcpClientScript.close(player.socket, "PMDestroyPlayer"); // PMOnDisconnect
             }
 
             script.clearDestroyTimer(player, false);
@@ -36,10 +36,10 @@ namespace Script
             // 保存一次
             script.clearSaveTimer(player);
             var msgSave = new MsgPlayerSCSave { playerId = player.id, place = this.msgName };
-            this.baseScript.sendToSelf(MsgType.PMPlayerSave, msgSave); // 同步
+            this.server.proxyDispatch(null, MsgType.PMPlayerSave, msgSave, null);
 
             data.playerInfos.Remove(msg.playerId);
-            return ECode.Success;
+            return ECode.Success.toTask();
         }
     }
 }

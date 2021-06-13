@@ -12,12 +12,12 @@
 		
 		<mapping>
 			<level value="INFO" />
-			<foreColor value="White" />
+			<foreColor value="Gray" />
 		</mapping>
 		
 		<mapping>
 			<level value="DEBUG" />
-			<foreColor value="Blue" />
+			<foreColor value="Cyan" />
 		</mapping>
         
         <filter type="log4net.Filter.LevelRangeFilter">    

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Data
 {
-    public class SqlConfig
+    public sealed class SqlConfig
     {
         public int connectionLimit;
         public string user;
@@ -11,7 +11,7 @@ namespace Data
         public string database;
     }
 
-    public sealed class DBData : ServerBaseData
+    public sealed class DBData : ServerData
     {
         public SqlConfig sqlConfig;
         public string connectionString;

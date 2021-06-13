@@ -11,7 +11,8 @@ namespace Script
             var tb = new SqlTablePlayer();
             tb.id = player.id;
 
-            var p = player.profile;
+            var p = player.Profile;
+            //...
             return tb;
         }
     }

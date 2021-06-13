@@ -9,10 +9,10 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.PMChangeChannel; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgChangeChannel>(_msg);
-            var player = this.tcpClientScript.getPlayer(socket);
+            var msg = this.server.castObject<MsgChangeChannel>(_msg);
+            var player = this.server.tcpClientScript.getPlayer(socket);
             if (player == null)
             {
                 return ECode.PlayerNotExist;
@@ -30,7 +30,7 @@ namespace Script
 
             msg.playerId = player.id;
 
-            var r = await this.tcpClientScript.sendAsync(this.data.aaaSocket, MsgType.AAAChangeChannel, msg);
+            var r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.AAA_ID, MsgType.AAAChangeChannel, msg);
             if (r.err != ECode.Success)
             {
                 return r;

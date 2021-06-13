@@ -22,7 +22,7 @@ namespace Script
                 res.accountMustExist = true;
             }
 
-            return Task.FromResult(new MyResponse(ECode.Success, res));
+            return new MyResponse(ECode.Success, res).toTask();
         }
     }
 }

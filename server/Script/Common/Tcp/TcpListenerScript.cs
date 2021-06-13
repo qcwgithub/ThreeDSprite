@@ -5,19 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Script
 {
     public class TcpListenerScript : IServerScript<Server>
     {
         public Server server { get; set; }
-        public TcpListenerData @this
-        {
-            get
-            {
-                return this.server.baseData.tcpListener;
-            }
-        }
 
         /////////////////////// connect ///////////////////////////
 
@@ -30,140 +24,62 @@ namespace Script
             return url;
         }
 
-        public async Task<TcpClientData> connectAsync(string url)
+        private void enableKeepAlive(Socket socket)
         {
-            var connectorData = new TcpClientData();
-            this.server.tcpClientScript.connectorConstructor(connectorData, url, @this.socketId++, this.server.baseData);
-            await this.server.tcpClientScript.start(connectorData);
-            return connectorData;
+            /*
+            // https://darchuk.net/2019/01/04/c-setting-socket-keep-alive/
+            // Get the size of the uint to use to back the byte array
+            int size = Marshal.SizeOf((uint)0);
+
+            // Create the byte array
+            byte[] keepAlive = new byte[size * 3];
+
+            // Pack the byte array:
+            // Turn keepalive on
+            Buffer.BlockCopy(BitConverter.GetBytes((uint)1), 0, keepAlive, 0, size);
+            // Set amount of time without activity before sending a keepalive to 5 seconds
+            Buffer.BlockCopy(BitConverter.GetBytes((uint)5000), 0, keepAlive, size, size);
+            // Set keepalive interval to 5 seconds
+            Buffer.BlockCopy(BitConverter.GetBytes((uint)5000), 0, keepAlive, size * 2, size);
+
+            // Set the keep-alive settings on the underlying Socket
+            socket.IOControl(IOControlCode.KeepAliveValues, keepAlive, null);
+            */
+
+            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
+            // TcpKeepAliveInterval
+            // 发送一个 probe 后，等多久再发送
+            socket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.TcpKeepAliveInterval, 3);
+            // TcpKeepAliveTime
+            // 应该是，多久没动静了，才开始发送探针
+            socket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.TcpKeepAliveTime, 5);
+            // TcpKeepAliveRetryCount
+            // 总的尝试几次探针
+            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.TcpKeepAliveRetryCount, 2);
         }
 
-        string msgOnConnect = null;
-        string msgOnDisconnect = null;
-
-        string msgOnConnect_true = null;
-        string msgOnConnect_false = null;
-        string msgOnDisconnect_true = null;
-        string msgOnDisconnect_false = null;
-
-        void initMsgConnect()
-        {
-            if (msgOnConnect == null)
-            {
-                this.msgOnConnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
-                this.msgOnDisconnect = this.server.JSON.stringify(new MsgOnConnect { isListen = false, isServer = true });
-                this.msgOnConnect_true = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = true });
-                this.msgOnConnect_false = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
-                this.msgOnDisconnect_true = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = true });
-                this.msgOnDisconnect_false = this.server.JSON.stringify(new MsgOnConnect { isListen = true, isServer = false });
-            }
-        }
-        public void onConnect(TcpClientData tcpClient)
-        {
-            this.initMsgConnect();
-            if (tcpClient.isConnector)
-            {
-                this.server.dispatcher.dispatch(tcpClient, MsgType.OnConnect, this.msgOnConnect, null);
-            }
-            else
-            {
-                this.server.dispatcher.dispatch(tcpClient, MsgType.OnConnect, tcpClient.connectedFromServer ? msgOnConnect_true : msgOnConnect_false, null);
-            }
-        }
-
-        public void onDisconnect(TcpClientData tcpClient)
-        {
-            this.initMsgConnect();
-            if (tcpClient.isConnector)
-            {
-                this.server.dispatcher.dispatch(tcpClient, MsgType.OnDisconnect, this.msgOnDisconnect, null);
-            }
-            else
-            {
-                this.server.dispatcher.dispatch(tcpClient, MsgType.OnDisconnect, tcpClient.connectedFromServer ? msgOnDisconnect_true : msgOnDisconnect_false, null);
-            }
-        }
-
-        /////////////////////// accept ///////////////////////////
-
-        public void listen(int port, Func<bool> acceptClient)
-        {
-            var socket = @this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var e = @this.listenSocketArg = new SocketAsyncEventArgs();
-            e.Completed += @this._eCompleted_multiThreaded;
-
-            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-
-            socket.Bind(new IPEndPoint(IPAddress.Any, port));
-            socket.Listen(1000);
-
-            this.acceptAsync(e);
-        }
-
-        public void onTcpListenerComplete(SocketAsyncEventArgs e)
-        {
-            switch (e.LastOperation)
-            {
-                case SocketAsyncOperation.Accept:
-                    this.onAcceptComplete(e);
-                    break;
-                default:
-                    throw new Exception($"socket accept error: {e.LastOperation}");
-            }
-        }
-
-        private void acceptAsync(SocketAsyncEventArgs e)
-        {
-            e.AcceptSocket = null;
-            bool completed = !@this.socket.AcceptAsync(e);
-            if (completed)
-            {
-                // this.onAcceptComplete(e); // moved to script
-                this.onAcceptComplete(e);
-            }
-        }
-
-        public void onAcceptComplete(SocketAsyncEventArgs e)
+        public void onAcceptComplete(TcpListenerData tcpListener, SocketAsyncEventArgs e)
         {
             if (e.SocketError != SocketError.Success)
             {
-                //Log.Error($"accept error {innArgs.SocketError}");
-                this.acceptAsync(e);
                 return;
             }
+            
+            var tcpClientData = new TcpClientData();
+            var socket = e.AcceptSocket;
+            socket.NoDelay = true;
 
-            bool isServer = true; // TODO
-            @this.acceptorData = new TcpClientData();
-            this.server.tcpClientScript.acceptorConstructor(@this.acceptorData, e.AcceptSocket, @this.socketId++, this.server.baseData, isServer);
-            this.server.tcpClientScript.start(@this.acceptorData);
+            //////////////////////////////////////////////////////////
+            // 先去掉，等客户端打包再测试
+            // enableKeepAlive(socket);
+            //////////////////////////////////////////////////////////
 
-            // continue accept
-            this.acceptAsync(e);
-        }
+            this.server.tcpClientScript.acceptorConstructor(tcpClientData, socket, tcpListener.isForClient);
+            this.server.tcpClientScript.recv(tcpClientData);
+            this.server.tcpClientScript.send(tcpClientData);
 
-        public void onMessage(TcpClientData socket, bool fromServer, MsgType type, string msg, Action<ECode, string> reply)
-        {
-            if (!fromServer && type < MsgType.ClientStart)
-            {
-                this.server.logger.Error("receive invalid message from client! " + type.ToString());
-                if (reply != null)
-                {
-                    reply(ECode.Exception, null);
-                }
-                return;
-            }
-
-            if (string.IsNullOrEmpty(msg))
-            {
-                this.server.logger.Error("message must be object!! type: " + type.ToString());
-                if (reply != null)
-                {
-                    reply(ECode.Exception, null);
-                }
-                return;
-            }
-
-            this.server.dispatcher.dispatch(socket, type, msg, reply);
+            tcpListener.accept();
         }
     }
 }

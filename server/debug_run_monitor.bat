@@ -1,0 +1,1 @@
+dotnet Data\bin\Debug\netcoreapp3.1\Data.dll scriptDll=Script\bin\Debug\netcoreapp3.1\Script.dll ids=[4] purpose=Test

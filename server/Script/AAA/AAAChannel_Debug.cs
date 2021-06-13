@@ -9,11 +9,11 @@ namespace Script
     public class AAAChannel_Debug : IServerScript<AAAServer>
     {
         public AAAServer server { get; set; }
-        public async Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)
+        public Task<MyResponse> verifyAccount(string channelUserId, Dictionary<string, object> verifyData)
         {
-            if (!this.server.baseScript.isDevelopment())
+            if (!this.server.isDevelopment())
             {
-                return ECode.Error;
+                return ECode.Error.toTask();
             }
             var res = new AAAVerifyAccountResult
             {
@@ -21,7 +21,7 @@ namespace Script
                 data = null
             };
 
-            return new MyResponse(ECode.Success, res);
+            return new MyResponse(ECode.Success, res).toTask();
         }
     }
 }

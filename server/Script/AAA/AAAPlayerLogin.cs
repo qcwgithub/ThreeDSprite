@@ -10,11 +10,6 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.AAAPlayerLogin; } }
 
-        private async Task<MyResponse> queryAccount(string channel, string channelUserId)
-        {
-            return await this.server.aaaSqlUtils.queryAccountYield(channel, channelUserId);
-        }
-
         private async Task<MyResponse> newAccount(
             string platform, string channel, string channelUserId, string oaid, string imei, string userInfo)
         {
@@ -22,7 +17,7 @@ namespace Script
 
             var playerId = this.aaaData.nextPlayerId++;
             this.logger.Info($"account {channel},{channelUserId} does not exist, new playerId: {playerId}");
-            var r = await this.server.aaaSqlUtils.updatePlayerIdYield(this.aaaData.nextPlayerId);
+            var r = await this.server.aaaSqlUtils.updatePlayerIdAsync(this.aaaData.nextPlayerId);
             if (r.err != ECode.Success)
             {
                 return r;
@@ -35,14 +30,19 @@ namespace Script
                 channelUserId = channelUserId,
                 playerId = playerId,
                 isBan = false,
-                unbanTime = 0,
-                createTime = this.server.baseScript.getTimeMs(),
+                unbanTimeS = 0,
+                createTimeS = this.server.getTimeS(),
                 oaid = oaid,
                 imei = imei,
                 userInfo = userInfo,
             };
 
-            return await this.server.aaaSqlUtils.insertAccountYield(accountInfo);
+            r = await this.server.aaaSqlUtils.insertAccountAsync(accountInfo);
+            if (r.err != ECode.Success)
+            {
+                return r;
+            }
+            return new MyResponse(ECode.Success, accountInfo);
         }
 
 
@@ -127,9 +127,9 @@ namespace Script
         //     return new MyResponse(ECode.Success, accountInfo);
         // }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgLoginAAA>(_msg);
+            var msg = this.server.castObject<MsgLoginAAA>(_msg);
 
             var logger = this.logger;
             var aaaData = this.aaaData;
@@ -137,8 +137,19 @@ namespace Script
 
             if (!(aaaData.nextPlayerId > 0))
             {
-                logger.Info("server not ready");
-                //r.err = ECode.ServerNotReady;
+                logger.InfoFormat("{0} !(aaaData.nextPlayerId > 0)", this.msgName);
+                return ECode.ServerNotReady;
+            }
+
+            if (!aaaData.active)
+            {
+                logger.InfoFormat("{0} !aaaData.active", this.msgName);
+                return ECode.ServerNotReady;
+            }
+            
+            if (!aaaData.pmReady)
+            {
+                logger.InfoFormat("{0} !aaaData.pmReady", this.msgName);
                 return ECode.ServerNotReady;
             }
 
@@ -186,15 +197,15 @@ namespace Script
             var aaaUserInfo = this.aaaScript.getUserInfo(msg.channel, msg.channelUserId, msg.verifyData);
 
             // 查询已有账号
-            r = await this.queryAccount(msg.channel, msg.channelUserId);
+            r = await this.server.aaaSqlUtils.queryAccountByChannel(msg.channel, msg.channelUserId);
             if (r.err != ECode.Success)
             {
                 return r;
             }
 
-            var accountInfo = r.res as SqlTableAccount;
-
-            if (accountInfo == null)
+            var resDBQueryAccount = r.res as ResQueryAccount;
+            SqlTableAccount accountInfo = null;
+            if (resDBQueryAccount.list.Count == 0)
             {
                 if (verifyResult.accountMustExist)
                 {
@@ -211,6 +222,10 @@ namespace Script
                 }
                 accountInfo = r.res as SqlTableAccount;
             }
+            else
+            {
+                accountInfo = resDBQueryAccount.list[0];
+            }
 
             // if (msg2.testId) {
             //     r = r = await this.devAuth(msg2.testId);
@@ -224,17 +239,17 @@ namespace Script
             // }
             // accountInfo = r.res;
 
-            if (accountInfo.isBan)
-            {
-                if (this.baseScript.getTimeMs() > accountInfo.unbanTime)
-                {
-                    this.server.aaaSqlUtils.unbanAccount(accountInfo.playerId);
-                }
-                else
-                {
-                    return ECode.AccountBan;
-                }
-            }
+            // if (accountInfo.isBan)
+            // {
+            //     if (this.server.getTimeMs() > accountInfo.unbanTime)
+            //     {
+            //         this.server.aaaSqlUtils.unbanAccount(accountInfo.playerId);
+            //     }
+            //     else
+            //     {
+            //         return ECode.AccountBan;
+            //     }
+            // }
 
             // var $p = "player_" + accountInfo.playerId;
             // if (this.baseScript.isLocked($p)) {
@@ -275,7 +290,7 @@ namespace Script
                     var v = kv.Value;
                     if (!v.allowNewPlayer)
                         continue;
-                    if (!this.tcpClientScript.isConnected(v.socket))
+                    if (!this.server.tcpClientScript.isServerConnected(v.id))
                         continue;
 
                     if (pm == null || v.playerCount < pm.playerCount)
@@ -310,22 +325,22 @@ namespace Script
                 channelUserId = msg.channelUserId,
                 userName = aaaUserInfo.userName,
             };
-            r = await this.tcpClientScript.sendAsync(pm.socket, MsgType.PMPreparePlayerLogin, pmMsg);
+            r = await this.server.tcpClientScript.sendToServerAsync(pm.id, MsgType.PMPreparePlayerLogin, pmMsg);
             if (r.err != ECode.Success)
             {
                 return r;
             }
 
-            var pmLoc = this.server.baseScript.getKnownLoc(pm.id);
-            string pmUrl = "";
-            if (msg.platform == "ios")
-            {
-                pmUrl = "wss://" + pmLoc.outDomain + ":" + pmLoc.port + "?sign=" + ServerConst.CLIENT_SIGN;
-            }
-            else
-            {
-                pmUrl = "ws://" + pmLoc.outIp + ":" + pmLoc.port + "?sign=" + ServerConst.CLIENT_SIGN;
-            }
+            var pmLoc = this.server.getKnownLoc(pm.id);
+            // string pmUrl = "";
+            // if (msg.platform == "ios")
+            // {
+            //     pmUrl = "wss://" + pmLoc.outDomain + ":" + pmLoc.port + "?sign=" + ServerConst.CLIENT_SIGN;
+            // }
+            // else
+            // {
+            //     pmUrl = "ws://" + pmLoc.outIp + ":" + pmLoc.port + "?sign=" + ServerConst.CLIENT_SIGN;
+            // }
 
             var pmRes = r.res as ResPreparePlayerLogin;
             var clientRes = new ResLoginAAA
@@ -334,7 +349,9 @@ namespace Script
                 channelUserId = msg.channelUserId,
                 playerId = player.id,
                 pmId = pm.id,
-                pmUrl = pmUrl,
+                // pmUrl = pmUrl,
+                pmIp = pmLoc.outIp,
+                pmPort = pmLoc.outPort,
                 pmToken = token,
                 needUploadProfile = pmRes.needUploadProfile,
             };

@@ -12,32 +12,12 @@ namespace Script
 {
     public class ScriptEntry : IScriptEntry
     {
-        Dictionary<string, string> ParseArguments(string[] args)
+        bool InitDataOnce(Dictionary<string, string> args, DataEntry global, JsonUtils JSON)
         {
-            var argMap = new Dictionary<string, string>();
-            for (int i = 0; i < args.Length; i++)
-            {
-                var arg = args[i];
-                int index = arg.IndexOf('=');
-                if (index > 0)
-                {
-                    string key = arg.Substring(0, index);
-                    string value = arg.Substring(index + 1);
-                    Console.WriteLine(key + ": " + value);
-                    argMap.Add(key, value);
-                }
-            }
-            return argMap;
-        }
-
-        bool InitDataOnce(string[] args, DataEntry global, JsonUtils JSON)
-        {
-            var argMap = this.ParseArguments(args);
-
             List<int> serverIds = null;
-            string ids = argMap["ids"];
+            string ids = args["ids"];
             if (ids == "all")
-                serverIds = new List<int> { 1, 2, 3, 11, 12, 13, 101 };
+                serverIds = new List<int> { 1, 2, 3, 4, 11, 12, 13, 101 };
             else
                 serverIds = JSON.parse<List<int>>(ids);
 
@@ -47,7 +27,7 @@ namespace Script
                 return false;
             }
 
-            var purpose = Enum.Parse<Purpose>(argMap["purpose"]);
+            var purpose = Enum.Parse<Purpose>(args["purpose"]);
 
             var configLoader = new ConfigLoader();
             configLoader.Load(JSON, purpose);
@@ -61,28 +41,31 @@ namespace Script
             return true;
         }
 
-        public bool OnLoad(string[] args, DataEntry global)
+        List<Server> servers;
+        int version;
+        public int GetVersion()
         {
+            return this.version;
+        }
+        public bool OnLoad(Dictionary<string, string> args, DataEntry dataEntry, int version)
+        {
+            this.version = version;
             JsonUtils JSON = new JsonUtils();
-            if (!global.inited)
+            if (!dataEntry.inited)
             {
-                if (!this.InitDataOnce(args, global, JSON))
+                if (!this.InitDataOnce(args, dataEntry, JSON))
                 {
                     return false;
                 }
 
-                global.inited = true;
-
-                //------------------------
-                // 异步方法全部会回掉到主线程
-                SynchronizationContext.SetSynchronizationContext(ET.ThreadSynchronizationContext.Instance);
+                dataEntry.inited = true;
             }
 
             var serverCreation = new ServerCreation();
-            List<Server> servers = serverCreation.Create(global);
-            foreach (Server server in servers)
+            this.servers = serverCreation.Create(dataEntry, version);
+            foreach (Server server in this.servers)
             {
-                server.dispatcher.dispatch(null, MsgType.Start, null, null);
+                server.proxyDispatch(null, MsgType.AskForStart, null, null);
             }
 
             return true;
@@ -90,7 +73,10 @@ namespace Script
 
         public void OnUnload()
         {
-            
+            foreach (Server server in this.servers)
+            {
+                server.OnUnload();
+            }
         }
     }
 }

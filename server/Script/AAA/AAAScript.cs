@@ -11,53 +11,47 @@ namespace Script
         public AAAServer server { get; set; }
         public AAAData aaaData { get { return this.server.aaaData; } }
 
-        public BaseScript baseScript { get { return this.server.baseScript; } }
-
-        public bool acceptClient()
-        {
-            return aaaData.state == ServerState.Started && aaaData.active && aaaData.playerIdReady && aaaData.pmReady;
-        }
-
         public async Task<MyResponse> verifyAccount(string channel, string channelUserId, Dictionary<string, object> verifyData)
         {
-            if (channel == HermesChannels.uuid)
+            MyResponse r = null;
+            if (channel == MyChannels.uuid)
             {
                 // if (msg.channelUserId == null) {
                 //     msg.channelUserId = v4();
                 // }
 
-                var r = await this.server.channelUuid.verifyAccount(channelUserId, verifyData);
+                r = await this.server.channelUuid.verifyAccount(channelUserId, verifyData);
                 if (r.err != ECode.Success)
                 {
                     return r;
                 }
             }
-            else if (channel == HermesChannels.debug)
+            else if (channel == MyChannels.debug)
             {
-                var r = await this.server.channelDebug.verifyAccount(channelUserId, verifyData);
+                r = await this.server.channelDebug.verifyAccount(channelUserId, verifyData);
                 if (r.err != ECode.Success)
                 {
                     return r;
                 }
             }
-            else if (channel == HermesChannels.apple)
+            else if (channel == MyChannels.apple)
             {
-                var r = await this.server.channelApple.verifyAccount(channelUserId, verifyData);
+                r = await this.server.channelApple.verifyAccount(channelUserId, verifyData);
                 if (r.err != ECode.Success)
                 {
                     return r;
                 }
             }
-            else if (channel == HermesChannels.leiting)
+            else if (channel == MyChannels.leiting)
             {
                 // var r = await this.server.channelLeiting.verifyAccount(channelUserId, verifyData);
                 // if (r.err != ECode.Success) {
                 //     return r;
                 // }
             }
-            else if (channel == HermesChannels.ivy)
+            else if (channel == MyChannels.ivy)
             {
-                var r = await this.server.channelIvy.verifyAccount(channelUserId, verifyData);
+                r = await this.server.channelIvy.verifyAccount(channelUserId, verifyData);
                 if (r.err != ECode.Success)
                 {
                     return r;
@@ -67,7 +61,7 @@ namespace Script
             {
                 return ECode.InvalidChannel;
             }
-            return ECode.Success;
+            return r;
         }
         public AAAUserInfo getUserInfo(string channel, string channelUserId, Dictionary<string, object> verifyData)
         {
@@ -76,19 +70,19 @@ namespace Script
                 userName = null,
                 detail = null,
             };
-            if (channel == HermesChannels.uuid)
+            if (channel == MyChannels.uuid)
             {
 
             }
-            else if (channel == HermesChannels.debug)
+            else if (channel == MyChannels.debug)
             {
 
             }
-            else if (channel == HermesChannels.apple)
+            else if (channel == MyChannels.apple)
             {
 
             }
-            else if (channel == HermesChannels.leiting)
+            else if (channel == MyChannels.leiting)
             {
                 // detail=LeitingLogin.LoginData
                 if (verifyData != null && verifyData.ContainsKey("detail"))
@@ -100,7 +94,7 @@ namespace Script
                     }
                 }
             }
-            else if (channel == HermesChannels.ivy)
+            else if (channel == MyChannels.ivy)
             {
                 // verifyData=IvyLogin.IvyUserInfo
                 if (verifyData != null)

@@ -10,9 +10,9 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.AAAOnTransfter; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            return ECode.Success;
+            return ECode.Success.toTask();
         }
     }
 }

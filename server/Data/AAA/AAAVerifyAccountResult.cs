@@ -1,6 +1,6 @@
 namespace Data
 {
-    public class AAAVerifyAccountResult
+    public sealed class AAAVerifyAccountResult
     {
         public bool accountMustExist;
         public AAALoginResponseData data;

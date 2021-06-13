@@ -5,18 +5,21 @@ using Data;
 
 namespace Script
 {
+    public interface IHandler
+    {
+        MsgType msgType { get; }
+        Task<MyResponse> handle(TcpClientData socket, object _msg);
+        MyResponse postHandle(object socket, object msg, MyResponse r);
+    }
     public abstract class Handler<T> : IHandler, IServerScript<T> where T : Server
     {
         public T server { get; set; }
-        public ServerBaseData baseData { get { return this.server.baseData; } }
-        public BaseScript baseScript { get { return this.server.baseScript; } }
+        public ServerData baseData { get { return this.server.data; } }
         public log4net.ILog logger { get { return this.server.logger; } }
-        public MessageDispatcher dispatcher { get { return this.server.dispatcher; } }
-        public TcpClientScript tcpClientScript { get { return this.server.tcpClientScript; } }
 
         public abstract MsgType msgType { get; }
-        public abstract Task<MyResponse> handle(TcpClientData socket, string _msg);
-        public virtual void postHandle(object socket, object msg) { }
+        public abstract Task<MyResponse> handle(TcpClientData socket, object _msg);
+        public virtual MyResponse postHandle(object socket, object msg, MyResponse r) { return r; }
         public string msgName { get { return this.msgType.ToString(); } }
     }
 }

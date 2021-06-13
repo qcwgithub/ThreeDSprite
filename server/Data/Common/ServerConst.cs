@@ -7,7 +7,8 @@ public class ServerConst
     public static int LOC_PORT = 0;
 
     public static int AAA_ID = 2;
-    public static int AAA_PORT = 0; // 对外端口8000-9000
+    public static int AAA_IN_PORT = 0; // 对外端口8000-9000
+    public static int AAA_OUT_PORT = 0; // 对外端口8000-9000
     public static int AAA_LT_NOTIFY_PORT = 0;
     public static int AAA_IVY_NOTIFY_PORT = 0;
 
@@ -28,7 +29,8 @@ public class ServerConst
 
     public static int PM_START_ID = 101;
     public static int PM_END_ID = 199;
-    public static int PM_START_PORT = 0;
+    public static int PM_START_IN_PORT = 0;
+    public static int PM_START_OUT_PORT = 0;
 
     // 域名
     // cn https://hecxxzlogin.jysyx.net/
@@ -52,10 +54,15 @@ public class ServerConst
             DB_ACCOUNT_PORT = 3003;
             DB_PLAYER_PORT = 3004;
             DB_LOG_PORT = 3005;
-            AAA_PORT = 8001; // cn -> SH1
+            AAA_IN_PORT = 3006;
+
+            AAA_OUT_PORT = 8001; // cn -> SH1
             WEB_PORT = 8002; // cn -> SH1
             AAA_LT_NOTIFY_PORT = 8004;
-            PM_START_PORT = 8005; // cn -> SH1
+
+            PM_START_IN_PORT = 3007;
+
+            PM_START_OUT_PORT = 8005; // cn -> SH1
             AAA_IVY_NOTIFY_PORT = 8006;
         }
         // else if (purpose == Purpose.Review) {
@@ -72,7 +79,7 @@ public class ServerConst
         //     this.PM_START_PORT = 8015;
         //     this.AAA_IVY_NOTIFY_PORT = 8016;
         // }
-        else if (purpose == Purpose.Hermes)
+        else if (purpose == Purpose.iOS)
         {
             // [3021, 3050] 如被占用则换一个
             // [8021, 8100] 如被占用：非PM则换一个，PM则不使用那个ID的PM
@@ -81,14 +88,18 @@ public class ServerConst
             DB_ACCOUNT_PORT = 3023;
             DB_PLAYER_PORT = 3024;
             DB_LOG_PORT = 3025;
+            AAA_IN_PORT = 3026;
 
-            AAA_PORT = 8021; // cn -> SH1
+            AAA_OUT_PORT = 8021; // cn -> SH1
             WEB_PORT = 8022; // cn -> SH1
             AAA_LT_NOTIFY_PORT = 8024; // 无配置转发，是用IP的，则PM发送
             AAA_IVY_NOTIFY_PORT = 8025;
+
+            PM_START_IN_PORT = 3027;
+
             // [8031, 8038] cn -> SH1
             // [8039, 8046] cn -> SH2
-            PM_START_PORT = 8031;
+            PM_START_OUT_PORT = 8031;
         }
         else if (purpose == Purpose.Android)
         {
@@ -99,14 +110,18 @@ public class ServerConst
             DB_ACCOUNT_PORT = 3053;
             DB_PLAYER_PORT = 3054;
             DB_LOG_PORT = 3055;
+            AAA_IN_PORT = 3056;
 
-            AAA_PORT = 8101;
+            AAA_OUT_PORT = 8101;
             WEB_PORT = 8102;
             AAA_LT_NOTIFY_PORT = 8104;
             AAA_IVY_NOTIFY_PORT = 8105;
-            PM_START_PORT = 8111;
+
+            PM_START_IN_PORT = 3057;
+
+            PM_START_OUT_PORT = 8111;
         }
-        else if (purpose == Purpose.Overseas)
+        else if (purpose == Purpose.AndroidEn)
         {
             // [3101, 3199] 如被占用则换一个
             // [8201, 8399] 如被占用：非PM则换一个，PM则不使用那个ID的PM
@@ -115,12 +130,17 @@ public class ServerConst
             DB_ACCOUNT_PORT = 3103;
             DB_PLAYER_PORT = 3104;
             DB_LOG_PORT = 3105;
-            AAA_PORT = 8201; // global -> HK1
+            AAA_IN_PORT = 3106;
+
+            AAA_OUT_PORT = 8201; // global -> HK1
             WEB_PORT = 8202; // global -> HK1
             AAA_LT_NOTIFY_PORT = 8204; // global -> HK1
             AAA_IVY_NOTIFY_PORT = 8205; // global -> HK1  // 这个数不能改，填在 ivy 包里的
+
+            PM_START_IN_PORT = 3107;
+
             // [8211, 8214] global -> HK1
-            PM_START_PORT = 8211;
+            PM_START_OUT_PORT = 8211;
         }
         else
         {
@@ -128,7 +148,22 @@ public class ServerConst
         }
     }
 
-    public static int getPortByServerId(int id)
+    public static int getOutPortByServerId(int id)
+    {
+        if (id == AAA_ID)
+        {
+            return AAA_OUT_PORT;
+        }
+        else if (id >= PM_START_ID && id <= PM_END_ID)
+        {
+            return PM_START_OUT_PORT + (id - PM_START_ID);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public static int getInPortByServerId(int id)
     {
         if (id == LOC_ID)
         {
@@ -136,7 +171,7 @@ public class ServerConst
         }
         else if (id == AAA_ID)
         {
-            return AAA_PORT;
+            return AAA_IN_PORT;
         }
         else if (id == WEB_ID)
         {
@@ -156,7 +191,7 @@ public class ServerConst
         }
         else if (id >= PM_START_ID && id <= PM_END_ID)
         {
-            return PM_START_PORT + (id - PM_START_ID);
+            return PM_START_IN_PORT + (id - PM_START_ID);
         }
         else
         {

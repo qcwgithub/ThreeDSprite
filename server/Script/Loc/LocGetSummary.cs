@@ -8,10 +8,10 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.GetSummary; } }
 
-        public override Task<MyResponse> handle(TcpClientData socket, string msg)
+        public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             this.logger.Debug("LocGetSummary");
-            return Task.FromResult(new MyResponse(ECode.Success, null));
+            return ECode.Success.toTask();
         }
     }
 }

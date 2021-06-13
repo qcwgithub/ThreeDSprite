@@ -10,9 +10,9 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.ServerAction; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.baseScript.decodeMsg<MsgPMAction>(_msg);
+            var msg = this.server.castObject<MsgPMAction>(_msg);
             this.logger.Info(this.msgName);
             PMData pmData = this.data;
 
@@ -25,11 +25,11 @@ namespace Script
                 {
                     id = this.baseData.id,
                     playerCount = pmData.playerInfos.Count,
-                    loc = this.baseScript.myLoc(),
+                    loc = this.server.myLoc(),
                     playerList = null,
                     allowNewPlayer = pmData.allowNewPlayer,
                 };
-                await this.tcpClientScript.sendAsync(this.data.aaaSocket, MsgType.AAAOnPMAlive, msgAlive);
+                await this.server.tcpClientScript.sendToServerAsync(ServerConst.AAA_ID, MsgType.AAAOnPMAlive, msgAlive);
             }
 
             if (msg.allowClientConnect != null)
@@ -86,8 +86,8 @@ namespace Script
                     }
 
                     MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                    await this.tcpClientScript.sendAsync(this.data.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
-                    await this.server.baseScript.waitAsync(10);
+                    await this.server.tcpClientScript.sendToServerAsync(ServerConst.AAA_ID, MsgType.AAADestroyPlayer, msgDestroy);
+                    await this.server.waitAsync(10);
                 }
             }
 
@@ -102,8 +102,8 @@ namespace Script
                         continue;
                     }
                     MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = playerId, place = this.msgName };
-                    await this.tcpClientScript.sendAsync(this.data.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy);
-                    await this.server.baseScript.waitAsync(10);
+                    await this.server.tcpClientScript.sendToServerAsync(ServerConst.AAA_ID, MsgType.AAADestroyPlayer, msgDestroy);
+                    await this.server.waitAsync(10);
                 }
             }
 

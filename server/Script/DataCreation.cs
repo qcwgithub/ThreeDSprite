@@ -1,49 +1,76 @@
 using System;
 using System.Collections.Generic;
 using Data;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Script
 {
+    // 初始化 DataEntry 里的数据
     public class DataCreation
     {
-        void InitBaseData(ServerBaseData baseData, int serverId)
+        void InitBaseData(ServerData data, int serverId, List<int> connectToServerIds)
         {
-            baseData.id = serverId;
+            data.id = serverId;
 
-            baseData.tcpListener = new TcpListenerData() { serverData = baseData };
-            baseData.knownLocs[this.dataEntry.locLoc.id] = dataEntry.locLoc;
-
+            data.knownLocs[this.dataEntry.locLoc.id] = dataEntry.locLoc;
+            
             var selfLoc = new Loc
             {
                 id = serverId,
                 inIp = this.dataEntry.thisMachineConfig.inIp,
                 outIp = this.dataEntry.thisMachineConfig.outIp,
                 outDomain = this.dataEntry.thisMachineConfig.outDomain,
-                port = ServerConst.getPortByServerId(serverId),
+                inPort = ServerConst.getInPortByServerId(serverId),
+                outPort = ServerConst.getOutPortByServerId(serverId),
             };
-            baseData.knownLocs[selfLoc.id] = selfLoc;
+            data.knownLocs[selfLoc.id] = selfLoc;
 
-            baseData.logger = this.log4NetCreation.getLogger(Utils.numberId2stringId(serverId));
+            data.logger = this.log4NetCreation.getLogger(Utils.numberId2stringId(serverId));
+            data.timerData = new Data.TimerData { serverData = data };
+
+            data.connectToServerIds.AddRange(connectToServerIds);
+        }
+        void InitListenForServer(ServerData data)
+        {
+            data.tcpListenerForServer = new TcpListenerData() { isForClient = false, serverData = data };
+        }
+        void InitListenForClient(ServerData data)
+        {
+            data.tcpListenerForClient = new TcpListenerData() { isForClient = true, serverData = data };
         }
 
         LocData CreateLocData(int id)
         {
             var data = new LocData();
-            InitBaseData(data, id);
+            InitBaseData(data, id, new List<int>());
+            InitListenForServer(data);
             return data;
         }
 
         AAAData CreateAAAData(int id)
         {
             var data = new AAAData();
-            InitBaseData(data, id);
+            InitBaseData(data, id, new List<int>
+            {
+                ServerConst.LOC_ID,
+                ServerConst.DB_ACCOUNT_ID,
+                ServerConst.DB_PLAYER_ID,
+                ServerConst.DB_LOG_ID
+            });
+
+            
+            InitListenForServer(data);
+            InitListenForClient(data);
+            // data.timerData.setTimer(5000, MsgType.ReloadScript, null, true);
             return data;
         }
 
         DBData CreateDBData(int id)
         {
             var data = new DBData();
-            InitBaseData(data, id);
+            InitBaseData(data, id, new List<int> { ServerConst.LOC_ID });
             if (id == ServerConst.DB_ACCOUNT_ID)
             {
                 data.sqlConfig = this.configLoader.AccountSqlConfig;
@@ -63,17 +90,45 @@ namespace Script
                 data.sqlConfig.database,
                 data.sqlConfig.password);
 
+            InitListenForServer(data);
+
             return data;
         }
 
         PMData CreatePMData(int id)
         {
             var data = new PMData();
-            InitBaseData(data, id);
+            InitBaseData(data, id, new List<int> {
+                ServerConst.LOC_ID,
+                ServerConst.AAA_ID,
+                ServerConst.DB_PLAYER_ID,
+                ServerConst.DB_LOG_ID
+            });
+
+            // data.timerData.setTimer(1, MsgType.PMKeepAliveToAAA, null, false);
+            InitListenForServer(data);
+            InitListenForClient(data);
             return data;
         }
 
-        ServerBaseData CreateData(int id)
+        MonitorData CreateMonitorData(int id)
+        {
+            var data = new MonitorData();
+            InitBaseData(data, id, new List<int> { ServerConst.LOC_ID });
+
+            // start watch file
+            data.inputFileName = @"./input/input.txt";
+            var watcher = data.watcher = new FileSystemWatcher(@"./input");
+            watcher.Filter = "input.txt";
+            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            watcher.IncludeSubdirectories = false;
+            watcher.EnableRaisingEvents = true;
+            watcher.Changed += data.OnChanged;
+
+            return data;
+        }
+
+        ServerData CreateServerData(int id)
         {
             if (id == ServerConst.LOC_ID)
             {
@@ -86,6 +141,10 @@ namespace Script
             else if (id == ServerConst.WEB_ID)
             {
 
+            }
+            else if (id == ServerConst.MONITOR_ID)
+            {
+                return CreateMonitorData(id);
             }
             else if (id == ServerConst.DB_ACCOUNT_ID ||
                 id == ServerConst.DB_PLAYER_ID ||
@@ -120,7 +179,6 @@ namespace Script
             dataEntry.androidVersion = versionConfig.android;
             dataEntry.iOSVersion = versionConfig.ios;
 
-            //// per-server data
 
             dataEntry.thisMachineConfig = configLoader.ThisMachineConfig;
             dataEntry.locLoc = new Loc()
@@ -129,13 +187,32 @@ namespace Script
                 inIp = configLoader.LocConfig.host,
                 outIp = null,
                 outDomain = null,
-                port = ServerConst.LOC_PORT,
+                inPort = ServerConst.LOC_PORT,
             };
 
-            dataEntry.serverDatas = new Dictionary<int, ServerBaseData>();
+            dataEntry.name2Type = new Dictionary<string, Type>();
+            // system types
+            dataEntry.name2Type.Add(typeof(int).Name, typeof(int));
+            dataEntry.name2Type.Add(typeof(string).Name, typeof(string));
+            //dataEntry.name2Type.Add(typeof(List<int>).Name, typeof(List<int>));
+            //dataEntry.name2Type.Add(typeof(List<string>).Name, typeof(List<string>));
+
+            // data.dll types
+            var allDataTypes = dataEntry.GetType().Assembly.GetTypes();
+            foreach (var type in allDataTypes)
+            {
+                if (typeof(ISerializable).IsAssignableFrom(type))
+                {
+                    dataEntry.name2Type.Add(type.Name, type);
+                }
+            }
+
+
+            //// per-server data
+            dataEntry.serverDatas = new Dictionary<int, ServerData>();
             foreach (var serverId in dataEntry.serverIds)
             {
-                dataEntry.serverDatas.Add(serverId, this.CreateData(serverId));
+                dataEntry.serverDatas.Add(serverId, this.CreateServerData(serverId));
             }
         }
     }

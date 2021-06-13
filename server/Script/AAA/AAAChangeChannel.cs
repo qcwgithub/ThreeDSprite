@@ -9,10 +9,10 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.AAAChangeChannel; } }
 
-        public override async Task<MyResponse> handle(TcpClientData socket, string _msg)
+        public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             MyResponse r = null;
-            var msg = this.baseScript.decodeMsg<MsgChangeChannel>(_msg);
+            var msg = this.server.castObject<MsgChangeChannel>(_msg);
 
             var logger = this.logger;
             var aaaData = this.aaaData;
@@ -31,13 +31,13 @@ namespace Script
             {
                 return ECode.InvalidChannel;
             }
-            if (msg.channel1 != HermesChannels.uuid || msg.channel2 == HermesChannels.uuid)
+            if (msg.channel1 != MyChannels.uuid || msg.channel2 == MyChannels.uuid)
             {
                 // 只允许由 uuid 换成其他的
                 return ECode.Error;
             }
 
-            r = await this.server.aaaSqlUtils.queryAccountYield(msg.channel1, msg.channelUserId1);
+            r = await this.server.aaaSqlUtils.queryAccountByChannel(msg.channel1, msg.channelUserId1);
             if (r.err != ECode.Success)
             {
                 return r;
@@ -65,7 +65,7 @@ namespace Script
             var aaaUserInfo2 = this.aaaScript.getUserInfo(msg.channel2, msg.channelUserId2, msg.verifyData2);
 
             // 需要检查 channel2 & channelUserId2 是否已经存在
-            r = await this.server.aaaSqlUtils.queryAccountYield(msg.channel2, msg.channelUserId2);
+            r = await this.server.aaaSqlUtils.queryAccountByChannel(msg.channel2, msg.channelUserId2);
             if (r.err != ECode.Success)
             {
                 return r;

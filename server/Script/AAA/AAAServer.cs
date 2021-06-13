@@ -8,7 +8,7 @@ namespace Script
         {
             get
             {
-                return (AAAData)this.baseData;
+                return (AAAData)this.data;
             }
         }
 
@@ -20,9 +20,9 @@ namespace Script
         // public AAAChannel_Leiting channelLeiting;
         public AAAChannel_Ivy channelIvy;
 
-        public override void Create(DataEntry dataEntry, int id)
+        public override void OnLoad(DataEntry dataEntry, int id, int version)
         {
-            base.Create(dataEntry, id);
+            base.OnLoad(dataEntry, id, version);
             base.AddHandler<AAAServer>();
 
             this.aaaScript = new AAAScript { server = this };
@@ -32,9 +32,10 @@ namespace Script
             this.channelApple = new AAAChannel_Apple { server = this };
             this.channelIvy = new AAAChannel_Ivy { server = this };
 
-            this.dispatcher.addHandler(new AAAStart { server = this });
+            // this.dispatcher.addHandler(new AAAStart { server = this });
             this.dispatcher.addHandler(new AAATest { server = this });
             this.dispatcher.addHandler(new AAAOnPMAlive { server = this });
+            this.dispatcher.addHandler(new AAASetPMReady { server = this });
             this.dispatcher.addHandler(new AAALoadPlayerId { server = this });
             this.dispatcher.addHandler(new AAAChangeChannel { server = this });
             this.dispatcher.addHandler(new AAAPlayerLogin { server = this });
@@ -42,6 +43,18 @@ namespace Script
             this.dispatcher.addHandler(new AAAGetSummary { server = this });
             this.dispatcher.addHandler(new AAAShutdown { server = this });
             this.dispatcher.addHandler(new AAAAction { server = this });
+        }
+
+        public override void OnStart()
+        {
+            base.OnStart();
+            
+            this.setTimer(0, MsgType.AAALoadPlayerId, null);
+        }
+
+        public override void OnUnload()
+        {
+            base.OnUnload();
         }
     }
 }

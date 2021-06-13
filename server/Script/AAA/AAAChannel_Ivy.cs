@@ -17,7 +17,7 @@ namespace Script
                 data = null
             };
 
-            return Task.FromResult(new MyResponse(ECode.Success, res));
+            return new MyResponse(ECode.Success, res).toTask();
         }
     }
 }

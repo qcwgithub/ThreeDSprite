@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace Data
 {
-    public class AAAData : ServerBaseData
+    public sealed class AAAData : ServerData
     {
         public bool active = true;  // false表示不接受客户端连接
         public bool playerIdReady = false;
         public bool pmReady = false;
-        public int pmReadyTimer = -1;
+        public int pmReadyTimer = 0;
 
         // account infos
         // accountInfos: Dictionary<string, AAAAccountInfo> = new Dictionary<string, AAAAccountInfo>();

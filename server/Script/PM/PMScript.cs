@@ -7,14 +7,9 @@ namespace Script
     public class PMScript : IServerScript<PMServer>
     {
         public PMServer server { get; set; }
-        public PMData pmData { get { return this.server.pmData; }}
+        public PMData pmData { get { return this.server.pmData; } }
 
-        public log4net.ILog logger { get { return this.server.logger; } }
-
-        public bool acceptClient()
-        {
-            return pmData.state == ServerState.Started && pmData.aaaReady && pmData.allowClientConnect;
-        }
+        public log4net.ILog logger { get { return this.server.logger; } }        
 
         public T toJsonOrNull<T>(string str) where T : class
         {
@@ -41,36 +36,32 @@ namespace Script
 
             // server only data
             player.id = sqlData.id;
-            var p = player.profile = new CProfile();
-            CProfile.ensure(p, p.userName);
+            var p = player.Profile = new GameProfile();
+            GameProfile.Ensure(p);
             return player;
         }
 
         public void setDestroyTimer(PMPlayerInfo player, string place)
         {
             var SEC = this.pmData.playerDestroyTimeoutS;
-            this.logger.InfoFormat("[{0}] set destroy timer for playerId: {1}, seconds: {2}", place, player.id, SEC);
+            this.logger.InfoFormat("setDestroyTimer playerId({1}), seconds({2}), reason({3})", place, player.id, SEC, place);
             this.clearDestroyTimer(player, false);
 
-            player.destroyTimer = this.server.timerScript.setTimer(() =>
-            {
-                player.destroyTimer = -1;
-                this.logger.Info("send destroy playerId: " + player.id);
-                MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.id, place = "pmDestroyTimer" };
-                this.server.tcpClientScript.send(this.pmData.aaaSocket, MsgType.AAADestroyPlayer, msgDestroy, null);
-            }, SEC * 1000);
+            player.destroyTimer = this.server.setTimer(
+                SEC, MsgType.PMSendDestroyPlayer, 
+                new MsgSendDestroyPlayer { playerId = player.id });
         }
 
         public void clearDestroyTimer(PMPlayerInfo player, bool log = true)
         {
             if (log)
             {
-                this.logger.Info("clear destroy timer for playerId: " + player.id);
+                this.logger.InfoFormat("clearDestroyTimer playerId({0})", player.id);
             }
-            if (player.destroyTimer != -1)
+            if (player.destroyTimer > 0)
             {
-                this.server.timerScript.clearTimer(player.destroyTimer);
-                player.destroyTimer = -1;
+                this.server.clearTimer(player.destroyTimer);
+                player.destroyTimer = 0;
             }
         }
 
@@ -80,18 +71,15 @@ namespace Script
             this.clearSaveTimer(player);
 
             MsgPlayerSCSave msg = new MsgPlayerSCSave { playerId = player.id, place = "timer" };
-            player.saveTimer = this.server.timerScript.setInterval(() =>
-            {
-                this.server.baseScript.sendToSelf(MsgType.PMPlayerSave, msg);
-            }, SEC * 1000);
+            this.server.setTimer(SEC, MsgType.PMPlayerSave, msg);
         }
 
         public void clearSaveTimer(PMPlayerInfo player)
         {
-            if (player.saveTimer != -1)
+            if (player.saveTimer > 0)
             {
-                this.server.timerScript.clearInterval(player.saveTimer);
-                player.saveTimer = -1;
+                this.server.clearTimer(player.saveTimer);
+                player.saveTimer = 0;
             }
         }
 
