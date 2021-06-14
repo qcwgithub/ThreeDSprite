@@ -27,11 +27,11 @@ namespace Script
                 alive.count++;
                 if (alive.count < 10)
                 {
-                    // this.server.logger.Info("(skip) keep alive to acc V" + this.server.scriptDllVersion);
+                    // this.server.logger.Info("(skip) keep alive to lobby V" + this.server.scriptDllVersion);
                     return ECode.Success;
                 }
             }
-            // this.server.logger.Info("keep alive to acc V" + this.server.scriptDllVersion);
+            // this.server.logger.Info("keep alive to lobby V" + this.server.scriptDllVersion);
 
             alive.count = 0;
             alive.first = false;
