@@ -287,4 +287,55 @@ namespace Data
     {
         public bool requirePlayerList;
     }
+
+    public class MsgBMAlive : ISerializable
+    {
+        public int bmId;
+        public Loc loc;
+        public int battleCount;
+        public List<LobbyBattleInfo> battles;
+        public bool allowNewBattle;
+    }
+
+    public class ResBMAlive : ISerializable
+    {
+        public bool requireBattleList;
+    }
+
+    public class MsgLobbyDestroyBattle :ISerializable
+    {
+        public int bmId;
+        public int battleId;
+        public List<int> playerIds;
+    }
+
+    public class MsgLobbyCreateBattle : ISerializable
+    {
+        
+    }
+
+    public class ResLobbyCreateBattle : ISerializable
+    {
+        public int bmId;
+        public int battleId;
+
+    }
+    public class MsgLobbyPlayerEnterBattle : ISerializable
+    {
+        public int playerId;
+    }
+
+    public class MsgBMPlayerEnter : ISerializable
+    {
+        public int playerId;
+    }
+
+    public class MsgLobbyPlayerExitBattle : ISerializable
+    {
+        public int playerId;
+    }
+    public class MsgBMPlayerExit : ISerializable
+    {
+        public int playerId;
+    }
 }

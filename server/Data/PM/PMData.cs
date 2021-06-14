@@ -2,12 +2,11 @@ using System.Collections.Generic;
 
 namespace Data
 {
-    public class _Active
+    public class _PMActive
     {
         public bool first;
         public int count;
         public bool requirePlayerList;
-        public int timer;
     }
 
     public sealed class PMData : ServerData, IGameConfigs
@@ -24,12 +23,11 @@ namespace Data
             return info;
         }
 
-        public _Active alive = new _Active
+        public _PMActive alive = new _PMActive
         {
             first = true,
             count = 0,
             requirePlayerList = false,
-            timer = -1,
         };
 
         public bool aaaReady = false;

@@ -18,6 +18,9 @@ public class ServerConst
     public static int MONITOR_ID = 4;
     public static int MONITOR_PORT = 0;
 
+    public static int LOBBY_ID = 5;
+    public static int BMM_PORT = 0;
+
     public static int DB_ACCOUNT_ID = 11;
     public static int DB_ACCOUNT_PORT = 0;
 
@@ -31,6 +34,11 @@ public class ServerConst
     public static int PM_END_ID = 199;
     public static int PM_START_IN_PORT = 0;
     public static int PM_START_OUT_PORT = 0;
+
+    public static int BM_START_ID = 201;
+    public static int BM_END_ID = 399;
+    public static int BM_START_IN_PORT = 0;
+    public static int BM_START_OUT_PORT = 0;
 
     // 域名
     // cn https://hecxxzlogin.jysyx.net/
@@ -64,6 +72,9 @@ public class ServerConst
 
             PM_START_OUT_PORT = 8005; // cn -> SH1
             AAA_IVY_NOTIFY_PORT = 8006;
+            
+            BM_START_IN_PORT = 0;
+            BM_START_OUT_PORT = 0;
         }
         // else if (purpose == Purpose.Review) {
         //     // [3011, 3019]

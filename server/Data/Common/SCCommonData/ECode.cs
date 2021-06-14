@@ -119,5 +119,10 @@ namespace Data
         NotEnoughPiggy = 105,
         NotHaveItemByTime = 106,    // 没有购买次数了
         WrongCount = 107,
+        BMNotExist = 108,
+        BattleNotExist = 109,
+        NoAvailableBM = 110,
+        PlayerAlreadyInBattle = 111,
+        PlayerNotInBattle = 112,
     }
 }

@@ -160,6 +160,14 @@ namespace Script
             return null;
         }
 
+        BMData CreateBMData(int id)
+        {
+            var data = new BMData();
+            InitBaseData(data, id, new List<int>());
+            InitListenForServer(data);
+            return data;
+        }
+
         DataEntry dataEntry;
         ConfigLoader configLoader;
         Log4netCreation log4NetCreation;
