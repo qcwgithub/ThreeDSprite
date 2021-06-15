@@ -2,6 +2,6 @@ namespace Data
 {
     public interface IProfileInput
     {
-        GameProfile Profile { get; }
+        Profile Profile { get; }
     }
 }

@@ -69,7 +69,7 @@ namespace Data
     {
         public int id;
         public bool keepSyncProfile;
-        //--------------------------------public CProfile profile; // 重连时为 null
+        public Profile profile; // 重连时为 null
         public int timeMs;
         public int timezoneOffset;
 
@@ -78,16 +78,8 @@ namespace Data
         public int totalGameTimeMs; // 不管是不是重连，都有值。
         public int totalLoginTimes; // 不管是不是重连，都有值。
         public int diamond; // 不管是不是重连，都有值。
-        public int badge; // 不管是不是重连，都有值。
         //--------------------------------public IapLeitingInfo[] ltProducts; // 不管是不是重连，都有值。
         public string payNotifyUri; // 不管是不是重连，都有值。
-
-
-        public int act_durationH;
-        public int act_daySplitH;
-
-        //--------------------------------public CProfile updateProfile; // 如果有值，表示把里面的字段更新到客户端
-        public string script;
     }
 
     ///////////////////////////////////////////////////////////

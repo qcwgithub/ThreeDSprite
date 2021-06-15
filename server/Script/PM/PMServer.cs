@@ -17,7 +17,6 @@ namespace Script
         public PMScriptCreateNewPlayer pmScriptCreateNewPlayer;
 
         public SCUtils scUtils { get; set; }
-        public BattlefieldScript BattlefieldScript { get; set; }
         public GameScript gameScript;
 
         public override void OnLoad(DataEntry dataEntry, int id, int version)
@@ -35,9 +34,6 @@ namespace Script
 
             this.scUtils = new SCUtils();
             this.scUtils.Init(this.pmData, this);
-
-            this.BattlefieldScript = new BattlefieldScript();
-            this.BattlefieldScript.Init(this.pmData, this);
 
             // this.dispatcher.addHandler(new PMStart { server = this });
             this.dispatcher.addHandler(new PMAction { server = this });

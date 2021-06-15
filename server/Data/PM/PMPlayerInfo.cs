@@ -7,7 +7,7 @@ namespace Data
     // 纯数据，无逻辑
     public sealed class PMPlayerInfo : IProfileInput
     {
-        public GameProfile Profile { get; set; }
+        public Profile Profile { get; set; }
 
         public TcpClientData socket = null;
         public string channel = null;

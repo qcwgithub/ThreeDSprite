@@ -59,19 +59,6 @@ public class RealServer : ClientServer
         }
         this.aaaIp = aaaIp;
         this.aaaPort = aaaPort;
-        //if (SDKManager.Instance.sdkMgrInited)
-        //{
-        this.onSDKMgrInited();
-        //}
-        //else
-        //{
-        //SDKManager.Instance.OnSDKMgrInited += this.onSDKMgrInited;
-        //}
-    }
-
-    private void onSDKMgrInited()
-    {
-        //SDKManager.Instance.OnSDKMgrInited -= this.onSDKMgrInited;
 
         // load last channel
         this.initChannel();
@@ -93,12 +80,13 @@ public class RealServer : ClientServer
     public string channel => this._channel;
     public void initChannel()
     {
-        //this._channel = LSUtils.GetItem(LSKeys.CHANNEL, null);
+        this._channel = LSUtils.GetString(LSKeys.CHANNEL, null);
         if (!MyChannels.isValidChannel(this._channel))
         {
             this._channel = MyChannels.uuid;
 
-            //LSUtils.SetItem(LSKeys.CHANNEL, this._channel);
+            LSUtils.SetString(LSKeys.CHANNEL, this._channel);
+            LSUtils.Save();
         }
         Debug.Log(">RealServer.initChannel: " + this._channel);
     }
@@ -108,7 +96,7 @@ public class RealServer : ClientServer
         if (this._channel != c)
         {
             this._channel = c;
-            //LSUtils.SetItem(LSKeys.CHANNEL, c);
+            LSUtils.SetString(LSKeys.CHANNEL, c);
             if (OnChannelChanged != null)
             {
                 OnChannelChanged(c);
@@ -163,15 +151,15 @@ public class RealServer : ClientServer
 
     private MsgLoginAAA getMsgAAA()
     {
-        //var interface_ = SDKManager.Instance.getLoginInterface(this.channel);
+        var interface_ = SDKManager.Instance.getLoginInterface(this.channel);
         MsgLoginAAA msgAAA = new MsgLoginAAA
         {
-            platform = "101",//PlatformUtils.getPlatformString(),
-            version = "",//AppExtension.Instance.getAppVersion(),
+            platform = PlatformUtils.getPlatformString(),
+            version = PlatformUtils.getAppVersion(),
 
             // sdk
             channel = this.channel,
-            channelUserId = "123456789a123456789a123456789a123456",//interface_.channelUserId,
+            channelUserId = interface_.channelUserId,
             verifyData = null,//interface_.verifyData,
             oaid = null,//SDKManager.Instance.device.getOAID(), // maybe null
             imei = null,//SDKManager.Instance.device.getIMEI(), // maybe null
@@ -482,7 +470,7 @@ public class RealServer : ClientServer
         // 登录成功之后才能标记
         //LSUtils.SetItem(LSKeys.PROFILE_UPLOADED, "1");
 
-        //var res = this._resPM;
+        var res = this._resPM;
 
         //// keeySync
         //SyncProfileComponent.keepSync = res.keepSyncProfile;
@@ -529,7 +517,7 @@ public class RealServer : ClientServer
     private async void loginProcedure()
     {
         Debug.Log("login procedure start");
-        bool toSdk = false;//true;
+        bool toSdk = true;
         bool toAAA = true;
         int pmConnectFailCount = 0;
 

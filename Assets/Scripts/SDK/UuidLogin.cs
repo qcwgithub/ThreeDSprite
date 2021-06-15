@@ -2,6 +2,7 @@ using Data;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class UuidLogin : ILoginInterface {
     public string getName() { return "UuidLogin"; }
@@ -59,25 +60,7 @@ public class UuidLogin : ILoginInterface {
 
     //// init
     public Task init() {
-        // init UuidLogin
-
-        // uuid.userChannelId 过程
-        // 1-单机过度时从 localStorage.userProfile 读取（新玩家无此步骤）
-        // 2-如果没有1，则新建一个
-        // 3-首次初始化后，需要存起来
-        // 4-在绑定账号后，清除；如果是切换为渠道账号，则不会清除
-        // string uuid = LSUtils.GetItem(LSKeys.UUID_CHANNEL_USER_ID, null);
-        // if (uuid == null) {
-        //     var p = this.loadUserProfile();
-        //     if (p != null) {
-        //         uuid = p.userID;
-        //     }
-        //     else {
-        //         uuid = v4();
-        //     }
-        //     LSUtils.SetItem(LSKeys.UUID_CHANNEL_USER_ID, uuid);
-        // }
-        // this._channelUserId = uuid;
+        this._channelUserId = LSUtils.GetString(LSKeys.UUID_CHANNEL_USER_ID, null);
         this.emit(SDKEvent.Inited);
         return null;
     }

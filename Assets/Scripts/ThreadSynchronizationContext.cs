@@ -7,7 +7,7 @@ namespace ET
 {
     public class ThreadSynchronizationContext : SynchronizationContext
     {
-        public static ThreadSynchronizationContext Instance { get; } = new ThreadSynchronizationContext(Thread.CurrentThread.ManagedThreadId);
+        public static ThreadSynchronizationContext Instance;
 
         private readonly int threadId;
 

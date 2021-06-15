@@ -37,28 +37,6 @@ namespace Data
         public int playerDestroyTimeoutS = 600;  // 下线后多久清除此玩家
         public int playerSCSaveIntervalS = 60;
 
-        public BaseConfigData BaseConfig { get; set; }
-
-        public Dictionary<string, ItemConfig> ItemConfig { get; set; }
-
-        public Dictionary<string, OutputItemConfig> OutputConfig { get; set; }
-
-        public MissionBattleInfos MissionBattles { get; set; }
-
-        public MissionItemInfos Missions { get; set; }
-
-        public Dictionary<int, KeyValuePair<ChapterInfoForParse, List<MissionItemInfo>>> ChapterMissionDict { get; set; }
-
-        public int MaxChapter { get; set; }
-
-        public Dictionary<int, KingdomConfigInfo> KingdomConfig { get; set; }
-
-        public Dictionary<string, ProfileCastle> BattleMissionDict { get; set; }
-
-        public Dictionary<int, List<StrengthenPrice>> StrengthenPrices { get; set; }
-
-        public Dictionary<string, DropItemInfo> DropItemDict { get; set; }
-
         // 配置文件
     }
 }

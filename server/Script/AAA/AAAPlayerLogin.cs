@@ -176,8 +176,8 @@ namespace Script
                     return ECode.LowVersion;
                 }
             }
-            else if (msg.platform == "101")
-            { // DESKTOP BROWSER
+            else if (msg.platform == "pc")
+            {
 
             }
             else
@@ -185,6 +185,12 @@ namespace Script
                 return ECode.InvalidPlatform;
             }
             this.logger.InfoFormat("{0} channel:{1}, channelUserId:{2} version:{3} ", this.msgName, msg.channel, msg.channelUserId, msg.version);
+
+            // 客户端如果无账号，创建一个新的 uuid
+            if (msg.channel == MyChannels.uuid && string.IsNullOrEmpty(msg.channelUserId))
+            {
+                msg.channelUserId = Guid.NewGuid().ToString();
+            }
 
             // 验证登录
             var r = await this.aaaScript.verifyAccount(msg.channel, msg.channelUserId, msg.verifyData);

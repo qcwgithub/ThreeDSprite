@@ -105,7 +105,6 @@ namespace Script
                 // updateProfile = (msg.isReconnect ? this.pmScript.createUpdateProfile(player) : null),
                 // ltProducts = this.pmData.iapConfig.platformInfo.leiting,
                 payNotifyUri = "http://" + locAAA.outIp + ":" + ServerConst.AAA_LT_NOTIFY_PORT,
-                script = null,
             };
 
             return new MyResponse(ECode.Success, res).toTask();

@@ -54,6 +54,15 @@ namespace Data
         DBInsertPlayer = 50,
         OnSocketClose = 51,
         AskForStart = 52,
+        BMKeepAliveToLobby = 53,
+        BMPlayerEnter = 54,
+        BMPlayerExit = 55,
+        LobbyOnBMAlive = 56,
+        LobbyCreateBattle = 57,
+        LobbyDestroyBattle = 58,
+        LobbyPlayerEnterBattle = 59,
+        LobbyPlayerExitBattle = 60,
+        LobbySetBMReady = 61,
 
         // client
         ClientStart = 10000,

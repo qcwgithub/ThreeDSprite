@@ -36,8 +36,8 @@ namespace Script
 
             // server only data
             player.id = sqlData.id;
-            var p = player.Profile = new GameProfile();
-            GameProfile.Ensure(p);
+            var p = player.Profile = new Profile();
+            // Profile.Ensure(p);
             return player;
         }
 
