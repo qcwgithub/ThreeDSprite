@@ -1,0 +1,15 @@
+myWorld.addcollider
+    broadPhase.CreateProxy
+	
+myWorld.removeCollider
+    broadPhase.DestroyProxy
+	
+myCollider.SetXForm
+    _world.MoveCollider
+	    broadPhase.MoveProxy
+		
+PhysicsDriver.Drive
+    World.Commit
+	    broadPhase.Commit
+			contactManager.PairAdded
+				_world.ContactSet.Add(contact)
