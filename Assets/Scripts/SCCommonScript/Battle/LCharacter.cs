@@ -77,7 +77,7 @@ public class LCharacter : LObject
             if (!this.Collidings.Exists(_ => _.obj.Id == this.colliding1[i].Id))
             {
                 //Debug.Log("Add Coillision " + this.colliding1[i].ToString());
-                this.Collidings.Add(new LObject_Time { obj = this.colliding1[i], time = Time.time });
+                this.Collidings.Add(new LObject_Time { obj = this.colliding1[i], time = 0/*Time.time*/ });
             }
         }
         /*

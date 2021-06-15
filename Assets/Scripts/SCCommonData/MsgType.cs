@@ -141,5 +141,9 @@ namespace Data
         PMActivityEnd = 10072,
         PMPiggyBuyItem = 10073,
         PMCollectRepairDiamond = 10074,
+
+        ////////
+        PMEnterBattle = 10075,
+        
     }
 }

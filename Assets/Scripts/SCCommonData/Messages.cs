@@ -191,5 +191,17 @@ namespace Data
         
 
     }
+
+    public class MsgEnterBattle : ISerializable
+    {
+
+    }
+    public class ResEnterBattle : ISerializable
+    {
+        public int bmId;
+        public int battleId;
+        public string bmIp;
+        public int bmPort;
+    }
 }
 

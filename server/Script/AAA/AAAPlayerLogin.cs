@@ -186,12 +186,6 @@ namespace Script
             }
             this.logger.InfoFormat("{0} channel:{1}, channelUserId:{2} version:{3} ", this.msgName, msg.channel, msg.channelUserId, msg.version);
 
-            // 客户端如果无账号，创建一个新的 uuid
-            if (msg.channel == MyChannels.uuid && string.IsNullOrEmpty(msg.channelUserId))
-            {
-                msg.channelUserId = Guid.NewGuid().ToString();
-            }
-
             // 验证登录
             var r = await this.aaaScript.verifyAccount(msg.channel, msg.channelUserId, msg.verifyData);
             if (r.err != ECode.Success)

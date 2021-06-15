@@ -14,6 +14,6 @@ public interface IWalkable
 {
     PredictMoveResult PredictMove(Vector3 from, Vector3 delta);
     //bool IsInRange(Vector3 pos);
-    Vector3 RandomPos();
+    // Vector3 RandomPos();
     bool CanAccept(Vector3 from, Vector3 delta);
 }

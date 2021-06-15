@@ -171,11 +171,11 @@ public class LMap
         lChar.Pos = from + delta;
     }
 
-    public IWalkable RandomWalkable()
-    {
-        int index = Random.Range(0, this.Walkables.Count);
-        return this.Walkables[index];
-    }
+    // public IWalkable RandomWalkable()
+    // {
+    //     int index = Random.Range(0, this.Walkables.Count);
+    //     return this.Walkables[index];
+    // }
 
     public void AddCharacter(LCharacter lChar)
     {

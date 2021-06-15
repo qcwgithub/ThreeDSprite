@@ -42,11 +42,11 @@ public class LFloor : LObject, IWalkable
         return outOfRange;
     }
 
-    public Vector3 RandomPos()
-    {
-        LFloorData data = this.Data;
-        return new Vector3(UnityEngine.Random.Range(data.Min.x, data.Max.x), data.Y, UnityEngine.Random.Range(data.Min.z, data.Max.z));
-    }
+    // public Vector3 RandomPos()
+    // {
+    //     LFloorData data = this.Data;
+    //     return new Vector3(UnityEngine.Random.Range(data.Min.x, data.Max.x), data.Y, UnityEngine.Random.Range(data.Min.z, data.Max.z));
+    // }
 
     public PredictMoveResult PredictMove(Vector3 from, Vector3 delta)
     {

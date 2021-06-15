@@ -144,6 +144,8 @@ public class BoundsOctreeNode<T> {
 
 		return false;
 	}
+	
+#if UNITY_5_3_OR_NEWER
 
 	/// <summary>
 	/// Check if the specified ray intersects with anything in the tree. See also: GetColliding.
@@ -151,6 +153,7 @@ public class BoundsOctreeNode<T> {
 	/// <param name="checkRay">Ray to check.</param>
 	/// <param name="maxDistance">Distance to check.</param>
 	/// <returns>True if there was a collision.</returns>
+
 	public bool IsColliding(ref Ray checkRay, float maxDistance = float.PositiveInfinity) {
 		// Is the input ray at least partially in this node?
 		float distance;
@@ -176,6 +179,7 @@ public class BoundsOctreeNode<T> {
 
 		return false;
 	}
+#endif
 
 	/// <summary>
 	/// Returns an array of objects that intersect with the specified bounds, if any. Otherwise returns an empty array. See also: IsColliding.
@@ -204,6 +208,7 @@ public class BoundsOctreeNode<T> {
 		}
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Returns an array of objects that intersect with the specified ray, if any. Otherwise returns an empty array. See also: IsColliding.
 	/// </summary>
@@ -211,6 +216,7 @@ public class BoundsOctreeNode<T> {
 	/// <param name="maxDistance">Distance to check.</param>
 	/// <param name="result">List result.</param>
 	/// <returns>Objects that intersect with the specified ray.</returns>
+
 	public void GetColliding(ref Ray checkRay, List<T> result, float maxDistance = float.PositiveInfinity) {
 		float distance;
 		// Is the input ray at least partially in this node?
@@ -232,7 +238,9 @@ public class BoundsOctreeNode<T> {
 			}
 		}
 	}
+#endif
 
+#if UNITY_5_3_OR_NEWER
 	public void GetWithinFrustum(Plane[] planes, List<T> result) {
 		// Is the input node inside the frustum?
 		if (!GeometryUtility.TestPlanesAABB(planes, bounds)) {
@@ -253,6 +261,7 @@ public class BoundsOctreeNode<T> {
 			}
 		}
 	}
+#endif
 
 	/// <summary>
 	/// Set the 8 children of this octree.
@@ -271,6 +280,7 @@ public class BoundsOctreeNode<T> {
 		return bounds;
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Draws node boundaries visually for debugging.
 	/// Must be called from OnDrawGizmos externally. See also: DrawAllObjects.
@@ -312,6 +322,7 @@ public class BoundsOctreeNode<T> {
 
 		Gizmos.color = Color.white;
 	}
+#endif
 
 	/// <summary>
 	/// We can shrink the octree if:

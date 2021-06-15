@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class UuidLogin : ILoginInterface {
+public class UuidLogin : ILoginInterface
+{
     public string getName() { return "UuidLogin"; }
-    public string channel {
+    public string channel
+    {
         get { return MyChannels.uuid; }
     }
 
@@ -59,62 +61,84 @@ public class UuidLogin : ILoginInterface {
     }
 
     //// init
-    public Task init() {
+    public Task init()
+    {
         this._channelUserId = LSUtils.GetString(LSKeys.UUID_CHANNEL_USER_ID, null);
+        if (this._channelUserId == null)
+        {
+            this._channelUserId = Guid.NewGuid().ToString();
+            LSUtils.SetString(LSKeys.UUID_CHANNEL_USER_ID, this._channelUserId);
+        }
         this.emit(SDKEvent.Inited);
         return null;
     }
-    public bool isInited {
+    public bool isInited
+    {
         get { return true; }
     }
-    public void onEnterGame() {
+    public void onEnterGame()
+    {
 
     }
-    public void onLogoutGame() {
+    public void onLogoutGame()
+    {
 
     }
     //// login
-    public bool useNativeButton {
+    public bool useNativeButton
+    {
         get { return false; }
     }
-    public void showNativeButton(int x, int y, int w, int h) {
+    public void showNativeButton(int x, int y, int w, int h)
+    {
 
     }
-    public void hideNativeButton() {
+    public void hideNativeButton()
+    {
 
     }
 
-    public void login(Action<bool> cb) {
-        if (cb != null) {
+    public void login(Action<bool> cb)
+    {
+        if (cb != null)
+        {
             cb(true);
         }
     }
-    public bool isLogged {
+    public bool isLogged
+    {
         get { return true; }
     }
     private string _channelUserId = null;
-    public string channelUserId {
+    public string channelUserId
+    {
         get { return this._channelUserId; }
     }
-    public string originalChannelUserId {
+    public string originalChannelUserId
+    {
         get { return this.channelUserId; }
     }
-    public object verifyData {
+    public object verifyData
+    {
         get { return new object(); }
     }
 
 
-    public void clearCache() {
+    public void clearCache()
+    {
 
     }
 
-    public bool hasAccountInfo {
+    public bool hasAccountInfo
+    {
         get { return false; }
     }
-    public void viewAccountInfo() {
+    public void viewAccountInfo()
+    {
 
     }
-    public void logout() {
+    public void logout()
+    {
         throw new Exception("98098088");
     }
 }

@@ -86,16 +86,16 @@ public class LStair : LObject, IWalkable
         }
     }
 
-    public Vector3 RandomPos()
-    {
-        LStairData data = this.Data;
-        Vector3 pos =  new Vector3(UnityEngine.Random.Range(data.Min.x, data.Max.x), 
-            0f, 
-            UnityEngine.Random.Range(data.Min.z, data.Max.z));
+    // public Vector3 RandomPos()
+    // {
+    //     LStairData data = this.Data;
+    //     Vector3 pos =  new Vector3(UnityEngine.Random.Range(data.Min.x, data.Max.x), 
+    //         0f, 
+    //         UnityEngine.Random.Range(data.Min.z, data.Max.z));
 
-        pos.y = this.ZtoY(pos.z);
-        return pos;
-    }
+    //     pos.y = this.ZtoY(pos.z);
+    //     return pos;
+    // }
 
     public PredictMoveResult PredictMove(Vector3 from, Vector3 delta)
     {

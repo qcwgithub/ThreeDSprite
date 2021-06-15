@@ -99,6 +99,7 @@ public class PointOctree<T> {
 		return removed;
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Returns objects that are within <paramref name="maxDistance"/> of the specified ray.
 	/// If none, returns false. Uses supplied list for results.
@@ -114,7 +115,9 @@ public class PointOctree<T> {
 			return true;
 		return false;
 	}
+#endif
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Returns objects that are within <paramref name="maxDistance"/> of the specified ray.
 	/// If none, returns an empty array (not null).
@@ -127,6 +130,7 @@ public class PointOctree<T> {
 		rootNode.GetNearby(ref ray, maxDistance, collidingWith);
 		return collidingWith.ToArray();
 	}
+#endif
 
 	/// <summary>
 	/// Returns objects that are within <paramref name="maxDistance"/> of the specified position.
@@ -167,6 +171,7 @@ public class PointOctree<T> {
 		return objects;
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Draws node boundaries visually for debugging.
 	/// Must be called from OnDrawGizmos externally. See also: DrawAllObjects.
@@ -182,6 +187,7 @@ public class PointOctree<T> {
 	public void DrawAllObjects() {
 		rootNode.DrawAllObjects();
 	}
+#endif
 
 	// #### PRIVATE METHODS ####
 

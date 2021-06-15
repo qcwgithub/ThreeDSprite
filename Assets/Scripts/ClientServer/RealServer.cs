@@ -266,7 +266,7 @@ public class RealServer : ClientServer
                 proto.send(MsgType.AAAPlayerLogin, msgAAA, (ECode err, object res) =>
                 {
                     var r = rAAA = new MyResponse(err, res);
-                    if (r.err != 0)
+                    if (r.err != ECode.Success)
                     {
                         //Debug.Log(">LoginToAAA - login failed, e: " + r.err);
                         this.setStatus(NetworkStatus.LoginToAFailed, r.err.ToString());
@@ -540,6 +540,7 @@ public class RealServer : ClientServer
                 {
                     this.resAAA = rAAA.res as ResLoginAAA;
                     this.setChannel(this.resAAA.channel);
+                    SDKManager.Instance.getLoginInterface(this.channel);
                     this.setStatus(NetworkStatus.LoginToASucceeded);
 
                     toAAA = false;
@@ -599,10 +600,16 @@ public class RealServer : ClientServer
             {
                 pmConnectFailCount = 0;
                 this._resPM = rPM.res as ResLoginPM;
+
+                // TODO 放这好像不对
                 if (TimeMgr.Instance != null)
                 {
                     TimeMgr.Instance.SetServerTime(this.resPM.timeMs, this.resPM.timezoneOffset);
                 }
+
+                // TODO 放这好像不对
+                sc.Profile = this.resPM.profile;
+
                 // Debug.Log("fire logintopmsucceeded!");
                 this.setStatus(NetworkStatus.LoginToGSucceeded);
 

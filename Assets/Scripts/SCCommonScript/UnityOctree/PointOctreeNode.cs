@@ -112,6 +112,7 @@ public class PointOctreeNode<T> {
 		return SubRemove(obj, objPos);
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Return objects that are within maxDistance of the specified ray.
 	/// </summary>
@@ -144,6 +145,7 @@ public class PointOctreeNode<T> {
 			}
 		}
 	}
+#endif
 
 	/// <summary>
 	/// Return objects that are within <paramref name="maxDistance"/> of the specified position.
@@ -216,6 +218,7 @@ public class PointOctreeNode<T> {
 		children = childOctrees;
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Draws node boundaries visually for debugging.
 	/// Must be called from OnDrawGizmos externally. See also: DrawAllObjects.
@@ -258,6 +261,7 @@ public class PointOctreeNode<T> {
 
 		Gizmos.color = Color.white;
 	}
+#endif
 
 	/// <summary>
 	/// We can shrink the octree if:
@@ -533,6 +537,7 @@ public class PointOctreeNode<T> {
 		return totalObjects <= NUM_OBJECTS_ALLOWED;
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Returns the closest distance to the given ray from a point.
 	/// </summary>
@@ -542,4 +547,5 @@ public class PointOctreeNode<T> {
 	public static float SqrDistanceToRay(Ray ray, Vector3 point) {
 		return Vector3.Cross(ray.direction, point - ray.origin).sqrMagnitude;
 	}
+#endif
 }

@@ -137,6 +137,7 @@ public class BoundsOctree<T> {
 	/// <param name="checkRay">ray to check.</param>
 	/// <param name="maxDistance">distance to check.</param>
 	/// <returns>True if there was a collision.</returns>
+#if UNITY_5_3_OR_NEWER
 	public bool IsColliding(Ray checkRay, float maxDistance) {
 		//#if UNITY_EDITOR
 		// For debugging
@@ -144,6 +145,7 @@ public class BoundsOctree<T> {
 		//#endif
 		return rootNode.IsColliding(ref checkRay, maxDistance);
 	}
+#endif
 
 	/// <summary>
 	/// Returns an array of objects that intersect with the specified bounds, if any. Otherwise returns an empty array. See also: IsColliding.
@@ -166,6 +168,7 @@ public class BoundsOctree<T> {
 	/// <param name="checkRay">ray to check.</param>
 	/// <param name="maxDistance">distance to check.</param>
 	/// <returns>Objects that intersect with the specified ray.</returns>
+#if UNITY_5_3_OR_NEWER
 	public void GetColliding(List<T> collidingWith, Ray checkRay, float maxDistance = float.PositiveInfinity) {
 		//#if UNITY_EDITOR
 		// For debugging
@@ -173,7 +176,9 @@ public class BoundsOctree<T> {
 		//#endif
 		rootNode.GetColliding(ref checkRay, collidingWith, maxDistance);
 	}
+#endif
 
+#if UNITY_5_3_OR_NEWER
 	public List<T> GetWithinFrustum(Camera cam) {
 		var planes = GeometryUtility.CalculateFrustumPlanes(cam);
 
@@ -181,11 +186,12 @@ public class BoundsOctree<T> {
 		rootNode.GetWithinFrustum(planes, list);
 		return list;
 	}
-
+#endif
 	public Bounds GetMaxBounds() {
 		return rootNode.GetBounds();
 	}
 
+#if UNITY_5_3_OR_NEWER
 	/// <summary>
 	/// Draws node boundaries visually for debugging.
 	/// Must be called from OnDrawGizmos externally. See also: DrawAllObjects.
@@ -201,6 +207,7 @@ public class BoundsOctree<T> {
 	public void DrawAllObjects() {
 		rootNode.DrawAllObjects();
 	}
+#endif
 
 	// Intended for debugging. Must be called from OnDrawGizmos externally
 	// See also DrawAllBounds and DrawAllObjects
