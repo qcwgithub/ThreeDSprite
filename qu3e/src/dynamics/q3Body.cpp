@@ -78,6 +78,8 @@ q3Body::q3Body( const q3BodyDef& def, q3Scene* scene )
 
 	m_boxes = NULL;
 	m_contactList = NULL;
+	q3Identity(m_localCenter);
+	m_worldCenter = def.position;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -237,19 +239,27 @@ const q3Transform q3Body::GetTransform( ) const
 }
 
 //--------------------------------------------------------------------------------------------------
-void q3Body::SetTransform( const q3Vec3& position )
+void q3Body::SetPosition( const q3Vec3& position )
 {
 	m_worldCenter = position;
 
 	SynchronizeProxies( );
 }
 
+void q3Body::SetRotation(const q3Quaternion& q)
+{
+	m_q = q;
+	m_tx.rotation = m_q.ToMat3();
+
+	SynchronizeProxies();
+}
+
 //--------------------------------------------------------------------------------------------------
-void q3Body::SetTransform( const q3Vec3& position, const q3Vec3& axis, r32 angle )
+void q3Body::SetTransform( const q3Vec3& position, const q3Quaternion& q)
 {
 	m_worldCenter = position;
-	m_q.Set( axis, angle );
-	m_tx.rotation = m_q.ToMat3( );
+	m_q = q;
+	m_tx.rotation = m_q.ToMat3();
 
 	SynchronizeProxies( );
 }
@@ -368,6 +378,7 @@ void q3Body::SynchronizeProxies( )
 {
 	q3BroadPhase* broadphase = &m_scene->m_contactManager.m_broadphase;
 
+	// qiucw: m_localCenter is always (0,0,0)
 	m_tx.position = m_worldCenter - q3Mul( m_tx.rotation, m_localCenter );
 
 	q3AABB aabb;

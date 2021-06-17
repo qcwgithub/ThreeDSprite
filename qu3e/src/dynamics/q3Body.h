@@ -86,8 +86,9 @@ public:
 	// non-physical behavior. Contacts are updated upon the next call to
 	// q3Scene::Step( ). Parameters are in world space. All body types
 	// can be updated.
-	void SetTransform( const q3Vec3& position );
-	void SetTransform( const q3Vec3& position, const q3Vec3& axis, r32 angle );
+	void SetPosition( const q3Vec3& position );
+	void SetRotation(const q3Quaternion& q);
+	void SetTransform(const q3Vec3& position, const q3Quaternion& q);
 
 	// Used for debug rendering lines, triangles and basic lighting
 	void Render( q3Render* render ) const;
@@ -132,7 +133,7 @@ private:
 	friend class q3ContactManager;
 
 	q3Body( const q3BodyDef& def, q3Scene* scene );
-	
+
 	void SynchronizeProxies( );
 };
 

@@ -7,9 +7,17 @@ using UnityEngine;
 public enum q3BodyType
 {
     eStaticBody,
-	eDynamicBody,
-	eKinematicBody
+    eDynamicBody,
+    eKinematicBody
 }
+
+public enum q3TransformOperation
+{
+    ePostion,
+    eRotation,
+    eBoth,
+}
+
 
 public class Qu3eTest : MonoBehaviour
 {
@@ -30,7 +38,7 @@ public class Qu3eTest : MonoBehaviour
     public static extern IntPtr SceneAddBody(IntPtr scene, q3BodyType bodyType, float x, float y, float z);
 
     [DllImport("qu3e.dll", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void BodySetPosition(IntPtr body, float x, float y, float z);
+    public static extern void BodySetTransform(IntPtr body, q3TransformOperation operation, float[] values);
 
     [DllImport("qu3e.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void BodySetToAwake(IntPtr body);
@@ -45,7 +53,13 @@ public class Qu3eTest : MonoBehaviour
 
     IntPtr m_scene;
     IntPtr m_bodyA;
+    Vector3 m_posA;
+    Quaternion m_rotA;
+
     IntPtr m_bodyB;
+    Vector3 m_posB;
+    Quaternion m_rotB;
+
     void Start()
     {
         m_scene = CreateScene();
@@ -53,19 +67,27 @@ public class Qu3eTest : MonoBehaviour
 
         SceneSetContactListener(m_scene, new ContactDelegate(this.OnBeginContact), new ContactDelegate(this.OnEndContact));
 
-        var posA = ColliderA.transform.position;
-        m_bodyA = SceneAddBody(m_scene, q3BodyType.eDynamicBody, posA.x, posA.y, posA.z);
+        {
+            var posA = ColliderA.transform.position;
+            m_bodyA = SceneAddBody(m_scene, q3BodyType.eDynamicBody, posA.x, posA.y, posA.z);
+            m_posA = posA;
+            m_rotA = ColliderA.transform.rotation;
 
-        var extendsA = ColliderA.bounds.extents;
-        BodyAddBox(m_bodyA, 0f, 0f, 0f, extendsA.x, extendsA.y, extendsA.z);
-        Debug.Log(string.Format("bodyA: {0}, pos: ({1},{2},{3}), extends: ({4}, {5}, {6})", m_bodyA, posA.x, posA.y, posA.z, extendsA.x, extendsA.y, extendsA.z));
+            var extendsA = ColliderA.bounds.extents;
+            BodyAddBox(m_bodyA, 0f, 0f, 0f, extendsA.x, extendsA.y, extendsA.z);
+            Debug.Log(string.Format("bodyA: {0}, pos: ({1},{2},{3}), extends: ({4}, {5}, {6})", m_bodyA, posA.x, posA.y, posA.z, extendsA.x, extendsA.y, extendsA.z));
+        }
 
-        var posB = ColliderB.transform.position;
-        m_bodyB = SceneAddBody(m_scene, q3BodyType.eDynamicBody, posB.x, posB.y, posB.z);
+        {
+            var posB = ColliderB.transform.position;
+            m_bodyB = SceneAddBody(m_scene, q3BodyType.eDynamicBody, posB.x, posB.y, posB.z);
+            m_posB = posB;
+            m_rotB = ColliderB.transform.rotation;
 
-        var extendsB = ColliderB.bounds.extents;
-        BodyAddBox(m_bodyB, 0f, 0f, 0f, extendsB.x, extendsB.y, extendsB.z);
-        Debug.Log(string.Format("bodyB: {0}, pos: ({1},{2},{3}), extends: ({4}, {5}, {6})", m_bodyB, posB.x, posB.y, posB.z, extendsB.x, extendsB.y, extendsB.z));
+            var extendsB = ColliderB.bounds.extents;
+            BodyAddBox(m_bodyB, 0f, 0f, 0f, extendsB.x, extendsB.y, extendsB.z);
+            Debug.Log(string.Format("bodyB: {0}, pos: ({1},{2},{3}), extends: ({4}, {5}, {6})", m_bodyB, posB.x, posB.y, posB.z, extendsB.x, extendsB.y, extendsB.z));
+        }
 
         // DestroyScene(m_scene);
     }
@@ -74,11 +96,29 @@ public class Qu3eTest : MonoBehaviour
     {
         if (m_scene != IntPtr.Zero)
         {
-            var posA = ColliderA.transform.position;
-            BodySetPosition(m_bodyA, posA.x, posA.y, posA.z);
+            {
+                var posA = ColliderA.transform.position;
+                var rotA = ColliderA.transform.rotation;
+                if (posA != m_posA || rotA != m_rotA)
+                {
+                    m_posA = posA;
+                    m_rotA = rotA;
+                    BodySetTransform(m_bodyA, q3TransformOperation.eBoth, new float[] { posA.x, posA.y, posA.z, rotA.x, rotA.y, rotA.z, rotA.w });
+                    Debug.Log(string.Format("bodyA pos: ({0},{1},{2}), rot: ({3}, {4}, {5}, {6})", posA.x, posA.y, posA.z, rotA.x, rotA.y, rotA.z, rotA.w));
+                }
+            }
 
-            var posB = ColliderB.transform.position;
-            BodySetPosition(m_bodyB, posB.x, posB.y, posB.z);
+            {
+                var posB = ColliderB.transform.position;
+                var rotB = ColliderB.transform.rotation;
+                if (posB != m_posB || rotB != m_rotB)
+                {
+                    m_posB = posB;
+                    m_rotB = rotB;
+                    BodySetTransform(m_bodyB, q3TransformOperation.eBoth, new float[] { posB.x, posB.y, posB.z, rotB.x, rotB.y, rotB.z, rotB.w });
+                    Debug.Log(string.Format("bodyB pos: ({0},{1},{2}), rot: ({3}, {4}, {5}, {6})", posB.x, posB.y, posB.z, rotB.x, rotB.y, rotB.z, rotB.w));
+                }
+            }
 
             SceneStep(m_scene);
         }
@@ -98,12 +138,12 @@ public class Qu3eTest : MonoBehaviour
 
     void OnBeginContact(IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
     {
-        Debug.Log(string.Format("OnBeginContact {0}.{1} {2}.{3}", bodyA, boxA, bodyB, boxB));
+        Debug.LogWarning(string.Format("OnBeginContact"));
     }
 
     void OnEndContact(IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
     {
-        Debug.Log(string.Format("OnEndContact {0}.{1} {2}.{3}", bodyA, boxA, bodyB, boxB));
+        Debug.LogWarning(string.Format("OnEndContact"));
     }
 
 }

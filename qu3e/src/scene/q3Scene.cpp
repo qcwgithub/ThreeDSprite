@@ -53,11 +53,11 @@ q3Scene::~q3Scene( )
 //--------------------------------------------------------------------------------------------------
 void q3Scene::Step( )
 {
-	if ( m_newBox )
-	{
+	//if ( m_newBox )
+	//{
 		m_contactManager.m_broadphase.UpdatePairs( );
 		m_newBox = false;
-	}
+	//}
 
 	m_contactManager.TestCollisions( );
 }
@@ -361,12 +361,40 @@ void BodySetToSleep(q3Body *body)
 	body->SetToSleep();
 }
 
-extern "C" __declspec(dllexport)
-void BodySetPosition(q3Body *body, r32 x, r32 y, r32 z)
+enum q3TransformOperation
 {
-	q3Vec3 pos(x, y, z);
-	body->SetTransform(pos);
+	ePostion,
+	eRotation,
+	eBoth,
+};
+
+extern "C" __declspec(dllexport)
+void BodySetTransform(q3Body *body, q3TransformOperation operation,  r32* values)
+{
+	switch (operation)
+	{
+		case q3TransformOperation::ePostion:
+		{
+			q3Vec3 p(values[0], values[1], values[2]);
+			body->SetPosition(p);
+		}
+		break;
+		case q3TransformOperation::eRotation:
+		{
+			q3Quaternion q(values[0], values[1], values[2], values[3]);
+			body->SetRotation(q);
+		}
+		break;
+		case q3TransformOperation::eBoth:
+		{
+			q3Vec3 p(values[0], values[1], values[2]);
+			q3Quaternion q(values[3], values[4], values[5], values[6]);
+			body->SetTransform(p, q);
+		}
+		break;
+	}
 }
+
 
 extern "C" __declspec(dllexport)
 const q3Box* BodyAddBox(q3Body *body, r32 x, r32 y, r32 z, r32 extend_x, r32 extend_y, r32 extend_z)
