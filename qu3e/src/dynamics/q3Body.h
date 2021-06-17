@@ -148,9 +148,6 @@ struct q3BodyDef
 		angle = r32( 0.0 );
 		q3Identity( position );
 
-		// Usually a gravity scale of 1 is the best
-		gravityScale = r32( 1.0 );
-
 		// Common default values
 		bodyType = eStaticBody;
 		layers = 0x000000001;
@@ -166,7 +163,6 @@ struct q3BodyDef
 	q3Vec3 axis;			// Initial world transformation.
 	r32 angle;				// Initial world transformation. Radians.
 	q3Vec3 position;		// Initial world transformation.
-	r32 gravityScale;		// Convenient scale values for gravity x, y and z directions.
 	i32 layers;				// Bitmask of collision layers. Bodies matching at least one layer can collide.
 	void* userData;			// Use to store application specific data.
 

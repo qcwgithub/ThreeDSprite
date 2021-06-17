@@ -34,12 +34,11 @@
 //--------------------------------------------------------------------------------------------------
 // q3Scene
 //--------------------------------------------------------------------------------------------------
-q3Scene::q3Scene( r32 dt )
+q3Scene::q3Scene( )
 	: m_contactManager( &m_stack )
 	, m_boxAllocator( sizeof( q3Box ), 256 )
 	, m_bodyCount( 0 )
 	, m_bodyList( NULL )
-	, m_dt( dt )
 	, m_newBox( false )
 	, m_allowSleep( true )
 {
@@ -165,6 +164,10 @@ void q3Scene::SetContactListener( q3ContactListener* listener )
 {
 	m_contactManager.m_contactListener = listener;
 }
+q3ContactListener* q3Scene::GetContactListener()
+{
+	return m_contactManager.m_contactListener;
+}
 
 //--------------------------------------------------------------------------------------------------
 void q3Scene::QueryAABB( q3QueryCallback *cb, const q3AABB& aabb ) const
@@ -277,4 +280,104 @@ void q3Scene::Dump( FILE* file ) const
 	}
 
 	fprintf( file, "q3Free( bodies );\n" );
+}
+
+typedef void(*ContactDelegate)(q3Body *bodyA, q3Box *boxA, q3Body *bodyB, q3Box *boxB);
+
+class MyContactListener : public q3ContactListener
+{
+public:
+	MyContactListener()
+	{
+		m_onBeginContact = 0;
+		m_onEndContact = 0;
+	}
+	ContactDelegate m_onBeginContact;
+	ContactDelegate m_onEndContact;
+
+	virtual void BeginContact(const q3ContactConstraint *contact)
+	{
+		if (m_onBeginContact)
+		{
+			m_onBeginContact(contact->bodyA, contact->A, contact->bodyB, contact->B);
+		}
+	}
+	virtual void EndContact(const q3ContactConstraint *contact)
+	{
+		if (m_onEndContact)
+		{
+			m_onEndContact(contact->bodyA, contact->A, contact->bodyB, contact->B);
+		}
+	}
+};
+
+extern "C" __declspec(dllexport)
+q3Scene* CreateScene()
+{
+	q3Scene *scene = new q3Scene();
+	scene->SetContactListener(new MyContactListener());
+	return scene;
+}
+
+extern "C" __declspec(dllexport)
+void SceneDestroy(q3Scene *scene)
+{
+	delete scene;
+}
+
+extern "C" __declspec(dllexport)
+void SceneSetContactListener(q3Scene *scene, ContactDelegate onBegin, ContactDelegate onEnd)
+{
+	MyContactListener *listener = (MyContactListener *)scene->GetContactListener();
+	listener->m_onBeginContact = onBegin;
+	listener->m_onEndContact = onEnd;
+}
+
+extern "C" __declspec(dllexport)
+void SceneStep(q3Scene *scene)
+{
+	scene->Step();
+}
+
+extern "C" __declspec(dllexport)
+q3Body* SceneAddBody(q3Scene *scene, q3BodyType bodyType, r32 x, r32 y, r32 z)
+{
+	q3BodyDef def;
+	def.position.Set(x, y, z);
+	def.bodyType = bodyType;
+	q3Body *body = scene->CreateBody(def);
+	return body;
+}
+
+extern "C" __declspec(dllexport)
+void BodySetToAwake(q3Body *body)
+{
+	body->SetToAwake();
+}
+
+extern "C" __declspec(dllexport)
+void BodySetToSleep(q3Body *body)
+{
+	body->SetToSleep();
+}
+
+extern "C" __declspec(dllexport)
+void BodySetPosition(q3Body *body, r32 x, r32 y, r32 z)
+{
+	q3Vec3 pos(x, y, z);
+	body->SetTransform(pos);
+}
+
+extern "C" __declspec(dllexport)
+const q3Box* BodyAddBox(q3Body *body, r32 x, r32 y, r32 z, r32 extend_x, r32 extend_y, r32 extend_z)
+{
+	q3Transform tx;
+	q3Identity(tx);
+	tx.position.Set(x, y, z);
+
+	q3BoxDef def;
+	def.Set(tx, q3Vec3(extend_x, extend_y, extend_z));
+
+	const q3Box *box = body->AddBox(def);
+	return box;
 }

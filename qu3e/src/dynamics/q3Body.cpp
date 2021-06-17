@@ -92,10 +92,6 @@ const q3Box* q3Body::AddBox( const q3BoxDef& def )
 	box->ComputeAABB( m_tx, &aabb );
 
 	box->body = this;
-	box->friction = def.m_friction;
-	box->restitution = def.m_restitution;
-	box->density = def.m_density;
-	box->sensor = def.m_sensor;
 
 	m_scene->m_contactManager.m_broadphase.InsertBox( box, aabb );
 	m_scene->m_newBox = true;

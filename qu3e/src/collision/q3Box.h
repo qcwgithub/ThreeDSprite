@@ -61,7 +61,6 @@ struct q3Box
 
 	void SetUserdata( void* data ) const;
 	void* GetUserdata( ) const;
-	void SetSensor( bool isSensor );
 
 	bool TestPoint( const q3Transform& tx, const q3Vec3& p ) const;
 	bool Raycast( const q3Transform& tx, q3RaycastData* raycast ) const;
@@ -76,30 +75,11 @@ struct q3Box
 class q3BoxDef
 {
 public:
-	q3BoxDef( )
-	{
-		// Common default values
-		m_friction = r32( 0.4 );
-		m_restitution = r32( 0.2 );
-		m_density = r32( 1.0 );
-		m_sensor = false;
-	}
-
 	void Set( const q3Transform& tx, const q3Vec3& extents );
-
-	void SetFriction( r32 friction );
-	void SetRestitution( r32 restitution );
-	void SetDensity( r32 density );
-	void SetSensor( bool sensor );
 
 private:
 	q3Transform m_tx;
 	q3Vec3 m_e;
-
-	r32 m_friction;
-	r32 m_restitution;
-	r32 m_density;
-	bool m_sensor;
 
 	friend class q3Body;
 };

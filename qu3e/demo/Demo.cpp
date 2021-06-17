@@ -40,7 +40,7 @@
 #include "Test.h"
 
 float dt = 1.0f / 60.0f;
-q3Scene scene( dt );
+q3Scene scene;
 Clock g_clock;
 bool paused = false;
 bool singleStep = false;
@@ -544,6 +544,7 @@ int InitApp( int argc, char** argv )
 	demos[ 3 ] = new Test( );
 	demoCount = 4;
 	currentDemo = 3;
+	lastDemo = 3;
 	demos[ currentDemo ]->Init( );
 	sprintf( sceneFileName, "q3dump.txt" );
 

@@ -52,21 +52,39 @@ struct Test : public Demo
 
 
 		q3BoxDef boxDef;
-		boxDef.SetRestitution(0);
 		q3Transform tx;
 		q3Identity(tx);
 		boxDef.Set(tx, q3Vec3(50.0f, 1.0f, 50.0f));
 		body->AddBox(boxDef);
 	}
 
+	void CreateBodyQ(q3Vec3 pos, q3Vec3 extends)
+	{
+		q3BodyDef bodyDef;
+		bodyDef.position = pos;
+		bodyDef.bodyType = q3BodyType::eDynamicBody;
+		q3Body *body = scene.CreateBody(bodyDef);
+
+		q3Transform tx;
+		q3Identity(tx);
+		//tx.position.Set(x, y, z);
+
+		q3BoxDef def;
+		def.Set(tx, extends);
+		body->AddBox(def);
+	}
+
 	virtual void Init( )
 	{
-		this->AddFloor();
+		//this->AddFloor();
 
 		MyListener* listener = new MyListener();
 		scene.SetContactListener(listener);
 
-		q3BodyDef bodyDef;
+		CreateBodyQ(q3Vec3(0, 5, 0), q3Vec3(0.5f, 0.5f, 0.5f));
+		CreateBodyQ(q3Vec3(0.5, 5, 0), q3Vec3(0.5f, 0.5f, 0.5f));
+
+		/*q3BodyDef bodyDef;
 		bodyDef.userData = "cube_qiucw";
 		bodyDef.bodyType = eDynamicBody;
 		bodyDef.position.Set(0, 5.0f, 0);
@@ -76,7 +94,7 @@ struct Test : public Demo
 		q3Transform tx;
 		q3Identity(tx);
 		boxDef.Set(tx, q3Vec3(1, 1, 1));
-		body->AddBox(boxDef);
+		body->AddBox(boxDef);*/
 
 		/*
 		q3BodyDef bodyDef;

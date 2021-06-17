@@ -75,7 +75,7 @@ public:
 class q3Scene
 {
 public:
-	q3Scene( r32 dt );
+	q3Scene( );
 	~q3Scene( );
 
 	// Run the simulation forward in time by dt (fixed timestep). Variable
@@ -112,6 +112,7 @@ public:
 	// efficient. Provide a NULL pointer to remove the previously set
 	// listener.
 	void SetContactListener( q3ContactListener* listener );
+	q3ContactListener* GetContactListener();
 
 	// Query the world to find any shapes that can potentially intersect
 	// the provided AABB. This works by querying the broadphase with an
@@ -143,12 +144,19 @@ private:
 	q3Stack m_stack;
 	q3Heap m_heap;
 
-	r32 m_dt;
-
 	bool m_newBox;
 	bool m_allowSleep;
 
 	friend class q3Body;
 };
+
+//extern "C"
+//{
+//	__declspec(dllexport) q3Scene* CreateScene();
+//	__declspec(dllexport) void DestroyScene(q3Scene *scene);
+//	__declspec(dllexport) q3Body* AddBody(q3Scene *scene);
+//	__declspec(dllexport) void SetBodyPosition(q3Body *body, r32 x, r32 y, r32 z);
+//	__declspec(dllexport) const q3Box* AddBox(q3Body *body);
+//}
 
 #endif // Q3SCENE_H
