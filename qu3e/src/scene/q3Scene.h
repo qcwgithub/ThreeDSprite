@@ -75,7 +75,7 @@ public:
 class q3Scene
 {
 public:
-	q3Scene( r32 dt, const q3Vec3& gravity = q3Vec3( r32( 0.0 ), r32( -9.8 ), r32( 0.0 ) ), i32 iterations = 20 );
+	q3Scene( r32 dt );
 	~q3Scene( );
 
 	// Run the simulation forward in time by dt (fixed timestep). Variable
@@ -97,24 +97,9 @@ public:
 	// touched by something that wakes them up. The default is enabled.
 	void SetAllowSleep( bool allowSleep );
 
-	// Increasing the iteration count increases the CPU cost of simulating
-	// Scene.Step(). Decreasing the iterations makes the simulation less
-	// realistic (convergent). A good iteration number range is 5 to 20.
-	// Only positive numbers are accepted. Non-positive and negative
-	// inputs set the iteration count to 1.
-	void SetIterations( i32 iterations );
-
-	// Friction occurs when two rigid bodies have shapes that slide along one
-	// another. The friction force resists this sliding motion.
-	void SetEnableFriction( bool enabled );
-
 	// Render the scene with an interpolated time between the last frame and
 	// the current simulation step.
 	void Render( q3Render* render ) const;
-
-	// Gets and sets the global gravity vector used during integration
-	const q3Vec3 GetGravity( ) const;
-	void SetGravity( const q3Vec3& gravity );
 
 	// Removes all bodies from the scene.
 	void Shutdown( );
@@ -158,13 +143,10 @@ private:
 	q3Stack m_stack;
 	q3Heap m_heap;
 
-	q3Vec3 m_gravity;
 	r32 m_dt;
-	i32 m_iterations;
 
 	bool m_newBox;
 	bool m_allowSleep;
-	bool m_enableFriction;
 
 	friend class q3Body;
 };
