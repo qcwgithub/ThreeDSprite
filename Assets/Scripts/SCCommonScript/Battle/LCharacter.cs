@@ -47,6 +47,10 @@ public class LCharacter : LObject
         set
         {
             this.pos = value;
+
+            if (this.body != IntPtr.Zero)
+                lMap.SetBodyPosition(this.body, value);
+
             if (this.PosChanged != null)
             {
                 this.PosChanged(value);
@@ -54,62 +58,9 @@ public class LCharacter : LObject
         }
     }
 
-    private List<LObject> colliding1 = new List<LObject>();
-    public List<LObject_Time> Collidings { get; } = new List<LObject_Time>();
-    public override void Update()
+    public override void AddToPhysicsScene()
     {
-        Bounds bounds = new Bounds(this.Pos, new Vector3(0.4f, 0.4f, 0.4f));
-        this.colliding1.Clear();
-        this.lMap.Octree.GetColliding(this.colliding1, bounds);
-
-        for (int i = 0; i < this.Collidings.Count; i++)
-        {
-            if (!this.colliding1.Exists(_ => _.Id == this.Collidings[i].obj.Id))
-            {
-                //Debug.Log("Remove Coillision " + this.Collidings[i].obj.ToString());
-                this.Collidings.RemoveAt(i);
-                i--;
-            }
-        }
-
-        for (int i = 0; i < this.colliding1.Count; i++)
-        {
-            if (!this.Collidings.Exists(_ => _.obj.Id == this.colliding1[i].Id))
-            {
-                //Debug.Log("Add Coillision " + this.colliding1[i].ToString());
-                this.Collidings.Add(new LObject_Time { obj = this.colliding1[i], time = 0/*Time.time*/ });
-            }
-        }
-        /*
-        bool different = this.colliding1.Count != this.Collidings.Count;
-        if (!different)
-        {
-            for (int i = 0; i < this.colliding1.Count; i++)
-            {
-                if (this.colliding1[i].Id != this.Collidings[i].obj.Id)
-                {
-                    different = true;
-                    break;
-                }
-            }
-        }
-        if (different)
-        {
-            var sb = new StringBuilder();
-            sb.Append("Collides with: ");
-            for (int i = 0; i < this.colliding1.Count; i++)
-            {
-                sb.AppendFormat("{0}{1}", this.colliding1[i].Type, this.colliding1[i].Id);
-                if (i < this.colliding1.Count - 1)
-                {
-                    sb.Append(", ");
-                }
-            }
-            Debug.Log(sb.ToString());
-            //
-            //this.Collidings.Clear();
-            //this.Collidings.AddRange(this.colliding1);
-        }
-        */
+        this.body = lMap.AddBody(this, q3BodyType.eDynamicBody, this.pos + new Vector3(0f, 0.4f, 0f));
+        lMap.AddBox(this.body, Vector3.zero, new Vector3(0.2f, 0.4f, 0.2f));
     }
 }

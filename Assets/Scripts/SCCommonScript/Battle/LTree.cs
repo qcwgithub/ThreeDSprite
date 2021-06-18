@@ -11,13 +11,14 @@ public class LTree : LObject
     }
     public override LObjectType Type { get { return LObjectType.Tree; } }
 
-    public override void AddToOctree(BoundsOctree<LObject> octree)
+    public override void AddToPhysicsScene()
     {
         Vector3 min = LVector3.ToVector3(this.Data.Min);
         Vector3 max = LVector3.ToVector3(this.Data.Max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
-
-        octree.Add(this, new Bounds(center, size));
+        
+        this.body = lMap.AddBody(this, q3BodyType.eStaticBody, center);
+        lMap.AddBox(this.body, Vector3.zero, size/2);
     }
 }

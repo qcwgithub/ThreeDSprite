@@ -24,20 +24,7 @@ public class CMap : MonoBehaviour
             cObj.Apply(this, lObj);
         }
     }
-
-#if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        if (!this.DrawGizmos_BoundsTree)
-        {
-            return;
-        }
-        var boundsTree = this.lMap.Octree;
-        boundsTree.DrawAllBounds(); // Draw node boundaries
-        boundsTree.DrawAllObjects(); // Draw object boundaries
-        boundsTree.DrawCollisionChecks(); // Draw the last *numCollisionsToSave* collision check boundaries
-    }
-#endif
+    
     private void Update()
     {
         this.lMap.Update();

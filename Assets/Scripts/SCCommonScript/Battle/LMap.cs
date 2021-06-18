@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Script;
 
 public class LMap
 {
@@ -8,11 +10,42 @@ public class LMap
     private List<IWalkable> Walkables = new List<IWalkable>();
     private List<IObstacle> Obstacles = new List<IObstacle>();
     private List<LTree> Trees = new List<LTree>();
-    public BoundsOctree<LObject> Octree { get; private set; }
     private HashSet<int> needUpdates = new HashSet<int>();
+    Dictionary<IntPtr, LObject> body2Objects = new Dictionary<IntPtr, LObject>();
+
+    IntPtr physicsScene = IntPtr.Zero;
+    public IntPtr AddBody(LObject who, q3BodyType bodyType, Vector3 position)
+    {
+        var body = Qu3eApi.SceneAddBody(physicsScene, bodyType, position.x, position.y, position.z);
+        body2Objects.Add(body, who);
+        return body;
+    }
+    public void AddBox(IntPtr body, Vector3 position, Vector3 extends)
+    {
+        Qu3eApi.BodyAddBox(body, position.x, position.y, position.z, extends.x, extends.y, extends.z);
+    }
+
+    private float[] tempForPosition = new float[3];
+    public void SetBodyPosition(IntPtr body, Vector3 position)
+    {
+        tempForPosition[0] = position.x;
+        tempForPosition[1] = position.y;
+        tempForPosition[2] = position.z;
+        Qu3eApi.BodySetTransform(body, q3TransformOperation.ePostion, tempForPosition);
+    }
+
+    Qu3eApi.ContactDelegate OnBeginContactDel;
+    Qu3eApi.ContactDelegate OnEndContactDel;
     public LMap(LMapData data)
     {
-        this.Data = data; 
+        this.Data = data;
+
+        physicsScene = Qu3eApi.CreateScene();
+
+        OnBeginContactDel = new Qu3eApi.ContactDelegate(this.OnBeginContact);
+        OnEndContactDel = new Qu3eApi.ContactDelegate(this.OnEndContact);
+        Qu3eApi.SceneSetContactListener(physicsScene, OnBeginContactDel, OnEndContactDel);
+
         for (int i = 0; i < data.Floors.Length; i++)
         {
             LFloorData floorData = data.Floors[i];
@@ -45,11 +78,63 @@ public class LMap
             this.DictObjects.Add(tree.Id, tree);
         }
 
-        // create octree
-        this.Octree = new BoundsOctree<LObject>(15, Vector3.zero, 1f, 1.2f);
         foreach (var kv in this.DictObjects)
         {
-            kv.Value.AddToOctree(this.Octree);
+            kv.Value.AddToPhysicsScene();
+        }
+    }
+
+    void OnBeginContact(IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
+    {
+        LObject objectA;
+        if (!body2Objects.TryGetValue(bodyA, out objectA))
+        {
+            return;
+        }
+
+        LObject objectB;
+        if (!body2Objects.TryGetValue(bodyB, out objectB))
+        {
+            return;
+        }
+        Debug.Log(string.Format("OnBeginContact {0} - {1}", objectA, objectB));
+        objectA.Collidings.Add(new LObject_Time { obj = objectB });
+        objectB.Collidings.Add(new LObject_Time { obj = objectA });
+    }
+
+    void OnEndContact(IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
+    {
+        // Debug.LogWarning(string.Format("OnEndContact"));
+
+        LObject objectA;
+        if (!body2Objects.TryGetValue(bodyA, out objectA))
+        {
+            return;
+        }
+
+        LObject objectB;
+        if (!body2Objects.TryGetValue(bodyB, out objectB))
+        {
+            return;
+        }
+
+        Debug.Log(string.Format("OnEndContact {0} * {1}", objectA, objectB));
+        for (int i = 0; i < objectA.Collidings.Count; i++)
+        {
+            if (objectA.Collidings[i].obj == objectB)
+            {
+                objectA.Collidings.RemoveAt(i);
+                i--;
+            }
+        }
+
+        for (int i = 0; i < objectB.Collidings.Count; i++)
+        {
+            if (objectB.Collidings[i].obj == objectA)
+            {
+                objectB.Collidings.RemoveAt(i);
+                i--;
+            }
         }
     }
 
@@ -180,6 +265,7 @@ public class LMap
     public void AddCharacter(LCharacter lChar)
     {
         this.DictObjects.Add(lChar.Id, lChar);
+        lChar.AddToPhysicsScene();
     }
 
     public void AddNeedUpdate(int id)
@@ -191,10 +277,11 @@ public class LMap
     public void Update()
     {
         this.updating = true;
-        foreach (var id in this.needUpdates)
-        {
-            this.GetObject(id).Update();
-        }
+        // foreach (var id in this.needUpdates)
+        // {
+        //     this.GetObject(id).Update();
+        // }
+        Qu3eApi.SceneStep(physicsScene);
         this.updating = false;
     }
 }
