@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LTree : LObject
+public class btTree : btObject
 {
-    public LTreeData Data { get; private set; }
-    public LTree(LMap lMap, LTreeData data) : base(lMap, data.Id)
+    public btTreeData Data { get; private set; }
+    public btTree(btScene scene, btTreeData data) : base(scene, data.Id)
     {
         this.Data = data;
     }
-    public override LObjectType Type { get { return LObjectType.Tree; } }
+    public override btObjectType Type { get { return btObjectType.Tree; } }
 
     public override void AddToPhysicsScene()
     {
@@ -18,7 +18,7 @@ public class LTree : LObject
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         
-        this.body = lMap.AddBody(this, q3BodyType.eStaticBody, center);
-        lMap.AddBox(this.body, Vector3.zero, size/2);
+        this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
+        this.scene.AddBox(this.body, Vector3.zero, size/2);
     }
 }

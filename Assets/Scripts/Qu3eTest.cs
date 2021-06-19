@@ -5,21 +5,6 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using Script;
 
-public enum q3BodyType
-{
-    eStaticBody,
-    eDynamicBody,
-    eKinematicBody
-}
-
-public enum q3TransformOperation
-{
-    ePostion,
-    eRotation,
-    eBoth,
-}
-
-
 public class Qu3eTest : MonoBehaviour
 {
     public BoxCollider ColliderA;

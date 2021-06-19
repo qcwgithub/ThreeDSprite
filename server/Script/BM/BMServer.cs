@@ -17,6 +17,11 @@ namespace Script
         {
             base.OnLoad(dataEntry, id, version);
             base.AddHandler<BMServer>();
+            
+            this.dispatcher.addHandler(new BMKeepAliveToLobby { server = this });
+            this.dispatcher.addHandler(new BMNewBattle { server = this });
+            this.dispatcher.addHandler(new BMPlayerEnter { server = this });
+            this.dispatcher.addHandler(new BMPlayerExit { server = this });
         }
 
         public override void OnUnload()

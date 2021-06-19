@@ -6,10 +6,10 @@ public class CBootstrap : MonoBehaviour
 {
     public int MapId;
     public CInputManager InputManager;
-    public CCharacter Character;
+    public BtCharacter Character;
     public float Speed = 5f;
 
-    private CMap Map;
+    private BtScene Map;
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -23,12 +23,12 @@ public class CBootstrap : MonoBehaviour
             return;
         }
 
-        LMapData mapData = JsonUtils.FromJson<LMapData>(textAsset.text);
-        LMap lMap = new LMap(mapData);
-        LCharacter lChar = new LCharacter(lMap, 10000);
-        lMap.AddCharacter(lChar);
+        btSceneData mapData = JsonUtils.FromJson<btSceneData>(textAsset.text);
+        btScene scene = new btScene(mapData);
+        btCharacter lChar = new btCharacter(scene, 10000);
+        scene.AddCharacter(lChar);
 
-        Debug.Log("Object count: " + lMap.DictObjects.Count);
+        Debug.Log("Object count: " + scene.DictObjects.Count);
 
         GameObject prefab = Resources.Load<GameObject>("MapPrefab/" + this.MapId);
         if (prefab == null)
@@ -38,8 +38,8 @@ public class CBootstrap : MonoBehaviour
         }
 
         GameObject go = GameObject.Instantiate<GameObject>(prefab);
-        CMap cMap = go.GetComponent<CMap>();
-        cMap.Apply(lMap);
+        BtScene cMap = go.GetComponent<BtScene>();
+        cMap.Apply(scene);
 
         lChar.Pos = this.Character.transform.position;
         this.Character.Apply(lChar, cMap);
@@ -52,7 +52,7 @@ public class CBootstrap : MonoBehaviour
             if (dir != Vector3.zero)
             {
                 Vector3 delta = this.Speed * Time.deltaTime * dir;
-                lMap.Move(lChar, delta);
+                scene.Move(lChar, delta);
             }
         };
     }

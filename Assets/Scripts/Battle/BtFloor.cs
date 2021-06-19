@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CFloor : CObject
+public class BtFloor : BtObject
 {
-    protected LFloor lFloor;
-    public override void Apply(CMap cMap, LObject lObj)
+    protected btLFloor floor;
+    public override void Apply(BtScene scene, btObject obj)
     {
-        base.Apply(cMap, lObj);
-        this.lFloor = lObj as LFloor;
+        base.Apply(scene, obj);
+        this.floor = obj as btLFloor;
     }
 #if UNITY_EDITOR
     protected override void OnDrawGizmosImpl()
     {
-        Vector3 min = LVector3.ToVector3(this.lFloor.Data.Min);
-        Vector3 max = LVector3.ToVector3(this.lFloor.Data.Max);
+        Vector3 min = LVector3.ToVector3(this.floor.Data.Min);
+        Vector3 max = LVector3.ToVector3(this.floor.Data.Max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         Gizmos.color = Color.green;

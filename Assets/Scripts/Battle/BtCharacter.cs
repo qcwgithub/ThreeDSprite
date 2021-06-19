@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class CCharacter : MonoBehaviour
+public class BtCharacter : MonoBehaviour
 {
     public Spine.Unity.SkeletonAnimation Skel;
     private Transform trans;
     private Vector3 originalScale;
-    public LCharacter lChar { get; private set; }
-    private CMap cMap;
-    public void Apply(LCharacter lChar, CMap map)
+    public btCharacter lChar { get; private set; }
+    private BtScene cMap;
+    public void Apply(btCharacter character, BtScene scene)
     {
         this.trans = this.transform;
         this.originalScale = this.trans.localScale;
-        this.lChar = lChar;
-        lChar.PosChanged += this.OnPosChanged;
-        this.cMap = map;
+        this.lChar = character;
+        character.PosChanged += this.OnPosChanged;
+        this.cMap = scene;
     }
 
     private bool moved = false;
@@ -28,8 +28,8 @@ public class CCharacter : MonoBehaviour
         this.moved = true;
     }
 
-    private List<LObject> colliding1 = new List<LObject>();
-    private List<LObject> colliding2 = new List<LObject>();
+    private List<btObject> colliding1 = new List<btObject>();
+    private List<btObject> colliding2 = new List<btObject>();
     private void Update()
     {
         if (this.moved)

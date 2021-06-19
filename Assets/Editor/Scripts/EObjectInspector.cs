@@ -62,7 +62,7 @@ public class EObjectInspector : Editor
 
     private void SaveMap(EObject script)
     {
-        LMapData data = script.ToMapData();
+        btSceneData data = script.ToMapData();
         string text = JsonUtils.ToJson(data);
         File.WriteAllText("Assets/Resources/MapData/" + data.Id + ".txt", text, Encoding.UTF8);
         AssetDatabase.ImportAsset("Assets/Resources/MapData/" + data.Id + ".txt");
@@ -74,7 +74,7 @@ public class EObjectInspector : Editor
         go.transform.parent = script.gameObject.transform.parent;
 
         // 
-        CMap map = go.AddComponent<CMap>();
+        BtScene map = go.AddComponent<BtScene>();
         map.Id = go.GetComponent<EObject>().Id;
         DestroyImmediate(go.GetComponent<EObject>());
 
@@ -96,7 +96,7 @@ public class EObjectInspector : Editor
             {
                 case EType.Floor:
                     {
-                        CFloor floor = obj.gameObject.AddComponent<CFloor>();
+                        BtFloor floor = obj.gameObject.AddComponent<BtFloor>();
                         floor.Id = obj.Id;
                         DestroyImmediate(obj);
                     }
@@ -104,7 +104,7 @@ public class EObjectInspector : Editor
 
                 case EType.Stair:
                     {
-                        CStair stair = obj.gameObject.AddComponent<CStair>();
+                        BtStair stair = obj.gameObject.AddComponent<BtStair>();
                         stair.Id = obj.Id;
                         DestroyImmediate(obj);
                     }
@@ -112,7 +112,7 @@ public class EObjectInspector : Editor
 
                 case EType.BoxObstacle:
                     {
-                        CBoxObstacle ob = obj.gameObject.AddComponent<CBoxObstacle>();
+                        BtBoxObstacle ob = obj.gameObject.AddComponent<BtBoxObstacle>();
                         ob.Id = obj.Id;
                         DestroyImmediate(obj);
                     }
@@ -120,7 +120,7 @@ public class EObjectInspector : Editor
 
                 case EType.Tree:
                     {
-                        CTree ob = obj.gameObject.AddComponent<CTree>();
+                        BtTree ob = obj.gameObject.AddComponent<BtTree>();
                         ob.Id = obj.Id;
                         DestroyImmediate(obj);
                     }

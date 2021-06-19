@@ -45,9 +45,9 @@ public class EObject : MonoBehaviour
     [HideInInspector]
     public StairComposition StairComposition;
 
-    public LFloorData ToFloorData()
+    public btFloorData ToFloorData()
     {
-        LFloorData data = new LFloorData();
+        btFloorData data = new btFloorData();
         data.Id = this.Id;
 
         switch (this.FloorComposition)
@@ -78,9 +78,9 @@ public class EObject : MonoBehaviour
         }
         return data;
     }
-    public LStairData ToStairData()
+    public btStairData ToStairData()
     {
-        LStairData data = new LStairData();
+        btStairData data = new btStairData();
         data.Id = this.Id;
         data.Dir = this.StairDir;
 
@@ -109,9 +109,9 @@ public class EObject : MonoBehaviour
 
         return data;
     }
-    public LBoxObstacleData ToBoxObstaleData()
+    public btBoxObstacleData ToBoxObstaleData()
     {
-        LBoxObstacleData data = new LBoxObstacleData();
+        btBoxObstacleData data = new btBoxObstacleData();
         data.Id = this.Id;
 
         switch (this.BoxObstacleComposition)
@@ -143,9 +143,9 @@ public class EObject : MonoBehaviour
 
         return data;
     }
-    public LTreeData ToTreeData()
+    public btTreeData ToTreeData()
     {
-        LTreeData data = new LTreeData();
+        btTreeData data = new btTreeData();
         data.Id = this.Id;
 
         BoxCollider[] colliders = new BoxCollider[] { this.GetComponent<BoxCollider>() };
@@ -166,15 +166,15 @@ public class EObject : MonoBehaviour
 
         return data;
     }
-    public LMapData ToMapData()
+    public btSceneData ToMapData()
     {
-        LMapData data = new LMapData();
+        btSceneData data = new btSceneData();
         data.Id = this.Id;
 
-        var Floors = new List<LFloorData>();
-        var Stairs = new List<LStairData>();
-        var BoxObstacles = new List<LBoxObstacleData>();
-        var Trees = new List<LTreeData>();
+        var Floors = new List<btFloorData>();
+        var Stairs = new List<btStairData>();
+        var BoxObstacles = new List<btBoxObstacleData>();
+        var Trees = new List<btTreeData>();
 
         EObject[] objects = this.GetComponentsInChildren<EObject>(false);
         for (int i = 0; i < objects.Length; i++)

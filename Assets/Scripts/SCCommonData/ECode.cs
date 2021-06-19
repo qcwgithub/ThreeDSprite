@@ -125,5 +125,6 @@ namespace Data
         NoAvailableBM = 110,
         PlayerAlreadyInBattle = 111,
         PlayerNotInBattle = 112,
+        BattleAlreadyContainsPlayer = 113,
     }
 }

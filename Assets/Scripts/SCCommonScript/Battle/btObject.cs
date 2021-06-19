@@ -2,20 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class LObject
+public abstract class btObject
 {
     public int Id { get; private set; }
-    public LMap lMap { get; private set; }
+    public btScene scene { get; private set; }
     public IntPtr body = IntPtr.Zero;
     // public IntPtr box = IntPtr.Zero;
-    public List<LObject_Time> Collidings { get; } = new List<LObject_Time>();
+    public List<btObject_Time> Collidings { get; } = new List<btObject_Time>();
 
-    public LObject(LMap lMap, int id)
+    public btObject(btScene scene, int id)
     {
-        this.lMap = lMap;
+        this.scene = scene;
         this.Id = id;
     }
-    public abstract LObjectType Type { get; }
+    public abstract btObjectType Type { get; }
     public virtual void AddToPhysicsScene()
     {
 

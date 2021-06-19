@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CTree : CObject
+public class BtTree : BtObject
 {
 #if UNITY_EDITOR
     protected override void OnDrawGizmosImpl()
     {
-        LTree lTree = this.lObj as LTree;
+        btTree lTree = this.obj as btTree;
         Vector3 min = LVector3.ToVector3(lTree.Data.Min);
         Vector3 max = LVector3.ToVector3(lTree.Data.Max);
         Vector3 center = (min + max) / 2;

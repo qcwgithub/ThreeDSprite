@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LBoxObstacle : LObject, IObstacle
+public class btBoxObstacle : btObject, btIObstacle
 {
-    public LBoxObstacleData Data { get; private set; }
+    public btBoxObstacleData Data { get; private set; }
     public float Y { get; private set; }
-    public LBoxObstacle(LMap lMap, LBoxObstacleData data): base(lMap, data.Id)
+    public btBoxObstacle(btScene scene, btBoxObstacleData data): base(scene, data.Id)
     {
         this.Data = data;
         this.Y = data.Max.y;
     }
-    public override LObjectType Type { get { return LObjectType.BoxObstacle; } }
+    public override btObjectType Type { get { return btObjectType.BoxObstacle; } }
 
     public virtual bool LimitMove(Vector3 from, ref Vector3 delta)
     {
-        LBoxObstacleData data = this.Data;
+        btBoxObstacleData data = this.Data;
         Vector3 to = from + delta;
         if (to.x < data.Min.x || to.x > data.Max.x || to.z < data.Min.z || to.z > data.Max.z)
         {
@@ -54,7 +54,7 @@ public class LBoxObstacle : LObject, IObstacle
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
 
-        this.body = lMap.AddBody(this, q3BodyType.eStaticBody, center);
-        lMap.AddBox(this.body, Vector3.zero, size/2);
+        this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
+        scene.AddBox(this.body, Vector3.zero, size/2);
     }
 }

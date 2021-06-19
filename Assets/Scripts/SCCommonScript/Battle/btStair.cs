@@ -8,18 +8,18 @@ public enum StairDir
     LeftHigh_RightLow,
     LeftLow_RightHigh,
 }
-public class LStair : LObject, IWalkable
+public class btStair : btObject, btIWalkable
 {
-    public LStairData Data { get; private set; }
-    public LStair(LMap lMap, LStairData data) : base(lMap, data.Id)
+    public btStairData Data { get; private set; }
+    public btStair(btScene scene, btStairData data) : base(scene, data.Id)
     {
         this.Data = data;
     }
-    public override LObjectType Type { get { return LObjectType.Stair; } }
+    public override btObjectType Type { get { return btObjectType.Stair; } }
 
     protected bool CheckXZOutOfRange(Vector3 pos)
     {
-        LStairData data = this.Data;
+        btStairData data = this.Data;
         bool outOfRange = false;
         if (pos.x < data.Min.x)
         {
@@ -47,7 +47,7 @@ public class LStair : LObject, IWalkable
 
     private float ZtoY(float z)
     {
-        LStairData data = this.Data;
+        btStairData data = this.Data;
         float t = (z - data.Min.z) / (data.Max.z - data.Min.z);
         float y = UnityEngine.Mathf.Lerp(data.Min.y, data.Max.y, t);
         return y;
@@ -55,7 +55,7 @@ public class LStair : LObject, IWalkable
 
     private float XtoY(float x, StairDir dir)
     {
-        LStairData data = this.Data;
+        btStairData data = this.Data;
         if (dir == StairDir.LeftLow_RightHigh)
         {
             float t = (x - data.Min.x) / (data.Max.x - data.Min.x);
@@ -72,7 +72,7 @@ public class LStair : LObject, IWalkable
 
     private float XZtoY(float x, float z)
     {
-        LStairData data = this.Data;
+        btStairData data = this.Data;
         switch (data.Dir)
         {
             case StairDir.Front_Back:
@@ -137,7 +137,7 @@ public class LStair : LObject, IWalkable
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         
-        this.body = lMap.AddBody(this, q3BodyType.eStaticBody, center);
-        lMap.AddBox(this.body, Vector3.zero, size/2);
+        this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
+        this.scene.AddBox(this.body, Vector3.zero, size/2);
     }
 }

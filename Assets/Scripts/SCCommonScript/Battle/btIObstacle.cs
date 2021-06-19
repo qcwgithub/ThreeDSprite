@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public interface IObstacle
+public interface btIObstacle
 {
     bool LimitMove(Vector3 from, ref Vector3 delta);
 }

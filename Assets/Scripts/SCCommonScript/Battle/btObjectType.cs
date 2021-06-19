@@ -1,4 +1,4 @@
-public enum LObjectType
+public enum btObjectType
 {
     Character,
     Floor,

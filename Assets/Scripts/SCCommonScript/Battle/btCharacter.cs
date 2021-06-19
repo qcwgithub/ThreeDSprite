@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public struct LObject_Time
+public struct btObject_Time
 {
-    public LObject obj;
+    public btObject obj;
     public float time;
 }
 
 
-public class LCharacter : LObject
+public class btCharacter : btObject
 {
-    public LCharacter(LMap lMap, int id) : base(lMap, id)
+    public btCharacter(btScene scene, int id) : base(scene, id)
     {
-        lMap.AddNeedUpdate(this.Id);
+        scene.AddNeedUpdate(this.Id);
     }
-    public override LObjectType Type { get { return LObjectType.Character; } }
+    public override btObjectType Type { get { return btObjectType.Character; } }
     public event Action<Vector3> PosChanged;
 
-    private IWalkable walkable;
-    public IWalkable Walkable
+    private btIWalkable walkable;
+    public btIWalkable Walkable
     {
         get { return this.walkable; }
         set
         {
-            IWalkable pre = this.walkable;
+            btIWalkable pre = this.walkable;
             if (pre == value)
             {
                 return;
@@ -49,7 +49,7 @@ public class LCharacter : LObject
             this.pos = value;
 
             if (this.body != IntPtr.Zero)
-                lMap.SetBodyPosition(this.body, value);
+                scene.SetBodyPosition(this.body, value);
 
             if (this.PosChanged != null)
             {
@@ -60,7 +60,7 @@ public class LCharacter : LObject
 
     public override void AddToPhysicsScene()
     {
-        this.body = lMap.AddBody(this, q3BodyType.eDynamicBody, this.pos + new Vector3(0f, 0.4f, 0f));
-        lMap.AddBox(this.body, Vector3.zero, new Vector3(0.2f, 0.4f, 0.2f));
+        this.body = scene.AddBody(this, q3BodyType.eDynamicBody, this.pos + new Vector3(0f, 0.4f, 0f));
+        scene.AddBox(this.body, Vector3.zero, new Vector3(0.2f, 0.4f, 0.2f));
     }
 }

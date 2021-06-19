@@ -17,6 +17,11 @@ namespace Script
         {
             base.OnLoad(dataEntry, id, version);
             base.AddHandler<LobbyServer>();
+
+            this.dispatcher.addHandler(new LobbyDestroyBattle { server = this });
+            this.dispatcher.addHandler(new LobbyOnBMAlive { server = this });
+            this.dispatcher.addHandler(new LobbyPlayerEnterBattle { server = this });
+            this.dispatcher.addHandler(new LobbyPlayerExitBattle { server = this });
         }
 
         public override void OnUnload()

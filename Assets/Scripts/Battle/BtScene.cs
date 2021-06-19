@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CMap : MonoBehaviour
+public class BtScene : MonoBehaviour
 {
     public int Id;
-    public LMap lMap { get; private set; }
+    public btScene scene { get; private set; }
     public bool DrawGizmos_BoundsTree = false;
     public bool DrawGizmos_ObjectBounds = false;
-    public void Apply(LMap lMap)
+    public void Apply(btScene scene)
     {
-        this.lMap = lMap;
-        CObject[] cobjs = this.GetComponentsInChildren<CObject>(true);
+        this.scene = scene;
+        BtObject[] cobjs = this.GetComponentsInChildren<BtObject>(true);
         for (int i = 0; i < cobjs.Length; i++)
         {
-            CObject cObj = cobjs[i];
-            LObject lObj = lMap.GetObject(cObj.Id);
+            BtObject cObj = cobjs[i];
+            btObject lObj = scene.GetObject(cObj.Id);
             if (lObj == null)
             {
                 Debug.LogError("lObj is null, id: " + cObj.Id);
@@ -27,6 +27,11 @@ public class CMap : MonoBehaviour
     
     private void Update()
     {
-        this.lMap.Update();
+        this.scene.Update();
+    }
+
+    void OnDestroy()
+    {
+        this.scene.OnDestroy();
     }
 }

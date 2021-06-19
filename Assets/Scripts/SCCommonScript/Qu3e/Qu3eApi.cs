@@ -3,6 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
+public enum q3BodyType
+{
+    eStaticBody,
+    eDynamicBody,
+    eKinematicBody
+}
+
+public enum q3TransformOperation
+{
+    ePostion,
+    eRotation,
+    eBoth,
+}
+
 public class Qu3eApi
 {
     [DllImport("qu3e.dll", CallingConvention = CallingConvention.Cdecl)]

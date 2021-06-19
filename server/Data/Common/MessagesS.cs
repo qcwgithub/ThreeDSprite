@@ -324,10 +324,28 @@ namespace Data
     {
         public int playerId;
     }
+    public class ResLobbyPlayerEnterBattle : ISerializable
+    {
+        public bool alreadyInBattle;
+        public int bmId;
+        public int battleId;
+        public string bmIp;
+        public int bmPort;
+    }
+
+    public class MsgBMCreateBattle : ISerializable
+    {
+        public int battleId;
+    }
 
     public class MsgBMPlayerEnter : ISerializable
     {
         public int playerId;
+        public int battleId;
+    }
+    public class ResBMPlayerEnter : ISerializable
+    {
+        public string token;
     }
 
     public class MsgLobbyPlayerExitBattle : ISerializable
@@ -336,6 +354,18 @@ namespace Data
     }
     public class MsgBMPlayerExit : ISerializable
     {
+        public int battleId;
         public int playerId;
+    }
+
+    public class MsgBMPlayerLogin : ISerializable
+    {
+        public int battleId;
+        public int playerId;
+        public string token;
+    }
+    public class ResBMPlayerLogin : ISerializable
+    {
+        // scene data!
     }
 }

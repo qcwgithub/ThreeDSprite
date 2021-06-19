@@ -3,12 +3,12 @@ using Data;
 
 namespace Script
 {
-    public class BMPlayerExit : BMHandler
+    public class BMPlayerLogin : BMHandler
     {
-        public override MsgType msgType => MsgType.BMPlayerExit;
+        public override MsgType msgType => MsgType.BMPlayerLogin;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgBMPlayerExit>(_msg);
+            var msg = this.server.castObject<MsgBMPlayerLogin>(_msg);
             
             BMBattleInfo battleInfo;
             if (!this.server.bmData.battleInfos.TryGetValue(msg.battleId, out battleInfo))
@@ -22,9 +22,12 @@ namespace Script
                 return ECode.PlayerNotInBattle.toTask();
             }
 
-            battleInfo.players.Remove(msg.playerId);
-
-            return ECode.Error.toTask();
+            if (msg.token != playerInfo.token)
+            {
+                return ECode.InvalidToken.toTask();
+            }
+            
+            return ECode.Success.toTask();
         }
     }
 }

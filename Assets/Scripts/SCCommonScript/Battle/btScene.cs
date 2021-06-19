@@ -3,21 +3,21 @@ using UnityEngine;
 using System;
 using Script;
 
-public class LMap
+public class btScene
 {
-    public LMapData Data { get; private set; }
-    public Dictionary<int, LObject> DictObjects = new Dictionary<int, LObject>();
-    private List<IWalkable> Walkables = new List<IWalkable>();
-    private List<IObstacle> Obstacles = new List<IObstacle>();
-    private List<LTree> Trees = new List<LTree>();
+    public btSceneData Data { get; private set; }
+    public Dictionary<int, btObject> DictObjects = new Dictionary<int, btObject>();
+    private List<btIWalkable> Walkables = new List<btIWalkable>();
+    private List<btIObstacle> Obstacles = new List<btIObstacle>();
+    private List<btTree> Trees = new List<btTree>();
     private HashSet<int> needUpdates = new HashSet<int>();
-    Dictionary<IntPtr, LObject> body2Objects = new Dictionary<IntPtr, LObject>();
+    Dictionary<IntPtr, btObject> body2Objects = new Dictionary<IntPtr, btObject>();
 
     IntPtr physicsScene = IntPtr.Zero;
-    public IntPtr AddBody(LObject who, q3BodyType bodyType, Vector3 position)
+    public IntPtr AddBody(btObject who, q3BodyType bodyType, Vector3 position)
     {
         var body = Qu3eApi.SceneAddBody(physicsScene, bodyType, position.x, position.y, position.z);
-        body2Objects.Add(body, who);
+        this.body2Objects.Add(body, who);
         return body;
     }
     public void AddBox(IntPtr body, Vector3 position, Vector3 extends)
@@ -34,46 +34,46 @@ public class LMap
         Qu3eApi.BodySetTransform(body, q3TransformOperation.ePostion, tempForPosition);
     }
 
-    Qu3eApi.ContactDelegate OnBeginContactDel;
-    Qu3eApi.ContactDelegate OnEndContactDel;
-    public LMap(LMapData data)
+    Qu3eApi.ContactDelegate onBeginContactDel;
+    Qu3eApi.ContactDelegate onEndContactDel;
+    public btScene(btSceneData data)
     {
         this.Data = data;
 
-        physicsScene = Qu3eApi.CreateScene();
+        this.physicsScene = Qu3eApi.CreateScene();
 
-        OnBeginContactDel = new Qu3eApi.ContactDelegate(this.OnBeginContact);
-        OnEndContactDel = new Qu3eApi.ContactDelegate(this.OnEndContact);
-        Qu3eApi.SceneSetContactListener(physicsScene, OnBeginContactDel, OnEndContactDel);
+        this.onBeginContactDel = new Qu3eApi.ContactDelegate(this.OnBeginContact);
+        this.onEndContactDel = new Qu3eApi.ContactDelegate(this.OnEndContact);
+        Qu3eApi.SceneSetContactListener(physicsScene, this.onBeginContactDel, this.onEndContactDel);
 
         for (int i = 0; i < data.Floors.Length; i++)
         {
-            LFloorData floorData = data.Floors[i];
-            LFloor floor = new LFloor(this, floorData);
+            btFloorData floorData = data.Floors[i];
+            btLFloor floor = new btLFloor(this, floorData);
             this.Walkables.Add(floor);
             this.DictObjects.Add(floor.Id, floor);
         }
 
         for (int i = 0; i < data.Stairs.Length; i++)
         {
-            LStairData stairData = data.Stairs[i];
-            LStair stair = new LStair(this, stairData);
+            btStairData stairData = data.Stairs[i];
+            btStair stair = new btStair(this, stairData);
             this.Walkables.Add(stair);
             this.DictObjects.Add(stair.Id, stair);
         }
 
         for (int i = 0; i < data.BoxObstacles.Length; i++)
         {
-            LBoxObstacleData obData = data.BoxObstacles[i];
-            LBoxObstacle obstacle = new LBoxObstacle(this, obData);
+            btBoxObstacleData obData = data.BoxObstacles[i];
+            btBoxObstacle obstacle = new btBoxObstacle(this, obData);
             this.Obstacles.Add(obstacle);
             this.DictObjects.Add(obstacle.Id, obstacle);
         }
 
         for (int i = 0; i < data.Trees.Length; i++)
         {
-            LTreeData treeData = data.Trees[i];
-            LTree tree = new LTree(this, treeData);
+            btTreeData treeData = data.Trees[i];
+            btTree tree = new btTree(this, treeData);
             this.Trees.Add(tree);
             this.DictObjects.Add(tree.Id, tree);
         }
@@ -86,39 +86,39 @@ public class LMap
 
     void OnBeginContact(IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
     {
-        LObject objectA;
+        btObject objectA;
         if (!body2Objects.TryGetValue(bodyA, out objectA))
         {
             return;
         }
 
-        LObject objectB;
+        btObject objectB;
         if (!body2Objects.TryGetValue(bodyB, out objectB))
         {
             return;
         }
         Debug.Log(string.Format("OnBeginContact {0} - {1}", objectA, objectB));
-        objectA.Collidings.Add(new LObject_Time { obj = objectB });
-        objectB.Collidings.Add(new LObject_Time { obj = objectA });
+        objectA.Collidings.Add(new btObject_Time { obj = objectB });
+        objectB.Collidings.Add(new btObject_Time { obj = objectA });
     }
 
     void OnEndContact(IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
     {
         // Debug.LogWarning(string.Format("OnEndContact"));
 
-        LObject objectA;
+        btObject objectA;
         if (!body2Objects.TryGetValue(bodyA, out objectA))
         {
             return;
         }
 
-        LObject objectB;
+        btObject objectB;
         if (!body2Objects.TryGetValue(bodyB, out objectB))
         {
             return;
         }
 
-        Debug.Log(string.Format("OnEndContact {0} * {1}", objectA, objectB));
+        Debug.Log(string.Format("OnEndContact {0} x {1}", objectA, objectB));
         for (int i = 0; i < objectA.Collidings.Count; i++)
         {
             if (objectA.Collidings[i].obj == objectB)
@@ -138,9 +138,9 @@ public class LMap
         }
     }
 
-    public LObject GetObject(int id)
+    public btObject GetObject(int id)
     {
-        LObject obj;
+        btObject obj;
         if (!this.DictObjects.TryGetValue(id, out obj))
         {
             return null;
@@ -151,7 +151,7 @@ public class LMap
     private List<int> toRemoves = new List<int>();
     public void RemoveObject(int id)
     {
-        LObject obj = this.GetObject(id);
+        btObject obj = this.GetObject(id);
         if (obj == null)
         {
             return;
@@ -175,11 +175,11 @@ public class LMap
     //    }
     //}
 
-    public void Move(LCharacter lChar, Vector3 delta)
+    public void Move(btCharacter lChar, Vector3 delta)
     {
         Vector3 from = lChar.Pos;
         float y = 0f;
-        IWalkable preWalkable = lChar.Walkable;
+        btIWalkable preWalkable = lChar.Walkable;
 
         if (lChar.Walkable != null)
         {
@@ -200,7 +200,7 @@ public class LMap
         int index = 0;
         if (lChar.Walkable != null)
         {
-            index = lChar.Collidings.FindIndex(_ => _.obj is IWalkable && (_.obj as IWalkable) == preWalkable);
+            index = lChar.Collidings.FindIndex(_ => _.obj is btIWalkable && (_.obj as btIWalkable) == preWalkable);
             if (index >= 0)
             {
                 index++;
@@ -210,7 +210,7 @@ public class LMap
         {
             for (; index < lChar.Collidings.Count; index++)
             {
-                IWalkable walkable = lChar.Collidings[index].obj as IWalkable;
+                btIWalkable walkable = lChar.Collidings[index].obj as btIWalkable;
                 if (walkable == null)
                 {
                     continue;
@@ -237,7 +237,7 @@ public class LMap
         // limit by obstacles
         for (int i = 0; i < lChar.Collidings.Count; i++)
         {
-            IObstacle ob = lChar.Collidings[i].obj as IObstacle;
+            btIObstacle ob = lChar.Collidings[i].obj as btIObstacle;
             if (ob != null && ob.LimitMove(from, ref delta))
             {
                 break;
@@ -262,7 +262,7 @@ public class LMap
     //     return this.Walkables[index];
     // }
 
-    public void AddCharacter(LCharacter lChar)
+    public void AddCharacter(btCharacter lChar)
     {
         this.DictObjects.Add(lChar.Id, lChar);
         lChar.AddToPhysicsScene();
@@ -283,5 +283,10 @@ public class LMap
         // }
         Qu3eApi.SceneStep(physicsScene);
         this.updating = false;
+    }
+
+    public void OnDestroy()
+    {
+        Qu3eApi.SceneDestroy(this.physicsScene);
     }
 }

@@ -10,7 +10,7 @@ public struct PredictMoveResult
 }
 
 
-public interface IWalkable
+public interface btIWalkable
 {
     PredictMoveResult PredictMove(Vector3 from, Vector3 delta);
     //bool IsInRange(Vector3 pos);

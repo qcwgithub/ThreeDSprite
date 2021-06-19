@@ -198,6 +198,7 @@ namespace Data
     }
     public class ResEnterBattle : ISerializable
     {
+        public bool alreadyInBattle;
         public int bmId;
         public int battleId;
         public string bmIp;

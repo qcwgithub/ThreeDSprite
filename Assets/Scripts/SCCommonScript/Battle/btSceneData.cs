@@ -20,7 +20,7 @@ public struct LVector3
     }
 }
 
-public class LFloorData
+public class btFloorData
 {
     public int Id;
     public LVector3 Min;
@@ -28,7 +28,7 @@ public class LFloorData
     public float Y;
 }
 
-public class LStairData
+public class btStairData
 {
     public int Id;
     public StairDir Dir;
@@ -36,23 +36,23 @@ public class LStairData
     public LVector3 Max;
 }
 
-public class LBoxObstacleData
+public class btBoxObstacleData
 {
     public int Id;
     public LVector3 Min;
     public LVector3 Max;
 }
 
-public class LMapData
+public class btSceneData
 {
     public int Id;
-    public LFloorData[] Floors;
-    public LStairData[] Stairs;
-    public LBoxObstacleData[] BoxObstacles;
-    public LTreeData[] Trees;
+    public btFloorData[] Floors;
+    public btStairData[] Stairs;
+    public btBoxObstacleData[] BoxObstacles;
+    public btTreeData[] Trees;
 }
 
-public class LTreeData
+public class btTreeData
 {
     public int Id;
     public LVector3 Min;

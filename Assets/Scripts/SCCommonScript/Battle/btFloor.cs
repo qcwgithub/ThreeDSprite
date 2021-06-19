@@ -2,20 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LFloor : LObject, IWalkable
+public class btLFloor : btObject, btIWalkable
 {
-    public LFloorData Data { get; private set; }
-    public LFloor(LMap lMap, LFloorData data): base(lMap, data.Id)
+    public btFloorData Data { get; private set; }
+    public btLFloor(btScene scene, btFloorData data): base(scene, data.Id)
     {
         this.Data = data;
     }
-    public override LObjectType Type { get { return LObjectType.Floor; } }
+    public override btObjectType Type { get { return btObjectType.Floor; } }
 
     //public override int Priority { get { return 1; } }
 
     protected bool CheckXZOutOfRange(Vector3 pos)
     {
-        LFloorData data = this.Data;
+        btFloorData data = this.Data;
 
         bool outOfRange = false;
         if (pos.x < data.Min.x)
@@ -50,7 +50,7 @@ public class LFloor : LObject, IWalkable
 
     public PredictMoveResult PredictMove(Vector3 from, Vector3 delta)
     {
-        LFloorData data = this.Data;
+        btFloorData data = this.Data;
         PredictMoveResult result = default;
         Vector3 to = from + delta;
         if (this.CheckXZOutOfRange(to))
@@ -65,7 +65,7 @@ public class LFloor : LObject, IWalkable
 
     public bool CanAccept(Vector3 from, Vector3 delta)
     {
-        LFloorData data = this.Data;
+        btFloorData data = this.Data;
         Vector3 to = from + delta;
         if (this.CheckXZOutOfRange(to))
         {
@@ -89,7 +89,7 @@ public class LFloor : LObject, IWalkable
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         
-        this.body = lMap.AddBody(this, q3BodyType.eStaticBody, center);
-        lMap.AddBox(this.body, Vector3.zero, size/2);
+        this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
+        scene.AddBox(this.body, Vector3.zero, size/2);
     }
 }

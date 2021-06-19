@@ -58,11 +58,13 @@ namespace Data
         BMPlayerEnter = 54,
         BMPlayerExit = 55,
         LobbyOnBMAlive = 56,
-        LobbyCreateBattle = 57,
+        // LobbyCreateBattle = 57,
         LobbyDestroyBattle = 58,
         LobbyPlayerEnterBattle = 59,
         LobbyPlayerExitBattle = 60,
         LobbySetBMReady = 61,
+        BMNewBattle = 62,
+        BMPlayerLogin = 63,
 
         // client
         ClientStart = 10000,
@@ -72,7 +74,7 @@ namespace Data
         PMPayLtStart = 10003,
         PMChangeChannel = 10004,
         PMPayLt = 10005,
-        // PMAddStar = 10006,
+        PMAddStar = 10006,
         // PMSubStar = 10007,
         PMPlayTurnTable = 10008,
         // UploadTurnTable = 10009,
