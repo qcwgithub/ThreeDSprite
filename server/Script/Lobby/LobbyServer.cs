@@ -22,6 +22,7 @@ namespace Script
             this.dispatcher.addHandler(new LobbyOnBMAlive { server = this });
             this.dispatcher.addHandler(new LobbyPlayerEnterBattle { server = this });
             this.dispatcher.addHandler(new LobbyPlayerExitBattle { server = this });
+            this.dispatcher.addHandler(new LobbySetBMReady { server = this });
         }
 
         public override void OnUnload()

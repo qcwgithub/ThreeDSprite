@@ -102,11 +102,31 @@ namespace Script
                 ServerConst.LOC_ID,
                 ServerConst.AAA_ID,
                 ServerConst.DB_PLAYER_ID,
-                ServerConst.DB_LOG_ID
+                ServerConst.DB_LOG_ID,
+                ServerConst.LOBBY_ID,
             });
 
             // data.timerData.setTimer(1, MsgType.PMKeepAliveToAAA, null, false);
             InitListenForServer(data);
+            InitListenForClient(data);
+            return data;
+        }
+
+        LobbyData CreateLobbyData(int id)
+        {
+            var data = new LobbyData();
+            InitBaseData(data, id, new List<int>());
+            InitListenForServer(data);
+            return data;
+        }
+
+        BMData CreateBMData(int id)
+        {
+            var data = new BMData();
+            InitBaseData(data, id, new List<int> 
+            {
+                ServerConst.LOBBY_ID,
+            });
             InitListenForClient(data);
             return data;
         }
@@ -156,16 +176,16 @@ namespace Script
             {
                 return CreatePMData(id);
             }
+            else if (id == ServerConst.LOBBY_ID)
+            {
+                return CreateLobbyData(id);
+            }
+            else if (id >= ServerConst.BM_START_ID && id <= ServerConst.BM_END_ID)
+            {
+                return CreateBMData(id);
+            }
 
             return null;
-        }
-
-        BMData CreateBMData(int id)
-        {
-            var data = new BMData();
-            InitBaseData(data, id, new List<int>());
-            InitListenForServer(data);
-            return data;
         }
 
         DataEntry dataEntry;

@@ -1,3 +1,5 @@
+using System;
+
 public class ServerConst
 {
     public static string CLIENT_SIGN = "kk66iioo773452m";
@@ -19,7 +21,7 @@ public class ServerConst
     public static int MONITOR_PORT = 0;
 
     public static int LOBBY_ID = 5;
-    public static int BMM_PORT = 0;
+    public static int LOBBY_IN_PORT = 0;
 
     public static int DB_ACCOUNT_ID = 11;
     public static int DB_ACCOUNT_PORT = 0;
@@ -32,12 +34,12 @@ public class ServerConst
 
     public static int PM_START_ID = 101;
     public static int PM_END_ID = 199;
-    public static int PM_START_IN_PORT = 0;
+    // public static int PM_START_IN_PORT = 0;
     public static int PM_START_OUT_PORT = 0;
 
     public static int BM_START_ID = 201;
     public static int BM_END_ID = 399;
-    public static int BM_START_IN_PORT = 0;
+    //public static int BM_START_IN_PORT = 0;
     public static int BM_START_OUT_PORT = 0;
 
     // 域名
@@ -63,18 +65,19 @@ public class ServerConst
             DB_PLAYER_PORT = 3004;
             DB_LOG_PORT = 3005;
             AAA_IN_PORT = 3006;
+            LOBBY_IN_PORT = 3007;
 
             AAA_OUT_PORT = 8001; // cn -> SH1
             WEB_PORT = 8002; // cn -> SH1
             AAA_LT_NOTIFY_PORT = 8004;
 
-            PM_START_IN_PORT = 3007;
+            // PM_START_IN_PORT = 3007;
 
             PM_START_OUT_PORT = 8005; // cn -> SH1
             AAA_IVY_NOTIFY_PORT = 8006;
             
-            BM_START_IN_PORT = 0;
-            BM_START_OUT_PORT = 0;
+            // BM_START_IN_PORT = 0;
+            BM_START_OUT_PORT = 8009;
         }
         // else if (purpose == Purpose.Review) {
         //     // [3011, 3019]
@@ -106,7 +109,7 @@ public class ServerConst
             AAA_LT_NOTIFY_PORT = 8024; // 无配置转发，是用IP的，则PM发送
             AAA_IVY_NOTIFY_PORT = 8025;
 
-            PM_START_IN_PORT = 3027;
+            // PM_START_IN_PORT = 3027;
 
             // [8031, 8038] cn -> SH1
             // [8039, 8046] cn -> SH2
@@ -128,7 +131,7 @@ public class ServerConst
             AAA_LT_NOTIFY_PORT = 8104;
             AAA_IVY_NOTIFY_PORT = 8105;
 
-            PM_START_IN_PORT = 3057;
+            // PM_START_IN_PORT = 3057;
 
             PM_START_OUT_PORT = 8111;
         }
@@ -148,7 +151,7 @@ public class ServerConst
             AAA_LT_NOTIFY_PORT = 8204; // global -> HK1
             AAA_IVY_NOTIFY_PORT = 8205; // global -> HK1  // 这个数不能改，填在 ivy 包里的
 
-            PM_START_IN_PORT = 3107;
+            // PM_START_IN_PORT = 3107;
 
             // [8211, 8214] global -> HK1
             PM_START_OUT_PORT = 8211;
@@ -168,6 +171,10 @@ public class ServerConst
         else if (id >= PM_START_ID && id <= PM_END_ID)
         {
             return PM_START_OUT_PORT + (id - PM_START_ID);
+        }
+        else if (id >= BM_START_ID && id <= BM_END_ID)
+        {
+            return BM_START_OUT_PORT + (id - BM_START_ID);
         }
         else
         {
@@ -200,12 +207,13 @@ public class ServerConst
         {
             return DB_LOG_PORT;
         }
-        else if (id >= PM_START_ID && id <= PM_END_ID)
+        else if (id == LOBBY_ID)
         {
-            return PM_START_IN_PORT + (id - PM_START_ID);
+            return LOBBY_IN_PORT;
         }
         else
         {
+            // throw new Exception();
             return 0;
         }
     }

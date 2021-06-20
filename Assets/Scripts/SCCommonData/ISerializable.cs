@@ -4,4 +4,9 @@ namespace Data
     {
         
     }
+    
+    public interface IBattleSerializable
+    {
+        
+    }
 }

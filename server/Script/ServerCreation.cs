@@ -68,6 +68,18 @@ namespace Script
                     s.OnLoad(dataEntry, id, version);
                     list.Add(s);
                 }
+                else if (id == ServerConst.LOBBY_ID)
+                {
+                    var s = new LobbyServer();
+                    s.OnLoad(dataEntry, id, version);
+                    list.Add(s);
+                }
+                else if (id >= ServerConst.BM_START_ID && id <= ServerConst.BM_END_ID)
+                {
+                    var s = new BMServer();
+                    s.OnLoad(dataEntry, id, version);
+                    list.Add(s);
+                }
                 else
                 {
                     continue;

@@ -39,6 +39,7 @@ namespace Script
             this.dispatcher.addHandler(new PMAction { server = this });
             this.dispatcher.addHandler(new PMChangeChannel { server = this });
             this.dispatcher.addHandler(new PMDestroyPlayer { server = this });
+            this.dispatcher.addHandler(new PMEnterBattle { server = this });
             this.dispatcher.addHandler(new PMKeepAliveToAAA { server = this });
             this.dispatcher.addHandler(new PMOnClose { server = this });
             this.dispatcher.addHandler(new PMPlayerLogin { server = this });

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class CLoading : MonoBehaviour
 {
+    public string NextSceneName;
     public CBoard Board;
     public CLogin Login;
 
@@ -46,7 +47,7 @@ public class CLoading : MonoBehaviour
 
         if (serverList.enterGame)
         {
-            SceneManager.LoadScene("Main");
+            SceneManager.LoadScene(this.NextSceneName);
             yield break;
         }
     }
@@ -63,7 +64,7 @@ public class CLoading : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(www.error);
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.2f);
             }
             else
             {

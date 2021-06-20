@@ -713,6 +713,8 @@ public class RealServer : ClientServer
         }
         this.protoPM.send(type, _msg, (ECode err, object res) =>
         {
+            Debug.Log(string.Format("response {0},{1}", err, JsonUtils.ToJson(res)));
+
             var r = new MyResponse(err, res);
             if (block)
             {

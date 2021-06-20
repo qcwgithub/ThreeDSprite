@@ -186,12 +186,6 @@ namespace Data
         public int errno;
     }
 
-    public class MsgActivityStart : ISerializable
-    {
-        
-
-    }
-
     public class MsgEnterBattle : ISerializable
     {
 

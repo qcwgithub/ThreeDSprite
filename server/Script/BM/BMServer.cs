@@ -24,6 +24,13 @@ namespace Script
             this.dispatcher.addHandler(new BMPlayerExit { server = this });
         }
 
+        public override void OnStart()
+        {
+            base.OnStart();
+            
+            this.setTimer(0, MsgType.BMKeepAliveToLobby, null);
+        }
+
         public override void OnUnload()
         {
             base.OnUnload();

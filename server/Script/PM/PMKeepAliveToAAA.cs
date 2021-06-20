@@ -75,7 +75,6 @@ namespace Script
             return ECode.Success;
         }
 
-
         public override MyResponse postHandle(object socket, object msg, MyResponse r)
         {
             this.server.setTimer(1, this.msgType, null);

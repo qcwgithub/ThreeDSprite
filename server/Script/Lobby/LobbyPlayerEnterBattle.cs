@@ -1,3 +1,4 @@
+using System;
 using Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -35,6 +36,17 @@ namespace Script
             return true;
         }
 
+        DateTime battleIdBaseTime = new DateTime(2021, 6, 1);
+        int getNextBattleId()
+        {
+            var now = DateTime.Now;
+            if (this.server.lobbyData.battleId == 0)
+            {
+                this.server.lobbyData.battleId = (int) now.Subtract(this.battleIdBaseTime).TotalSeconds;
+            }
+            return this.server.lobbyData.battleId++;
+        }
+
         async Task<MyResponse> newBattle()
         {
             LobbyBMInfo bmInfo = null;
@@ -64,7 +76,7 @@ namespace Script
             }
 
             var msg = new MsgBMCreateBattle();
-            msg.battleId = this.server.lobbyData.battleId++;
+            msg.battleId = this.getNextBattleId();
             MyResponse r = await this.server.tcpClientScript.sendToServerAsync(bmInfo.bmId, MsgType.BMNewBattle, msg);
             if (r.err != ECode.Success)
             {
@@ -105,6 +117,8 @@ namespace Script
             }
 
             var msg = this.server.castObject<MsgLobbyPlayerEnterBattle>(_msg);
+            this.server.logger.Info(this.msgName + ", playerId: " + msg.playerId);
+
             LobbyBMInfo bmInfo = null;
             LobbyBattleInfo battleInfo = null;
             MyResponse r = null;
@@ -138,6 +152,12 @@ namespace Script
                 {
                     return r;
                 }
+
+                lobbyPlayerInfo = new LobbyPlayerInfo();
+                lobbyPlayerInfo.playerId = msg.playerId;
+                lobbyPlayerInfo.bmId = bmInfo.bmId;
+                lobbyPlayerInfo.battleId = battleInfo.battleId;
+                this.server.lobbyData.playerInfos.Add(msg.playerId, lobbyPlayerInfo);
             }
 
             var res = new ResLobbyPlayerEnterBattle();

@@ -9,6 +9,8 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.castObject<MsgBMPlayerEnter>(_msg);
+            this.server.logger.Info(this.msgName + ", playerId: " + msg.playerId);
+
             BMBattleInfo battleInfo;
             if (!this.server.bmData.battleInfos.TryGetValue(msg.battleId, out battleInfo))
             {

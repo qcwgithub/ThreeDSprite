@@ -4,7 +4,7 @@ namespace Data
 {
     public sealed class LobbyData : ServerData
     {
-        public int battleId;
+        public int battleId = 0;
 
         public Dictionary<int, LobbyPlayerInfo> playerInfos = new Dictionary<int, LobbyPlayerInfo>();
         public LobbyPlayerInfo GetPlayerInfo(int id)

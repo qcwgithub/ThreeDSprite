@@ -126,5 +126,6 @@ namespace Data
         PlayerAlreadyInBattle = 111,
         PlayerNotInBattle = 112,
         BattleAlreadyContainsPlayer = 113,
+        LobbyNotConnected = 114,
     }
 }

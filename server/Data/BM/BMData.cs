@@ -31,6 +31,6 @@ namespace Data
         };
 
         public bool lobbyReady;
-        public bool allowNewBattle;
+        public bool allowNewBattle = true;
     }
 }

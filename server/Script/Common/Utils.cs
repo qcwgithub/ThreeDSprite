@@ -42,9 +42,17 @@ namespace Script
             {
                 return "monitor";
             }
+            if (id == ServerConst.LOBBY_ID)
+            {
+                return "lobby";
+            }
             if (id >= ServerConst.PM_START_ID && id <= ServerConst.PM_END_ID)
             {
                 return "pm" + id;
+            }
+            if (id >= ServerConst.BM_START_ID && id <= ServerConst.BM_END_ID)
+            {
+                return "bm" + id;
             }
             return null;
         }
@@ -73,9 +81,17 @@ namespace Script
                 case "monitor":
                     return ServerConst.MONITOR_ID;
 
+                case "lobby":
+                    return ServerConst.LOBBY_ID;
+
                 default:
                     {
-                        return int.Parse(id.Substring("pm".Length));
+                        if (id.StartsWith("pm"))
+                            return int.Parse(id.Substring("pm".Length));
+                        else if (id.StartsWith("bm"))
+                            return int.Parse(id.Substring("bm".Length));
+                        else
+                            throw new System.Exception();
                     }
             }
         }

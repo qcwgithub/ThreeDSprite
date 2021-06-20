@@ -13,7 +13,7 @@ namespace Script
         {
             var msg = this.server.castObject<MsgLogPlayerLogin>(_msg);
 
-            var queryStr = "INSERT INTO player_login (playerId) VALUES (@0);";
+            var queryStr = "INSERT INTO player_login (playerId,level) VALUES (@0,1);";
             var param = this.makeParameters(msg.playerId);
 
             int affectedRows = await MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, queryStr, param);

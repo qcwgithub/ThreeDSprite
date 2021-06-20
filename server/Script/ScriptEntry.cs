@@ -17,7 +17,7 @@ namespace Script
             List<int> serverIds = null;
             string ids = args["ids"];
             if (ids == "all")
-                serverIds = new List<int> { 1, 2, 3, 4, 11, 12, 13, 101 };
+                serverIds = new List<int> { 1, 2, 3, 4, 5, 11, 12, 13, 101, 201 };
             else
                 serverIds = JSON.parse<List<int>>(ids);
 

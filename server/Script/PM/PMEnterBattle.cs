@@ -17,6 +17,13 @@ namespace Script
                 this.logger.ErrorFormat("{0} player == null!!", this.msgName);
                 return ECode.PlayerNotExist;
             }
+            
+            this.server.logger.Info(this.msgName + ", playerId: " + player.id);
+
+            if (!this.server.tcpClientScript.isServerConnected(ServerConst.LOBBY_ID))
+            {
+                return ECode.LobbyNotConnected;
+            }
 
             var lobbyMsg = new MsgLobbyPlayerEnterBattle();
             lobbyMsg.playerId = player.id;
