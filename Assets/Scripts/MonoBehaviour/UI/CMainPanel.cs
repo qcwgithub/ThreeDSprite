@@ -28,6 +28,8 @@ public class CMainPanel : MonoBehaviour
             if (r.err == ECode.Success)
             {
                 var res = r.res as ResEnterBattle;
+                CBattleScene.resEnterBattle = res;
+                CBattleScene.enter();
             }
         },
         10000,

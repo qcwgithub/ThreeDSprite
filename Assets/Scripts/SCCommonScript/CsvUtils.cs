@@ -33,7 +33,15 @@ namespace Script
             return true;
         }
 
-        string getCell(string name) { return this.currentRow[this.name2ColumnIndex[name]]; }
+        string getCell(string name)
+        {
+            int columnIndex;
+            if (!this.name2ColumnIndex.TryGetValue(name, out columnIndex))
+            {
+                return null;
+            }
+            return this.currentRow[columnIndex];
+        }
 
         public string readString(string name)
         {
@@ -67,6 +75,10 @@ namespace Script
             {
                 return default_;
             }
+            if (cell.IndexOf(CsvUtils.COMMA_REPLACEMENT) >= 0)
+            {
+                cell = cell.Replace(CsvUtils.COMMA_REPLACEMENT, ',');
+            }
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(cell);
         }
 
@@ -79,6 +91,10 @@ namespace Script
 
     public class CsvUtils
     {
+        public const string IGNORE_LINE_FLAG = "#";
+        public const char CELL_SPLITER = ',';
+        public const char COMMA_REPLACEMENT = '|';
+
         public static CsvHelper parse(string text)
         {
             string[] lines = text.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -86,11 +102,11 @@ namespace Script
             List<string[]> lines2 = new List<string[]>();
             foreach (var line in lines)
             {
-                if (line.StartsWith("#"))
+                if (line.StartsWith(IGNORE_LINE_FLAG))
                 {
                     continue;
                 }
-                string[] cells = line.Split(',');
+                string[] cells = line.Split(CELL_SPLITER);
                 if (headers == null)
                 {
                     headers = cells;

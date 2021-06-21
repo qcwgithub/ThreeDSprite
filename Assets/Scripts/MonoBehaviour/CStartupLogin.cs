@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CLogin : MonoBehaviour
+public class CStartupLogin : MonoBehaviour
 {
-    public Text LoginMessageLabel;
-
     public IEnumerator StartLogin(string ip, int port)
     {
-        LoginMessageLabel.gameObject.SetActive(true);
-        LoginMessageLabel.text = "";
-
         ClientServer.Instance = new RealServer();
         var realServer = (ClientServer.Instance as RealServer);
         realServer.OnStatusChange += this.OnStatusChange;
@@ -26,7 +21,8 @@ public class CLogin : MonoBehaviour
     bool loginSuccess = false;
     void OnStatusChange(NetworkStatus status, string message)
     {
-        LoginMessageLabel.text = status.ToString() + (message != null ? ", message: " + message : "");
+        var info = sc.loadingPanel.show("login", -1);
+        info.setMessage(status.ToString() + (message != null ? ", message: " + message : ""));
 
         switch (status)
         {
@@ -35,14 +31,15 @@ public class CLogin : MonoBehaviour
             case NetworkStatus.LoginToASucceeded:
             case NetworkStatus.ConnectToGame:
             case NetworkStatus.LoginToG:
-                LoginMessageLabel.color = Color.green;
+                info.setColor(Color.green);
                 break;
 
             case NetworkStatus.LoginToGSucceeded:
                 var realServer = (ClientServer.Instance as RealServer);
                 realServer.OnStatusChange -= this.OnStatusChange;
-                LoginMessageLabel.color = Color.green;
+                info.setColor(Color.green);
                 loginSuccess = true;
+                sc.loadingPanel.hide("login");
                 break;
 
             case NetworkStatus.ConnectToAFailed:
@@ -50,7 +47,7 @@ public class CLogin : MonoBehaviour
             case NetworkStatus.ConnectToGFailed:
             case NetworkStatus.LoginToGFailed:
             default:
-                LoginMessageLabel.color = Color.red;
+                info.setColor(Color.red);
                 break;
         }
     }

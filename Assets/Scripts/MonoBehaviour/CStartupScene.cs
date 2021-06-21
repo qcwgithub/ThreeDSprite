@@ -5,15 +5,18 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class CLoading : MonoBehaviour
+public class CStartupScene : CSceneBase
 {
     public string NextSceneName;
-    public CBoard Board;
-    public CLogin Login;
+    public CBoardPanel Board;
+    public CStartupLogin Login;
+    public GameObject LoadingPanelPrefab;
 
-    void Awake()
+    protected override void Awake()
     {
+        sc.LoadingPanelPrefab = this.LoadingPanelPrefab;
         Board.gameObject.SetActive(false);
+        base.Awake();
     }
 
     ServerList serverList = null;
@@ -47,13 +50,14 @@ public class CLoading : MonoBehaviour
 
         if (serverList.enterGame)
         {
-            SceneManager.LoadScene(this.NextSceneName);
-            yield break;
+            CMainScene.enter();
         }
     }
 
     IEnumerator downloadServerList()
     {
+        var info = sc.loadingPanel.show("loadServerList", -1);
+        info.setMessage("loading server list");
         string url = $"https://hecxxzdl.jysyx.net/server_list/{PlatformUtils.getPlatformString()}_{ProjectUtils.ProjectName}/{PlatformUtils.getAppVersion()}.txt";
         Debug.Log(url);
 
@@ -73,6 +77,7 @@ public class CLoading : MonoBehaviour
                     string text = www.downloadHandler.text;
                     Debug.Log(text);
                     this.serverList = Newtonsoft.Json.JsonConvert.DeserializeObject<ServerList>(text);
+                    sc.loadingPanel.hide("loadServerList");
                     break;
                 }
                 catch (Exception ex)
