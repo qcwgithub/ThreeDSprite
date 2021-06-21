@@ -186,12 +186,6 @@ namespace Data
         public int errno;
     }
 
-    public class MsgActivityStart : ISerializable
-    {
-        
-
-    }
-
     public class MsgEnterBattle : ISerializable
     {
 
@@ -203,6 +197,17 @@ namespace Data
         public int battleId;
         public string bmIp;
         public int bmPort;
+    }
+
+    public class MsgBMPlayerLogin : ISerializable
+    {
+        public int battleId;
+        public int playerId;
+        public string token;
+    }
+    public class ResBMPlayerLogin : ISerializable
+    {
+        // scene data!
     }
 }
 

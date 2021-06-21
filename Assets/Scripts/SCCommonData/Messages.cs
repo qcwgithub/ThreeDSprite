@@ -198,5 +198,18 @@ namespace Data
         public string bmIp;
         public int bmPort;
     }
+
+    
+
+    public class MsgBMPlayerLogin : ISerializable
+    {
+        public int battleId;
+        public int playerId;
+        public string token;
+    }
+    public class ResBMPlayerLogin : ISerializable
+    {
+        // scene data!
+    }
 }
 

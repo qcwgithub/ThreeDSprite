@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CBattleScene : CSceneBase
 {
+    protected override bool CarePMConnection => false;
     protected override void Awake()
     {
         sc.battleScene = this;

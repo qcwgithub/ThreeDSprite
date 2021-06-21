@@ -9,38 +9,10 @@ public static class ServerEvent
 }
 
 // client server
-public class ClientServer
+public abstract class ClientServer
 {
-    // 默认初始化为单机模式
-    public static ClientServer Instance = new ClientServer();
-
-    private Dictionary<string, List<int>> loadingShowCache = new Dictionary<string, List<int>>();
     // show, reason, timeS, delayS
     private Action<bool, string, int, int> loadingFun = null;
-    public void setLoadingFun(Action<bool, string, int, int> fun)
-    {
-        this.loadingFun = fun;
-
-        if (fun != null)
-        {
-            foreach (var kv in this.loadingShowCache)
-            {
-                if (kv.Value.Count > 0)
-                {
-                    fun(true, kv.Key, kv.Value[0], kv.Value[1]);
-                }
-            }
-        }
-        this.loadingShowCache.Clear();
-    }
-
-    // connected, resPM
-    private Action<bool, ResLoginPM> connectionFun = null;
-    // 重连回调
-    public void setConnectionFun(Action<bool, ResLoginPM> fun)
-    {
-        this.connectionFun = fun;
-    }
 
     public void showRequestLoading(bool show, int timeS)
     {
@@ -50,51 +22,20 @@ public class ClientServer
         }
         else
         {
-            this.loadingShowCache["net-request"] = new List<int> { show ? timeS : 0, 1 };
-        }
-    }
-    public void onPMConnectionChange(bool connected, ResLoginPM resPM)
-    {
-        bool show = !connected;
-        if (this.loadingFun != null)
-        {
-            this.loadingFun(show, "net-reconnect", 36000, 0);
-        }
-        else
-        {
-            this.loadingShowCache["net-reconnect"] = new List<int> { show ? 36000 : 0, 0 };
-        }
-
-        if (this.connectionFun != null)
-        {
-            this.connectionFun(connected, resPM);
+            // this.loadingShowCache["net-request"] = new List<int> { show ? timeS : 0, 1 };
         }
     }
 
-    protected Action<string> errorFun = null;
-    public void setErrorFun(Action<string> fun)
-    {
-        this.errorFun = fun;
-    }
+    public event Action<string> OnError = null;
 
     protected bool destroyed = false;
     public virtual void onDestroy()
     {
         this.destroyed = true;
-        this.setLoadingFun(null);
-        this.setErrorFun(null);
-        this.removeAllListeners();
     }
-
-    protected virtual void removeAllListeners()
-    {
-        // TODO
-    }
-
-    // virtual
-    public virtual bool isConnected { get { return true; } }
-
-
+    
+    public abstract bool isConnected { get; }
+    public abstract void start();
 
     // public virtual void login(Action<ECode, NetworkStatus> cb)
     // {
@@ -115,9 +56,9 @@ public class ClientServer
 
     protected void reply1(Action<MyResponse> cb, ECode e, object res = null)
     {
-        if (this.needPromptError(e) && this.errorFun != null)
+        if (this.needPromptError(e) && this.OnError != null)
         {
-            this.errorFun("E." + e);
+            this.OnError("E." + e);
         }
         cb(new MyResponse(e, res));
     }
@@ -126,9 +67,9 @@ public class ClientServer
     {
         if (this.needPromptError(r.err))
         {
-            if (this.errorFun != null)
+            if (this.OnError != null)
             {
-                this.errorFun("E." + r.err);
+                this.OnError("E." + r.err);
             }
             else
             {
@@ -180,11 +121,5 @@ public class ClientServer
         //             return;
         //         }
         // }
-    }
-
-    // virtual
-    // 一定要发送给服务器，如果 hasServer == 0，那么什么事也不会发生
-    public virtual void request2(MsgType type, object _msg, bool block, Action<MyResponse> cb, int timeoutMs, bool retryOnReconnect = true)
-    {
     }
 }

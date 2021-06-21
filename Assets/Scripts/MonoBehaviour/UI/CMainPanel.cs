@@ -23,13 +23,15 @@ public class CMainPanel : MonoBehaviour
     void OnEnterBattleClick()
     {
         var msg = new MsgEnterBattle();
-        ClientServer.Instance.request(MsgType.PMEnterBattle, msg, true, r =>
+        sc.pmServer.request(MsgType.PMEnterBattle, msg, true, r =>
         {
             if (r.err == ECode.Success)
             {
                 var res = r.res as ResEnterBattle;
-                CBattleScene.resEnterBattle = res;
-                CBattleScene.enter();
+                //CBattleScene.resEnterBattle = res;
+                //CBattleScene.enter();
+                sc.bmServer.resEnterBattle = res;
+                sc.bmServer.start();
             }
         },
         10000,

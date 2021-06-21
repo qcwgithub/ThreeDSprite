@@ -17,29 +17,10 @@ class CachedRequest
     public int timeoutMs;
 }
 
-public class RealServer : ClientServer
+public class PMServer : ClientServer
 {
-    private NetworkStatus _status = NetworkStatus.Init;
-    public NetworkStatus status { get { return this._status; } }
-
-    public string statusMsg = null;
-    public event Action<NetworkStatus, string> OnStatusChange;
-    private void setStatus(NetworkStatus s, string statusMsg = null)
-    {
-        if (this._status != s)
-        {
-            this._status = s;
-            this.statusMsg = statusMsg;
-            Debug.Log("status: " + s + ", message: " + statusMsg);
-
-            if (OnStatusChange != null)
-            {
-                OnStatusChange(s, statusMsg);
-            }
-        }
-    }
-    private string aaaIp;
-    private int aaaPort;
+    public string aaaIp { get; set; }
+    public int aaaPort { get; set; }
 
     public override bool isConnected
     {
@@ -49,16 +30,33 @@ public class RealServer : ClientServer
         }
     }
 
-    #region init
-    public void start(string aaaIp, int aaaPort)
+    public PMNetworkStatus status { get; protected set; } = PMNetworkStatus.Init;
+    public string statusMsg { get; protected set; }
+    public event Action<PMNetworkStatus, string> OnStatusChange;
+
+    protected void setStatus(PMNetworkStatus status, string statusMsg = null)
     {
-        if (aaaIp == null)
+        if (this.status != status)
+        {
+            this.status = status;
+            this.statusMsg = statusMsg;
+            Debug.Log("status: " + status + ", message: " + statusMsg);
+
+            if (this.OnStatusChange != null)
+            {
+                this.OnStatusChange(status, statusMsg);
+            }
+        }
+    }
+
+    #region init
+    public override void start()
+    {
+        if (this.aaaIp == null)
         {
             Debug.LogError("aaaIp is null");
             return;
         }
-        this.aaaIp = aaaIp;
-        this.aaaPort = aaaPort;
 
         // load last channel
         this.initChannel();
@@ -76,26 +74,25 @@ public class RealServer : ClientServer
     //#endregion
 
     //#region channel
-    private string _channel = "uuid";
-    public string channel => this._channel;
+    public string channel { get; private set; }
     public void initChannel()
     {
-        this._channel = LSUtils.GetString(LSKeys.CHANNEL, null);
-        if (!MyChannels.isValidChannel(this._channel))
+        this.channel = LSUtils.GetString(LSKeys.CHANNEL, null);
+        if (!MyChannels.isValidChannel(this.channel))
         {
-            this._channel = MyChannels.uuid;
+            this.channel = MyChannels.uuid;
 
-            LSUtils.SetString(LSKeys.CHANNEL, this._channel);
+            LSUtils.SetString(LSKeys.CHANNEL, this.channel);
             LSUtils.Save();
         }
-        Debug.Log(">RealServer.initChannel: " + this._channel);
+        Debug.Log(">RealServer.initChannel: " + this.channel);
     }
     public event Action<string> OnChannelChanged;
     public void setChannel(string c)
     {
-        if (this._channel != c)
+        if (this.channel != c)
         {
-            this._channel = c;
+            this.channel = c;
             LSUtils.SetString(LSKeys.CHANNEL, c);
             if (OnChannelChanged != null)
             {
@@ -192,7 +189,7 @@ public class RealServer : ClientServer
         if (isReconnect && r.err == ECode.OldSocket && r.res != null && Bootstrap.Instance != null)
         {
             var old = (r.res as ResMisc).oldSocketTimestamp;
-            if (old > 0 && old != RealServer.processTimestamp)
+            if (old > 0 && old != PMServer.processTimestamp)
             {
                 ret.retry = false;
                 ret.logout = true;
@@ -247,7 +244,7 @@ public class RealServer : ClientServer
     }
     private async Task<MyResponse> loginAAAOnce()
     {
-        this.setStatus(NetworkStatus.ConnectToAccount);
+        this.setStatus(PMNetworkStatus.ConnectToAccount);
 
         var proto = new TcpClientScriptC(this.aaaIp, this.aaaPort);
         MyResponse rAAA = null;
@@ -257,19 +254,19 @@ public class RealServer : ClientServer
             if (!success)
             {
                 rAAA = new MyResponse(ECode.ConnectFailed, null);
-                this.setStatus(NetworkStatus.ConnectToAFailed, message);
+                this.setStatus(PMNetworkStatus.ConnectToAFailed, message);
             }
             else
             {
                 var msgAAA = this.getMsgAAA();
-                this.setStatus(NetworkStatus.LoginToAccount, msgAAA.channel);
+                this.setStatus(PMNetworkStatus.LoginToAccount, msgAAA.channel);
                 proto.send(MsgType.AAAPlayerLogin, msgAAA, (ECode err, object res) =>
                 {
                     var r = rAAA = new MyResponse(err, res);
                     if (r.err != ECode.Success)
                     {
                         //Debug.Log(">LoginToAAA - login failed, e: " + r.err);
-                        this.setStatus(NetworkStatus.LoginToAFailed, r.err.ToString());
+                        this.setStatus(PMNetworkStatus.LoginToAFailed, r.err.ToString());
                     }
                     else
                     {
@@ -284,7 +281,7 @@ public class RealServer : ClientServer
         proto.onClose = (string message) =>
         {
             rAAA = new MyResponse(ECode.ConnectFailed, null);
-            this.setStatus(NetworkStatus.ConnectToAFailed, message);
+            this.setStatus(PMNetworkStatus.ConnectToAFailed, message);
         };
 
         proto.open();
@@ -300,12 +297,11 @@ public class RealServer : ClientServer
 
     //#region login to PM
     private TcpClientScriptC protoPM = null;
-    private ResLoginPM _resPM = null;
-    public ResLoginPM resPM => this._resPM;
+    public ResLoginPM resPM { get; private set; }
     private int loginSucCount = 0;
     public string payNotifyUri()
     {
-        return this._resPM.payNotifyUri;
+        return this.resPM.payNotifyUri;
     }
 
     // 用处：用于标识此客户端
@@ -330,7 +326,7 @@ public class RealServer : ClientServer
             token = this.resAAA.pmToken,
             isReconnect = isReconnect,
             //profile = null,
-            timestamp = RealServer.processTimestamp,
+            timestamp = PMServer.processTimestamp,
         };
 
         if (isReconnect)
@@ -381,7 +377,7 @@ public class RealServer : ClientServer
         if (isReconnect && r.err == ECode.OldSocket && r.res != null && Bootstrap.Instance != null)
         {
             var old = (r.res as ResMisc).oldSocketTimestamp;
-            if (old > 0 && old != RealServer.processTimestamp)
+            if (old > 0 && old != PMServer.processTimestamp)
             {
                 ret.retryPM = false;
                 ret.retryAAA = false;
@@ -418,18 +414,18 @@ public class RealServer : ClientServer
     {
         MyResponse rPM = null;
 
-        this.setStatus(NetworkStatus.ConnectToGame);
+        this.setStatus(PMNetworkStatus.ConnectToGame);
 
         proto.onConnect = (bool success, string message) =>
         {
             if (!success)
             {
                 rPM = new MyResponse(ECode.ConnectFailed, null);
-                this.setStatus(NetworkStatus.ConnectToGFailed, message);
+                this.setStatus(PMNetworkStatus.ConnectToGFailed, message);
             }
             else
             {
-                this.setStatus(NetworkStatus.LoginToG);
+                this.setStatus(PMNetworkStatus.LoginToG);
                 var msgPM = this.getMsgPM(resAAA, isReconnect);
 
                 proto.send(MsgType.PMPlayerLogin, msgPM, (ECode err, object res) =>
@@ -439,7 +435,7 @@ public class RealServer : ClientServer
                     {
                         // Debug.Log(">LoginToPM - error: " + r.err);
                         // _this.onFail(NetworkError.PMLoginError, r.err);
-                        this.setStatus(NetworkStatus.LoginToGFailed, r.err.ToString());
+                        this.setStatus(PMNetworkStatus.LoginToGFailed, r.err.ToString());
                     }
                     else
                     {
@@ -454,7 +450,7 @@ public class RealServer : ClientServer
         proto.onClose = (string message) =>
         {
             rPM = new MyResponse(ECode.ConnectFailed, null);
-            this.setStatus(NetworkStatus.ConnectToGFailed, message);
+            this.setStatus(PMNetworkStatus.ConnectToGFailed, message);
         };
 
         proto.open();
@@ -470,7 +466,7 @@ public class RealServer : ClientServer
         // 登录成功之后才能标记
         //LSUtils.SetItem(LSKeys.PROFILE_UPLOADED, "1");
 
-        var res = this._resPM;
+        var res = this.resPM;
 
         //// keeySync
         //SyncProfileComponent.keepSync = res.keepSyncProfile;
@@ -514,6 +510,8 @@ public class RealServer : ClientServer
 
     //#region login process
 
+    public event Action<bool, ResLoginPM> OnPMConnectionChange;
+
     private async void loginProcedure()
     {
         Debug.Log("login procedure start");
@@ -525,7 +523,7 @@ public class RealServer : ClientServer
         {
             if (this.destroyed)
             {
-                Debug.Log("login procedure: give up because this._logout");
+                Debug.Log("login procedure: give up because this.destroyed");
                 break;
             }
             if (toSdk)
@@ -541,7 +539,7 @@ public class RealServer : ClientServer
                     this.resAAA = rAAA.res as ResLoginAAA;
                     this.setChannel(this.resAAA.channel);
                     SDKManager.Instance.getLoginInterface(this.channel);
-                    this.setStatus(NetworkStatus.LoginToASucceeded);
+                    this.setStatus(PMNetworkStatus.LoginToASucceeded);
 
                     toAAA = false;
                 }
@@ -590,7 +588,11 @@ public class RealServer : ClientServer
 
                 this.protoPM.cleanup();
                 this.protoPM = null;
-                this.onPMConnectionChange(false, null);
+
+                if (this.OnPMConnectionChange != null)
+                {
+                    this.OnPMConnectionChange(false, null);
+                }
             }
 
             this.protoPM = new TcpClientScriptC(resAAA.pmIp, resAAA.pmPort);
@@ -599,7 +601,7 @@ public class RealServer : ClientServer
             if (rPM.err == ECode.Success)
             {
                 pmConnectFailCount = 0;
-                this._resPM = rPM.res as ResLoginPM;
+                this.resPM = rPM.res as ResLoginPM;
 
                 // TODO 放这好像不对
                 if (TimeMgr.Instance != null)
@@ -611,7 +613,7 @@ public class RealServer : ClientServer
                 sc.Profile = this.resPM.profile;
 
                 // Debug.Log("fire logintopmsucceeded!");
-                this.setStatus(NetworkStatus.LoginToGSucceeded);
+                this.setStatus(PMNetworkStatus.LoginToGSucceeded);
 
                 if (this.loginSucCount == 0)
                 {
@@ -620,7 +622,11 @@ public class RealServer : ClientServer
 
                 this.loginSucCount++;
                 this.protoPM.onClose = null; // reset to null
-                this.onPMConnectionChange(true, this._resPM);
+
+                if (this.OnPMConnectionChange != null)
+                {
+                    this.OnPMConnectionChange(true, this.resPM);
+                }
             }
             else
             {
@@ -679,27 +685,15 @@ public class RealServer : ClientServer
             {
                 var req = arr[i];
                 Debug.Log("just connected, resend request ONCE for MsgType." + req.type);
-                this.request2(req.type, req.msg, req.block, req.cb, req.timeoutMs, false);
+                this.request(req.type, req.msg, req.block, req.cb, req.timeoutMs, false);
             }
             arr.Clear();
         }
     }
 
     //#region request
+    
     public override void request(MsgType type, object _msg, bool block, Action<MyResponse> cb, int timeoutMs = 10000, bool retryOnReconnect = true)
-    {
-        if (this.destroyed)
-        {
-            return;
-        }
-        // if (!game.isMaster) {
-        //     return super.request(game, type, _msg, block, cb);
-        // }
-
-        this.request2(type, _msg, block, cb, timeoutMs, retryOnReconnect);
-    }
-
-    public override void request2(MsgType type, object _msg, bool block, Action<MyResponse> cb, int timeoutMs = 10000, bool retryOnReconnect = true)
     {
         if (this.destroyed)
         {

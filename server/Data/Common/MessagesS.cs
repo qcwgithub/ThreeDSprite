@@ -357,15 +357,4 @@ namespace Data
         public int battleId;
         public int playerId;
     }
-
-    public class MsgBMPlayerLogin : ISerializable
-    {
-        public int battleId;
-        public int playerId;
-        public string token;
-    }
-    public class ResBMPlayerLogin : ISerializable
-    {
-        // scene data!
-    }
 }

@@ -7,4 +7,7 @@ public class sc
     public static GameObject LoadingPanelPrefab;
     public static CLoadingPanel loadingPanel;
     public static CBattleScene battleScene;
+    public static CSceneBase currentScene;
+    public static PMServer pmServer;
+    public static BMServer bmServer;
 }

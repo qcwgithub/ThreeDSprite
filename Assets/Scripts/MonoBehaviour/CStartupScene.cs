@@ -9,11 +9,12 @@ public class CStartupScene : CSceneBase
 {
     public string NextSceneName;
     public CBoardPanel Board;
-    public CStartupLogin Login;
     public GameObject LoadingPanelPrefab;
 
     protected override void Awake()
     {
+        sc.pmServer = new PMServer();
+        sc.bmServer = new BMServer();
         sc.LoadingPanelPrefab = this.LoadingPanelPrefab;
         Board.gameObject.SetActive(false);
         base.Awake();
@@ -45,12 +46,23 @@ public class CStartupScene : CSceneBase
 
         if (serverList.needLogin)
         {
-            yield return Login.StartLogin(serverList.aaaIp, serverList.aaaPort);
+            yield return this.login(serverList.aaaIp, serverList.aaaPort);
         }
 
         if (serverList.enterGame)
         {
             CMainScene.enter();
+        }
+    }
+
+    IEnumerator login(string ip, int port)
+    {
+        sc.pmServer.aaaIp = ip;
+        sc.pmServer.aaaPort = port;
+        sc.pmServer.start();
+        while (sc.pmServer.status != PMNetworkStatus.LoginToGSucceeded)
+        {
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

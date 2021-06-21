@@ -146,6 +146,6 @@ namespace Data
 
         ////////
         PMEnterBattle = 10075,
-        
+        BMMove = 10076,
     }
 }
