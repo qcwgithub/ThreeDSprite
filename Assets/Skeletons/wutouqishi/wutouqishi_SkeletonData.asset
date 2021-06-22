@@ -22,7 +22,7 @@ MonoBehaviour:
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: wutouqishi.png
-      material: {fileID: 2100000, guid: 619b7485e31dd0e4f94ca53dd611e368, type: 2}
+      material: {fileID: 2100000, guid: 3bc8f7154673a24439aeaf7364bae593, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

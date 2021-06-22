@@ -22,7 +22,7 @@ MonoBehaviour:
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: undead_fl.png
-      material: {fileID: 2100000, guid: 2c48c3646b8f5bc48bb1bf6b256c7162, type: 2}
+      material: {fileID: 2100000, guid: 6cbfac440572098438dbbe4b2c1d26a9, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

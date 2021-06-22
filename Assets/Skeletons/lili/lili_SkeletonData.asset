@@ -22,7 +22,7 @@ MonoBehaviour:
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: lili.png
-      material: {fileID: 2100000, guid: 95c53d145d49cde468974681362461ad, type: 2}
+      material: {fileID: 2100000, guid: 04ecfdccc6c64284fabeffb49c4f8fbc, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

@@ -22,10 +22,10 @@ MonoBehaviour:
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: tokoroa.png
-      material: {fileID: 2100000, guid: ad8639d60638c1845bc7d67095f46fb5, type: 2}
+      material: {fileID: 2100000, guid: 10b5cba6972f24f4dbc5f3dfe5a9fa8f, type: 2}
     multiplyMaterials:
     - pageName: tokoroa.png
-      material: {fileID: 2100000, guid: 35033535d63266d4f995e92b32743d74, type: 2}
+      material: {fileID: 2100000, guid: 159e91884e3a62c4d8626eac8ac0f357, type: 2}
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation: []

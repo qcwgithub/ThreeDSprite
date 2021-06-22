@@ -23,7 +23,7 @@ MonoBehaviour:
     additiveMaterials: []
     multiplyMaterials:
     - pageName: sc_boy.png
-      material: {fileID: 2100000, guid: 51c861e371a87f242a11c8ad7dcfd524, type: 2}
+      material: {fileID: 2100000, guid: dc274da5ad2ff384eb9ebdca749c78e7, type: 2}
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation: []

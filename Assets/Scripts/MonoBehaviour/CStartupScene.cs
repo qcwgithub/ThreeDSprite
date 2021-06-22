@@ -77,7 +77,7 @@ public class CStartupScene : CSceneBase
         {
             var www = UnityWebRequest.Get(url);
             yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success)
+            if (www.error != null)
             {
                 Debug.LogError(www.error);
                 yield return new WaitForSeconds(0.2f);

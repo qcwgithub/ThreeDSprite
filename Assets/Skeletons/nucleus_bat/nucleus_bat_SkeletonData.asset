@@ -22,7 +22,7 @@ MonoBehaviour:
     applyAdditiveMaterial: 1
     additiveMaterials:
     - pageName: nucleus_bat.png
-      material: {fileID: 2100000, guid: ef18c38b569c91f48a544d9b3c063001, type: 2}
+      material: {fileID: 2100000, guid: 427225812f4de554e9dd61942d87f0f8, type: 2}
     multiplyMaterials: []
     screenMaterials: []
   skeletonDataModifiers: []

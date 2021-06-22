@@ -2,16 +2,17 @@
 using UnityEditor;
 
 using System.IO;
+using UnityEditor.Experimental.AssetImporters;
 
 namespace Assets.Editor
 {
-    [UnityEditor.AssetImporters.ScriptedImporter(1, new string[] { "cube", "cubes" })]
-    public class MyImporter : UnityEditor.AssetImporters.ScriptedImporter
+    [ScriptedImporter(1, new string[] { "cube", "cubes" })]
+    public class MyImporter : ScriptedImporter
     {
         public int pixelsPerUnit = 100;
         public MyShape shape = MyShape.Cube;
 
-        private void ImportOne(UnityEditor.AssetImporters.AssetImportContext ctx, string texturePath)
+        private void ImportOne(AssetImportContext ctx, string texturePath)
         {
             string name = Path.GetFileNameWithoutExtension(texturePath);
             Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
@@ -96,7 +97,7 @@ namespace Assets.Editor
         }
 
 
-        public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
+        public override void OnImportAsset(AssetImportContext ctx)
         {
             string assetPath = ctx.assetPath;
             if (assetPath.EndsWith(".cube"))

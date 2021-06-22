@@ -23,7 +23,7 @@ MonoBehaviour:
     additiveMaterials: []
     multiplyMaterials:
     - pageName: BBspider.png
-      material: {fileID: 2100000, guid: 6db31b77bf739f64da04ca3ccef61d77, type: 2}
+      material: {fileID: 2100000, guid: 5654f2c5fa8f9a4479be20a3ac15da58, type: 2}
     screenMaterials: []
   skeletonDataModifiers: []
   fromAnimation: []
