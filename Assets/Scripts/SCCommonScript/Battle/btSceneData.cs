@@ -58,3 +58,47 @@ public class btTreeData
     public LVector3 Min;
     public LVector3 Max;
 }
+
+public enum btThingShape
+{
+    cube,
+    xy,
+    xz,
+}
+
+public abstract class btThingConfig
+{
+    public abstract btThingShape getShape();
+}
+
+public class btThingConfigCube : btThingConfig
+{
+    public override btThingShape getShape() { return btThingShape.cube; }
+    public LVector3 size;
+}
+
+public class btThingConfigXY : btThingConfig
+{
+    public override btThingShape getShape() { return btThingShape.xy; }
+    public LVector3 size;
+}
+
+public class btThingConfigXZ : btThingConfig
+{
+    public override btThingShape getShape() { return btThingShape.xz; }
+    public LVector3 size;
+}
+
+public class btTilesetConfig
+{
+    public string path;
+    public Dictionary<string, btThingConfigCube> cubes;
+    public Dictionary<string, btThingConfigXY> xys;
+    public Dictionary<string, btThingConfigXZ> xzs;
+}
+
+public class btMapConfig
+{
+    public HashSet<string> tilesets;
+    
+}
