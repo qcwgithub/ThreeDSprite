@@ -1,0 +1,38 @@
+{
+  "cubes": null,
+  "xys": null,
+  "xzs": {
+    "0": {
+      "size": {
+        "x": 110.0,
+        "y": 0.0,
+        "z": 96.0
+      },
+      "spriteName": "flower_a"
+    },
+    "1": {
+      "size": {
+        "x": 126.0,
+        "y": 0.0,
+        "z": 105.0
+      },
+      "spriteName": "flower_b"
+    },
+    "2": {
+      "size": {
+        "x": 114.0,
+        "y": 0.0,
+        "z": 101.0
+      },
+      "spriteName": "flower_c"
+    },
+    "3": {
+      "size": {
+        "x": 37.0,
+        "y": 0.0,
+        "z": 44.0
+      },
+      "spriteName": "mushroom_tea"
+    }
+  }
+}

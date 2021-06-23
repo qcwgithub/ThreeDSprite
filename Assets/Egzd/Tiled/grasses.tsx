@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.5" tiledversion="1.7.0" name="grasses" tilewidth="512" tileheight="512" tilecount="5" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
+ <properties>
+  <property name="shape" value="xz"/>
+ </properties>
  <tile id="0">
   <image width="256" height="256" source="../Atlas/grasses/grass_basic_a.png"/>
  </tile>

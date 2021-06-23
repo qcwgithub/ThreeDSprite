@@ -69,6 +69,7 @@ public enum btThingShape
 public abstract class btThingConfig
 {
     public abstract btThingShape getShape();
+    public string spriteName;
 }
 
 public class btThingConfigCube : btThingConfig
@@ -89,16 +90,35 @@ public class btThingConfigXZ : btThingConfig
     public LVector3 size;
 }
 
+// .tsx
 public class btTilesetConfig
 {
-    public string path;
-    public Dictionary<string, btThingConfigCube> cubes;
-    public Dictionary<string, btThingConfigXY> xys;
-    public Dictionary<string, btThingConfigXZ> xzs;
+    // key = tile id
+    public Dictionary<int, btThingConfigCube> cubes;
+    public Dictionary<int, btThingConfigXY> xys;
+    public Dictionary<int, btThingConfigXZ> xzs;
 }
 
+// .tmx
 public class btMapConfig
 {
-    public HashSet<string> tilesets;
-    
+    public int x_origin, y_origin;
+
+    // source -> firstgid
+    // e.g. grasses.tsx -> 21
+    public class Tileset_FirstGid
+    {
+        public string source;
+        public int firstgid;
+    }
+    public List<Tileset_FirstGid> tileset_gids;
+
+    public class AThing
+    {
+        public string tileset;
+        public int tileId; // tile id in tileset
+        public int pixelX; // pixelX / PixelsPerUnit = x
+        public int pixelY;
+    }
+    public List<AThing> things;
 }
