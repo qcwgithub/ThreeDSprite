@@ -99,26 +99,32 @@ public class btTilesetConfig
     public Dictionary<int, btThingConfigXZ> xzs;
 }
 
-// .tmx
-public class btMapConfig
+public class btTileLayerConfig
 {
-    public int x_origin, y_origin;
+    public int id;
+    public string name;
+    public string type;
+    public bool visible;
 
-    // source -> firstgid
-    // e.g. grasses.tsx -> 21
-    public class Tileset_FirstGid
-    {
-        public string source;
-        public int firstgid;
-    }
-    public List<Tileset_FirstGid> tileset_gids;
-
+    // 在 layer 上摆放的一个东西
     public class AThing
     {
+        // 东西是啥
         public string tileset;
         public int tileId; // tile id in tileset
+
+        // 坐标是啥
         public int pixelX; // pixelX / PixelsPerUnit = x
         public int pixelY;
     }
+
     public List<AThing> things;
+}
+
+// .tmx
+public class btTilemapConfig
+{
+    public int pixelWidth;
+    public int pixelHeight;
+    public List<btTileLayerConfig> layers;
 }

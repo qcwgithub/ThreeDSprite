@@ -27,12 +27,9 @@ public class TiledImporterWindow : EditorWindow
         this.tiledFiles.Clear();
         string[] files = Directory.GetFiles(tiledDirectory, "*.tmx", SearchOption.TopDirectoryOnly);
         files = files.Concat(Directory.GetFiles(tiledDirectory, "*.tsx", SearchOption.TopDirectoryOnly)).ToArray();
-
-        // string currentFullPath = Path.GetFullPath("Assets");
+        
         foreach (var file in files)
         {
-            //string fullPath = Path.GetFullPath(file).Replace('\\', '/');
-
             this.tiledFiles.Add(Path.GetFileName(file));
         }
     }
@@ -44,12 +41,15 @@ public class TiledImporterWindow : EditorWindow
         Debug.Log(string.Format("map size: {0} x {1}", map.Width, map.Height));
         Debug.Log(string.Format("map tile size: {0} x {1}", map.TileWidth, map.TileHeight));
 
-        var config = new btMapConfig();
-        config.x_origin = map.Properties.findInt("x_origin", -1);
-        config.y_origin = map.Properties.findInt("y_origin", -1);
+        int x_origin = map.Properties.findInt("x_origin", -1);
+        int y_origin = map.Properties.findInt("y_origin", -1);
+        if (x_origin == -1 || y_origin == -1)
+        {
+            throw new Exception("x_origin || y_origin not defined");
+        }
 
+/*
         List<TextAsset> tilesetAssets = new List<TextAsset>();
-
         for (int i = 0; i < map.Tilesets.Length; i++)
         {
             TiledMapTileset tileset = map.Tilesets[i];
@@ -57,41 +57,71 @@ public class TiledImporterWindow : EditorWindow
             TextAsset tilesetAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(tilesetPath);
             if (tilesetAsset == null)
             {
-                Debug.LogError(tilesetPath + " not found");
+                Debug.LogError(tilesetPath + " not imported");
                 break;
             }
+
             Debug.Log("loaded tileset: " + tilesetPath);
             tilesetAssets.Add(tilesetAsset);
         }
-
-        config.tileset_gids = new List<btMapConfig.Tileset_FirstGid>();
-        for (int i = 0; i < map.Tilesets.Length; i++)
-        {
-            TiledMapTileset tileset = map.Tilesets[i];
-            config.tileset_gids.Add(new btMapConfig.Tileset_FirstGid { source = tileset.source, firstgid = tileset.firstgid });
-        }
+*/
+        btTilemapConfig mapConfig = new btTilemapConfig();
+        mapConfig.pixelWidth = map.Width * map.TileWidth;
+        mapConfig.pixelHeight = map.Height * map.TileHeight;
+        mapConfig.layers = new List<btTileLayerConfig>();
 
         for (int i = 0; i < map.Layers.Length; i++)
         {
             TiledLayer layer = map.Layers[i];
             if (layer.data == null)
+            {
+                // not a tile layer
                 continue;
+            }
 
-            // Debug.Log("layer.data.length = " + layer.data.Length);
+            btTileLayerConfig layerConfig = new btTileLayerConfig();
+            layerConfig.id = layer.id;
+            layerConfig.name = layer.name;
+            layerConfig.type = layer.type;
+            layerConfig.visible = layer.visible;
+            layerConfig.things = new List<btTileLayerConfig.AThing>();
+            mapConfig.layers.Add(layerConfig);
+            
             for (int j = 0; j < layer.data.Length; j++)
             {
-                int data = layer.data[j];
-                if (data == 0) continue;
+                int dataId = layer.data[j];
+                if (dataId == 0)
+                {
+                    continue;
+                }
+
+                TiledMapTileset ts = map.mapDataIdToTilesetInfo(dataId);
+                if (ts == null)
+                {
+                    throw new Exception("data id not valid: " + dataId);
+                }
 
                 int x = j % map.Width;
                 int y = j / map.Width;
 
-                int pixelx = (x - config.x_origin) * map.TileWidth;
-                int pixely = (y - config.y_origin) * map.TileHeight;
+                int pixelx = (x - x_origin) * map.TileWidth;
+                int pixely = (y - y_origin) * map.TileHeight;
 
+                btTileLayerConfig.AThing aThing = new btTileLayerConfig.AThing();
+                aThing.tileset = ts.source;
+                aThing.tileId = dataId - ts.firstgid;
+                aThing.pixelX = pixelx;
+                aThing.pixelY = pixely;
+                layerConfig.things.Add(aThing);
             }
         }
-        // Debug.Log("Load success");
+
+        Directory.CreateDirectory(this.importedDirectory);
+        var jsonPath = this.importedDirectory + "/" + fileName + ".json";
+
+        File.WriteAllText(jsonPath, JsonConvert.SerializeObject(mapConfig, Formatting.Indented));
+        AssetDatabase.Refresh();
+        Debug.Log("success, file: " + jsonPath);
     }
 
     void LoadTileset(string fileName)
@@ -104,7 +134,7 @@ public class TiledImporterWindow : EditorWindow
         bool hasShapeInParent = tileset.Properties.findEnum<btThingShape>("shape", out shapeInParent);
 
         // 
-        var config = new btTilesetConfig();
+        btTilesetConfig tilesetConfig = new btTilesetConfig();
         foreach (TiledTile tile in tileset.Tiles)
         {
             TiledTileImage image = tile.image;
@@ -112,9 +142,13 @@ public class TiledImporterWindow : EditorWindow
             if (!tile.properties.findEnum<btThingShape>("shape", out shape))
             {
                 if (!hasShapeInParent)
+                {
                     throw new Exception("shape not defined");
+                }
                 else
+                {
                     shape = shapeInParent;
+                }
             }
 
             string sourceWithoutExt = Path.GetFileNameWithoutExtension(image.source);
@@ -124,30 +158,45 @@ public class TiledImporterWindow : EditorWindow
                 case btThingShape.cube:
                     {
                         int y_height = tile.properties.findInt("y_height", -1);
-                        if (y_height == -1) throw new Exception("y_height not defined");
-                        
+                        if (y_height == -1)
+                        {
+                            throw new Exception("y_height not defined");
+                        }
+
                         var thing = new btThingConfigCube { spriteName = sourceWithoutExt };
                         thing.size = new LVector3 { x = image.width, y = y_height, z = image.height - y_height };
-                        if (config.cubes == null) config.cubes = new Dictionary<int, btThingConfigCube>();
-                        config.cubes.Add(tile.id, thing);
+                        if (tilesetConfig.cubes == null)
+                        {
+                            tilesetConfig.cubes = new Dictionary<int, btThingConfigCube>();
+                        }
+                        tilesetConfig.cubes.Add(tile.id, thing);
                     }
                     break;
+
                 case btThingShape.xy:
                     {
                         var thing = new btThingConfigXY { spriteName = sourceWithoutExt };
                         thing.size = new LVector3 { x = image.width, y = image.height, z = 0 };
-                        if (config.xys == null) config.xys = new Dictionary<int, btThingConfigXY>();
-                        config.xys.Add(tile.id, thing);
+                        if (tilesetConfig.xys == null)
+                        {
+                            tilesetConfig.xys = new Dictionary<int, btThingConfigXY>();
+                        }
+                        tilesetConfig.xys.Add(tile.id, thing);
                     }
                     break;
+
                 case btThingShape.xz:
                     {
                         var thing = new btThingConfigXZ { spriteName = sourceWithoutExt };
                         thing.size = new LVector3 { x = image.width, y = 0, z = image.height };
-                        if (config.xzs == null) config.xzs = new Dictionary<int, btThingConfigXZ>();
-                        config.xzs.Add(tile.id, thing);
+                        if (tilesetConfig.xzs == null)
+                        {
+                            tilesetConfig.xzs = new Dictionary<int, btThingConfigXZ>();
+                        }
+                        tilesetConfig.xzs.Add(tile.id, thing);
                     }
                     break;
+
                 default:
                     throw new Exception("unknow shape");
                     // break;
@@ -156,8 +205,8 @@ public class TiledImporterWindow : EditorWindow
 
         Directory.CreateDirectory(this.importedDirectory);
         var jsonPath = this.importedDirectory + "/" + fileName + ".json";
-        
-        File.WriteAllText(jsonPath, JsonConvert.SerializeObject(config, Formatting.Indented));
+
+        File.WriteAllText(jsonPath, JsonConvert.SerializeObject(tilesetConfig, Formatting.Indented));
         AssetDatabase.Refresh();
         Debug.Log("success, file: " + jsonPath);
     }

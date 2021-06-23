@@ -37,4 +37,17 @@ public static class TiledCSExtension
         result = (T) Enum.Parse(typeof(T), p);
         return true;
     }
+
+    public static TiledMapTileset mapDataIdToTilesetInfo(this TiledMap tilemap, int dataId)
+    {
+        for (int i = 0; i < tilemap.Tilesets.Length; i++)
+        {
+            TiledMapTileset ts = tilemap.Tilesets[i];
+            if (dataId >= ts.firstgid && (i == tilemap.Tilesets.Length - 1 || dataId < tilemap.Tilesets[i + 1].firstgid))
+            {
+                return ts;           
+            }
+        }
+        return null;
+    }
 }

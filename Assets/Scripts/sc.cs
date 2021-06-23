@@ -1,7 +1,7 @@
 using Data;
 using UnityEngine;
 
-public class sc
+public class sc // shortcuts
 {
     public static Profile Profile;
     public static GameObject LoadingPanelPrefab;
