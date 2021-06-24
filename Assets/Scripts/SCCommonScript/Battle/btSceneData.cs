@@ -113,7 +113,7 @@ public class btTileLayerConfig
         public string tileset;
         public int tileId; // tile id in tileset
 
-        // 坐标是啥
+        // 坐标是啥，左下角
         public int pixelX; // pixelX / PixelsPerUnit = x
         public int pixelY;
     }

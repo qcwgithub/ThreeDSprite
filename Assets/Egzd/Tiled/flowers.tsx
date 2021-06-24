@@ -2,7 +2,7 @@
 <tileset version="1.5" tiledversion="1.7.0" name="flowers" tilewidth="126" tileheight="105" tilecount="4" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <properties>
-  <property name="shape" value="xz"/>
+  <property name="shape" value="xy"/>
  </properties>
  <tile id="0">
   <image width="110" height="96" source="../Atlas/flowers/flower_a.png"/>

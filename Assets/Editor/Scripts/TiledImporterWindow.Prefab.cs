@@ -11,12 +11,21 @@ using Newtonsoft.Json;
 
 public partial class TiledImporterWindow
 {
+    // SETTINGS
+    const float sqrt2 = 1.414213562373095f;
+    Quaternion sprite_rotation = Quaternion.Euler(45f, 0f, 0f);
+    const float pixels_per_unit = 100f;
+    const SpriteSortPoint sprite_sort_point = SpriteSortPoint.Pivot;
+    Vector2 sprite_pivot_cube = new Vector2(0.5f, 0f);
+    Vector2 sprite_pivot_xy = new Vector2(0.5f, 0f);
+    Vector2 sprite_pivot_xz = new Vector2(0.5f, 1f);
+
     bool ImportPrefabPrepare(string fileName, out btTilemapConfig mapConfig, out Dictionary<string, btTilesetConfig> tilesetConfigs)
     {
         mapConfig = null;
         tilesetConfigs = null;
 
-        ////
+        // .tmx
         var tilemapPath = this.importedDir + "/" + fileName;
         TextAsset mapAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(tilemapPath);
         if (mapAsset == null)
@@ -26,7 +35,7 @@ public partial class TiledImporterWindow
         }
         mapConfig = JsonUtils.FromJson<btTilemapConfig>(mapAsset.text);
 
-        ////
+        // .tsx
         tilesetConfigs = new Dictionary<string, btTilesetConfig>();
         for (int i = 0; i < mapConfig.layers.Count; i++)
         {
@@ -73,15 +82,77 @@ public partial class TiledImporterWindow
         return null;
     }
 
-    const float SQRT2 = 1.414213562373095f;
+    Sprite loadSprite(ref Dictionary<string, Sprite> sprites, string atlasName, string spriteName)
+    {
+        var spritePath = this.atlasDir + "/" + atlasName + "/" + spriteName + ".png";
+        Sprite sprite;
+        if (sprites.TryGetValue(spritePath, out sprite))
+        {
+            return sprite;
+        }
+
+        sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+        sprites.Add(spritePath, sprite);
+
+        if (sprite == null)
+        {
+            if (!File.Exists(spritePath))
+            {
+                Debug.LogError("file not exist: " + spritePath);
+            }
+            else
+            {
+                Debug.LogError("sprite not found at: " + spritePath);
+            }
+            return sprite;
+        }
+
+        return sprite;
+    }
+
+    Vector2 getCorrectSpritePivot(btThingShape shape)
+    {
+        Vector2 expected;
+        switch (shape)
+        {
+            case btThingShape.cube:
+                expected = sprite_pivot_cube;
+                break;
+            case btThingShape.xy:
+                expected = sprite_pivot_xy;
+                break;
+            case btThingShape.xz:
+            default:
+                expected = sprite_pivot_xz;
+                break;
+        }
+        return expected;
+    }
+
+    Vector2 getSpritePivot01(Sprite sprite)
+    {
+        Vector2 pivot = sprite.pivot;
+        Rect rect = sprite.rect;
+        return new Vector2(pivot.x / rect.width, pivot.y / rect.height);
+    }
+
+    // 在 tiled 中对齐是左下角
+    Vector3 calcSpritePosition(int pixelX, int pixelY, Sprite sprite)
+    {
+        Vector2 pivot = this.getSpritePivot01(sprite);
+        Rect rect = sprite.rect;
+        float px = pixelX + pivot.x * rect.width;
+        float py = pixelY + pivot.y * rect.height * sqrt2;
+        Vector3 pos = new Vector3(px / pixels_per_unit, 0f, py / pixels_per_unit);
+        return pos;
+    }
+
     void ImportPrefab(string fileName)
     {
         btTilemapConfig mapConfig;
         // key = xxx.tsx (no extension)
         Dictionary<string, btTilesetConfig> tilesetConfigs;
-        if (!this.ImportPrefabPrepare(fileName, 
-            out mapConfig, 
-            out tilesetConfigs))
+        if (!this.ImportPrefabPrepare(fileName, out mapConfig, out tilesetConfigs))
         {
             return;
         }
@@ -93,6 +164,8 @@ public partial class TiledImporterWindow
             DestroyImmediate(existed);
         }
         var mapTrans = new GameObject(name).transform;
+
+        var sprites = new Dictionary<string, Sprite>();
 
         for (int i = 0; i < mapConfig.layers.Count; i++)
         {
@@ -112,25 +185,32 @@ public partial class TiledImporterWindow
                     return;
                 }
 
-                var thingGo = new GameObject(string.Format("{0}_{1}", thingConfig.getShape(), thingConfig.spriteName));
-                var thingTrans = thingGo.transform;
-                thingTrans.rotation = Quaternion.Euler(45f, 0f, 0f);
-                thingTrans.SetParent(layerTrans);
+                // load sprite
+                var sprite = this.loadSprite(ref sprites, atlasName, thingConfig.spriteName);
 
-                thingTrans.position = new Vector3(aThing.pixelX / 100f, 0f, aThing.pixelY * SQRT2 / 100f);
-
-                var renderer = thingGo.AddComponent<SpriteRenderer>();
-                renderer.spriteSortPoint = SpriteSortPoint.Pivot;
-                var spritePath = this.atlasDir + "/" + atlasName + "/" + thingConfig.spriteName + ".png";
-                var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
-                if (sprite == null)
+                if (sprite != null)
                 {
-                    var abc = AssetDatabase.LoadAllAssetsAtPath(spritePath);
-                    Debug.LogError("sprite not found at: " + spritePath);
+                    Vector2 correctPivot = this.getCorrectSpritePivot(thingConfig.getShape());
+                    Vector2 pivot = this.getSpritePivot01(sprite);
+                    if (pivot != correctPivot)
+                    {
+                        Debug.LogError(string.Format("sprite '{0}/{1}' pivot is {2}, should be {3}", atlasName, thingConfig.spriteName, pivot, correctPivot));
+                    }
+
+                    var thingGo = new GameObject(string.Format("{0}_{1}", thingConfig.getShape(), thingConfig.spriteName));
+                    var thingTrans = thingGo.transform;
+                    thingTrans.rotation = sprite_rotation;
+                    thingTrans.SetParent(layerTrans);
+
+                    // set position
+                    thingTrans.position = this.calcSpritePosition(aThing.pixelX, aThing.pixelY, sprite);
+
+                    // add sprite renderer
+                    var renderer = thingGo.AddComponent<SpriteRenderer>();
+                    renderer.spriteSortPoint = sprite_sort_point;
+                    renderer.sprite = sprite;
                 }
-                renderer.sprite = sprite;
             }
         }
-
     }
 }
