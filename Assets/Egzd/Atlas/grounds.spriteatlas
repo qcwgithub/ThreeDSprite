@@ -36,14 +36,17 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 7d224580d755a034f8cf20b05ff7150a, type: 3}
+  - {fileID: 21300000, guid: 6f8084c121857c94ea7b4d69f10d3d13, type: 3}
   - {fileID: 21300000, guid: a4b8b142278d8984693f206ece30a3c3, type: 3}
   - {fileID: 21300000, guid: 8ba1f652da755a942942e8ec53a13929, type: 3}
+  - {fileID: 21300000, guid: a7258063058b77848a0661ff22d9fe37, type: 3}
   - {fileID: 21300000, guid: 47516f93f53f4e740b0fd9944eadc84a, type: 3}
   - {fileID: 21300000, guid: c6e43044aa9725c46940e068a36cec1f, type: 3}
   - {fileID: 21300000, guid: bcd1291529b53dc47a897c4792b336b8, type: 3}
   - {fileID: 21300000, guid: e616a58577cca0a40889fa7b4f7b03ad, type: 3}
   - {fileID: 21300000, guid: 4990f916d4e922147ae819f774b39f40, type: 3}
   - {fileID: 21300000, guid: 18ee9d66d12531c4da58ac6add6922f1, type: 3}
+  - {fileID: 21300000, guid: 04cb3457e4909314492d33d15cb1b9a7, type: 3}
   - {fileID: 21300000, guid: f32eb6975d66ba243a6ca346347ee188, type: 3}
   - {fileID: 21300000, guid: 026725c9fd859b344bfb57534cbd018b, type: 3}
   - {fileID: 21300000, guid: a21a437a2c14cf443bb78ee002bffa34, type: 3}
@@ -52,14 +55,17 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ff1717dfa6d93f44db827a0a0292fbf6, type: 3}
   m_PackedSpriteNamesToIndex:
   - rock_upon_c
+  - relic_ground_a
   - rock_upon_b
   - river_b
+  - relic_ground_c
   - river_hok_water_b
   - river_hok_water_a
   - river_a
   - relic_ground_d
   - river_hok_e
   - river_hok_b
+  - relic_ground_b
   - river_hok_c
   - river_hok_d
   - rock_upon_a

@@ -34,8 +34,14 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 492b8ec7dcac7754d9b49bdc3f04a1cf, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 211f5f906a7a99142ac5be830e2df12d, type: 3}
+  - {fileID: 21300000, guid: 3b19a815fcd9932488b2cad49cb320de, type: 3}
+  - {fileID: 21300000, guid: 6385071818c50bf4b997d6552ea201b0, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - camptree_a
+  - camptree_b
+  - camptree_d
   m_Tag: trees
   m_IsVariant: 0
   m_IsPlaceholder: 0

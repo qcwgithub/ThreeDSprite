@@ -34,8 +34,16 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 05a0738726a338c4f9f1a4881ff54c0a, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 26e26150f7e787748bb1aba7a58c2f8c, type: 3}
+  - {fileID: 21300000, guid: f170c3c0c4cdd9b4dab9441c7c8704ba, type: 3}
+  - {fileID: 21300000, guid: d887da74c44e33d43b40840b4ffdd878, type: 3}
+  - {fileID: 21300000, guid: c53be9fe0a98ef54ba79b749c3dedcfb, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - flower_a
+  - flower_b
+  - mushroom_tea
+  - flower_c
   m_Tag: flowers
   m_IsVariant: 0
   m_IsPlaceholder: 0

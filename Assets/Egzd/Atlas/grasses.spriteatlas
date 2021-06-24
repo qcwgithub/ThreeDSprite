@@ -34,8 +34,20 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 598cdeeca95332242943f62b8a6cd177, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: ea43abd47ac9af34bb9b326e7be2b348, type: 3}
+  - {fileID: 21300000, guid: d2efefd9f40e6534b89bb4ae88d0ab04, type: 3}
+  - {fileID: 21300000, guid: cd149ada712884d4cac26f87ab3edb2a, type: 3}
+  - {fileID: 21300000, guid: fa8c46bcf96ba84498d1eb2319e4d466, type: 3}
+  - {fileID: 21300000, guid: 0c4fc3ee3c426084f9a6ebe2b56a053f, type: 3}
+  - {fileID: 21300000, guid: 10614daffdf08da4485f8068a9df4146, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - grassplus_a
+  - grass_basic_a
+  - grassplus_d
+  - grass_basic_b
+  - grassplus_b
+  - grassplus_c
   m_Tag: grasses
   m_IsVariant: 0
   m_IsPlaceholder: 0

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.7.0" name="flowers" tilewidth="126" tileheight="105" tilecount="4" columns="0">
+<tileset version="1.5" tiledversion="1.7.0" name="flowers" tilewidth="126" tileheight="105" tilecount="4" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <properties>
   <property name="shape" value="xz"/>
