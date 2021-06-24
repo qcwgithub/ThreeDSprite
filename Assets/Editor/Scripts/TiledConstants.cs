@@ -14,7 +14,7 @@ public class TiledConstants
     public const string property_y_height = "y_height";
 }
 
-public enum ETiledProperty
+public enum TiledPropertyKey
 {
     // tileset or tile
     shape,

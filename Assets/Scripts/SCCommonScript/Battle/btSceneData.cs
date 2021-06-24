@@ -116,6 +116,7 @@ public class btTileLayerConfig
         // 坐标是啥，左下角
         public int pixelX; // pixelX / PixelsPerUnit = x
         public int pixelY;
+        public int pixelZ;
     }
 
     public List<AThing> things;

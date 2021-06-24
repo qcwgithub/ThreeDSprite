@@ -16,30 +16,33 @@ public partial class TiledImporterWindow
         Debug.Log(string.Format("map size: {0} x {1}", map.Width, map.Height));
         Debug.Log(string.Format("map tile size: {0} x {1}", map.TileWidth, map.TileHeight));
 
-        int x_origin = map.Properties.findInt("x_origin", -1);
-        int y_origin = map.Properties.findInt("y_origin", -1);
-        if (x_origin == -1 || y_origin == -1)
+        Vector3Int origin = new Vector3Int(
+            map.Properties.findInt("x_origin", -1), 
+            map.Properties.findInt("y_origin", -1), 
+            map.Properties.findInt("z_origin", -1));
+
+        if (origin.x == -1 || origin.y == -1 || origin.z == -1)
         {
-            throw new Exception("x_origin || y_origin not defined");
+            throw new Exception("x_origin || y_origin || z_origin not defined");
         }
 
-/*
-        List<TextAsset> tilesetAssets = new List<TextAsset>();
-        for (int i = 0; i < map.Tilesets.Length; i++)
-        {
-            TiledMapTileset tileset = map.Tilesets[i];
-            string tilesetPath = this.importedDirectory + "/" + tileset.source + ".json";
-            TextAsset tilesetAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(tilesetPath);
-            if (tilesetAsset == null)
-            {
-                Debug.LogError(tilesetPath + " not imported");
-                break;
-            }
+        /*
+                List<TextAsset> tilesetAssets = new List<TextAsset>();
+                for (int i = 0; i < map.Tilesets.Length; i++)
+                {
+                    TiledMapTileset tileset = map.Tilesets[i];
+                    string tilesetPath = this.importedDirectory + "/" + tileset.source + ".json";
+                    TextAsset tilesetAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(tilesetPath);
+                    if (tilesetAsset == null)
+                    {
+                        Debug.LogError(tilesetPath + " not imported");
+                        break;
+                    }
 
-            Debug.Log("loaded tileset: " + tilesetPath);
-            tilesetAssets.Add(tilesetAsset);
-        }
-*/
+                    Debug.Log("loaded tileset: " + tilesetPath);
+                    tilesetAssets.Add(tilesetAsset);
+                }
+        */
         btTilemapConfig mapConfig = new btTilemapConfig();
         mapConfig.pixelWidth = map.Width * map.TileWidth;
         mapConfig.pixelHeight = map.Height * map.TileHeight;
@@ -61,7 +64,7 @@ public partial class TiledImporterWindow
             layerConfig.visible = layer.visible;
             layerConfig.things = new List<btTileLayerConfig.AThing>();
             mapConfig.layers.Add(layerConfig);
-            
+
             for (int j = 0; j < layer.data.Length; j++)
             {
                 int dataId = layer.data[j];
@@ -77,16 +80,19 @@ public partial class TiledImporterWindow
                 }
 
                 int x = j % map.Width;
-                int y = j / map.Width;
+                int z = j / map.Width;
 
-                int pixelx = (x - x_origin) * map.TileWidth;
-                int pixely = (y - y_origin) * map.TileHeight;
+                int pixelX = (x - origin.x) * map.TileWidth;
+                int pixelY = 0;//(y - origin.y) * map.TileHeight;
+                int pixelZ = (z - origin.z) * map.TileHeight;
 
                 btTileLayerConfig.AThing aThing = new btTileLayerConfig.AThing();
                 aThing.tileset = ts.source;
                 aThing.tileId = dataId - ts.firstgid;
-                aThing.pixelX = pixelx;
-                aThing.pixelY = pixely;
+                aThing.pixelX = pixelX;
+                aThing.pixelY = pixelY; // todo get from layer.properties
+                // 在 tiled 中 y 轴是向下的（就是这里的 pixelZ）
+                aThing.pixelZ = -pixelZ;
                 layerConfig.things.Add(aThing);
             }
         }
