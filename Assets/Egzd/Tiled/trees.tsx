@@ -2,6 +2,7 @@
 <tileset version="1.5" tiledversion="1.7.0" name="trees" tilewidth="298" tileheight="303" tilecount="3" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <properties>
+  <property name="child_object_type" value="tree"/>
   <property name="child_shape" value="xy"/>
  </properties>
  <tile id="0">

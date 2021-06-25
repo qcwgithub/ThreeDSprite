@@ -1,0 +1,54 @@
+{
+  "tiles": {
+    "0": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "grass_basic_a",
+      "pixelSize": {
+        "x": 256.0,
+        "y": 0.0,
+        "z": 256.0
+      }
+    },
+    "1": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "grass_basic_b",
+      "pixelSize": {
+        "x": 328.0,
+        "y": 0.0,
+        "z": 292.0
+      }
+    },
+    "2": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "grassplus_a",
+      "pixelSize": {
+        "x": 512.0,
+        "y": 0.0,
+        "z": 512.0
+      }
+    },
+    "3": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "grassplus_b",
+      "pixelSize": {
+        "x": 512.0,
+        "y": 0.0,
+        "z": 512.0
+      }
+    },
+    "4": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "grassplus_c",
+      "pixelSize": {
+        "x": 512.0,
+        "y": 0.0,
+        "z": 512.0
+      }
+    }
+  }
+}

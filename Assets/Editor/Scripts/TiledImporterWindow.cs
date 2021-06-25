@@ -17,10 +17,13 @@ public partial class TiledImporterWindow : EditorWindow
         EditorWindow.GetWindow<TiledImporterWindow>();
     }
 
-    const string parentDir = "Assets/Egzd";
-    string atlasDir = parentDir + "/Atlas";
-    string tiledDir = parentDir + "/Tiled";
-    string importedDir = parentDir + "/Imported";
+    const string REF = "Egzd";
+
+    const string sourceDir = "Assets/" + REF;
+    string atlasDir = sourceDir + "/Atlas";
+    string tiledDir = sourceDir + "/Tiled";
+
+    string importedDir = "Assets/Resources/Imported/" + REF;
 
     List<string> tiledFiles = new List<string>();
     List<string> importedFiles = new List<string>();
@@ -47,7 +50,7 @@ public partial class TiledImporterWindow : EditorWindow
     void OnGUI()
     {
         EditorGUILayout.LabelField("Tiled Files Directory: ");
-        GUILayout.Label(parentDir);
+        GUILayout.Label(sourceDir);
 
         if (GUILayout.Button("Refresh Files"))
         {
@@ -88,7 +91,7 @@ public partial class TiledImporterWindow : EditorWindow
         {
             if (GUILayout.Button(file))
             {
-                this.ImportPrefab(file);
+                this.ImportMapPrefab(file);
             }
         }
     }

@@ -20,9 +20,9 @@ public partial class TiledImporterWindow
     Vector2 sprite_pivot_xy = new Vector2(0.5f, 0f);
     Vector2 sprite_pivot_xz = new Vector2(0.5f, 1f);
 
-    bool ImportPrefabPrepare(string fileName, out btTilemapConfig mapConfig, out Dictionary<string, btTilesetConfig> tilesetConfigs)
+    bool ImportPrefabPrepare(string fileName, out btTilemapData mapData, out Dictionary<string, btTilesetConfig> tilesetConfigs)
     {
-        mapConfig = null;
+        mapData = null;
         tilesetConfigs = null;
 
         // .tmx
@@ -33,23 +33,23 @@ public partial class TiledImporterWindow
             Debug.LogError(tilemapPath + " not imported");
             return false;
         }
-        mapConfig = JsonUtils.FromJson<btTilemapConfig>(mapAsset.text);
+        mapData = JsonUtils.FromJson<btTilemapData>(mapAsset.text);
 
         // .tsx
         tilesetConfigs = new Dictionary<string, btTilesetConfig>();
-        for (int i = 0; i < mapConfig.layers.Count; i++)
+        for (int i = 0; i < mapData.layerDatas.Count; i++)
         {
-            btTileLayerConfig layerConfig = mapConfig.layers[i];
+            btTileLayerData layerData = mapData.layerDatas[i];
 
-            for (int j = 0; j < layerConfig.things.Count; j++)
+            for (int j = 0; j < layerData.thingDatas.Count; j++)
             {
-                btTileLayerConfig.AThing aThing = layerConfig.things[j];
+                btThingData thingData = layerData.thingDatas[j];
                 // string key = Path.GetFileNameWithoutExtension(aThing.tileset);
 
                 btTilesetConfig tilesetConfig;
-                if (!tilesetConfigs.TryGetValue(aThing.tileset, out tilesetConfig))
+                if (!tilesetConfigs.TryGetValue(thingData.tileset, out tilesetConfig))
                 {
-                    string tilesetPath = this.importedDir + "/" + aThing.tileset + ".json";
+                    string tilesetPath = this.importedDir + "/" + thingData.tileset + ".json";
                     TextAsset tilesetAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(tilesetPath);
                     if (tilesetAsset == null)
                     {
@@ -57,7 +57,7 @@ public partial class TiledImporterWindow
                         break;
                     }
                     tilesetConfig = JsonUtils.FromJson<btTilesetConfig>(tilesetAsset.text);
-                    tilesetConfigs.Add(aThing.tileset, tilesetConfig);
+                    tilesetConfigs.Add(thingData.tileset, tilesetConfig);
                 }
             }
         }
@@ -140,85 +140,152 @@ public partial class TiledImporterWindow
         return pos;
     }
 
-    void ImportPrefab(string fileName)
+    void ImportThingPrefab(btTileLayerData layerData, Transform layerTrans,
+        Dictionary<string, btTilesetConfig> tilesetConfigs,
+        ref Dictionary<string, Sprite> sprites,
+        btThingData thingData)
     {
-        btTilemapConfig mapConfig;
+        btTilesetConfig tilesetConfig = tilesetConfigs[thingData.tileset];
+        string atlasName = Path.GetFileNameWithoutExtension(thingData.tileset);
+        btThingConfig thingConfig = this.findbtThingConfig(tilesetConfig, thingData.tileId);
+        if (thingConfig == null)
+        {
+            Debug.LogError(string.Format("layer({0}) tileId({1}) btThingConfig is null", layerData.name, thingData.tileId));
+            return;
+        }
+
+        // load sprite
+        var sprite = this.loadSprite(ref sprites, atlasName, thingConfig.spriteName);
+
+        if (sprite != null)
+        {
+            Vector2 correctPivot = this.getCorrectSpritePivot(thingConfig.shape);
+            Vector2 pivot = this.getSpritePivot01(sprite);
+            if (pivot != correctPivot)
+            {
+                Debug.LogError(string.Format("sprite '{0}/{1}' pivot is {2}, should be {3}", atlasName, thingConfig.spriteName, pivot, correctPivot));
+            }
+
+            var thingGo = new GameObject(string.Format("{0} (id:{1})", thingConfig.spriteName, thingData.id));
+            var thingTrans = thingGo.transform;
+            thingTrans.rotation = sprite_rotation;
+            thingTrans.SetParent(layerTrans);
+
+            // set position
+            thingTrans.position = this.calcSpritePosition(
+                thingData.pixelPosition.x, thingData.pixelPosition.y, thingData.pixelPosition.z, sprite);
+
+            // add sprite renderer
+            var renderer = thingGo.AddComponent<SpriteRenderer>();
+            renderer.spriteSortPoint = sprite_sort_point;
+            renderer.sprite = sprite;
+
+            //--------------------------------------------------------
+            switch (thingConfig.objectType)
+            {
+                case btObjectType.none:
+                    break;
+                case btObjectType.box_obstacle:
+                    {
+                        var obj = thingGo.AddComponent<BtBoxObstacle>();
+                        obj.Id = thingData.id;
+                    }
+                    break;
+                case btObjectType.tree:
+                    {
+                        var obj = thingGo.AddComponent<BtTree>();
+                        obj.Id = thingData.id;
+                    }
+                    break;
+                default:
+                    throw new Exception("unhandled thingConfig.objectType: " + thingConfig.objectType);
+            }
+        }
+    }
+
+    void ImportLayerPrefab(Transform mapTrans,
+        Dictionary<string, btTilesetConfig> tilesetConfigs,
+        ref Dictionary<string, Sprite> sprites,
+        btTileLayerData layerData)
+    {
+        var layerGo = new GameObject(string.Format("{0} (id:{1})", layerData.name, layerData.id));
+        var layerTrans = layerGo.transform;
+        layerTrans.SetParent(mapTrans);
+
+        for (int j = 0; j < layerData.thingDatas.Count; j++)
+        {
+            btThingData thingData = layerData.thingDatas[j];
+            this.ImportThingPrefab(layerData, layerTrans, tilesetConfigs, ref sprites, thingData);
+        }
+
+        switch (layerData.objectType)
+        {
+            case btObjectType.none:
+                break;
+            case btObjectType.floor:
+                {
+                    var obj = layerGo.AddComponent<BtFloor>();
+                    obj.Id = layerData.id;
+                }
+                break;
+
+            case btObjectType.stair:
+                {
+                    var obj = layerGo.AddComponent<BtStair>();
+                    obj.Id = layerData.id;
+                }
+                break;
+
+            default:
+                throw new Exception("unhandled layerData.objectType: " + layerData.objectType);
+        }
+    }
+
+    void ImportMapPrefab(string fileName)
+    {
+        btTilemapData mapData;
         // key = xxx.tsx (no extension)
         Dictionary<string, btTilesetConfig> tilesetConfigs;
-        if (!this.ImportPrefabPrepare(fileName, out mapConfig, out tilesetConfigs))
+        if (!this.ImportPrefabPrepare(fileName, out mapData, out tilesetConfigs))
         {
             return;
         }
 
-        string name = "__" + fileName + "__";
+        string name = Path.GetFileNameWithoutExtension(fileName);
+        if (name.Contains('.'))
+        {
+            name = Path.GetFileNameWithoutExtension(name);
+        }
         var existed = GameObject.Find(name);
         if (existed)
         {
             DestroyImmediate(existed);
         }
-        var mapTrans = new GameObject(name).transform;
+
+        var mapGo = new GameObject(name);
+        var mapTrans = mapGo.transform;
 
         var sprites = new Dictionary<string, Sprite>();
 
-        for (int i = 0; i < mapConfig.layers.Count; i++)
+        for (int i = 0; i < mapData.layerDatas.Count; i++)
         {
-            btTileLayerConfig layerConfig = mapConfig.layers[i];
-            var layerTrans = new GameObject(layerConfig.name).transform;
-            layerTrans.SetParent(mapTrans);
+            btTileLayerData layerData = mapData.layerDatas[i];
+            this.ImportLayerPrefab(mapTrans, tilesetConfigs, ref sprites, layerData);
+        }
 
-            for (int j = 0; j < layerConfig.things.Count; j++)
-            {
-                btTileLayerConfig.AThing oneThing = layerConfig.things[j];
-                btTilesetConfig tilesetConfig = tilesetConfigs[oneThing.tileset];
-                string atlasName = Path.GetFileNameWithoutExtension(oneThing.tileset);
-                btThingConfig thingConfig = this.findbtThingConfig(tilesetConfig, oneThing.tileId);
-                if (thingConfig == null)
-                {
-                    Debug.LogError(string.Format("layer({0}) tileId({1}) btThingConfig is null", layerConfig.name, oneThing.tileId));
-                    return;
-                }
+        //---
+        mapGo.AddComponent<BtScene>();
 
-                // load sprite
-                var sprite = this.loadSprite(ref sprites, atlasName, thingConfig.spriteName);
-
-                if (sprite != null)
-                {
-                    Vector2 correctPivot = this.getCorrectSpritePivot(thingConfig.shape);
-                    Vector2 pivot = this.getSpritePivot01(sprite);
-                    if (pivot != correctPivot)
-                    {
-                        Debug.LogError(string.Format("sprite '{0}/{1}' pivot is {2}, should be {3}", atlasName, thingConfig.spriteName, pivot, correctPivot));
-                    }
-
-                    var thingGo = new GameObject(string.Format("{0}_{1}", thingConfig.shape, thingConfig.spriteName));
-                    var thingTrans = thingGo.transform;
-                    thingTrans.rotation = sprite_rotation;
-                    thingTrans.SetParent(layerTrans);
-
-                    // set position
-                    thingTrans.position = this.calcSpritePosition(oneThing.pixelX, oneThing.pixelY, oneThing.pixelZ, sprite);
-
-                    // add sprite renderer
-                    var renderer = thingGo.AddComponent<SpriteRenderer>();
-                    renderer.spriteSortPoint = sprite_sort_point;
-                    renderer.sprite = sprite;
-
-                    //--------------------------------------------------------
-                    switch (thingConfig.objectType)
-                    {
-                        case btObjectType.none:
-                            break;
-                        case btObjectType.box_obstacle:
-                            {
-                                var obj = thingGo.AddComponent<BtBoxObstacle>();
-                                obj.Id = 0;
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+        bool success;
+        string prefabPath = this.importedDir + "/" + name + ".prefab";
+        var prefab = PrefabUtility.SaveAsPrefabAsset(mapGo, prefabPath, out success);
+        if (!success)
+        {
+            Debug.LogError(string.Format("Save to prefab failed, prefab path: {0}", prefabPath));
+        }
+        else
+        {
+            Debug.Log(string.Format("Save to prefab succeeded, prefab path: {0}", prefabPath), context: prefab);
         }
     }
 }

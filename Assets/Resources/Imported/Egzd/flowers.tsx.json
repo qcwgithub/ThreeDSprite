@@ -1,0 +1,44 @@
+{
+  "tiles": {
+    "0": {
+      "shape": 1,
+      "objectType": 0,
+      "spriteName": "flower_a",
+      "pixelSize": {
+        "x": 110.0,
+        "y": 96.0,
+        "z": 0.0
+      }
+    },
+    "1": {
+      "shape": 1,
+      "objectType": 0,
+      "spriteName": "flower_b",
+      "pixelSize": {
+        "x": 126.0,
+        "y": 105.0,
+        "z": 0.0
+      }
+    },
+    "2": {
+      "shape": 1,
+      "objectType": 0,
+      "spriteName": "flower_c",
+      "pixelSize": {
+        "x": 114.0,
+        "y": 101.0,
+        "z": 0.0
+      }
+    },
+    "3": {
+      "shape": 1,
+      "objectType": 0,
+      "spriteName": "mushroom_tea",
+      "pixelSize": {
+        "x": 37.0,
+        "y": 44.0,
+        "z": 0.0
+      }
+    }
+  }
+}

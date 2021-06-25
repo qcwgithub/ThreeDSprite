@@ -10,15 +10,15 @@ public class BtFloor : BtObject
         base.Apply(scene, obj);
         this.floor = obj as btLFloor;
     }
-#if UNITY_EDITOR
-    protected override void OnDrawGizmosImpl()
-    {
-        Vector3 min = LVector3.ToVector3(this.floor.Data.min);
-        Vector3 max = LVector3.ToVector3(this.floor.Data.max);
-        Vector3 center = (min + max) / 2;
-        Vector3 size = max - min;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(center, size);
-    }
-#endif
+// #if UNITY_EDITOR
+//     protected override void OnDrawGizmosImpl()
+//     {
+//         Vector3 min = FVector3.ToVector3(this.floor.Data.min);
+//         Vector3 max = FVector3.ToVector3(this.floor.Data.max);
+//         Vector3 center = (min + max) / 2;
+//         Vector3 size = max - min;
+//         Gizmos.color = Color.green;
+//         Gizmos.DrawWireCube(center, size);
+//     }
+// #endif
 }

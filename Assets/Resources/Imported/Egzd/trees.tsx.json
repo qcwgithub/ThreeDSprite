@@ -1,0 +1,34 @@
+{
+  "tiles": {
+    "0": {
+      "shape": 1,
+      "objectType": 5,
+      "spriteName": "camptree_a",
+      "pixelSize": {
+        "x": 298.0,
+        "y": 270.0,
+        "z": 0.0
+      }
+    },
+    "1": {
+      "shape": 1,
+      "objectType": 5,
+      "spriteName": "camptree_b",
+      "pixelSize": {
+        "x": 205.0,
+        "y": 215.0,
+        "z": 0.0
+      }
+    },
+    "2": {
+      "shape": 1,
+      "objectType": 5,
+      "spriteName": "camptree_d",
+      "pixelSize": {
+        "x": 177.0,
+        "y": 303.0,
+        "z": 0.0
+      }
+    }
+  }
+}

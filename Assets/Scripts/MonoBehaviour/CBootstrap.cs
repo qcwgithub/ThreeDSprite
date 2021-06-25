@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CBootstrap : MonoBehaviour
 {
+    public string MapPath = "Assets/Resources/Imported/Egzd/map1";
     public int MapId;
     public CInputManager InputManager;
     public BtCharacter Character;

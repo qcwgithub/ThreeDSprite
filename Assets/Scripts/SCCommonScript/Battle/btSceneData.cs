@@ -2,19 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct LVector3
+public struct IVector3
+{
+    public int x, y, z;
+
+    // public static IVector3 FromVector3(Vector3 v)
+    // {
+    //     IVector3 lv = new IVector3();
+    //     lv.x = v.x;
+    //     lv.y = v.y;
+    //     lv.z = v.z;
+    //     return lv;
+    // }
+    // public static Vector3 ToVector3(FVector3 lv)
+    // {
+    //     return new Vector3(lv.x, lv.y, lv.z);
+    // }
+}
+
+public struct FVector3
 {
     public float x, y, z;
 
-    public static LVector3 FromVector3(Vector3 v)
+    public static FVector3 FromVector3(Vector3 v)
     {
-        LVector3 lv = new LVector3();
+        FVector3 lv = new FVector3();
         lv.x = v.x;
         lv.y = v.y;
         lv.z = v.z;
         return lv;
     }
-    public static Vector3 ToVector3(LVector3 lv)
+    public static Vector3 ToVector3(FVector3 lv)
     {
         return new Vector3(lv.x, lv.y, lv.z);
     }
@@ -27,13 +45,14 @@ public class btObjectData
 
 public class btSingleObjectData : btObjectData
 {
-    public int configId;
+    public string tileset; // no ext
+    public int tileId;
 }
 
 public class btGroupObjectData : btObjectData
 {
-    public LVector3 min;
-    public LVector3 max;
+    public FVector3 min;
+    public FVector3 max;
 }
 
 public class btFloorData : btGroupObjectData
@@ -48,14 +67,14 @@ public class btStairData : btGroupObjectData
 
 public class btBoxObstacleData : btSingleObjectData
 {
-    public LVector3 min; // todo: delete
-    public LVector3 max; // todo: delete
+    public FVector3 min; // todo: delete
+    public FVector3 max; // todo: delete
 }
 
 public class btTreeData : btSingleObjectData
 {
-    public LVector3 min; // todo: delete
-    public LVector3 max; // todo: delete
+    public FVector3 min; // todo: delete
+    public FVector3 max; // todo: delete
 }
 
 public class btSceneData
@@ -79,7 +98,7 @@ public class btThingConfig
     public btThingShape shape;
     public btObjectType objectType;
     public string spriteName;
-    public LVector3 pixelSize;
+    public FVector3 pixelSize;
 }
 
 // .tsx
@@ -89,33 +108,36 @@ public class btTilesetConfig
     public Dictionary<int, btThingConfig> tiles;
 }
 
-public class btTileLayerConfig
+// 在 layer 上摆放的一个东西
+public class btThingData
+{
+    public int id;
+    
+    // 东西是啥
+    public string tileset;
+    public int tileId; // tile id in tileset
+
+    // 坐标是啥，左下角
+    public IVector3 pixelPosition; // pixelX / PixelsPerUnit = x
+}
+
+public class btTileLayerData
 {
     public int id;
     public string name;
-    public string type;
-    public bool visible;
+    public int pixelY;
+    public btObjectType objectType;
 
-    // 在 layer 上摆放的一个东西
-    public class AThing
-    {
-        // 东西是啥
-        public string tileset;
-        public int tileId; // tile id in tileset
+    public List<btThingData> thingDatas;
 
-        // 坐标是啥，左下角
-        public int pixelX; // pixelX / PixelsPerUnit = x
-        public int pixelY;
-        public int pixelZ;
-    }
-
-    public List<AThing> things;
+    // when objectType == stair
+    public StairDir stairDir;
 }
 
 // .tmx
-public class btTilemapConfig
+public class btTilemapData
 {
     public int pixelWidth;
     public int pixelHeight;
-    public List<btTileLayerConfig> layers;
+    public List<btTileLayerData> layerDatas;
 }

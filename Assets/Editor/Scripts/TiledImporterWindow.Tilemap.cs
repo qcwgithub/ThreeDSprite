@@ -8,18 +8,84 @@ using Newtonsoft.Json;
 
 public partial class TiledImporterWindow
 {
+    void ParseExtraLayerDataFields(TiledLayer layer, btTileLayerData layerData)
+    {
+        switch (layerData.objectType)
+        {
+            case btObjectType.stair:
+                if (!layer.Properties.findEnum<StairDir>(LayerPropertyKey.stair_dir, out layerData.stairDir))
+                {
+                    throw new Exception(LayerPropertyKey.stair_dir + " not defined");
+                }
+                break;
+        }
+    }
+
+    btTileLayerData ParseLayer(TiledMap map, Vector3Int origin, TiledLayer layer)
+    {
+        btTileLayerData layerData = new btTileLayerData();
+        layerData.id = this.getNextObjectId();
+        layerData.name = layer.name;
+        layerData.pixelY = layer.Properties.findInt(LayerPropertyKey.layer_y, 0) * map.TileHeight;
+        //layerConfig.type = layer.type;
+        layerData.objectType = layer.Properties.findEnum<btObjectType>(LayerPropertyKey.object_type, btObjectType.none);
+        this.ParseExtraLayerDataFields(layer, layerData);
+        layerData.thingDatas = new List<btThingData>();
+
+        for (int j = 0; j < layer.data.Length; j++)
+        {
+            int dataId = layer.data[j];
+            if (dataId == 0)
+            {
+                continue;
+            }
+
+            TiledMapTileset ts = map.mapDataIdToTilesetInfo(dataId);
+            if (ts == null)
+            {
+                throw new Exception("data id not valid: " + dataId);
+            }
+
+            int x = j % map.Width;
+            int z = j / map.Width;
+
+            IVector3 pixelPos;
+            pixelPos.x = (x - origin.x) * map.TileWidth;
+            pixelPos.y = 0;//(y - origin.y) * map.TileHeight; // todo get from layer.properties
+                           // 在 tiled 中 y 轴是向下的（就是这里的 pixelZ）
+            pixelPos.z = -((z - origin.z) * map.TileHeight);
+
+            btThingData thingData = new btThingData();
+            thingData.id = this.getNextObjectId();
+            thingData.tileset = ts.source;
+            thingData.tileId = dataId - ts.firstgid;
+            thingData.pixelPosition = pixelPos;
+            layerData.thingDatas.Add(thingData);
+        }
+
+        return layerData;
+    }
+
+    int objectId = 1;
+    int getNextObjectId()
+    {
+        return this.objectId++;
+    }
+
     // .tmx -> .json
     // 变成与 tiled 编辑器无关的格式
     void ImportTilemap(string fileName)
     {
+        this.objectId = 1;
+
         var filePath = tiledDir + "/" + fileName;
         var map = new TiledMap(filePath);
         Debug.Log(string.Format("map size: {0} x {1}", map.Width, map.Height));
         Debug.Log(string.Format("map tile size: {0} x {1}", map.TileWidth, map.TileHeight));
 
         Vector3Int origin = new Vector3Int(
-            map.Properties.findInt(TilemapPropertyKey.x_origin, -1), 
-            map.Properties.findInt(TilemapPropertyKey.y_origin, -1), 
+            map.Properties.findInt(TilemapPropertyKey.x_origin, -1),
+            map.Properties.findInt(TilemapPropertyKey.y_origin, -1),
             map.Properties.findInt(TilemapPropertyKey.z_origin, -1));
 
         if (origin.x == -1 || origin.y == -1 || origin.z == -1)
@@ -44,10 +110,10 @@ public partial class TiledImporterWindow
                     tilesetAssets.Add(tilesetAsset);
                 }
         */
-        btTilemapConfig mapConfig = new btTilemapConfig();
-        mapConfig.pixelWidth = map.Width * map.TileWidth;
-        mapConfig.pixelHeight = map.Height * map.TileHeight;
-        mapConfig.layers = new List<btTileLayerConfig>();
+        btTilemapData mapData = new btTilemapData();
+        mapData.pixelWidth = map.Width * map.TileWidth;
+        mapData.pixelHeight = map.Height * map.TileHeight;
+        mapData.layerDatas = new List<btTileLayerData>();
 
         for (int i = 0; i < map.Layers.Length; i++)
         {
@@ -58,50 +124,19 @@ public partial class TiledImporterWindow
                 continue;
             }
 
-            btTileLayerConfig layerConfig = new btTileLayerConfig();
-            layerConfig.id = layer.id;
-            layerConfig.name = layer.name;
-            layerConfig.type = layer.type;
-            layerConfig.visible = layer.visible;
-            layerConfig.things = new List<btTileLayerConfig.AThing>();
-            mapConfig.layers.Add(layerConfig);
+            // if (!layer.visible)
+            // {
+            //     continue;
+            // }
 
-            for (int j = 0; j < layer.data.Length; j++)
-            {
-                int dataId = layer.data[j];
-                if (dataId == 0)
-                {
-                    continue;
-                }
-
-                TiledMapTileset ts = map.mapDataIdToTilesetInfo(dataId);
-                if (ts == null)
-                {
-                    throw new Exception("data id not valid: " + dataId);
-                }
-
-                int x = j % map.Width;
-                int z = j / map.Width;
-
-                int pixelX = (x - origin.x) * map.TileWidth;
-                int pixelY = 0;//(y - origin.y) * map.TileHeight;
-                int pixelZ = (z - origin.z) * map.TileHeight;
-
-                btTileLayerConfig.AThing aThing = new btTileLayerConfig.AThing();
-                aThing.tileset = ts.source;
-                aThing.tileId = dataId - ts.firstgid;
-                aThing.pixelX = pixelX;
-                aThing.pixelY = pixelY; // todo get from layer.properties
-                // 在 tiled 中 y 轴是向下的（就是这里的 pixelZ）
-                aThing.pixelZ = -pixelZ;
-                layerConfig.things.Add(aThing);
-            }
+            btTileLayerData layerData = this.ParseLayer(map, origin, layer);
+            mapData.layerDatas.Add(layerData);
         }
 
         Directory.CreateDirectory(this.importedDir);
         var jsonPath = this.importedDir + "/" + fileName + ".json";
 
-        File.WriteAllText(jsonPath, JsonConvert.SerializeObject(mapConfig, Formatting.Indented));
+        File.WriteAllText(jsonPath, JsonConvert.SerializeObject(mapData, Formatting.Indented));
         AssetDatabase.Refresh();
         Debug.Log("success, file: " + jsonPath);
     }

@@ -1,0 +1,154 @@
+{
+  "tiles": {
+    "0": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "relic_ground_a",
+      "pixelSize": {
+        "x": 189.0,
+        "y": 0.0,
+        "z": 154.0
+      }
+    },
+    "1": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "relic_ground_b",
+      "pixelSize": {
+        "x": 189.0,
+        "y": 0.0,
+        "z": 156.0
+      }
+    },
+    "2": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "relic_ground_c",
+      "pixelSize": {
+        "x": 189.0,
+        "y": 0.0,
+        "z": 151.0
+      }
+    },
+    "3": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "relic_ground_d",
+      "pixelSize": {
+        "x": 179.0,
+        "y": 0.0,
+        "z": 129.0
+      }
+    },
+    "4": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_a",
+      "pixelSize": {
+        "x": 438.0,
+        "y": 0.0,
+        "z": 314.0
+      }
+    },
+    "5": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_b",
+      "pixelSize": {
+        "x": 630.0,
+        "y": 0.0,
+        "z": 362.0
+      }
+    },
+    "6": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_hok_a",
+      "pixelSize": {
+        "x": 312.0,
+        "y": 0.0,
+        "z": 320.0
+      }
+    },
+    "7": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_hok_b",
+      "pixelSize": {
+        "x": 320.0,
+        "y": 0.0,
+        "z": 313.0
+      }
+    },
+    "8": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_hok_c",
+      "pixelSize": {
+        "x": 321.0,
+        "y": 0.0,
+        "z": 300.0
+      }
+    },
+    "9": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_hok_d",
+      "pixelSize": {
+        "x": 432.0,
+        "y": 0.0,
+        "z": 307.0
+      }
+    },
+    "10": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_hok_e",
+      "pixelSize": {
+        "x": 411.0,
+        "y": 0.0,
+        "z": 347.0
+      }
+    },
+    "11": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_hok_water_a",
+      "pixelSize": {
+        "x": 217.0,
+        "y": 0.0,
+        "z": 252.0
+      }
+    },
+    "12": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_hok_water_b",
+      "pixelSize": {
+        "x": 208.0,
+        "y": 0.0,
+        "z": 251.0
+      }
+    },
+    "13": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_slope_down",
+      "pixelSize": {
+        "x": 331.0,
+        "y": 0.0,
+        "z": 156.0
+      }
+    },
+    "14": {
+      "shape": 2,
+      "objectType": 0,
+      "spriteName": "river_slope_up",
+      "pixelSize": {
+        "x": 388.0,
+        "y": 0.0,
+        "z": 153.0
+      }
+    }
+  }
+}

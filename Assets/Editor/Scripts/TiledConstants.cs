@@ -53,4 +53,9 @@ public class LayerPropertyKey
     // 值对应于枚举 btObjectType
     // 这个配置不是必须的
     public const string object_type = "object_type";
+
+    // 单位是格子
+    public const string layer_y = "layer_y";
+
+    public const string stair_dir = "stair_dir";
 }

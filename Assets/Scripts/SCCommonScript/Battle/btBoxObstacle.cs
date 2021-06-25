@@ -49,8 +49,8 @@ public class btBoxObstacle : btObject, btIObstacle
 
     public override void AddToPhysicsScene()
     {
-        Vector3 min = LVector3.ToVector3(this.Data.min);
-        Vector3 max = LVector3.ToVector3(this.Data.max);
+        Vector3 min = FVector3.ToVector3(this.Data.min);
+        Vector3 max = FVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
 
