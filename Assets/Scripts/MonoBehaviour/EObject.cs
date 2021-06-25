@@ -48,7 +48,7 @@ public class EObject : MonoBehaviour
     public btFloorData ToFloorData()
     {
         btFloorData data = new btFloorData();
-        data.Id = this.Id;
+        data.id = this.Id;
 
         switch (this.FloorComposition)
         {
@@ -61,16 +61,16 @@ public class EObject : MonoBehaviour
                         Vector3 min = bound.min;
                         Vector3 max = bound.max;
 
-                        if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
-                        if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
-                        if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
-                        if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+                        if (i == 0 || min.x < data.min.x) data.min.x = min.x;
+                        if (i == 0 || min.z < data.min.z) data.min.z = min.z;
+                        if (i == 0 || max.x > data.max.x) data.max.x = max.x;
+                        if (i == 0 || max.z > data.max.z) data.max.z = max.z;
 
                         if (i == 0)
                         {
-                            data.Y = max.y;
-                            data.Min.y = data.Y;
-                            data.Max.y = data.Y;
+                            data.y = max.y;
+                            data.min.y = data.y;
+                            data.max.y = data.y;
                         }
                     }
                 }
@@ -81,8 +81,8 @@ public class EObject : MonoBehaviour
     public btStairData ToStairData()
     {
         btStairData data = new btStairData();
-        data.Id = this.Id;
-        data.Dir = this.StairDir;
+        data.id = this.Id;
+        data.dir = this.StairDir;
 
         switch (this.StairComposition)
         {
@@ -95,13 +95,13 @@ public class EObject : MonoBehaviour
                         Vector3 min = bound.min;
                         Vector3 max = bound.max;
 
-                        if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
-                        if (i == 0 || min.y < data.Min.y) data.Min.y = min.y;
-                        if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
+                        if (i == 0 || min.x < data.min.x) data.min.x = min.x;
+                        if (i == 0 || min.y < data.min.y) data.min.y = min.y;
+                        if (i == 0 || min.z < data.min.z) data.min.z = min.z;
 
-                        if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
-                        if (i == 0 || max.y > data.Max.y) data.Max.y = max.y;
-                        if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+                        if (i == 0 || max.x > data.max.x) data.max.x = max.x;
+                        if (i == 0 || max.y > data.max.y) data.max.y = max.y;
+                        if (i == 0 || max.z > data.max.z) data.max.z = max.z;
                     }
                 }
                 break;
@@ -112,7 +112,7 @@ public class EObject : MonoBehaviour
     public btBoxObstacleData ToBoxObstaleData()
     {
         btBoxObstacleData data = new btBoxObstacleData();
-        data.Id = this.Id;
+        data.id = this.Id;
 
         switch (this.BoxObstacleComposition)
         {
@@ -129,13 +129,13 @@ public class EObject : MonoBehaviour
                         Vector3 min = bound.min;
                         Vector3 max = bound.max;
 
-                        if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
-                        if (i == 0 || min.y < data.Min.y) data.Min.y = min.y;
-                        if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
+                        if (i == 0 || min.x < data.min.x) data.min.x = min.x;
+                        if (i == 0 || min.y < data.min.y) data.min.y = min.y;
+                        if (i == 0 || min.z < data.min.z) data.min.z = min.z;
 
-                        if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
-                        if (i == 0 || max.y > data.Max.y) data.Max.y = max.y;
-                        if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+                        if (i == 0 || max.x > data.max.x) data.max.x = max.x;
+                        if (i == 0 || max.y > data.max.y) data.max.y = max.y;
+                        if (i == 0 || max.z > data.max.z) data.max.z = max.z;
                     }
                 }
                 break;
@@ -146,7 +146,7 @@ public class EObject : MonoBehaviour
     public btTreeData ToTreeData()
     {
         btTreeData data = new btTreeData();
-        data.Id = this.Id;
+        data.id = this.Id;
 
         BoxCollider[] colliders = new BoxCollider[] { this.GetComponent<BoxCollider>() };
         for (int i = 0; i < colliders.Length; i++)
@@ -155,13 +155,13 @@ public class EObject : MonoBehaviour
             Vector3 min = bound.min;
             Vector3 max = bound.max;
 
-            if (i == 0 || min.x < data.Min.x) data.Min.x = min.x;
-            if (i == 0 || min.y < data.Min.y) data.Min.y = min.y;
-            if (i == 0 || min.z < data.Min.z) data.Min.z = min.z;
+            if (i == 0 || min.x < data.min.x) data.min.x = min.x;
+            if (i == 0 || min.y < data.min.y) data.min.y = min.y;
+            if (i == 0 || min.z < data.min.z) data.min.z = min.z;
 
-            if (i == 0 || max.x > data.Max.x) data.Max.x = max.x;
-            if (i == 0 || max.y > data.Max.y) data.Max.y = max.y;
-            if (i == 0 || max.z > data.Max.z) data.Max.z = max.z;
+            if (i == 0 || max.x > data.max.x) data.max.x = max.x;
+            if (i == 0 || max.y > data.max.y) data.max.y = max.y;
+            if (i == 0 || max.z > data.max.z) data.max.z = max.z;
         }
 
         return data;
@@ -169,7 +169,7 @@ public class EObject : MonoBehaviour
     public btSceneData ToMapData()
     {
         btSceneData data = new btSceneData();
-        data.Id = this.Id;
+        data.id = this.Id;
 
         var Floors = new List<btFloorData>();
         var Stairs = new List<btStairData>();
@@ -197,10 +197,10 @@ public class EObject : MonoBehaviour
             }
         }
 
-        data.Floors = Floors.ToArray();
-        data.Stairs = Stairs.ToArray();
-        data.BoxObstacles = BoxObstacles.ToArray();
-        data.Trees = Trees.ToArray();
+        data.floors = Floors.ToArray();
+        data.stairs = Stairs.ToArray();
+        data.boxObstacles = BoxObstacles.ToArray();
+        data.trees = Trees.ToArray();
 
         return data;
     }

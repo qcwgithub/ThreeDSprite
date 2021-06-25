@@ -63,19 +63,19 @@ public partial class TiledImporterWindow
                             throw new Exception(TilePropertyKey.cube_y_height + " not defined");
                         }
 
-                        thingConfig.size = new LVector3 { x = image.width, y = cube_y_height, z = image.height - cube_y_height };
+                        thingConfig.pixelSize = new LVector3 { x = image.width, y = cube_y_height, z = image.height - cube_y_height };
                     }
                     break;
 
                 case btThingShape.xy:
                     {
-                        thingConfig.size = new LVector3 { x = image.width, y = image.height, z = 0 };
+                        thingConfig.pixelSize = new LVector3 { x = image.width, y = image.height, z = 0 };
                     }
                     break;
 
                 case btThingShape.xz:
                     {
-                        thingConfig.size = new LVector3 { x = image.width, y = 0, z = image.height };
+                        thingConfig.pixelSize = new LVector3 { x = image.width, y = 0, z = image.height };
                     }
                     break;
 

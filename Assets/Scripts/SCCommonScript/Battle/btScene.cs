@@ -46,33 +46,33 @@ public class btScene
         this.onEndContactDel = new Qu3eApi.ContactDelegate(this.OnEndContact);
         Qu3eApi.SceneSetContactListener(physicsScene, this.onBeginContactDel, this.onEndContactDel);
 
-        for (int i = 0; i < data.Floors.Length; i++)
+        for (int i = 0; i < data.floors.Length; i++)
         {
-            btFloorData floorData = data.Floors[i];
+            btFloorData floorData = data.floors[i];
             btLFloor floor = new btLFloor(this, floorData);
             this.Walkables.Add(floor);
             this.DictObjects.Add(floor.Id, floor);
         }
 
-        for (int i = 0; i < data.Stairs.Length; i++)
+        for (int i = 0; i < data.stairs.Length; i++)
         {
-            btStairData stairData = data.Stairs[i];
+            btStairData stairData = data.stairs[i];
             btStair stair = new btStair(this, stairData);
             this.Walkables.Add(stair);
             this.DictObjects.Add(stair.Id, stair);
         }
 
-        for (int i = 0; i < data.BoxObstacles.Length; i++)
+        for (int i = 0; i < data.boxObstacles.Length; i++)
         {
-            btBoxObstacleData obData = data.BoxObstacles[i];
+            btBoxObstacleData obData = data.boxObstacles[i];
             btBoxObstacle obstacle = new btBoxObstacle(this, obData);
             this.Obstacles.Add(obstacle);
             this.DictObjects.Add(obstacle.Id, obstacle);
         }
 
-        for (int i = 0; i < data.Trees.Length; i++)
+        for (int i = 0; i < data.trees.Length; i++)
         {
-            btTreeData treeData = data.Trees[i];
+            btTreeData treeData = data.trees[i];
             btTree tree = new btTree(this, treeData);
             this.Trees.Add(tree);
             this.DictObjects.Add(tree.Id, tree);

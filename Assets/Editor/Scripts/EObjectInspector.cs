@@ -64,8 +64,8 @@ public class EObjectInspector : Editor
     {
         btSceneData data = script.ToMapData();
         string text = JsonUtils.ToJson(data);
-        File.WriteAllText("Assets/Resources/MapData/" + data.Id + ".txt", text, Encoding.UTF8);
-        AssetDatabase.ImportAsset("Assets/Resources/MapData/" + data.Id + ".txt");
+        File.WriteAllText("Assets/Resources/MapData/" + data.id + ".txt", text, Encoding.UTF8);
+        AssetDatabase.ImportAsset("Assets/Resources/MapData/" + data.id + ".txt");
 
         // prefab
         GameObject go = Instantiate<GameObject>(script.gameObject);

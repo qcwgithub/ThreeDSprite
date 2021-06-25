@@ -11,7 +11,7 @@ public enum StairDir
 public class btStair : btObject, btIWalkable
 {
     public btStairData Data { get; private set; }
-    public btStair(btScene scene, btStairData data) : base(scene, data.Id)
+    public btStair(btScene scene, btStairData data) : base(scene, data.id)
     {
         this.Data = data;
     }
@@ -21,25 +21,25 @@ public class btStair : btObject, btIWalkable
     {
         btStairData data = this.Data;
         bool outOfRange = false;
-        if (pos.x < data.Min.x)
+        if (pos.x < data.min.x)
         {
-            pos.x = data.Min.x;
+            pos.x = data.min.x;
             outOfRange = true;
         }
-        else if (pos.x > data.Max.x)
+        else if (pos.x > data.max.x)
         {
-            pos.x = data.Max.x;
+            pos.x = data.max.x;
             outOfRange = true;
         }
 
-        if (pos.z < data.Min.z)
+        if (pos.z < data.min.z)
         {   
-            pos.z = data.Min.z;
+            pos.z = data.min.z;
             outOfRange = true;
         }
-        else if (pos.z > data.Max.z)
+        else if (pos.z > data.max.z)
         {
-            pos.z = data.Max.z;
+            pos.z = data.max.z;
             outOfRange = true;
         }
         return outOfRange;
@@ -48,8 +48,8 @@ public class btStair : btObject, btIWalkable
     private float ZtoY(float z)
     {
         btStairData data = this.Data;
-        float t = (z - data.Min.z) / (data.Max.z - data.Min.z);
-        float y = UnityEngine.Mathf.Lerp(data.Min.y, data.Max.y, t);
+        float t = (z - data.min.z) / (data.max.z - data.min.z);
+        float y = UnityEngine.Mathf.Lerp(data.min.y, data.max.y, t);
         return y;
     }
 
@@ -58,14 +58,14 @@ public class btStair : btObject, btIWalkable
         btStairData data = this.Data;
         if (dir == StairDir.LeftLow_RightHigh)
         {
-            float t = (x - data.Min.x) / (data.Max.x - data.Min.x);
-            float y = UnityEngine.Mathf.Lerp(data.Min.y, data.Max.y, t);
+            float t = (x - data.min.x) / (data.max.x - data.min.x);
+            float y = UnityEngine.Mathf.Lerp(data.min.y, data.max.y, t);
             return y;
         }
         else
         {
-            float t = (x - data.Min.x) / (data.Max.x - data.Min.x);
-            float y = UnityEngine.Mathf.Lerp(data.Max.y, data.Min.y, t);
+            float t = (x - data.min.x) / (data.max.x - data.min.x);
+            float y = UnityEngine.Mathf.Lerp(data.max.y, data.min.y, t);
             return y;
         }
     }
@@ -73,7 +73,7 @@ public class btStair : btObject, btIWalkable
     private float XZtoY(float x, float z)
     {
         btStairData data = this.Data;
-        switch (data.Dir)
+        switch (data.dir)
         {
             case StairDir.Front_Back:
                 return this.ZtoY(z);
@@ -81,7 +81,7 @@ public class btStair : btObject, btIWalkable
             case StairDir.LeftHigh_RightLow:
             case StairDir.LeftLow_RightHigh:
             default:
-                return this.XtoY(x, data.Dir);
+                return this.XtoY(x, data.dir);
                 //break;
         }
     }
@@ -132,8 +132,8 @@ public class btStair : btObject, btIWalkable
     }
     public override void AddToPhysicsScene()
     {
-        Vector3 min = LVector3.ToVector3(this.Data.Min);
-        Vector3 max = LVector3.ToVector3(this.Data.Max);
+        Vector3 min = LVector3.ToVector3(this.Data.min);
+        Vector3 max = LVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         

@@ -5,7 +5,7 @@ using UnityEngine;
 public class btTree : btObject
 {
     public btTreeData Data { get; private set; }
-    public btTree(btScene scene, btTreeData data) : base(scene, data.Id)
+    public btTree(btScene scene, btTreeData data) : base(scene, data.id)
     {
         this.Data = data;
     }
@@ -13,8 +13,8 @@ public class btTree : btObject
 
     public override void AddToPhysicsScene()
     {
-        Vector3 min = LVector3.ToVector3(this.Data.Min);
-        Vector3 max = LVector3.ToVector3(this.Data.Max);
+        Vector3 min = LVector3.ToVector3(this.Data.min);
+        Vector3 max = LVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         

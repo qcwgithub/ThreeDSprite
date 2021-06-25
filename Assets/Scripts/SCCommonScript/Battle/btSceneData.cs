@@ -20,43 +20,51 @@ public struct LVector3
     }
 }
 
-public class btFloorData
+public class btObjectData
 {
-    public int Id;
-    public LVector3 Min;
-    public LVector3 Max;
-    public float Y;
+    public int id;
 }
 
-public class btStairData
+public class btSingleObjectData : btObjectData
 {
-    public int Id;
-    public StairDir Dir;
-    public LVector3 Min;
-    public LVector3 Max;
+    public int configId;
 }
 
-public class btBoxObstacleData
+public class btGroupObjectData : btObjectData
 {
-    public int Id;
-    public LVector3 Min;
-    public LVector3 Max;
+    public LVector3 min;
+    public LVector3 max;
+}
+
+public class btFloorData : btGroupObjectData
+{
+    public float y;
+}
+
+public class btStairData : btGroupObjectData
+{
+    public StairDir dir;
+}
+
+public class btBoxObstacleData : btSingleObjectData
+{
+    public LVector3 min; // todo: delete
+    public LVector3 max; // todo: delete
+}
+
+public class btTreeData : btSingleObjectData
+{
+    public LVector3 min; // todo: delete
+    public LVector3 max; // todo: delete
 }
 
 public class btSceneData
 {
-    public int Id;
-    public btFloorData[] Floors;
-    public btStairData[] Stairs;
-    public btBoxObstacleData[] BoxObstacles;
-    public btTreeData[] Trees;
-}
-
-public class btTreeData
-{
-    public int Id;
-    public LVector3 Min;
-    public LVector3 Max;
+    public int id;
+    public btFloorData[] floors;
+    public btStairData[] stairs;
+    public btBoxObstacleData[] boxObstacles;
+    public btTreeData[] trees;
 }
 
 public enum btThingShape
@@ -71,7 +79,7 @@ public class btThingConfig
     public btThingShape shape;
     public btObjectType objectType;
     public string spriteName;
-    public LVector3 size;
+    public LVector3 pixelSize;
 }
 
 // .tsx

@@ -6,10 +6,10 @@ public class btBoxObstacle : btObject, btIObstacle
 {
     public btBoxObstacleData Data { get; private set; }
     public float Y { get; private set; }
-    public btBoxObstacle(btScene scene, btBoxObstacleData data): base(scene, data.Id)
+    public btBoxObstacle(btScene scene, btBoxObstacleData data): base(scene, data.id)
     {
         this.Data = data;
-        this.Y = data.Max.y;
+        this.Y = data.max.y;
     }
     public override btObjectType Type { get { return btObjectType.box_obstacle; } }
 
@@ -17,28 +17,28 @@ public class btBoxObstacle : btObject, btIObstacle
     {
         btBoxObstacleData data = this.Data;
         Vector3 to = from + delta;
-        if (to.x < data.Min.x || to.x > data.Max.x || to.z < data.Min.z || to.z > data.Max.z)
+        if (to.x < data.min.x || to.x > data.max.x || to.z < data.min.z || to.z > data.max.z)
         {
             return false;
         }
 
         bool ret = false;
-        if (from.x <= data.Min.x && delta.x > 0 && to.x > data.Min.x)
+        if (from.x <= data.min.x && delta.x > 0 && to.x > data.min.x)
         {
             delta.x = 0;
             ret = true;
         }
-        else if (from.x >= data.Max.x && delta.x < 0 && to.x < data.Max.x)
+        else if (from.x >= data.max.x && delta.x < 0 && to.x < data.max.x)
         {
             delta.x = 0;
             ret = true;
         }
-        if (from.z <= data.Min.z && delta.z > 0 && to.z > data.Min.z)
+        if (from.z <= data.min.z && delta.z > 0 && to.z > data.min.z)
         {
             delta.z = 0;
             ret = true;
         }
-        else if (from.z >= data.Max.z && delta.z < 0 && to.z < data.Max.z)
+        else if (from.z >= data.max.z && delta.z < 0 && to.z < data.max.z)
         {
             delta.z = 0;
             ret = true;
@@ -49,8 +49,8 @@ public class btBoxObstacle : btObject, btIObstacle
 
     public override void AddToPhysicsScene()
     {
-        Vector3 min = LVector3.ToVector3(this.Data.Min);
-        Vector3 max = LVector3.ToVector3(this.Data.Max);
+        Vector3 min = LVector3.ToVector3(this.Data.min);
+        Vector3 max = LVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
 

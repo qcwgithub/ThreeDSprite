@@ -5,7 +5,7 @@ using UnityEngine;
 public class btLFloor : btObject, btIWalkable
 {
     public btFloorData Data { get; private set; }
-    public btLFloor(btScene scene, btFloorData data): base(scene, data.Id)
+    public btLFloor(btScene scene, btFloorData data): base(scene, data.id)
     {
         this.Data = data;
     }
@@ -18,25 +18,25 @@ public class btLFloor : btObject, btIWalkable
         btFloorData data = this.Data;
 
         bool outOfRange = false;
-        if (pos.x < data.Min.x)
+        if (pos.x < data.min.x)
         {
-            pos.x = data.Min.x;
+            pos.x = data.min.x;
             outOfRange = true;
         }
-        else if (pos.x > data.Max.x)
+        else if (pos.x > data.max.x)
         {
-            pos.x = data.Max.x;
+            pos.x = data.max.x;
             outOfRange = true;
         }
 
-        if (pos.z < data.Min.z)
+        if (pos.z < data.min.z)
         {
-            pos.z = data.Min.z;
+            pos.z = data.min.z;
             outOfRange = true;
         }
-        else if (pos.z > data.Max.z)
+        else if (pos.z > data.max.z)
         {
-            pos.z = data.Max.z;
+            pos.z = data.max.z;
             outOfRange = true;
         }
         return outOfRange;
@@ -59,7 +59,7 @@ public class btLFloor : btObject, btIWalkable
             return result;
         }
 
-        result.Y = data.Y;
+        result.Y = data.y;
         return result;
     }
 
@@ -71,11 +71,11 @@ public class btLFloor : btObject, btIWalkable
         {
             return false;
         }
-        if (delta.y < 0 && from.y > data.Y && to.y <= data.Y)
+        if (delta.y < 0 && from.y > data.y && to.y <= data.y)
         {
             return true;
         }
-        if (Mathf.Abs(data.Y - to.y) > 0.1f)
+        if (Mathf.Abs(data.y - to.y) > 0.1f)
         {
             return false;
         }
@@ -84,8 +84,8 @@ public class btLFloor : btObject, btIWalkable
 
     public override void AddToPhysicsScene()
     {
-        Vector3 min = LVector3.ToVector3(this.Data.Min);
-        Vector3 max = LVector3.ToVector3(this.Data.Max);
+        Vector3 min = LVector3.ToVector3(this.Data.min);
+        Vector3 max = LVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         
