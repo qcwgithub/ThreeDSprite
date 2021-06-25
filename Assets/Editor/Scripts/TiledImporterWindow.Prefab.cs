@@ -67,17 +67,9 @@ public partial class TiledImporterWindow
     btThingConfig findbtThingConfig(btTilesetConfig tilesetConfig, int tileId)
     {
         var t = tilesetConfig;
-        if (t.cubes != null && t.cubes.ContainsKey(tileId))
+        if (t.tiles.ContainsKey(tileId))
         {
-            return t.cubes[tileId];
-        }
-        if (t.xys != null && t.xys.ContainsKey(tileId))
-        {
-            return t.xys[tileId];
-        }
-        if (t.xzs != null && t.xzs.ContainsKey(tileId))
-        {
-            return t.xzs[tileId];
+            return t.tiles[tileId];
         }
         return null;
     }
@@ -176,13 +168,13 @@ public partial class TiledImporterWindow
 
             for (int j = 0; j < layerConfig.things.Count; j++)
             {
-                btTileLayerConfig.AThing aThing = layerConfig.things[j];
-                btTilesetConfig tilesetConfig = tilesetConfigs[aThing.tileset];
-                string atlasName = Path.GetFileNameWithoutExtension(aThing.tileset);
-                btThingConfig thingConfig = this.findbtThingConfig(tilesetConfig, aThing.tileId);
+                btTileLayerConfig.AThing oneThing = layerConfig.things[j];
+                btTilesetConfig tilesetConfig = tilesetConfigs[oneThing.tileset];
+                string atlasName = Path.GetFileNameWithoutExtension(oneThing.tileset);
+                btThingConfig thingConfig = this.findbtThingConfig(tilesetConfig, oneThing.tileId);
                 if (thingConfig == null)
                 {
-                    Debug.LogError(string.Format("layer({0}) tileId({1}) btThingConfig is null", layerConfig.name, aThing.tileId));
+                    Debug.LogError(string.Format("layer({0}) tileId({1}) btThingConfig is null", layerConfig.name, oneThing.tileId));
                     return;
                 }
 
@@ -191,25 +183,40 @@ public partial class TiledImporterWindow
 
                 if (sprite != null)
                 {
-                    Vector2 correctPivot = this.getCorrectSpritePivot(thingConfig.getShape());
+                    Vector2 correctPivot = this.getCorrectSpritePivot(thingConfig.shape);
                     Vector2 pivot = this.getSpritePivot01(sprite);
                     if (pivot != correctPivot)
                     {
                         Debug.LogError(string.Format("sprite '{0}/{1}' pivot is {2}, should be {3}", atlasName, thingConfig.spriteName, pivot, correctPivot));
                     }
 
-                    var thingGo = new GameObject(string.Format("{0}_{1}", thingConfig.getShape(), thingConfig.spriteName));
+                    var thingGo = new GameObject(string.Format("{0}_{1}", thingConfig.shape, thingConfig.spriteName));
                     var thingTrans = thingGo.transform;
                     thingTrans.rotation = sprite_rotation;
                     thingTrans.SetParent(layerTrans);
 
                     // set position
-                    thingTrans.position = this.calcSpritePosition(aThing.pixelX, aThing.pixelY, aThing.pixelZ, sprite);
+                    thingTrans.position = this.calcSpritePosition(oneThing.pixelX, oneThing.pixelY, oneThing.pixelZ, sprite);
 
                     // add sprite renderer
                     var renderer = thingGo.AddComponent<SpriteRenderer>();
                     renderer.spriteSortPoint = sprite_sort_point;
                     renderer.sprite = sprite;
+
+                    //--------------------------------------------------------
+                    switch (thingConfig.objectType)
+                    {
+                        case btObjectType.none:
+                            break;
+                        case btObjectType.box_obstacle:
+                            {
+                                var obj = thingGo.AddComponent<BtBoxObstacle>();
+                                obj.Id = 0;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }

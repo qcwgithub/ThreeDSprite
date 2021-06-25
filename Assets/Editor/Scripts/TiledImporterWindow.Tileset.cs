@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 public partial class TiledImporterWindow
 {
     // .tsx -> .json
+    // 变成与 tiled 编辑器无关的格式
     void ImportTileset(string fileName)
     {
         var tsxPath = tiledDir + "/" + fileName;
@@ -19,15 +20,27 @@ public partial class TiledImporterWindow
         // Debug.Log("Load success");
 
         btThingShape shapeInParent;
-        bool hasShapeInParent = tileset.Properties.findEnum<btThingShape>("shape", out shapeInParent);
+        bool hasShapeInParent = tileset.Properties.findEnum<btThingShape>(TilesetPropertyKey.child_shape, out shapeInParent);
+
+        btObjectType objectTypeInParent;
+        bool hasObjectTypeInParent = tileset.Properties.findEnum<btObjectType>(TilesetPropertyKey.child_object_type, out objectTypeInParent);
 
         // 
         btTilesetConfig tilesetConfig = new btTilesetConfig();
+        tilesetConfig.tiles = new Dictionary<int, btThingConfig>();
+
         foreach (TiledTile tile in tileset.Tiles)
         {
+            btThingConfig thingConfig = new btThingConfig();
+            tilesetConfig.tiles.Add(tile.id, thingConfig);
+
+            // spriteName
             TiledTileImage image = tile.image;
-            btThingShape shape = btThingShape.cube;
-            if (!tile.properties.findEnum<btThingShape>("shape", out shape))
+            thingConfig.spriteName = Path.GetFileNameWithoutExtension(image.source);
+
+            // shape
+            thingConfig.shape = btThingShape.cube;
+            if (!tile.properties.findEnum<btThingShape>(TilePropertyKey.shape, out thingConfig.shape))
             {
                 if (!hasShapeInParent)
                 {
@@ -35,59 +48,52 @@ public partial class TiledImporterWindow
                 }
                 else
                 {
-                    shape = shapeInParent;
+                    thingConfig.shape = shapeInParent;
                 }
             }
 
-            string sourceWithoutExt = Path.GetFileNameWithoutExtension(image.source);
-
-            switch (shape)
+            // size
+            switch (thingConfig.shape)
             {
                 case btThingShape.cube:
                     {
-                        int y_height = tile.properties.findInt("y_height", -1);
-                        if (y_height == -1)
+                        int cube_y_height = tile.properties.findInt(TilePropertyKey.cube_y_height, -1);
+                        if (cube_y_height == -1)
                         {
-                            throw new Exception("y_height not defined");
+                            throw new Exception(TilePropertyKey.cube_y_height + " not defined");
                         }
 
-                        var thing = new btThingConfigCube { spriteName = sourceWithoutExt };
-                        thing.size = new LVector3 { x = image.width, y = y_height, z = image.height - y_height };
-                        if (tilesetConfig.cubes == null)
-                        {
-                            tilesetConfig.cubes = new Dictionary<int, btThingConfigCube>();
-                        }
-                        tilesetConfig.cubes.Add(tile.id, thing);
+                        thingConfig.size = new LVector3 { x = image.width, y = cube_y_height, z = image.height - cube_y_height };
                     }
                     break;
 
                 case btThingShape.xy:
                     {
-                        var thing = new btThingConfigXY { spriteName = sourceWithoutExt };
-                        thing.size = new LVector3 { x = image.width, y = image.height, z = 0 };
-                        if (tilesetConfig.xys == null)
-                        {
-                            tilesetConfig.xys = new Dictionary<int, btThingConfigXY>();
-                        }
-                        tilesetConfig.xys.Add(tile.id, thing);
+                        thingConfig.size = new LVector3 { x = image.width, y = image.height, z = 0 };
                     }
                     break;
 
                 case btThingShape.xz:
                     {
-                        var thing = new btThingConfigXZ { spriteName = sourceWithoutExt };
-                        thing.size = new LVector3 { x = image.width, y = 0, z = image.height };
-                        if (tilesetConfig.xzs == null)
-                        {
-                            tilesetConfig.xzs = new Dictionary<int, btThingConfigXZ>();
-                        }
-                        tilesetConfig.xzs.Add(tile.id, thing);
+                        thingConfig.size = new LVector3 { x = image.width, y = 0, z = image.height };
                     }
                     break;
 
                 default:
                     throw new Exception("unknow shape");
                     // break;
+            }
+
+            // objectType
+            thingConfig.objectType = btObjectType.none;
+            btObjectType objectType;
+            if (tile.properties.findEnum<btObjectType>(TilePropertyKey.object_type, out objectType))
+            {
+                thingConfig.objectType = objectType;
+            }
+            else if (hasObjectTypeInParent)
+            {
+                thingConfig.objectType = objectTypeInParent;
             }
         }
 

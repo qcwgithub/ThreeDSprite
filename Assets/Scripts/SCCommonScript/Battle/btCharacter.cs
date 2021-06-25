@@ -16,7 +16,7 @@ public class btCharacter : btObject
     {
         scene.AddNeedUpdate(this.Id);
     }
-    public override btObjectType Type { get { return btObjectType.Character; } }
+    public override btObjectType Type { get { return btObjectType.character; } }
     public event Action<Vector3> PosChanged;
 
     private btIWalkable walkable;

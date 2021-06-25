@@ -1,8 +1,9 @@
 public enum btObjectType
 {
-    Character,
-    Floor,
-    Stair,
-    BoxObstacle,
-    Tree,
+    none,
+    character,
+    floor,
+    stair,
+    box_obstacle,
+    tree,
 }

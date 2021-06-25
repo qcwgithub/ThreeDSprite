@@ -2,7 +2,7 @@
 <tileset version="1.5" tiledversion="1.7.0" name="grounds" tilewidth="630" tileheight="362" tilecount="15" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <properties>
-  <property name="shape" value="xz"/>
+  <property name="child_shape" value="xz"/>
  </properties>
  <tile id="0">
   <image width="189" height="154" source="../Atlas/grounds/relic_ground_a.png"/>

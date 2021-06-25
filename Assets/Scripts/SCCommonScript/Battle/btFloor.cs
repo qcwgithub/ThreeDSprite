@@ -9,7 +9,7 @@ public class btLFloor : btObject, btIWalkable
     {
         this.Data = data;
     }
-    public override btObjectType Type { get { return btObjectType.Floor; } }
+    public override btObjectType Type { get { return btObjectType.floor; } }
 
     //public override int Priority { get { return 1; } }
 

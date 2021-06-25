@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 public partial class TiledImporterWindow
 {
     // .tmx -> .json
+    // 变成与 tiled 编辑器无关的格式
     void ImportTilemap(string fileName)
     {
         var filePath = tiledDir + "/" + fileName;
@@ -17,9 +18,9 @@ public partial class TiledImporterWindow
         Debug.Log(string.Format("map tile size: {0} x {1}", map.TileWidth, map.TileHeight));
 
         Vector3Int origin = new Vector3Int(
-            map.Properties.findInt("x_origin", -1), 
-            map.Properties.findInt("y_origin", -1), 
-            map.Properties.findInt("z_origin", -1));
+            map.Properties.findInt(TilemapPropertyKey.x_origin, -1), 
+            map.Properties.findInt(TilemapPropertyKey.y_origin, -1), 
+            map.Properties.findInt(TilemapPropertyKey.z_origin, -1));
 
         if (origin.x == -1 || origin.y == -1 || origin.z == -1)
         {

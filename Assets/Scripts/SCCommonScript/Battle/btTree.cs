@@ -9,7 +9,7 @@ public class btTree : btObject
     {
         this.Data = data;
     }
-    public override btObjectType Type { get { return btObjectType.Tree; } }
+    public override btObjectType Type { get { return btObjectType.tree; } }
 
     public override void AddToPhysicsScene()
     {

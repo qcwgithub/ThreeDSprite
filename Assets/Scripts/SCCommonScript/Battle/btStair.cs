@@ -15,7 +15,7 @@ public class btStair : btObject, btIWalkable
     {
         this.Data = data;
     }
-    public override btObjectType Type { get { return btObjectType.Stair; } }
+    public override btObjectType Type { get { return btObjectType.stair; } }
 
     protected bool CheckXZOutOfRange(Vector3 pos)
     {

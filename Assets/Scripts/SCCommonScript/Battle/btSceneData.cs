@@ -66,27 +66,11 @@ public enum btThingShape
     xz,
 }
 
-public abstract class btThingConfig
+public class btThingConfig
 {
-    public abstract btThingShape getShape();
+    public btThingShape shape;
+    public btObjectType objectType;
     public string spriteName;
-}
-
-public class btThingConfigCube : btThingConfig
-{
-    public override btThingShape getShape() { return btThingShape.cube; }
-    public LVector3 size;
-}
-
-public class btThingConfigXY : btThingConfig
-{
-    public override btThingShape getShape() { return btThingShape.xy; }
-    public LVector3 size;
-}
-
-public class btThingConfigXZ : btThingConfig
-{
-    public override btThingShape getShape() { return btThingShape.xz; }
     public LVector3 size;
 }
 
@@ -94,9 +78,7 @@ public class btThingConfigXZ : btThingConfig
 public class btTilesetConfig
 {
     // key = tile id
-    public Dictionary<int, btThingConfigCube> cubes;
-    public Dictionary<int, btThingConfigXY> xys;
-    public Dictionary<int, btThingConfigXZ> xzs;
+    public Dictionary<int, btThingConfig> tiles;
 }
 
 public class btTileLayerConfig

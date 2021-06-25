@@ -11,7 +11,7 @@ public class btBoxObstacle : btObject, btIObstacle
         this.Data = data;
         this.Y = data.Max.y;
     }
-    public override btObjectType Type { get { return btObjectType.BoxObstacle; } }
+    public override btObjectType Type { get { return btObjectType.box_obstacle; } }
 
     public virtual bool LimitMove(Vector3 from, ref Vector3 delta)
     {
