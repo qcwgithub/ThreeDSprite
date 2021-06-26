@@ -12,13 +12,6 @@ using Newtonsoft.Json;
 public partial class TiledImporterWindow
 {
     // SETTINGS
-    const float sqrt2 = 1.414213562373095f;
-    Quaternion sprite_rotation = Quaternion.Euler(45f, 0f, 0f);
-    const float pixels_per_unit = 100f;
-    const SpriteSortPoint sprite_sort_point = SpriteSortPoint.Pivot;
-    Vector2 sprite_pivot_cube = new Vector2(0.5f, 0f);
-    Vector2 sprite_pivot_xy = new Vector2(0.5f, 0f);
-    Vector2 sprite_pivot_xz = new Vector2(0.5f, 1f);
 
     bool ImportPrefabPrepare(string fileName, out btTilemapData mapData, out Dictionary<string, btTilesetConfig> tilesetConfigs)
     {
@@ -108,14 +101,14 @@ public partial class TiledImporterWindow
         switch (shape)
         {
             case btThingShape.cube:
-                expected = sprite_pivot_cube;
+                expected = btConstants.sprite_pivot_cube;
                 break;
             case btThingShape.xy:
-                expected = sprite_pivot_xy;
+                expected = btConstants.sprite_pivot_xy;
                 break;
             case btThingShape.xz:
             default:
-                expected = sprite_pivot_xz;
+                expected = btConstants.sprite_pivot_xz;
                 break;
         }
         return expected;
@@ -129,13 +122,13 @@ public partial class TiledImporterWindow
     }
 
     // 在 tiled 中对齐是左下角
-    Vector3 calcThingPosition(IVector3 pixelPosition, btThingConfig thingConfig)
+    Vector3 calcSpritePosition(FVector3 position, btThingConfig thingConfig)
     {
         Vector2 pivot = this.getCorrectSpritePivot(thingConfig.shape);
-        float px = pixelPosition.x + pivot.x * thingConfig.pixelSize.x;
-        float py = pixelPosition.y * thingConfig.pixelSize.y * sqrt2; // todo
-        float pz = (pixelPosition.z + pivot.y * thingConfig.pixelSize.z) * sqrt2;
-        Vector3 pos = new Vector3(px / pixels_per_unit, py / pixels_per_unit, pz / pixels_per_unit);
+        float px = position.x + pivot.x * thingConfig.size.x;
+        float py = position.y * thingConfig.size.y; // todo
+        float pz = position.z + pivot.y * thingConfig.size.z;
+        Vector3 pos = new Vector3(px, py, pz);
         return pos;
     }
 
@@ -167,15 +160,15 @@ public partial class TiledImporterWindow
 
             var thingGo = new GameObject(string.Format("{0} (id:{1})", thingConfig.spriteName, thingData.id));
             var thingTrans = thingGo.transform;
-            thingTrans.rotation = sprite_rotation;
+            thingTrans.rotation = btConstants.sprite_rotation;
             thingTrans.SetParent(layerTrans);
 
             // set position
-            thingTrans.position = this.calcThingPosition(thingData.pixelPosition, thingConfig);
+            thingTrans.position = this.calcSpritePosition(thingData.position, thingConfig);
 
             // add sprite renderer
             var renderer = thingGo.AddComponent<SpriteRenderer>();
-            renderer.spriteSortPoint = sprite_sort_point;
+            renderer.spriteSortPoint = btConstants.sprite_sort_point;
             renderer.sprite = sprite;
 
             //--------------------------------------------------------

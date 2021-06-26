@@ -52,6 +52,7 @@ public partial class TiledImporterWindow
                 }
             }
 
+            FVector3 pixelSize = new FVector3 { x = 0f, y = 0f, z = 0f };
             // size
             switch (thingConfig.shape)
             {
@@ -63,19 +64,19 @@ public partial class TiledImporterWindow
                             throw new Exception(TilePropertyKey.cube_y_height + " not defined");
                         }
 
-                        thingConfig.pixelSize = new IVector3 { x = image.width, y = cube_y_height, z = image.height - cube_y_height };
+                        pixelSize = new FVector3 { x = image.width, y = cube_y_height, z = image.height - cube_y_height };
                     }
                     break;
 
                 case btThingShape.xy:
                     {
-                        thingConfig.pixelSize = new IVector3 { x = image.width, y = image.height, z = 0 };
+                        pixelSize = new FVector3 { x = image.width, y = image.height, z = 0 };
                     }
                     break;
 
                 case btThingShape.xz:
                     {
-                        thingConfig.pixelSize = new IVector3 { x = image.width, y = 0, z = image.height };
+                        pixelSize = new FVector3 { x = image.width, y = 0, z = image.height };
                     }
                     break;
 
@@ -83,6 +84,10 @@ public partial class TiledImporterWindow
                     throw new Exception("unknow shape");
                     // break;
             }
+
+            thingConfig.size.x = pixelSize.x / btConstants.pixels_per_unit;
+            thingConfig.size.y = pixelSize.y / btConstants.pixels_per_unit * btConstants.sqrt2;
+            thingConfig.size.z = pixelSize.z / btConstants.pixels_per_unit * btConstants.sqrt2;
 
             // objectType
             thingConfig.objectType = btObjectType.none;

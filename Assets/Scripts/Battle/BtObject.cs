@@ -12,18 +12,19 @@ public class BtObject : MonoBehaviour
         this.scene = scene;
         this.obj = obj;
     }
-// #if UNITY_EDITOR
-//     protected virtual void OnDrawGizmos()
-//     {
-//         if (!this.scene.DrawGizmos_ObjectBounds)
-//         {
-//             return;
-//         }
-//         this.OnDrawGizmosImpl();
-//     }
-//     protected virtual void OnDrawGizmosImpl()
-//     {
+#if UNITY_EDITOR
+    protected virtual void OnDrawGizmos()
+    {
+        if (this.scene == null) return;
+        if (!this.scene.DrawGizmos_ObjectBounds)
+        {
+            return;
+        }
+        this.OnDrawGizmosImpl();
+    }
+    protected virtual void OnDrawGizmosImpl()
+    {
 
-//     }
-// #endif
+    }
+#endif
 }

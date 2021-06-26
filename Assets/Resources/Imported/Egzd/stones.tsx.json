@@ -4,20 +4,20 @@
       "shape": 0,
       "objectType": 4,
       "spriteName": "relic_c",
-      "pixelSize": {
-        "x": 139,
-        "y": 135,
-        "z": 98
+      "size": {
+        "x": 1.39,
+        "y": 1.90918827,
+        "z": 1.38592923
       }
     },
     "1": {
       "shape": 0,
       "objectType": 4,
       "spriteName": "relic_d",
-      "pixelSize": {
-        "x": 141,
-        "y": 135,
-        "z": 98
+      "size": {
+        "x": 1.41,
+        "y": 1.90918827,
+        "z": 1.38592923
       }
     }
   }

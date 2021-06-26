@@ -4,41 +4,47 @@ using UnityEngine;
 
 public class btBoxObstacle : btObject, btIObstacle
 {
-    public btBoxObstacleData Data { get; private set; }
-    public float Y { get; private set; }
-    public btBoxObstacle(btScene scene, btBoxObstacleData data): base(scene, data.id)
+    public btThingData data { get; private set; }
+    public btThingConfig thingConfig;
+    // public float Y { get; private set; }
+    public Vector3 min;
+    public Vector3 max;
+    public btBoxObstacle(btScene scene, btThingData data, btThingConfig config): base(scene, data.id)
     {
-        this.Data = data;
-        this.Y = data.max.y;
+        this.data = data;
+        this.thingConfig= config;
+        // this.Y = data.max.y;
+        this.min = FVector3.ToVector3(this.data.position);
+        this.max = this.min + FVector3.ToVector3(thingConfig.size);
     }
     public override btObjectType Type { get { return btObjectType.box_obstacle; } }
 
     public virtual bool LimitMove(Vector3 from, ref Vector3 delta)
     {
-        btBoxObstacleData data = this.Data;
+        btThingData data = this.data;
         Vector3 to = from + delta;
-        if (to.x < data.min.x || to.x > data.max.x || to.z < data.min.z || to.z > data.max.z)
+        if (to.x < min.x || to.x > max.x || to.z < min.z || to.z > max.z)
         {
             return false;
         }
 
         bool ret = false;
-        if (from.x <= data.min.x && delta.x > 0 && to.x > data.min.x)
+        if (from.x <= min.x && delta.x > 0 && to.x > min.x)
         {
             delta.x = 0;
             ret = true;
         }
-        else if (from.x >= data.max.x && delta.x < 0 && to.x < data.max.x)
+        else if (from.x >= max.x && delta.x < 0 && to.x < max.x)
         {
             delta.x = 0;
             ret = true;
         }
-        if (from.z <= data.min.z && delta.z > 0 && to.z > data.min.z)
+        if (from.z <= min.z && delta.z > 0 && to.z > min.z)
         {
             delta.z = 0;
             ret = true;
         }
-        else if (from.z >= data.max.z && delta.z < 0 && to.z < data.max.z)
+        else if (from.z >= max.z && delta.z < 0 && to.z < max.z)
         {
             delta.z = 0;
             ret = true;
@@ -49,8 +55,6 @@ public class btBoxObstacle : btObject, btIObstacle
 
     public override void AddToPhysicsScene()
     {
-        Vector3 min = FVector3.ToVector3(this.Data.min);
-        Vector3 max = FVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
 

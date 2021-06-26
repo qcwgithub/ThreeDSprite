@@ -4,30 +4,30 @@
       "shape": 1,
       "objectType": 5,
       "spriteName": "camptree_a",
-      "pixelSize": {
-        "x": 298,
-        "y": 270,
-        "z": 0
+      "size": {
+        "x": 2.98,
+        "y": 3.81837654,
+        "z": 0.0
       }
     },
     "1": {
       "shape": 1,
       "objectType": 5,
       "spriteName": "camptree_b",
-      "pixelSize": {
-        "x": 205,
-        "y": 215,
-        "z": 0
+      "size": {
+        "x": 2.05,
+        "y": 3.040559,
+        "z": 0.0
       }
     },
     "2": {
       "shape": 1,
       "objectType": 5,
       "spriteName": "camptree_d",
-      "pixelSize": {
-        "x": 177,
-        "y": 303,
-        "z": 0
+      "size": {
+        "x": 1.77,
+        "y": 4.285067,
+        "z": 0.0
       }
     }
   }

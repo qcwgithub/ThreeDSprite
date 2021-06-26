@@ -4,150 +4,150 @@
       "shape": 2,
       "objectType": 0,
       "spriteName": "relic_ground_a",
-      "pixelSize": {
-        "x": 189,
-        "y": 0,
-        "z": 154
+      "size": {
+        "x": 1.89,
+        "y": 0.0,
+        "z": 2.17788887
       }
     },
     "1": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "relic_ground_b",
-      "pixelSize": {
-        "x": 189,
-        "y": 0,
-        "z": 156
+      "size": {
+        "x": 1.89,
+        "y": 0.0,
+        "z": 2.20617318
       }
     },
     "2": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "relic_ground_c",
-      "pixelSize": {
-        "x": 189,
-        "y": 0,
-        "z": 151
+      "size": {
+        "x": 1.89,
+        "y": 0.0,
+        "z": 2.13546252
       }
     },
     "3": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "relic_ground_d",
-      "pixelSize": {
-        "x": 179,
-        "y": 0,
-        "z": 129
+      "size": {
+        "x": 1.79,
+        "y": 0.0,
+        "z": 1.82433546
       }
     },
     "4": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_a",
-      "pixelSize": {
-        "x": 438,
-        "y": 0,
-        "z": 314
+      "size": {
+        "x": 4.38,
+        "y": 0.0,
+        "z": 4.44063044
       }
     },
     "5": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_b",
-      "pixelSize": {
-        "x": 630,
-        "y": 0,
-        "z": 362
+      "size": {
+        "x": 6.3,
+        "y": 0.0,
+        "z": 5.119453
       }
     },
     "6": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_hok_a",
-      "pixelSize": {
-        "x": 312,
-        "y": 0,
-        "z": 320
+      "size": {
+        "x": 3.12,
+        "y": 0.0,
+        "z": 4.525483
       }
     },
     "7": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_hok_b",
-      "pixelSize": {
-        "x": 320,
-        "y": 0,
-        "z": 313
+      "size": {
+        "x": 3.2,
+        "y": 0.0,
+        "z": 4.4264884
       }
     },
     "8": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_hok_c",
-      "pixelSize": {
-        "x": 321,
-        "y": 0,
-        "z": 300
+      "size": {
+        "x": 3.21,
+        "y": 0.0,
+        "z": 4.2426405
       }
     },
     "9": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_hok_d",
-      "pixelSize": {
-        "x": 432,
-        "y": 0,
-        "z": 307
+      "size": {
+        "x": 4.32,
+        "y": 0.0,
+        "z": 4.3416357
       }
     },
     "10": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_hok_e",
-      "pixelSize": {
-        "x": 411,
-        "y": 0,
-        "z": 347
+      "size": {
+        "x": 4.11,
+        "y": 0.0,
+        "z": 4.907321
       }
     },
     "11": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_hok_water_a",
-      "pixelSize": {
-        "x": 217,
-        "y": 0,
-        "z": 252
+      "size": {
+        "x": 2.17,
+        "y": 0.0,
+        "z": 3.56381822
       }
     },
     "12": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_hok_water_b",
-      "pixelSize": {
-        "x": 208,
-        "y": 0,
-        "z": 251
+      "size": {
+        "x": 2.08,
+        "y": 0.0,
+        "z": 3.549676
       }
     },
     "13": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_slope_down",
-      "pixelSize": {
-        "x": 331,
-        "y": 0,
-        "z": 156
+      "size": {
+        "x": 3.31,
+        "y": 0.0,
+        "z": 2.20617318
       }
     },
     "14": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "river_slope_up",
-      "pixelSize": {
-        "x": 388,
-        "y": 0,
-        "z": 153
+      "size": {
+        "x": 3.88,
+        "y": 0.0,
+        "z": 2.1637466
       }
     }
   }

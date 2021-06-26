@@ -1,0 +1,94 @@
+{
+  "pixelWidth": 3200,
+  "pixelHeight": 3520,
+  "layerDatas": [
+    {
+      "id": 1,
+      "name": "Floor",
+      "y": 0.0,
+      "objectType": 2,
+      "thingDatas": [
+        {
+          "id": 2,
+          "tileset": "grounds.tsx",
+          "tileId": 0,
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 2.26274157
+          }
+        },
+        {
+          "id": 3,
+          "tileset": "grounds.tsx",
+          "tileId": 0,
+          "position": {
+            "x": 1.92,
+            "y": 0.0,
+            "z": 2.26274157
+          }
+        },
+        {
+          "id": 4,
+          "tileset": "grounds.tsx",
+          "tileId": 0,
+          "position": {
+            "x": 3.84,
+            "y": 0.0,
+            "z": 2.26274157
+          }
+        },
+        {
+          "id": 5,
+          "tileset": "grounds.tsx",
+          "tileId": 0,
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        },
+        {
+          "id": 6,
+          "tileset": "grounds.tsx",
+          "tileId": 0,
+          "position": {
+            "x": 1.92,
+            "y": 0.0,
+            "z": 0.0
+          }
+        },
+        {
+          "id": 7,
+          "tileset": "grounds.tsx",
+          "tileId": 0,
+          "position": {
+            "x": 3.84,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      ],
+      "stairDir": 0
+    },
+    {
+      "id": 8,
+      "name": "Ground",
+      "y": 0.0,
+      "objectType": 0,
+      "thingDatas": [
+        {
+          "id": 9,
+          "tileset": "stones.tsx",
+          "tileId": 1,
+          "position": {
+            "x": 4.16,
+            "y": 0.0,
+            "z": 1.8101933
+          }
+        }
+      ],
+      "stairDir": 0
+    }
+  ]
+}

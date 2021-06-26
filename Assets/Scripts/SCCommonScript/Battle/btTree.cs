@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class btTree : btObject
 {
-    public btTreeData Data { get; private set; }
-    public btTree(btScene scene, btTreeData data) : base(scene, data.id)
+    public btThingData data { get; private set; }
+    public btThingConfig thingConfig;
+    public Vector3 min;
+    public Vector3 max;
+    public btTree(btScene scene, btThingData data, btThingConfig config) : base(scene, data.id)
     {
-        this.Data = data;
+        this.data = data;
+        this.thingConfig = config;
+        this.min = FVector3.ToVector3(this.data.position);
+        this.max = this.min + FVector3.ToVector3(thingConfig.size);
     }
     public override btObjectType Type { get { return btObjectType.tree; } }
 
     public override void AddToPhysicsScene()
     {
-        Vector3 min = FVector3.ToVector3(this.Data.min);
-        Vector3 max = FVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         

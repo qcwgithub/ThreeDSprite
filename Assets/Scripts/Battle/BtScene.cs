@@ -6,7 +6,6 @@ public class BtScene : MonoBehaviour
 {
     public int Id;
     public btScene scene { get; private set; }
-    public bool DrawGizmos_BoundsTree = false;
     public bool DrawGizmos_ObjectBounds = false;
     public void Apply(btScene scene)
     {

@@ -5,7 +5,8 @@ using Script;
 
 public class btScene
 {
-    public btSceneData Data { get; private set; }
+    public btTilemapData data { get; private set; }
+    Dictionary<string, btTilesetConfig> tilesetConfigs;
     public Dictionary<int, btObject> DictObjects = new Dictionary<int, btObject>();
     private List<btIWalkable> Walkables = new List<btIWalkable>();
     private List<btIObstacle> Obstacles = new List<btIObstacle>();
@@ -36,9 +37,10 @@ public class btScene
 
     Qu3eApi.ContactDelegate onBeginContactDel;
     Qu3eApi.ContactDelegate onEndContactDel;
-    public btScene(btSceneData data)
+    public btScene(btTilemapData data, Dictionary<string, btTilesetConfig> tilesetConfigs)
     {
-        this.Data = data;
+        this.data = data;
+        this.tilesetConfigs = tilesetConfigs;
 
         this.physicsScene = Qu3eApi.CreateScene();
 
@@ -46,36 +48,93 @@ public class btScene
         this.onEndContactDel = new Qu3eApi.ContactDelegate(this.OnEndContact);
         Qu3eApi.SceneSetContactListener(physicsScene, this.onBeginContactDel, this.onEndContactDel);
 
-        for (int i = 0; i < data.floors.Length; i++)
+        foreach (btTileLayerData layerData in data.layerDatas)
         {
-            btFloorData floorData = data.floors[i];
-            btFloor floor = new btFloor(this, floorData);
-            this.Walkables.Add(floor);
-            this.DictObjects.Add(floor.id, floor);
-        }
+            if (layerData.objectType == btObjectType.floor)
+            {
+                Vector3 min = Vector3.zero;
+                Vector3 max = Vector3.zero;
+                bool first = true;
+                foreach (btThingData thingData in layerData.thingDatas)
+                {
+                    btThingConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
+                    if (thingConfig.shape == btThingShape.xz)
+                    {
+                        Vector3 mi = FVector3.ToVector3(thingData.position);
+                        Vector3 ma = new Vector3(
+                            mi.x + thingConfig.size.x, 
+                            mi.y + thingConfig.size.y, 
+                            mi.z + thingConfig.size.z);
+                        if (first || mi.x < min.x) min.x = mi.x;
+                        if (first || mi.z < min.z) min.z = mi.z;
+                        if (first || ma.x > max.x) max.x = ma.x;
+                        if (first || ma.z > max.z) max.z = ma.z;
 
-        for (int i = 0; i < data.stairs.Length; i++)
-        {
-            btStairData stairData = data.stairs[i];
-            btStair stair = new btStair(this, stairData);
-            this.Walkables.Add(stair);
-            this.DictObjects.Add(stair.id, stair);
-        }
+                        first = false;
+                    }
+                }
 
-        for (int i = 0; i < data.boxObstacles.Length; i++)
-        {
-            btBoxObstacleData obData = data.boxObstacles[i];
-            btBoxObstacle obstacle = new btBoxObstacle(this, obData);
-            this.Obstacles.Add(obstacle);
-            this.DictObjects.Add(obstacle.id, obstacle);
-        }
 
-        for (int i = 0; i < data.trees.Length; i++)
-        {
-            btTreeData treeData = data.trees[i];
-            btTree tree = new btTree(this, treeData);
-            this.Trees.Add(tree);
-            this.DictObjects.Add(tree.id, tree);
+                btFloor floor = new btFloor(this, layerData.id, min, max);
+                this.Walkables.Add(floor);
+                this.DictObjects.Add(floor.id, floor);
+            }
+            else if (layerData.objectType == btObjectType.stair)
+            {
+                Vector3 min = Vector3.zero;
+                Vector3 max = Vector3.zero;
+                bool first = true;
+                foreach (btThingData thingData in layerData.thingDatas)
+                {
+                    btThingConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
+                    if (thingConfig.shape == btThingShape.cube)
+                    {
+                        Vector3 mi = FVector3.ToVector3(thingData.position);
+                        Vector3 ma = new Vector3(
+                            mi.x + thingConfig.size.x, 
+                            mi.y + thingConfig.size.y, 
+                            mi.z + thingConfig.size.z);
+                        
+                        if (first || mi.x < min.x) min.x = mi.x;
+                        if (first || mi.y < min.y) min.y = mi.y;
+                        if (first || mi.z < min.z) min.z = mi.z;
+
+                        if (first || ma.x > max.x) max.x = ma.x;
+                        if (first || ma.y > max.y) max.y = ma.y;
+                        if (first || ma.z > max.z) max.z = ma.z;
+
+                        first = false;
+                    }
+                }
+
+
+                btStair stair = new btStair(this, layerData.id, layerData.stairDir, min, max);
+                this.Walkables.Add(stair);
+                this.DictObjects.Add(stair.id, stair);
+            }
+
+            foreach (btThingData thingData in layerData.thingDatas)
+            {
+                btThingConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
+                switch (thingConfig.objectType)
+                {
+                    case btObjectType.box_obstacle:
+                        {
+                            btBoxObstacle obstacle = new btBoxObstacle(this, thingData, thingConfig);
+                            this.Obstacles.Add(obstacle);
+                            this.DictObjects.Add(obstacle.id, obstacle);
+                        }
+                        break;
+
+                    case btObjectType.tree:
+                        {
+                            btTree tree = new btTree(this, thingData, thingConfig);
+                            this.Trees.Add(tree);
+                            this.DictObjects.Add(tree.id, tree);
+                        }
+                        break;
+                }
+            }
         }
 
         foreach (var kv in this.DictObjects)

@@ -62,6 +62,7 @@ public class EObjectInspector : Editor
 
     private void SaveMap(EObject script)
     {
+        /*
         btSceneData data = script.ToMapData();
         string text = JsonUtils.ToJson(data);
         File.WriteAllText("Assets/Resources/MapData/" + data.id + ".txt", text, Encoding.UTF8);
@@ -136,6 +137,8 @@ public class EObjectInspector : Editor
         DestroyImmediate(go);
 
         Debug.Log("Save map " + script.Id + " OK");
+
+        */
     }
 
     private void AssignChildrenId(EObject script)

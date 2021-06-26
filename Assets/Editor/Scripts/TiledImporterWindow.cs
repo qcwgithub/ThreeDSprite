@@ -47,6 +47,8 @@ public partial class TiledImporterWindow : EditorWindow
         }
     }
 
+    TiledCoordConverter coordConverter = new TiledCoordConverter();
+
     void OnGUI()
     {
         EditorGUILayout.LabelField("Tiled Files Directory: ");

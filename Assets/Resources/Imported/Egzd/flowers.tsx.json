@@ -4,40 +4,40 @@
       "shape": 1,
       "objectType": 0,
       "spriteName": "flower_a",
-      "pixelSize": {
-        "x": 110,
-        "y": 96,
-        "z": 0
+      "size": {
+        "x": 1.1,
+        "y": 1.357645,
+        "z": 0.0
       }
     },
     "1": {
       "shape": 1,
       "objectType": 0,
       "spriteName": "flower_b",
-      "pixelSize": {
-        "x": 126,
-        "y": 105,
-        "z": 0
+      "size": {
+        "x": 1.26,
+        "y": 1.4849242,
+        "z": 0.0
       }
     },
     "2": {
       "shape": 1,
       "objectType": 0,
       "spriteName": "flower_c",
-      "pixelSize": {
-        "x": 114,
-        "y": 101,
-        "z": 0
+      "size": {
+        "x": 1.14,
+        "y": 1.42835569,
+        "z": 0.0
       }
     },
     "3": {
       "shape": 1,
       "objectType": 0,
       "spriteName": "mushroom_tea",
-      "pixelSize": {
-        "x": 37,
-        "y": 44,
-        "z": 0
+      "size": {
+        "x": 0.37,
+        "y": 0.622253954,
+        "z": 0.0
       }
     }
   }

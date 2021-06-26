@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class btFloor : btObject, btIWalkable
 {
-    public btFloorData Data { get; private set; }
-    public btFloor(btScene scene, btFloorData data): base(scene, data.id)
+    public float y;
+    public Vector3 min;
+    public Vector3 max;
+    public btFloor(btScene scene, int id, Vector3 min, Vector3 max): base(scene, id)
     {
-        this.Data = data;
+        this.min = min;
+        this.max = max;
+        this.y = min.y;
     }
     public override btObjectType Type { get { return btObjectType.floor; } }
 
@@ -15,28 +19,26 @@ public class btFloor : btObject, btIWalkable
 
     protected bool CheckXZOutOfRange(Vector3 pos)
     {
-        btFloorData data = this.Data;
-
         bool outOfRange = false;
-        if (pos.x < data.min.x)
+        if (pos.x < min.x)
         {
-            pos.x = data.min.x;
+            pos.x = min.x;
             outOfRange = true;
         }
-        else if (pos.x > data.max.x)
+        else if (pos.x > max.x)
         {
-            pos.x = data.max.x;
+            pos.x = max.x;
             outOfRange = true;
         }
 
-        if (pos.z < data.min.z)
+        if (pos.z < min.z)
         {
-            pos.z = data.min.z;
+            pos.z = min.z;
             outOfRange = true;
         }
-        else if (pos.z > data.max.z)
+        else if (pos.z > max.z)
         {
-            pos.z = data.max.z;
+            pos.z = max.z;
             outOfRange = true;
         }
         return outOfRange;
@@ -50,7 +52,6 @@ public class btFloor : btObject, btIWalkable
 
     public PredictMoveResult PredictMove(Vector3 from, Vector3 delta)
     {
-        btFloorData data = this.Data;
         PredictMoveResult result = default;
         Vector3 to = from + delta;
         if (this.CheckXZOutOfRange(to))
@@ -59,23 +60,22 @@ public class btFloor : btObject, btIWalkable
             return result;
         }
 
-        result.Y = data.y;
+        result.Y = this.y;
         return result;
     }
 
     public bool CanAccept(Vector3 from, Vector3 delta)
     {
-        btFloorData data = this.Data;
         Vector3 to = from + delta;
         if (this.CheckXZOutOfRange(to))
         {
             return false;
         }
-        if (delta.y < 0 && from.y > data.y && to.y <= data.y)
+        if (delta.y < 0 && from.y > this.y && to.y <= this.y)
         {
             return true;
         }
-        if (Mathf.Abs(data.y - to.y) > 0.1f)
+        if (Mathf.Abs(this.y - to.y) > 0.1f)
         {
             return false;
         }
@@ -84,8 +84,6 @@ public class btFloor : btObject, btIWalkable
 
     public override void AddToPhysicsScene()
     {
-        Vector3 min = FVector3.ToVector3(this.Data.min);
-        Vector3 max = FVector3.ToVector3(this.Data.max);
         Vector3 center = (min + max) / 2;
         Vector3 size = max - min;
         

@@ -44,7 +44,7 @@ public class EObject : MonoBehaviour
 
     [HideInInspector]
     public StairComposition StairComposition;
-
+/*
     public btFloorData ToFloorData()
     {
         btFloorData data = new btFloorData();
@@ -204,4 +204,5 @@ public class EObject : MonoBehaviour
 
         return data;
     }
+    */
 }

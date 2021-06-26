@@ -4,50 +4,50 @@
       "shape": 2,
       "objectType": 0,
       "spriteName": "grass_basic_a",
-      "pixelSize": {
-        "x": 256,
-        "y": 0,
-        "z": 256
+      "size": {
+        "x": 2.56,
+        "y": 0.0,
+        "z": 3.6203866
       }
     },
     "1": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "grass_basic_b",
-      "pixelSize": {
-        "x": 328,
-        "y": 0,
-        "z": 292
+      "size": {
+        "x": 3.28,
+        "y": 0.0,
+        "z": 4.12950373
       }
     },
     "2": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "grassplus_a",
-      "pixelSize": {
-        "x": 512,
-        "y": 0,
-        "z": 512
+      "size": {
+        "x": 5.12,
+        "y": 0.0,
+        "z": 7.240773
       }
     },
     "3": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "grassplus_b",
-      "pixelSize": {
-        "x": 512,
-        "y": 0,
-        "z": 512
+      "size": {
+        "x": 5.12,
+        "y": 0.0,
+        "z": 7.240773
       }
     },
     "4": {
       "shape": 2,
       "objectType": 0,
       "spriteName": "grassplus_c",
-      "pixelSize": {
-        "x": 512,
-        "y": 0,
-        "z": 512
+      "size": {
+        "x": 5.12,
+        "y": 0.0,
+        "z": 7.240773
       }
     }
   }

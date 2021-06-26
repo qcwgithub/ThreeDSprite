@@ -37,7 +37,7 @@ public struct FVector3
         return new Vector3(lv.x, lv.y, lv.z);
     }
 }
-
+/*
 public class btObjectData
 {
     public int id;
@@ -85,7 +85,7 @@ public class btSceneData
     public btBoxObstacleData[] boxObstacles;
     public btTreeData[] trees;
 }
-
+*/
 public enum btThingShape
 {
     cube,
@@ -98,7 +98,7 @@ public class btThingConfig
     public btThingShape shape;
     public btObjectType objectType;
     public string spriteName;
-    public IVector3 pixelSize;
+    public FVector3 size;
 }
 
 // .tsx
@@ -118,8 +118,6 @@ public class btThingData
     public int tileId; // tile id in tileset
 
     // 坐标是啥，左下角
-    public IVector3 pixelPosition; // pixelX / PixelsPerUnit = x
-
     // transform.position
     public FVector3 position;
 }
@@ -128,7 +126,7 @@ public class btTileLayerData
 {
     public int id;
     public string name;
-    public int pixelY;
+    public float y;
     public btObjectType objectType;
 
     public List<btThingData> thingDatas;

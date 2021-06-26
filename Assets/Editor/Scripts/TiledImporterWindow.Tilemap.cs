@@ -21,12 +21,12 @@ public partial class TiledImporterWindow
         }
     }
 
-    btTileLayerData ParseLayer(TiledMap map, Vector3Int origin, TiledLayer layer)
+    btTileLayerData ParseLayer(TiledMap map, TiledLayer layer)
     {
         btTileLayerData layerData = new btTileLayerData();
         layerData.id = this.getNextObjectId();
         layerData.name = layer.name;
-        layerData.pixelY = layer.Properties.findInt(LayerPropertyKey.layer_y, 0) * map.TileHeight;
+        layerData.y = this.coordConverter.ConvertCoordY(layer.Properties.findInt(LayerPropertyKey.layer_y, 0));
         //layerConfig.type = layer.type;
         layerData.objectType = layer.Properties.findEnum<btObjectType>(LayerPropertyKey.object_type, btObjectType.none);
         this.ParseExtraLayerDataFields(layer, layerData);
@@ -49,17 +49,13 @@ public partial class TiledImporterWindow
             int x = j % map.Width;
             int z = j / map.Width;
 
-            IVector3 pixelPos;
-            pixelPos.x = (x - origin.x) * map.TileWidth;
-            pixelPos.y = 0;//(y - origin.y) * map.TileHeight; // todo get from layer.properties
-                           // 在 tiled 中 y 轴是向下的（就是这里的 pixelZ）
-            pixelPos.z = -((z - origin.z) * map.TileHeight);
-
             btThingData thingData = new btThingData();
             thingData.id = this.getNextObjectId();
             thingData.tileset = ts.source;
             thingData.tileId = dataId - ts.firstgid;
-            thingData.pixelPosition = pixelPos;
+            thingData.position.x = this.coordConverter.ConvertCoordX(x);
+            thingData.position.y = this.coordConverter.ConvertCoordY(0);
+            thingData.position.z = this.coordConverter.ConvertCoordZ(z);
             layerData.thingDatas.Add(thingData);
         }
 
@@ -83,12 +79,16 @@ public partial class TiledImporterWindow
         Debug.Log(string.Format("map size: {0} x {1}", map.Width, map.Height));
         Debug.Log(string.Format("map tile size: {0} x {1}", map.TileWidth, map.TileHeight));
 
-        Vector3Int origin = new Vector3Int(
+        this.coordConverter.pixelsPerTileX = map.TileWidth;
+        this.coordConverter.pixelsPerTileYZ = map.TileHeight;
+        this.coordConverter.originTile = new Vector3Int(
             map.Properties.findInt(TilemapPropertyKey.x_origin, -1),
             map.Properties.findInt(TilemapPropertyKey.y_origin, -1),
             map.Properties.findInt(TilemapPropertyKey.z_origin, -1));
 
-        if (origin.x == -1 || origin.y == -1 || origin.z == -1)
+        if (this.coordConverter.originTile.x == -1 ||
+            this.coordConverter.originTile.y == -1 ||
+            this.coordConverter.originTile.z == -1)
         {
             throw new Exception("x_origin || y_origin || z_origin not defined");
         }
@@ -129,7 +129,7 @@ public partial class TiledImporterWindow
             //     continue;
             // }
 
-            btTileLayerData layerData = this.ParseLayer(map, origin, layer);
+            btTileLayerData layerData = this.ParseLayer(map, layer);
             mapData.layerDatas.Add(layerData);
         }
 
