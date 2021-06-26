@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public abstract class btObject
 {
-    public int Id { get; private set; }
+    public int id { get; private set; }
     public btScene scene { get; private set; }
     public IntPtr body = IntPtr.Zero;
     // public IntPtr box = IntPtr.Zero;
@@ -13,7 +13,7 @@ public abstract class btObject
     public btObject(btScene scene, int id)
     {
         this.scene = scene;
-        this.Id = id;
+        this.id = id;
     }
     public abstract btObjectType Type { get; }
     public virtual void AddToPhysicsScene()
@@ -23,7 +23,7 @@ public abstract class btObject
 
     public override string ToString()
     {
-        return this.Type.ToString() + this.Id;
+        return this.Type.ToString() + this.id;
     }
     // public virtual void Update()
     // {

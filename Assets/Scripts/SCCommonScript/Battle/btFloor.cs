@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class btLFloor : btObject, btIWalkable
+public class btFloor : btObject, btIWalkable
 {
     public btFloorData Data { get; private set; }
-    public btLFloor(btScene scene, btFloorData data): base(scene, data.id)
+    public btFloor(btScene scene, btFloorData data): base(scene, data.id)
     {
         this.Data = data;
     }

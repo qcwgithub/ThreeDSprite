@@ -14,7 +14,7 @@ public class btCharacter : btObject
 {
     public btCharacter(btScene scene, int id) : base(scene, id)
     {
-        scene.AddNeedUpdate(this.Id);
+        scene.AddNeedUpdate(this.id);
     }
     public override btObjectType Type { get { return btObjectType.character; } }
     public event Action<Vector3> PosChanged;

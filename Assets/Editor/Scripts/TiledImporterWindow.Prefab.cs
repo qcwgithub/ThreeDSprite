@@ -129,13 +129,12 @@ public partial class TiledImporterWindow
     }
 
     // 在 tiled 中对齐是左下角
-    Vector3 calcSpritePosition(int pixelX, int pixelY, int pixelZ, Sprite sprite)
+    Vector3 calcThingPosition(IVector3 pixelPosition, btThingConfig thingConfig)
     {
-        Vector2 pivot = this.getSpritePivot01(sprite);
-        Rect rect = sprite.rect;
-        float px = pixelX + pivot.x * rect.width;
-        float py = pixelY * sqrt2; // todo
-        float pz = (pixelZ + pivot.y * rect.height) * sqrt2;
+        Vector2 pivot = this.getCorrectSpritePivot(thingConfig.shape);
+        float px = pixelPosition.x + pivot.x * thingConfig.pixelSize.x;
+        float py = pixelPosition.y * thingConfig.pixelSize.y * sqrt2; // todo
+        float pz = (pixelPosition.z + pivot.y * thingConfig.pixelSize.z) * sqrt2;
         Vector3 pos = new Vector3(px / pixels_per_unit, py / pixels_per_unit, pz / pixels_per_unit);
         return pos;
     }
@@ -172,8 +171,7 @@ public partial class TiledImporterWindow
             thingTrans.SetParent(layerTrans);
 
             // set position
-            thingTrans.position = this.calcSpritePosition(
-                thingData.pixelPosition.x, thingData.pixelPosition.y, thingData.pixelPosition.z, sprite);
+            thingTrans.position = this.calcThingPosition(thingData.pixelPosition, thingConfig);
 
             // add sprite renderer
             var renderer = thingGo.AddComponent<SpriteRenderer>();

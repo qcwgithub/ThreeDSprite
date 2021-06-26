@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BtFloor : BtObject
 {
-    protected btLFloor floor;
+    protected btFloor floor;
     public override void Apply(BtScene scene, btObject obj)
     {
         base.Apply(scene, obj);
-        this.floor = obj as btLFloor;
+        this.floor = obj as btFloor;
     }
 // #if UNITY_EDITOR
 //     protected override void OnDrawGizmosImpl()

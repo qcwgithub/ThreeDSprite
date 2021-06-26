@@ -5,9 +5,9 @@
       "objectType": 0,
       "spriteName": "flower_a",
       "pixelSize": {
-        "x": 110.0,
-        "y": 96.0,
-        "z": 0.0
+        "x": 110,
+        "y": 96,
+        "z": 0
       }
     },
     "1": {
@@ -15,9 +15,9 @@
       "objectType": 0,
       "spriteName": "flower_b",
       "pixelSize": {
-        "x": 126.0,
-        "y": 105.0,
-        "z": 0.0
+        "x": 126,
+        "y": 105,
+        "z": 0
       }
     },
     "2": {
@@ -25,9 +25,9 @@
       "objectType": 0,
       "spriteName": "flower_c",
       "pixelSize": {
-        "x": 114.0,
-        "y": 101.0,
-        "z": 0.0
+        "x": 114,
+        "y": 101,
+        "z": 0
       }
     },
     "3": {
@@ -35,9 +35,9 @@
       "objectType": 0,
       "spriteName": "mushroom_tea",
       "pixelSize": {
-        "x": 37.0,
-        "y": 44.0,
-        "z": 0.0
+        "x": 37,
+        "y": 44,
+        "z": 0
       }
     }
   }

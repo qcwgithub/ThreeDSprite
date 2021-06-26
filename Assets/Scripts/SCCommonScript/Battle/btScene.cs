@@ -49,9 +49,9 @@ public class btScene
         for (int i = 0; i < data.floors.Length; i++)
         {
             btFloorData floorData = data.floors[i];
-            btLFloor floor = new btLFloor(this, floorData);
+            btFloor floor = new btFloor(this, floorData);
             this.Walkables.Add(floor);
-            this.DictObjects.Add(floor.Id, floor);
+            this.DictObjects.Add(floor.id, floor);
         }
 
         for (int i = 0; i < data.stairs.Length; i++)
@@ -59,7 +59,7 @@ public class btScene
             btStairData stairData = data.stairs[i];
             btStair stair = new btStair(this, stairData);
             this.Walkables.Add(stair);
-            this.DictObjects.Add(stair.Id, stair);
+            this.DictObjects.Add(stair.id, stair);
         }
 
         for (int i = 0; i < data.boxObstacles.Length; i++)
@@ -67,7 +67,7 @@ public class btScene
             btBoxObstacleData obData = data.boxObstacles[i];
             btBoxObstacle obstacle = new btBoxObstacle(this, obData);
             this.Obstacles.Add(obstacle);
-            this.DictObjects.Add(obstacle.Id, obstacle);
+            this.DictObjects.Add(obstacle.id, obstacle);
         }
 
         for (int i = 0; i < data.trees.Length; i++)
@@ -75,7 +75,7 @@ public class btScene
             btTreeData treeData = data.trees[i];
             btTree tree = new btTree(this, treeData);
             this.Trees.Add(tree);
-            this.DictObjects.Add(tree.Id, tree);
+            this.DictObjects.Add(tree.id, tree);
         }
 
         foreach (var kv in this.DictObjects)
@@ -264,7 +264,7 @@ public class btScene
 
     public void AddCharacter(btCharacter lChar)
     {
-        this.DictObjects.Add(lChar.Id, lChar);
+        this.DictObjects.Add(lChar.id, lChar);
         lChar.AddToPhysicsScene();
     }
 

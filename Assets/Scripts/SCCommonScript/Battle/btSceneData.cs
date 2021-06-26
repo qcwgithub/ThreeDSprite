@@ -98,7 +98,7 @@ public class btThingConfig
     public btThingShape shape;
     public btObjectType objectType;
     public string spriteName;
-    public FVector3 pixelSize;
+    public IVector3 pixelSize;
 }
 
 // .tsx
@@ -112,13 +112,16 @@ public class btTilesetConfig
 public class btThingData
 {
     public int id;
-    
+
     // 东西是啥
     public string tileset;
     public int tileId; // tile id in tileset
 
     // 坐标是啥，左下角
     public IVector3 pixelPosition; // pixelX / PixelsPerUnit = x
+
+    // transform.position
+    public FVector3 position;
 }
 
 public class btTileLayerData

@@ -4,37 +4,36 @@ using UnityEngine;
 
 public class CBootstrap : MonoBehaviour
 {
-    public string MapPath = "Assets/Resources/Imported/Egzd/map1";
-    public int MapId;
+    public string mapPath = "Assets/Resources/Imported/Egzd/map1";
     public CInputManager InputManager;
     public BtCharacter Character;
     public float Speed = 5f;
 
     private BtScene Map;
     void Start()
-    {
+    {/*
         Application.targetFrameRate = 60;
 
-        Debug.Log("Loading map " + this.MapId + "...");
+        Debug.Log("Loading map " + this.mapPath + "...");
 
-        TextAsset textAsset = Resources.Load<TextAsset>("MapData/" + this.MapId);
+        TextAsset textAsset = Resources.Load<TextAsset>(this.mapPath + "/.tmx");
         if (textAsset == null)
         {
-            Debug.LogError("map data not found, mapid = " + this.MapId);
+            Debug.LogError("load map error 1");
             return;
         }
 
-        btSceneData mapData = JsonUtils.FromJson<btSceneData>(textAsset.text);
+        btTilemapData mapData = JsonUtils.FromJson<btTilemapData>(textAsset.text);
         btScene scene = new btScene(mapData);
         btCharacter lChar = new btCharacter(scene, 10000);
         scene.AddCharacter(lChar);
 
         Debug.Log("Object count: " + scene.DictObjects.Count);
 
-        GameObject prefab = Resources.Load<GameObject>("MapPrefab/" + this.MapId);
+        GameObject prefab = Resources.Load<GameObject>(this.mapPath);
         if (prefab == null)
         {
-            Debug.LogError("map prefab not found, mapid = " + this.MapId);
+            Debug.LogError("load map error 2");
             return;
         }
 
@@ -55,7 +54,7 @@ public class CBootstrap : MonoBehaviour
                 Vector3 delta = this.Speed * Time.deltaTime * dir;
                 scene.Move(lChar, delta);
             }
-        };
+        };*/
     }
 
     private void Update()

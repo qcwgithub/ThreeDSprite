@@ -5,9 +5,9 @@
       "objectType": 4,
       "spriteName": "relic_c",
       "pixelSize": {
-        "x": 139.0,
-        "y": 135.0,
-        "z": 98.0
+        "x": 139,
+        "y": 135,
+        "z": 98
       }
     },
     "1": {
@@ -15,9 +15,9 @@
       "objectType": 4,
       "spriteName": "relic_d",
       "pixelSize": {
-        "x": 141.0,
-        "y": 135.0,
-        "z": 98.0
+        "x": 141,
+        "y": 135,
+        "z": 98
       }
     }
   }

@@ -5,9 +5,9 @@
       "objectType": 0,
       "spriteName": "grass_basic_a",
       "pixelSize": {
-        "x": 256.0,
-        "y": 0.0,
-        "z": 256.0
+        "x": 256,
+        "y": 0,
+        "z": 256
       }
     },
     "1": {
@@ -15,9 +15,9 @@
       "objectType": 0,
       "spriteName": "grass_basic_b",
       "pixelSize": {
-        "x": 328.0,
-        "y": 0.0,
-        "z": 292.0
+        "x": 328,
+        "y": 0,
+        "z": 292
       }
     },
     "2": {
@@ -25,9 +25,9 @@
       "objectType": 0,
       "spriteName": "grassplus_a",
       "pixelSize": {
-        "x": 512.0,
-        "y": 0.0,
-        "z": 512.0
+        "x": 512,
+        "y": 0,
+        "z": 512
       }
     },
     "3": {
@@ -35,9 +35,9 @@
       "objectType": 0,
       "spriteName": "grassplus_b",
       "pixelSize": {
-        "x": 512.0,
-        "y": 0.0,
-        "z": 512.0
+        "x": 512,
+        "y": 0,
+        "z": 512
       }
     },
     "4": {
@@ -45,9 +45,9 @@
       "objectType": 0,
       "spriteName": "grassplus_c",
       "pixelSize": {
-        "x": 512.0,
-        "y": 0.0,
-        "z": 512.0
+        "x": 512,
+        "y": 0,
+        "z": 512
       }
     }
   }
