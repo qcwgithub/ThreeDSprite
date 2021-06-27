@@ -126,7 +126,7 @@ public partial class TiledImporterWindow
     {
         Vector2 pivot = this.getCorrectSpritePivot(thingConfig.shape);
         float px = position.x + pivot.x * thingConfig.size.x;
-        float py = position.y * thingConfig.size.y; // todo
+        float py = position.y;
         float pz = position.z + pivot.y * thingConfig.size.z;
         Vector3 pos = new Vector3(px, py, pz);
         return pos;
@@ -277,6 +277,7 @@ public partial class TiledImporterWindow
         else
         {
             Debug.Log(string.Format("Save to prefab succeeded, prefab path: {0}", prefabPath), context: prefab);
+            DestroyImmediate(mapGo);
         }
     }
 }

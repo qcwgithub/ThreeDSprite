@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum StairDir
 {
-    Front_Back,
-    LeftHigh_RightLow,
-    LeftLow_RightHigh,
+    front_back,
+    left_high_right_low,
+    left_low_right_high,
 }
 public class btStair : btObject, btIWalkable
 {
@@ -57,7 +57,7 @@ public class btStair : btObject, btIWalkable
 
     private float XtoY(float x, StairDir dir)
     {
-        if (dir == StairDir.LeftLow_RightHigh)
+        if (dir == StairDir.left_low_right_high)
         {
             float t = (x - min.x) / (max.x - min.x);
             float y = UnityEngine.Mathf.Lerp(min.y, max.y, t);
@@ -75,11 +75,11 @@ public class btStair : btObject, btIWalkable
     {
         switch (dir)
         {
-            case StairDir.Front_Back:
+            case StairDir.front_back:
                 return this.ZtoY(z);
                 //break;
-            case StairDir.LeftHigh_RightLow:
-            case StairDir.LeftLow_RightHigh:
+            case StairDir.left_high_right_low:
+            case StairDir.left_low_right_high:
             default:
                 return this.XtoY(x, dir);
                 //break;

@@ -32,6 +32,41 @@ public partial class TiledImporterWindow
         this.ParseExtraLayerDataFields(layer, layerData);
         layerData.thingDatas = new List<btThingData>();
 
+        bool isStair = layerData.objectType == btObjectType.stair;
+        int maxZ = 0;
+        bool foundMaxZ = false;
+        if (isStair)
+        {
+            for (int j = 0; j < layer.data.Length; j++)
+            {
+                int dataId = layer.data[j];
+                if (dataId == 0)
+                {
+                    continue;
+                }
+
+                TiledMapTileset ts = map.mapDataIdToTilesetInfo(dataId);
+                if (ts == null)
+                {
+                    throw new Exception("data id not valid: " + dataId);
+                }
+
+                // int x = j % map.Width;
+                int z = j / map.Width;
+
+                if (!foundMaxZ || z > maxZ)
+                {
+                    foundMaxZ = true;
+                    maxZ = z;
+                }
+            }
+        }
+
+        if (foundMaxZ)
+        {
+            Debug.Log("maxZ = " +maxZ);
+        }
+
         for (int j = 0; j < layer.data.Length; j++)
         {
             int dataId = layer.data[j];
@@ -47,14 +82,21 @@ public partial class TiledImporterWindow
             }
 
             int x = j % map.Width;
+            int y = 0;
             int z = j / map.Width;
+
+            if (isStair && foundMaxZ)
+            {
+                y = maxZ - z;
+                z = maxZ;
+            }
 
             btThingData thingData = new btThingData();
             thingData.id = this.getNextObjectId();
             thingData.tileset = ts.source;
             thingData.tileId = dataId - ts.firstgid;
             thingData.position.x = this.coordConverter.ConvertCoordX(x);
-            thingData.position.y = this.coordConverter.ConvertCoordY(0);
+            thingData.position.y = this.coordConverter.ConvertCoordY(y);
             thingData.position.z = this.coordConverter.ConvertCoordZ(z);
             layerData.thingDatas.Add(thingData);
         }
@@ -93,23 +135,6 @@ public partial class TiledImporterWindow
             throw new Exception("x_origin || y_origin || z_origin not defined");
         }
 
-        /*
-                List<TextAsset> tilesetAssets = new List<TextAsset>();
-                for (int i = 0; i < map.Tilesets.Length; i++)
-                {
-                    TiledMapTileset tileset = map.Tilesets[i];
-                    string tilesetPath = this.importedDirectory + "/" + tileset.source + ".json";
-                    TextAsset tilesetAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(tilesetPath);
-                    if (tilesetAsset == null)
-                    {
-                        Debug.LogError(tilesetPath + " not imported");
-                        break;
-                    }
-
-                    Debug.Log("loaded tileset: " + tilesetPath);
-                    tilesetAssets.Add(tilesetAsset);
-                }
-        */
         btTilemapData mapData = new btTilemapData();
         mapData.pixelWidth = map.Width * map.TileWidth;
         mapData.pixelHeight = map.Height * map.TileHeight;
