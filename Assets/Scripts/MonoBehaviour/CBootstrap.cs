@@ -31,7 +31,7 @@ public class CBootstrap : MonoBehaviour
 
             for (int j = 0; j < layerData.thingDatas.Count; j++)
             {
-                btThingData thingData = layerData.thingDatas[j];
+                btTileData thingData = layerData.thingDatas[j];
                 // string key = Path.GetFileNameWithoutExtension(aThing.tileset);
 
                 btTilesetConfig tilesetConfig;

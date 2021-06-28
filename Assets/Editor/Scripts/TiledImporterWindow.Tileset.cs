@@ -19,19 +19,19 @@ public partial class TiledImporterWindow
         var tileset = new TiledTileset(tsxPath);
         // Debug.Log("Load success");
 
-        btThingShape shapeInParent;
-        bool hasShapeInParent = tileset.Properties.findEnum<btThingShape>(TilesetPropertyKey.child_shape, out shapeInParent);
+        btShape shapeInParent;
+        bool hasShapeInParent = tileset.Properties.findEnum<btShape>(TilesetPropertyKey.child_shape, out shapeInParent);
 
         btObjectType objectTypeInParent;
         bool hasObjectTypeInParent = tileset.Properties.findEnum<btObjectType>(TilesetPropertyKey.child_object_type, out objectTypeInParent);
 
         // 
         btTilesetConfig tilesetConfig = new btTilesetConfig();
-        tilesetConfig.tiles = new Dictionary<int, btThingConfig>();
+        tilesetConfig.tiles = new Dictionary<int, btTileConfig>();
 
         foreach (TiledTile tile in tileset.Tiles)
         {
-            btThingConfig thingConfig = new btThingConfig();
+            btTileConfig thingConfig = new btTileConfig();
             tilesetConfig.tiles.Add(tile.id, thingConfig);
 
             // spriteName
@@ -39,8 +39,8 @@ public partial class TiledImporterWindow
             thingConfig.spriteName = Path.GetFileNameWithoutExtension(image.source);
 
             // shape
-            thingConfig.shape = btThingShape.cube;
-            if (!tile.properties.findEnum<btThingShape>(TilePropertyKey.shape, out thingConfig.shape))
+            thingConfig.shape = btShape.cube;
+            if (!tile.properties.findEnum<btShape>(TilePropertyKey.shape, out thingConfig.shape))
             {
                 if (!hasShapeInParent)
                 {
@@ -56,7 +56,7 @@ public partial class TiledImporterWindow
             // size
             switch (thingConfig.shape)
             {
-                case btThingShape.cube:
+                case btShape.cube:
                     {
                         int cube_y_height = tile.properties.findInt(TilePropertyKey.cube_y_height, -1);
                         if (cube_y_height == -1)
@@ -68,13 +68,13 @@ public partial class TiledImporterWindow
                     }
                     break;
 
-                case btThingShape.xy:
+                case btShape.xy:
                     {
                         pixelSize = new FVector3 { x = image.width, y = image.height, z = 0 };
                     }
                     break;
 
-                case btThingShape.xz:
+                case btShape.xz:
                     {
                         pixelSize = new FVector3 { x = image.width, y = 0, z = image.height };
                     }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class btTree : btObject
 {
-    public btThingData data { get; private set; }
-    public btThingConfig thingConfig;
+    public btTileData data { get; private set; }
+    public btTileConfig thingConfig;
     public Vector3 min;
     public Vector3 max;
-    public btTree(btScene scene, btThingData data, btThingConfig config) : base(scene, data.id)
+    public btTree(btScene scene, btTileData data, btTileConfig config) : base(scene, data.id)
     {
         this.data = data;
         this.thingConfig = config;

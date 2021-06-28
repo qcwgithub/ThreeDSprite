@@ -30,7 +30,7 @@ public partial class TiledImporterWindow
         //layerConfig.type = layer.type;
         layerData.objectType = layer.Properties.findEnum<btObjectType>(LayerPropertyKey.object_type, btObjectType.none);
         this.ParseExtraLayerDataFields(layer, layerData);
-        layerData.thingDatas = new List<btThingData>();
+        layerData.thingDatas = new List<btTileData>();
 
         bool isStair = layerData.objectType == btObjectType.stair;
         int maxZ = 0;
@@ -91,7 +91,7 @@ public partial class TiledImporterWindow
                 z = maxZ;
             }
 
-            btThingData thingData = new btThingData();
+            btTileData thingData = new btTileData();
             thingData.id = this.getNextObjectId();
             thingData.tileset = ts.source;
             thingData.tileId = dataId - ts.firstgid;

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class btBoxObstacle : btObject, btIObstacle
 {
-    public btThingData data { get; private set; }
-    public btThingConfig thingConfig;
+    public btTileData data { get; private set; }
+    public btTileConfig thingConfig;
     // public float Y { get; private set; }
     public Vector3 min;
     public Vector3 max;
-    public btBoxObstacle(btScene scene, btThingData data, btThingConfig config): base(scene, data.id)
+    public btBoxObstacle(btScene scene, btTileData data, btTileConfig config): base(scene, data.id)
     {
         this.data = data;
         this.thingConfig= config;
@@ -21,7 +21,7 @@ public class btBoxObstacle : btObject, btIObstacle
 
     public virtual bool LimitMove(Vector3 from, ref Vector3 delta)
     {
-        btThingData data = this.data;
+        btTileData data = this.data;
         Vector3 to = from + delta;
         if (to.x < min.x || to.x > max.x || to.z < min.z || to.z > max.z)
         {

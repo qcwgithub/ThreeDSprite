@@ -55,10 +55,10 @@ public class btScene
                 Vector3 min = Vector3.zero;
                 Vector3 max = Vector3.zero;
                 bool first = true;
-                foreach (btThingData thingData in layerData.thingDatas)
+                foreach (btTileData thingData in layerData.thingDatas)
                 {
-                    btThingConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
-                    if (thingConfig.shape == btThingShape.xz)
+                    btTileConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
+                    if (thingConfig.shape == btShape.xz)
                     {
                         Vector3 mi = FVector3.ToVector3(thingData.position);
                         Vector3 ma = new Vector3(
@@ -84,10 +84,10 @@ public class btScene
                 Vector3 min = Vector3.zero;
                 Vector3 max = Vector3.zero;
                 bool first = true;
-                foreach (btThingData thingData in layerData.thingDatas)
+                foreach (btTileData thingData in layerData.thingDatas)
                 {
-                    btThingConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
-                    if (thingConfig.shape == btThingShape.cube)
+                    btTileConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
+                    if (thingConfig.shape == btShape.cube)
                     {
                         Vector3 mi = FVector3.ToVector3(thingData.position);
                         Vector3 ma = new Vector3(
@@ -113,9 +113,9 @@ public class btScene
                 this.DictObjects.Add(stair.id, stair);
             }
 
-            foreach (btThingData thingData in layerData.thingDatas)
+            foreach (btTileData thingData in layerData.thingDatas)
             {
-                btThingConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
+                btTileConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
                 switch (thingConfig.objectType)
                 {
                     case btObjectType.box_obstacle:

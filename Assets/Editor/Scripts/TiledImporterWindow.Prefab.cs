@@ -36,7 +36,7 @@ public partial class TiledImporterWindow
 
             for (int j = 0; j < layerData.thingDatas.Count; j++)
             {
-                btThingData thingData = layerData.thingDatas[j];
+                btTileData thingData = layerData.thingDatas[j];
                 // string key = Path.GetFileNameWithoutExtension(aThing.tileset);
 
                 btTilesetConfig tilesetConfig;
@@ -57,7 +57,7 @@ public partial class TiledImporterWindow
         return true;
     }
 
-    btThingConfig findbtThingConfig(btTilesetConfig tilesetConfig, int tileId)
+    btTileConfig findbtThingConfig(btTilesetConfig tilesetConfig, int tileId)
     {
         var t = tilesetConfig;
         if (t.tiles.ContainsKey(tileId))
@@ -95,18 +95,18 @@ public partial class TiledImporterWindow
         return sprite;
     }
 
-    Vector2 getCorrectSpritePivot(btThingShape shape)
+    Vector2 getCorrectSpritePivot(btShape shape)
     {
         Vector2 expected;
         switch (shape)
         {
-            case btThingShape.cube:
+            case btShape.cube:
                 expected = btConstants.sprite_pivot_cube;
                 break;
-            case btThingShape.xy:
+            case btShape.xy:
                 expected = btConstants.sprite_pivot_xy;
                 break;
-            case btThingShape.xz:
+            case btShape.xz:
             default:
                 expected = btConstants.sprite_pivot_xz;
                 break;
@@ -122,7 +122,7 @@ public partial class TiledImporterWindow
     }
 
     // 在 tiled 中对齐是左下角
-    Vector3 calcSpritePosition(FVector3 position, btThingConfig thingConfig)
+    Vector3 calcSpritePosition(FVector3 position, btTileConfig thingConfig)
     {
         Vector2 pivot = this.getCorrectSpritePivot(thingConfig.shape);
         float px = position.x + pivot.x * thingConfig.size.x;
@@ -135,11 +135,11 @@ public partial class TiledImporterWindow
     void ImportThingPrefab(btTileLayerData layerData, Transform layerTrans,
         Dictionary<string, btTilesetConfig> tilesetConfigs,
         ref Dictionary<string, Sprite> sprites,
-        btThingData thingData)
+        btTileData thingData)
     {
         btTilesetConfig tilesetConfig = tilesetConfigs[thingData.tileset];
         string atlasName = Path.GetFileNameWithoutExtension(thingData.tileset);
-        btThingConfig thingConfig = this.findbtThingConfig(tilesetConfig, thingData.tileId);
+        btTileConfig thingConfig = this.findbtThingConfig(tilesetConfig, thingData.tileId);
         if (thingConfig == null)
         {
             Debug.LogError(string.Format("layer({0}) tileId({1}) btThingConfig is null", layerData.name, thingData.tileId));
@@ -205,7 +205,7 @@ public partial class TiledImporterWindow
 
         for (int j = 0; j < layerData.thingDatas.Count; j++)
         {
-            btThingData thingData = layerData.thingDatas[j];
+            btTileData thingData = layerData.thingDatas[j];
             this.ImportThingPrefab(layerData, layerTrans, tilesetConfigs, ref sprites, thingData);
         }
 
