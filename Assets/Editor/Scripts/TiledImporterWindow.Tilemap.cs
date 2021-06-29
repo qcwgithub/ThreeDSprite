@@ -38,9 +38,10 @@ public partial class TiledImporterWindow
         layerData.tileDatas = new List<btTileData>();
 
         bool isStair = layerData.objectType == btObjectType.stair;
+        bool isWall = layerData.objectType == btObjectType.wall;
         int maxZ = 0;
         bool foundMaxZ = false;
-        if (isStair)
+        if (isStair || isWall)
         {
             for (int j = 0; j < layer.data.Length; j++)
             {
@@ -90,7 +91,7 @@ public partial class TiledImporterWindow
             int y = 0;
             int z = j / map.Width;
 
-            if (isStair && foundMaxZ)
+            if (foundMaxZ)
             {
                 y = maxZ - z;
                 z = maxZ;

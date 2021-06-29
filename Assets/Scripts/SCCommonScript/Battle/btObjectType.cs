@@ -6,4 +6,5 @@ public enum btObjectType
     stair,
     box_obstacle,
     tree,
+	wall,
 }

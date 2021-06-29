@@ -124,6 +124,41 @@ public class btScene
                 this.Walkables.Add(stair);
                 this.DictObjects.Add(stair.id, stair);
             }
+            else if (layerData.objectType == btObjectType.wall)
+            {
+                Vector3 min = Vector3.zero;
+                Vector3 max = Vector3.zero;
+                bool first = true;
+                foreach (btTileData tileData in layerData.tileDatas)
+                {
+                    btTileConfig tileConfig = tilesetConfigs[tileData.tileset].tiles[tileData.tileId];
+                    if (tileConfig.shape == btShape.xy)
+                    {
+                        Vector3 mi = FVector3.ToVector3(tileData.position);
+                        Vector3 ma = new Vector3(
+                            mi.x + tileConfig.size.x,
+                            mi.y + tileConfig.size.y,
+                            mi.z + tileConfig.size.z);
+
+                        if (first || mi.x < min.x) min.x = mi.x;
+                        if (first || mi.y < min.y) min.y = mi.y;
+                        if (first || mi.z < min.z) min.z = mi.z;
+
+                        if (first || ma.x > max.x) max.x = ma.x;
+                        if (first || ma.y > max.y) max.y = ma.y;
+                        if (first || ma.z > max.z) max.z = ma.z;
+
+                        first = false;
+                    }
+                }
+
+                Vector3 worldMin = min + mapOffset + layerOffset;
+                Vector3 worldMax = max + mapOffset + layerOffset;
+
+                btWall wall = new btWall(this, layerData.id, worldMin, worldMax);
+                this.Obstacles.Add(wall);
+                this.DictObjects.Add(wall.id, wall);
+            }
 
             foreach (btTileData tileData in layerData.tileDatas)
             {

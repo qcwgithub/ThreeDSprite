@@ -231,6 +231,13 @@ public partial class TiledImporterWindow
                 }
                 break;
 
+            case btObjectType.wall:
+                {
+                    var obj = layerGo.AddComponent<BtWall>();
+                    obj.Id = layerData.id;
+                }
+            break;
+
             default:
                 throw new Exception("unhandled layerData.objectType: " + layerData.objectType);
         }
