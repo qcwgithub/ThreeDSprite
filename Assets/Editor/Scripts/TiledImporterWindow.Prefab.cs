@@ -28,21 +28,23 @@ public partial class TiledImporterWindow
         }
         mapData = JsonUtils.FromJson<btTilemapData>(mapAsset.text);
 
+        Vector3 mapOffset = Vector3.zero; // to do ?
+
         // .tsx
         tilesetConfigs = new Dictionary<string, btTilesetConfig>();
         for (int i = 0; i < mapData.layerDatas.Count; i++)
         {
             btTileLayerData layerData = mapData.layerDatas[i];
 
-            for (int j = 0; j < layerData.thingDatas.Count; j++)
+            for (int j = 0; j < layerData.tileDatas.Count; j++)
             {
-                btTileData thingData = layerData.thingDatas[j];
-                // string key = Path.GetFileNameWithoutExtension(aThing.tileset);
+                btTileData tileData = layerData.tileDatas[j];
+                // string key = Path.GetFileNameWithoutExtension(tileData.tileset);
 
                 btTilesetConfig tilesetConfig;
-                if (!tilesetConfigs.TryGetValue(thingData.tileset, out tilesetConfig))
+                if (!tilesetConfigs.TryGetValue(tileData.tileset, out tilesetConfig))
                 {
-                    string tilesetPath = this.importedDir + "/" + thingData.tileset + ".json";
+                    string tilesetPath = this.importedDir + "/" + tileData.tileset + ".json";
                     TextAsset tilesetAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(tilesetPath);
                     if (tilesetAsset == null)
                     {
@@ -50,14 +52,14 @@ public partial class TiledImporterWindow
                         break;
                     }
                     tilesetConfig = JsonUtils.FromJson<btTilesetConfig>(tilesetAsset.text);
-                    tilesetConfigs.Add(thingData.tileset, tilesetConfig);
+                    tilesetConfigs.Add(tileData.tileset, tilesetConfig);
                 }
             }
         }
         return true;
     }
 
-    btTileConfig findbtThingConfig(btTilesetConfig tilesetConfig, int tileId)
+    btTileConfig filebtTileConfig(btTilesetConfig tilesetConfig, int tileId)
     {
         var t = tilesetConfig;
         if (t.tiles.ContainsKey(tileId))
@@ -122,79 +124,79 @@ public partial class TiledImporterWindow
     }
 
     // 在 tiled 中对齐是左下角
-    Vector3 calcSpritePosition(FVector3 position, btTileConfig thingConfig)
+    Vector3 calcSpritePosition(Vector3 position, btTileConfig tileConfig)
     {
-        Vector2 pivot = this.getCorrectSpritePivot(thingConfig.shape);
-        float px = position.x + pivot.x * thingConfig.size.x;
+        Vector2 pivot = this.getCorrectSpritePivot(tileConfig.shape);
+        float px = position.x + pivot.x * tileConfig.size.x;
         float py = position.y;
-        float pz = position.z + pivot.y * thingConfig.size.z;
+        float pz = position.z + pivot.y * tileConfig.size.z;
         Vector3 pos = new Vector3(px, py, pz);
         return pos;
     }
 
-    void ImportThingPrefab(btTileLayerData layerData, Transform layerTrans,
+    void ImportTilePrefab(btTileLayerData layerData, Transform layerTrans, Vector3 parentOffset,
         Dictionary<string, btTilesetConfig> tilesetConfigs,
         ref Dictionary<string, Sprite> sprites,
-        btTileData thingData)
+        btTileData tileData)
     {
-        btTilesetConfig tilesetConfig = tilesetConfigs[thingData.tileset];
-        string atlasName = Path.GetFileNameWithoutExtension(thingData.tileset);
-        btTileConfig thingConfig = this.findbtThingConfig(tilesetConfig, thingData.tileId);
-        if (thingConfig == null)
+        btTilesetConfig tilesetConfig = tilesetConfigs[tileData.tileset];
+        string atlasName = Path.GetFileNameWithoutExtension(tileData.tileset);
+        btTileConfig tileConfig = this.filebtTileConfig(tilesetConfig, tileData.tileId);
+        if (tileConfig == null)
         {
-            Debug.LogError(string.Format("layer({0}) tileId({1}) btThingConfig is null", layerData.name, thingData.tileId));
+            Debug.LogError(string.Format("layer({0}) tileId({1}) btTileConfig is null", layerData.name, tileData.tileId));
             return;
         }
 
         // load sprite
-        var sprite = this.loadSprite(ref sprites, atlasName, thingConfig.spriteName);
+        var sprite = this.loadSprite(ref sprites, atlasName, tileConfig.spriteName);
 
         if (sprite != null)
         {
-            Vector2 correctPivot = this.getCorrectSpritePivot(thingConfig.shape);
+            Vector2 correctPivot = this.getCorrectSpritePivot(tileConfig.shape);
             Vector2 pivot = this.getSpritePivot01(sprite);
             if (pivot != correctPivot)
             {
-                Debug.LogError(string.Format("sprite '{0}/{1}' pivot is {2}, should be {3}", atlasName, thingConfig.spriteName, pivot, correctPivot));
+                Debug.LogError(string.Format("sprite '{0}/{1}' pivot is {2}, should be {3}", atlasName, tileConfig.spriteName, pivot, correctPivot));
             }
 
-            var thingGo = new GameObject(string.Format("{0} (id:{1})", thingConfig.spriteName, thingData.id));
-            var thingTrans = thingGo.transform;
-            thingTrans.rotation = btConstants.sprite_rotation;
-            thingTrans.SetParent(layerTrans);
+            var tileGo = new GameObject(string.Format("{0} (id:{1})", tileConfig.spriteName, tileData.id));
+            var tileTrans = tileGo.transform;
+            tileTrans.rotation = btConstants.sprite_rotation;
+            tileTrans.SetParent(layerTrans);
 
             // set position
-            thingTrans.position = this.calcSpritePosition(thingData.position, thingConfig);
+            tileTrans.position = this.calcSpritePosition(FVector3.ToVector3(tileData.position) + parentOffset, tileConfig);
 
             // add sprite renderer
-            var renderer = thingGo.AddComponent<SpriteRenderer>();
+            var renderer = tileGo.AddComponent<SpriteRenderer>();
             renderer.spriteSortPoint = btConstants.sprite_sort_point;
             renderer.sprite = sprite;
 
             //--------------------------------------------------------
-            switch (thingConfig.objectType)
+            switch (tileConfig.objectType)
             {
                 case btObjectType.none:
                     break;
                 case btObjectType.box_obstacle:
                     {
-                        var obj = thingGo.AddComponent<BtBoxObstacle>();
-                        obj.Id = thingData.id;
+                        var obj = tileGo.AddComponent<BtBoxObstacle>();
+                        obj.Id = tileData.id;
                     }
                     break;
                 case btObjectType.tree:
                     {
-                        var obj = thingGo.AddComponent<BtTree>();
-                        obj.Id = thingData.id;
+                        var obj = tileGo.AddComponent<BtTree>();
+                        obj.Id = tileData.id;
                     }
                     break;
                 default:
-                    throw new Exception("unhandled thingConfig.objectType: " + thingConfig.objectType);
+                    throw new Exception("unhandled tileConfig.objectType: " + tileConfig.objectType);
             }
         }
     }
 
-    void ImportLayerPrefab(Transform mapTrans,
+    void ImportLayerPrefab(Transform mapTrans, Vector3 mapOffset,
         Dictionary<string, btTilesetConfig> tilesetConfigs,
         ref Dictionary<string, Sprite> sprites,
         btTileLayerData layerData)
@@ -203,10 +205,12 @@ public partial class TiledImporterWindow
         var layerTrans = layerGo.transform;
         layerTrans.SetParent(mapTrans);
 
-        for (int j = 0; j < layerData.thingDatas.Count; j++)
+        Vector3 layerOffset = FVector3.ToVector3(layerData.offset);
+
+        for (int j = 0; j < layerData.tileDatas.Count; j++)
         {
-            btTileData thingData = layerData.thingDatas[j];
-            this.ImportThingPrefab(layerData, layerTrans, tilesetConfigs, ref sprites, thingData);
+            btTileData tileData = layerData.tileDatas[j];
+            this.ImportTilePrefab(layerData, layerTrans, mapOffset + layerOffset, tilesetConfigs, ref sprites, tileData);
         }
 
         switch (layerData.objectType)
@@ -257,11 +261,12 @@ public partial class TiledImporterWindow
         var mapTrans = mapGo.transform;
 
         var sprites = new Dictionary<string, Sprite>();
+        Vector3 mapOffset = Vector3.zero; // to do ?
 
         for (int i = 0; i < mapData.layerDatas.Count; i++)
         {
             btTileLayerData layerData = mapData.layerDatas[i];
-            this.ImportLayerPrefab(mapTrans, tilesetConfigs, ref sprites, layerData);
+            this.ImportLayerPrefab(mapTrans, mapOffset, tilesetConfigs, ref sprites, layerData);
         }
 
         //---

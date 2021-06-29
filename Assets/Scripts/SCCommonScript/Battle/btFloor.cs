@@ -5,13 +5,13 @@ using UnityEngine;
 public class btFloor : btObject, btIWalkable
 {
     public float y;
-    public Vector3 min;
-    public Vector3 max;
-    public btFloor(btScene scene, int id, Vector3 min, Vector3 max): base(scene, id)
+    public Vector3 worldMin;
+    public Vector3 worldMax;
+    public btFloor(btScene scene, int id, Vector3 worldMin, Vector3 worldMax): base(scene, id)
     {
-        this.min = min;
-        this.max = max;
-        this.y = min.y;
+        this.worldMin = worldMin;
+        this.worldMax = worldMax;
+        this.y = worldMin.y;
     }
     public override btObjectType Type { get { return btObjectType.floor; } }
 
@@ -20,25 +20,25 @@ public class btFloor : btObject, btIWalkable
     protected bool CheckXZOutOfRange(Vector3 pos)
     {
         bool outOfRange = false;
-        if (pos.x < min.x)
+        if (pos.x < worldMin.x)
         {
-            pos.x = min.x;
+            pos.x = worldMin.x;
             outOfRange = true;
         }
-        else if (pos.x > max.x)
+        else if (pos.x > worldMax.x)
         {
-            pos.x = max.x;
+            pos.x = worldMax.x;
             outOfRange = true;
         }
 
-        if (pos.z < min.z)
+        if (pos.z < worldMin.z)
         {
-            pos.z = min.z;
+            pos.z = worldMin.z;
             outOfRange = true;
         }
-        else if (pos.z > max.z)
+        else if (pos.z > worldMax.z)
         {
-            pos.z = max.z;
+            pos.z = worldMax.z;
             outOfRange = true;
         }
         return outOfRange;
@@ -84,8 +84,8 @@ public class btFloor : btObject, btIWalkable
 
     public override void AddToPhysicsScene()
     {
-        Vector3 center = (min + max) / 2;
-        Vector3 size = max - min;
+        Vector3 center = (worldMin + worldMax) / 2;
+        Vector3 size = worldMax - worldMin;
         
         this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
         scene.AddBox(this.body, Vector3.zero, size/2);

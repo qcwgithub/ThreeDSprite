@@ -13,8 +13,8 @@ public class BtFloor : BtObject
 #if UNITY_EDITOR
     protected override void OnDrawGizmosImpl()
     {
-        Vector3 center = (floor.min + floor.max) / 2;
-        Vector3 size = floor.max - floor.min;
+        Vector3 center = (floor.worldMin + floor.worldMax) / 2;
+        Vector3 size = floor.worldMax - floor.worldMin;
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(center, size);
     }

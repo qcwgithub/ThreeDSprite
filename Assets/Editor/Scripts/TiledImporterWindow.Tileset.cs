@@ -20,10 +20,10 @@ public partial class TiledImporterWindow
         // Debug.Log("Load success");
 
         btShape shapeInParent;
-        bool hasShapeInParent = tileset.Properties.findEnum<btShape>(TilesetPropertyKey.child_shape, out shapeInParent);
+        bool hasShapeInParent = tileset.Properties.findEnum<btShape>(TilesetPropertyKey.tile_shape, out shapeInParent);
 
         btObjectType objectTypeInParent;
-        bool hasObjectTypeInParent = tileset.Properties.findEnum<btObjectType>(TilesetPropertyKey.child_object_type, out objectTypeInParent);
+        bool hasObjectTypeInParent = tileset.Properties.findEnum<btObjectType>(TilesetPropertyKey.tile_object_type, out objectTypeInParent);
 
         // 
         btTilesetConfig tilesetConfig = new btTilesetConfig();
@@ -31,16 +31,16 @@ public partial class TiledImporterWindow
 
         foreach (TiledTile tile in tileset.Tiles)
         {
-            btTileConfig thingConfig = new btTileConfig();
-            tilesetConfig.tiles.Add(tile.id, thingConfig);
+            btTileConfig tileConfig = new btTileConfig();
+            tilesetConfig.tiles.Add(tile.id, tileConfig);
 
             // spriteName
             TiledTileImage image = tile.image;
-            thingConfig.spriteName = Path.GetFileNameWithoutExtension(image.source);
+            tileConfig.spriteName = Path.GetFileNameWithoutExtension(image.source);
 
             // shape
-            thingConfig.shape = btShape.cube;
-            if (!tile.properties.findEnum<btShape>(TilePropertyKey.shape, out thingConfig.shape))
+            tileConfig.shape = btShape.cube;
+            if (!tile.properties.findEnum<btShape>(TilePropertyKey.shape, out tileConfig.shape))
             {
                 if (!hasShapeInParent)
                 {
@@ -48,13 +48,13 @@ public partial class TiledImporterWindow
                 }
                 else
                 {
-                    thingConfig.shape = shapeInParent;
+                    tileConfig.shape = shapeInParent;
                 }
             }
 
             FVector3 pixelSize = new FVector3 { x = 0f, y = 0f, z = 0f };
             // size
-            switch (thingConfig.shape)
+            switch (tileConfig.shape)
             {
                 case btShape.cube:
                     {
@@ -85,20 +85,20 @@ public partial class TiledImporterWindow
                     // break;
             }
 
-            thingConfig.size.x = pixelSize.x / btConstants.pixels_per_unit;
-            thingConfig.size.y = pixelSize.y / btConstants.pixels_per_unit * btConstants.sqrt2;
-            thingConfig.size.z = pixelSize.z / btConstants.pixels_per_unit * btConstants.sqrt2;
+            tileConfig.size.x = pixelSize.x / btConstants.pixels_per_unit;
+            tileConfig.size.y = pixelSize.y / btConstants.pixels_per_unit * btConstants.sqrt2;
+            tileConfig.size.z = pixelSize.z / btConstants.pixels_per_unit * btConstants.sqrt2;
 
             // objectType
-            thingConfig.objectType = btObjectType.none;
+            tileConfig.objectType = btObjectType.none;
             btObjectType objectType;
             if (tile.properties.findEnum<btObjectType>(TilePropertyKey.object_type, out objectType))
             {
-                thingConfig.objectType = objectType;
+                tileConfig.objectType = objectType;
             }
             else if (hasObjectTypeInParent)
             {
-                thingConfig.objectType = objectTypeInParent;
+                tileConfig.objectType = objectTypeInParent;
             }
         }
 

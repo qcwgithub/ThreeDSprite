@@ -8,8 +8,8 @@ public class BtStair : BtObject
     protected override void OnDrawGizmosImpl()
     {
         btStair lStair = this.obj as btStair;
-        Vector3 center = (lStair.min + lStair.max) / 2;
-        Vector3 size = lStair.max - lStair.min;
+        Vector3 center = (lStair.worldMin + lStair.worldMax) / 2;
+        Vector3 size = lStair.worldMax - lStair.worldMin;
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(center, size);
     }

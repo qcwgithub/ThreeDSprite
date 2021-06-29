@@ -2,24 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct IVector3
-{
-    public int x, y, z;
-
-    // public static IVector3 FromVector3(Vector3 v)
-    // {
-    //     IVector3 lv = new IVector3();
-    //     lv.x = v.x;
-    //     lv.y = v.y;
-    //     lv.z = v.z;
-    //     return lv;
-    // }
-    // public static Vector3 ToVector3(FVector3 lv)
-    // {
-    //     return new Vector3(lv.x, lv.y, lv.z);
-    // }
-}
-
 public struct FVector3
 {
     public float x, y, z;
@@ -56,10 +38,10 @@ public class btTileLayerData
 {
     public int id;
     public string name;
-    public float y;
+    public FVector3 offset;
     public btObjectType objectType;
 
-    public List<btTileData> thingDatas;
+    public List<btTileData> tileDatas;
 
     // when objectType == stair
     public StairDir stairDir;

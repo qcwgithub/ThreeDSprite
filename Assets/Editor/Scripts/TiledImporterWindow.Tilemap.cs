@@ -26,11 +26,16 @@ public partial class TiledImporterWindow
         btTileLayerData layerData = new btTileLayerData();
         layerData.id = this.getNextObjectId();
         layerData.name = layer.name;
-        layerData.y = this.coordConverter.ConvertCoordY(layer.Properties.findInt(LayerPropertyKey.layer_y, 0));
+        layerData.offset.x = 0f; // to do
+        layerData.offset.y = this.coordConverter.ConvertCoordY(layer.Properties.findInt(LayerPropertyKey.layer_y, 0));
+        layerData.offset.z = 0f; // to do
+
+        layerData.offset.z -= layerData.offset.y;
+
         //layerConfig.type = layer.type;
         layerData.objectType = layer.Properties.findEnum<btObjectType>(LayerPropertyKey.object_type, btObjectType.none);
         this.ParseExtraLayerDataFields(layer, layerData);
-        layerData.thingDatas = new List<btTileData>();
+        layerData.tileDatas = new List<btTileData>();
 
         bool isStair = layerData.objectType == btObjectType.stair;
         int maxZ = 0;
@@ -91,14 +96,14 @@ public partial class TiledImporterWindow
                 z = maxZ;
             }
 
-            btTileData thingData = new btTileData();
-            thingData.id = this.getNextObjectId();
-            thingData.tileset = ts.source;
-            thingData.tileId = dataId - ts.firstgid;
-            thingData.position.x = this.coordConverter.ConvertCoordX(x);
-            thingData.position.y = this.coordConverter.ConvertCoordY(y);
-            thingData.position.z = this.coordConverter.ConvertCoordZ(z);
-            layerData.thingDatas.Add(thingData);
+            btTileData tileData = new btTileData();
+            tileData.id = this.getNextObjectId();
+            tileData.tileset = ts.source;
+            tileData.tileId = dataId - ts.firstgid;
+            tileData.position.x = this.coordConverter.ConvertCoordX(x);
+            tileData.position.y = this.coordConverter.ConvertCoordY(y);
+            tileData.position.z = this.coordConverter.ConvertCoordZ(z);
+            layerData.tileDatas.Add(tileData);
         }
 
         return layerData;

@@ -8,8 +8,8 @@ public class BtTree : BtObject
     protected override void OnDrawGizmosImpl()
     {
         btTree lTree = this.obj as btTree;
-        Vector3 center = (lTree.min + lTree.max) / 2;
-        Vector3 size = lTree.max - lTree.min;
+        Vector3 center = (lTree.worldMin + lTree.worldMax) / 2;
+        Vector3 size = lTree.worldMax - lTree.worldMin;
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(center, size);
     }

@@ -48,53 +48,28 @@ public class btScene
         this.onEndContactDel = new Qu3eApi.ContactDelegate(this.OnEndContact);
         Qu3eApi.SceneSetContactListener(physicsScene, this.onBeginContactDel, this.onEndContactDel);
 
+        Vector3 mapOffset = Vector3.zero; // to do ?
+
         foreach (btTileLayerData layerData in data.layerDatas)
         {
+            Vector3 layerOffset = FVector3.ToVector3(layerData.offset);
+
             if (layerData.objectType == btObjectType.floor)
             {
                 Vector3 min = Vector3.zero;
                 Vector3 max = Vector3.zero;
                 bool first = true;
-                foreach (btTileData thingData in layerData.thingDatas)
+                foreach (btTileData tileData in layerData.tileDatas)
                 {
-                    btTileConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
-                    if (thingConfig.shape == btShape.xz)
+                    btTileConfig tileConfig = tilesetConfigs[tileData.tileset].tiles[tileData.tileId];
+                    if (tileConfig.shape == btShape.xz)
                     {
-                        Vector3 mi = FVector3.ToVector3(thingData.position);
+                        Vector3 mi = FVector3.ToVector3(tileData.position);
                         Vector3 ma = new Vector3(
-                            mi.x + thingConfig.size.x, 
-                            mi.y + thingConfig.size.y, 
-                            mi.z + thingConfig.size.z);
-                        if (first || mi.x < min.x) min.x = mi.x;
-                        if (first || mi.z < min.z) min.z = mi.z;
-                        if (first || ma.x > max.x) max.x = ma.x;
-                        if (first || ma.z > max.z) max.z = ma.z;
+                            mi.x + tileConfig.size.x,
+                            mi.y + tileConfig.size.y,
+                            mi.z + tileConfig.size.z);
 
-                        first = false;
-                    }
-                }
-
-
-                btFloor floor = new btFloor(this, layerData.id, min, max);
-                this.Walkables.Add(floor);
-                this.DictObjects.Add(floor.id, floor);
-            }
-            else if (layerData.objectType == btObjectType.stair)
-            {
-                Vector3 min = Vector3.zero;
-                Vector3 max = Vector3.zero;
-                bool first = true;
-                foreach (btTileData thingData in layerData.thingDatas)
-                {
-                    btTileConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
-                    if (thingConfig.shape == btShape.cube)
-                    {
-                        Vector3 mi = FVector3.ToVector3(thingData.position);
-                        Vector3 ma = new Vector3(
-                            mi.x + thingConfig.size.x, 
-                            mi.y + thingConfig.size.y, 
-                            mi.z + thingConfig.size.z);
-                        
                         if (first || mi.x < min.x) min.x = mi.x;
                         if (first || mi.y < min.y) min.y = mi.y;
                         if (first || mi.z < min.z) min.z = mi.z;
@@ -107,20 +82,57 @@ public class btScene
                     }
                 }
 
+                Vector3 worldMin = min + mapOffset + layerOffset;
+                Vector3 worldMax = max + mapOffset + layerOffset;
 
-                btStair stair = new btStair(this, layerData.id, layerData.stairDir, min, max);
+                btFloor floor = new btFloor(this, layerData.id, worldMin, worldMax);
+                this.Walkables.Add(floor);
+                this.DictObjects.Add(floor.id, floor);
+            }
+            else if (layerData.objectType == btObjectType.stair)
+            {
+                Vector3 min = Vector3.zero;
+                Vector3 max = Vector3.zero;
+                bool first = true;
+                foreach (btTileData tileData in layerData.tileDatas)
+                {
+                    btTileConfig tileConfig = tilesetConfigs[tileData.tileset].tiles[tileData.tileId];
+                    if (tileConfig.shape == btShape.cube)
+                    {
+                        Vector3 mi = FVector3.ToVector3(tileData.position);
+                        Vector3 ma = new Vector3(
+                            mi.x + tileConfig.size.x,
+                            mi.y + tileConfig.size.y,
+                            mi.z + tileConfig.size.z);
+
+                        if (first || mi.x < min.x) min.x = mi.x;
+                        if (first || mi.y < min.y) min.y = mi.y;
+                        if (first || mi.z < min.z) min.z = mi.z;
+
+                        if (first || ma.x > max.x) max.x = ma.x;
+                        if (first || ma.y > max.y) max.y = ma.y;
+                        if (first || ma.z > max.z) max.z = ma.z;
+
+                        first = false;
+                    }
+                }
+
+                Vector3 worldMin = min + mapOffset + layerOffset;
+                Vector3 worldMax = max + mapOffset + layerOffset;
+
+                btStair stair = new btStair(this, layerData.id, layerData.stairDir, worldMin, worldMax);
                 this.Walkables.Add(stair);
                 this.DictObjects.Add(stair.id, stair);
             }
 
-            foreach (btTileData thingData in layerData.thingDatas)
+            foreach (btTileData tileData in layerData.tileDatas)
             {
-                btTileConfig thingConfig = tilesetConfigs[thingData.tileset].tiles[thingData.tileId];
-                switch (thingConfig.objectType)
+                btTileConfig tileConfig = tilesetConfigs[tileData.tileset].tiles[tileData.tileId];
+                switch (tileConfig.objectType)
                 {
                     case btObjectType.box_obstacle:
                         {
-                            btBoxObstacle obstacle = new btBoxObstacle(this, thingData, thingConfig);
+                            btBoxObstacle obstacle = new btBoxObstacle(this, mapOffset + layerOffset, tileData, tileConfig);
                             this.Obstacles.Add(obstacle);
                             this.DictObjects.Add(obstacle.id, obstacle);
                         }
@@ -128,7 +140,7 @@ public class btScene
 
                     case btObjectType.tree:
                         {
-                            btTree tree = new btTree(this, thingData, thingConfig);
+                            btTree tree = new btTree(this, mapOffset + layerOffset, tileData, tileConfig);
                             this.Trees.Add(tree);
                             this.DictObjects.Add(tree.id, tree);
                         }
@@ -291,16 +303,26 @@ public class btScene
         if (lChar.Walkable != null)
         {
             delta.y = y - from.y;
-        }
 
-        // limit by obstacles
-        for (int i = 0; i < lChar.Collidings.Count; i++)
-        {
-            btIObstacle ob = lChar.Collidings[i].obj as btIObstacle;
-            if (ob != null && ob.LimitMove(from, ref delta))
+            // limit by obstacles
+            for (int i = 0; i < lChar.Collidings.Count; i++)
             {
-                break;
+                btIObstacle ob = lChar.Collidings[i].obj as btIObstacle;
+                if (ob != null && ob.LimitMove(from, ref delta))
+                {
+                    break;
+                }
             }
+
+            lChar.Pos = from + delta;
+        }
+        else if (!lChar.EverHasWalkable)
+        {
+            lChar.Pos = from + delta;
+        }
+        else
+        {
+            // keep position unchanged
         }
 
         // old implement
@@ -312,7 +334,6 @@ public class btScene
         //    }
         //}
 
-        lChar.Pos = from + delta;
     }
 
     // public IWalkable RandomWalkable()

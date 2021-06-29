@@ -8,8 +8,8 @@ public class BtBoxObstacle : BtObject
     protected override void OnDrawGizmosImpl()
     {
         btBoxObstacle bo = this.obj as btBoxObstacle;
-        Vector3 center = (bo.min + bo.max) / 2;
-        Vector3 size = bo.max - bo.min;
+        Vector3 center = (bo.worldMin + bo.worldMax) / 2;
+        Vector3 size = bo.worldMax - bo.worldMin;
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(center, size);
     }

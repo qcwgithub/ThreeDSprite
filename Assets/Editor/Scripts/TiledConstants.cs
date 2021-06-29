@@ -23,16 +23,16 @@ public class TilemapPropertyKey
 public class TilesetPropertyKey
 {
     // 在 tileset 中配置，表示所有包含的 tile 都用这个 shape
-    // 值对应于枚举 btThingShape
+    // 值对应于枚举 btShape
     // 此配置不是必须的
-    public const string child_shape = "child_shape";
-    public const string child_object_type = "child_object_type";
+    public const string tile_shape = "tile_shape";
+    public const string tile_object_type = "tile_object_type";
 }
 
 public class TilePropertyKey
 {
     // 在 tile 中配置，表示这个 tile 的 shape
-    // 值对应于枚举 btThingShape
+    // 值对应于枚举 btShape
     // 如果父 tileset 中有配置 each_shape，则 tile 中可以不配置；否则必须配置
     public const string shape = "shape";
 
