@@ -6,9 +6,9 @@ using Data;
 public class BtScene : MonoBehaviour
 {
     public int Id;
-    public btScene scene { get; private set; }
+    public btBattle scene { get; private set; }
     public bool DrawGizmos_ObjectBounds = false;
-    public void Apply(btScene scene)
+    public void Apply(btBattle scene)
     {
         this.scene = scene;
         BtObject[] cobjs = this.GetComponentsInChildren<BtObject>(true);

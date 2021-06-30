@@ -14,9 +14,9 @@ namespace Data
 
     public class btCharacter : btObject
     {
-        public btCharacter(btScene scene, int id) : base(scene, id)
+        public btCharacter(btBattle scene, int id) : base(scene, id)
         {
-            scene.AddNeedUpdate(this.id);
+            
         }
         public override btObjectType Type { get { return btObjectType.character; } }
         public event Action<Vector3> PosChanged;
@@ -66,6 +66,8 @@ namespace Data
                 }
             }
         }
+
+        public Vector3 moveDir;
 
         public override void AddToPhysicsScene()
         {

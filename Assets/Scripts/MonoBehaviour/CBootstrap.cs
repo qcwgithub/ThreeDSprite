@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Data;
+using Script;
 
-public class CBootstrap : MonoBehaviour
+public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 {
     const string baseDir = "Imported/Egzd";
     public string mapPath = baseDir + "/map1";
@@ -12,6 +13,12 @@ public class CBootstrap : MonoBehaviour
     public float Speed = 5f;
 
     private BtScene Map;
+
+    public btMoveScript moveScript { get; set; }
+    public btMainScript mainScript { get; set; }
+
+    btBattle battle;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -51,11 +58,13 @@ public class CBootstrap : MonoBehaviour
             }
         }
 
-        btScene scene = new btScene(mapData, tilesetConfigs);
-        btCharacter lChar = new btCharacter(scene, 10000);
-        scene.AddCharacter(lChar);
+        var battleScript = new BattleScript();
+        battleScript.createBattleScripts(this, this);
 
-        Debug.Log("Object count: " + scene.DictObjects.Count);
+        this.battle = battleScript.createBattle(this, mapData, tilesetConfigs);
+        btCharacter lChar = this.mainScript.addCharacter(battle);
+
+        Debug.Log("Object count: " + battle.DictObjects.Count);
 
         GameObject prefab = Resources.Load<GameObject>(this.mapPath);
         if (prefab == null)
@@ -66,7 +75,7 @@ public class CBootstrap : MonoBehaviour
 
         GameObject go = GameObject.Instantiate<GameObject>(prefab);
         BtScene cMap = go.GetComponent<BtScene>();
-        cMap.Apply(scene);
+        cMap.Apply(battle);
 
         lChar.Pos = this.Character.transform.position;
         this.Character.Apply(lChar, cMap);
@@ -79,13 +88,13 @@ public class CBootstrap : MonoBehaviour
             if (dir != Vector3.zero)
             {
                 Vector3 delta = this.Speed * Time.deltaTime * dir;
-                scene.Move(lChar, delta);
+                this.moveScript.characterMove(lChar, delta);
             }
         };
     }
 
     private void Update()
     {
-        
+        this.moveScript.update(this.battle, Time.deltaTime);
     }
 }

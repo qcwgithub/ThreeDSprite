@@ -8,7 +8,7 @@ namespace Data
     {
         public Vector3 worldMin;
         public Vector3 worldMax;
-        public btWall(btScene scene, int id, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
+        public btWall(btBattle scene, int id, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
         {
             this.worldMin = worldMin;
             this.worldMax = worldMax;

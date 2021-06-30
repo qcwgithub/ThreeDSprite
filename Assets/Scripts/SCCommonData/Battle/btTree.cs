@@ -10,7 +10,7 @@ namespace Data
         public btTileConfig tileConfig;
         public Vector3 worldMin;
         public Vector3 worldMax;
-        public btTree(btScene scene, Vector3 parentOffset, btTileData data, btTileConfig config) : base(scene, data.id)
+        public btTree(btBattle scene, Vector3 parentOffset, btTileData data, btTileConfig config) : base(scene, data.id)
         {
             this.data = data;
             this.tileConfig = config;

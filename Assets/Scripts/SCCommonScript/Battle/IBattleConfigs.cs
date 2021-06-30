@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Script
 {
-    public class IBattleConfigs
+    public interface IBattleConfigs
     {
 
     }

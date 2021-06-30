@@ -11,7 +11,7 @@ namespace Data
         // public float Y { get; private set; }
         public Vector3 worldMin;
         public Vector3 worldMax;
-        public btBoxObstacle(btScene scene, Vector3 parentOffset, btTileData data, btTileConfig config) : base(scene, data.id)
+        public btBoxObstacle(btBattle scene, Vector3 parentOffset, btTileData data, btTileConfig config) : base(scene, data.id)
         {
             this.data = data;
             this.tileConfig = config;

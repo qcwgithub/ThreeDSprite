@@ -9,7 +9,7 @@ namespace Data
         public float y;
         public Vector3 worldMin;
         public Vector3 worldMax;
-        public btFloor(btScene scene, int id, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
+        public btFloor(btBattle scene, int id, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
         {
             this.worldMin = worldMin;
             this.worldMax = worldMax;

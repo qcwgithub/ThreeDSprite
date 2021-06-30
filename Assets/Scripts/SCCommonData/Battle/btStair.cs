@@ -15,7 +15,7 @@ namespace Data
         public Vector3 worldMin;
         public Vector3 worldMax;
         public StairDir dir;
-        public btStair(btScene scene, int id, StairDir dir, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
+        public btStair(btBattle scene, int id, StairDir dir, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
         {
             this.worldMin = worldMin;
             this.worldMax = worldMax;
