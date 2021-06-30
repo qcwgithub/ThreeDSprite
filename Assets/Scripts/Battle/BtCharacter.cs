@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using Data;
 
 public class BtCharacter : MonoBehaviour
 {

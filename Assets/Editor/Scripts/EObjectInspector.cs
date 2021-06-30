@@ -7,6 +7,7 @@ using System.IO;
 
 using UnityEngine;
 using UnityEditor;
+using Data;
 
 [CustomEditor(typeof(EObject), true)]
 public class EObjectInspector : Editor

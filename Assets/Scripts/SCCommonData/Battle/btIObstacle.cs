@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public interface btIObstacle
+namespace Data
 {
-    bool LimitMove(Vector3 from, ref Vector3 delta);
+    public interface btIObstacle
+    {
+        bool LimitMove(Vector3 from, ref Vector3 delta);
+    }
 }
