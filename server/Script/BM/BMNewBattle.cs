@@ -16,6 +16,8 @@ namespace Script
 
             BMBattleInfo battleInfo = new BMBattleInfo();
             battleInfo.battleId = msg.battleId;
+            battleInfo.battle = this.server.mainScript.createBattle(null, null);
+
             this.server.bmData.battleInfos.Add(msg.battleId, battleInfo);
             
             return ECode.Success.toTask();

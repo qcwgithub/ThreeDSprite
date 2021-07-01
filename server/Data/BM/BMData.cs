@@ -9,7 +9,8 @@ namespace Data
         public bool requireBattleList;
         public int timer;
     }
-    public sealed class BMData : ServerData
+
+    public sealed class BMData : ServerData, IBattleConfigs
     {
         // id -> BMBattleInfo
         public Dictionary<int, BMBattleInfo> battleInfos = new Dictionary<int, BMBattleInfo>();

@@ -107,10 +107,11 @@ namespace Script
             return @this.clientTimestamp;
         }
 
-        public PMPlayerInfo getPlayer(TcpClientData @this)
+        public object getPlayer(TcpClientData @this)
         {
-            return @this.Player == null ? null : (PMPlayerInfo)@this.Player;
+            return @this.Player == null ? null : @this.Player;
         }
+        
 
         #endregion
 

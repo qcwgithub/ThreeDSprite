@@ -52,7 +52,7 @@ namespace Script
                 return new MyResponse(ECode.OldSocket, resMisc).toTask();
             }
 
-            var oldPlayer = this.server.tcpClientScript.getPlayer(socket);
+            var oldPlayer = this.getPlayer(socket);
             if (oldPlayer != null)
             {
                 // 情况1 同一个客户端意外地登录2次

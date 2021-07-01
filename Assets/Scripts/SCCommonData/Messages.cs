@@ -211,5 +211,14 @@ namespace Data
     {
         // scene data!
     }
+    
+    public class MsgBMMove : ISerializable
+    {
+        public FVector3 moveDir;
+    }
+    public class ResBMMove : ISerializable
+    {
+        
+    }
 }
 

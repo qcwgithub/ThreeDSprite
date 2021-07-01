@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Script
 {
-    public class BMServer : Server
+    public class BMServer : Server, IBattleScripts
     {
         public BMData bmData
         {
@@ -12,6 +12,9 @@ namespace Script
                 return (BMData)this.data;
             }
         }
+
+        public btMainScript mainScript { get; set; }
+        public btMoveScript moveScript { get; set; }
 
         public override void OnLoad(DataEntry dataEntry, int id, int version)
         {
@@ -22,6 +25,10 @@ namespace Script
             this.dispatcher.addHandler(new BMNewBattle { server = this });
             this.dispatcher.addHandler(new BMPlayerEnter { server = this });
             this.dispatcher.addHandler(new BMPlayerExit { server = this });
+
+            this.dispatcher.addHandler(new BMMove { server = this });
+
+            BattleScript.createBattleScripts(this.bmData, this);
         }
 
         public override void OnStart()

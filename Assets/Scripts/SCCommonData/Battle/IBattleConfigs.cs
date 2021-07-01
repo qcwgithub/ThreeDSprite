@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Script
+namespace Data
 {
     public interface IBattleConfigs
     {

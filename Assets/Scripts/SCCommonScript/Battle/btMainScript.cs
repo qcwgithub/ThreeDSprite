@@ -8,6 +8,19 @@ namespace Script
 {
     public class btMainScript : btScriptBase
     {
+        public btBattle createBattle(btTilemapData tilemapData, Dictionary<string, btTilesetConfig> tilesetConfigs)
+        {
+            btBattle battle = new btBattle();
+            this.initBattle(battle, tilemapData, tilesetConfigs);
+            return battle;
+        }
+
+        public void destroyBattle(btBattle battle)
+        {
+            Qu3eApi.SceneDestroy(battle.physicsScene);
+            battle.physicsScene = IntPtr.Zero;
+        }
+
         public void initBattle(btBattle battle, btTilemapData tilemapData, Dictionary<string, btTilesetConfig> tilesetConfigs)
         {
             battle.tilemapData = tilemapData;

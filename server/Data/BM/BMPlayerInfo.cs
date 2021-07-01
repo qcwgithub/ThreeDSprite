@@ -4,5 +4,6 @@ namespace Data
     {
         public int playerId;
         public string token;
+        public btCharacter character;
     }
 }

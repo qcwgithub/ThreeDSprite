@@ -58,10 +58,9 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
             }
         }
 
-        var battleScript = new BattleScript();
-        battleScript.createBattleScripts(this, this);
+        BattleScript.createBattleScripts(this, this);
 
-        this.battle = battleScript.createBattle(this, mapData, tilesetConfigs);
+        this.battle = this.mainScript.createBattle(mapData, tilesetConfigs);
         btCharacter lChar = this.mainScript.addCharacter(battle);
 
         Debug.Log("Object count: " + battle.DictObjects.Count);

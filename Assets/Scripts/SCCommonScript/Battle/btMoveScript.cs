@@ -9,6 +9,11 @@ namespace Script
     {
         public ECode characterMove(btCharacter character, Vector3 moveDir)
         {
+            if (!(moveDir.x >= -1f && moveDir.x <= 1f && moveDir.y >= -1f && moveDir.y <= 1f && moveDir.z >= -1f && moveDir.z <= 1f))
+            {
+                return ECode.InvalidParam;
+            }
+            
             character.moveDir = moveDir;
             return ECode.Success;
         }

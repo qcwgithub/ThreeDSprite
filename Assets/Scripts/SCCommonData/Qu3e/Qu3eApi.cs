@@ -2,22 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Data;
 
-public enum q3BodyType
-{
-    eStaticBody,
-    eDynamicBody,
-    eKinematicBody
-}
-
-public enum q3TransformOperation
-{
-    ePostion,
-    eRotation,
-    eBoth,
-}
-
-public class Qu3eApi
+public static class Qu3eApi
 {
     [DllImport("qu3e.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern IntPtr CreateScene();
@@ -26,6 +13,7 @@ public class Qu3eApi
     public static extern void SceneDestroy(IntPtr scene);
 
     public delegate void ContactDelegate(IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB);
+    
     [DllImport("qu3e.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void SceneSetContactListener(IntPtr scene, ContactDelegate onBeginContact, ContactDelegate onEndContact);
 

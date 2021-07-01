@@ -9,5 +9,11 @@ namespace Script
         public PMScript pmScript { get { return this.server.pmScript; } }
         public PMSqlUtils pmSqlUtils { get { return this.server.pmSqlUtils; } }
         public SqlLog sqlLog { get { return this.server.sqlLog; } }
+
+        public PMPlayerInfo getPlayer(TcpClientData socket)
+        {
+            object obj = this.server.tcpClientScript.getPlayer(socket);
+            return (obj == null ? null : (PMPlayerInfo)obj);
+        }
     }
 }
