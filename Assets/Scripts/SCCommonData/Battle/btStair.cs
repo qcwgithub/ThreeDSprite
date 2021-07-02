@@ -12,16 +12,7 @@ namespace Data
     }
     public class btStair : btObject, btIWalkable
     {
-        public Vector3 worldMin;
-        public Vector3 worldMax;
         public StairDir dir;
-        public btStair(btBattle scene, int id, StairDir dir, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
-        {
-            this.worldMin = worldMin;
-            this.worldMax = worldMax;
-            this.dir = dir;
-        }
-        public override btObjectType Type { get { return btObjectType.stair; } }
 
         protected bool CheckXZOutOfRange(Vector3 pos)
         {
@@ -137,8 +128,8 @@ namespace Data
             Vector3 center = (worldMin + worldMax) / 2;
             Vector3 size = worldMax - worldMin;
 
-            this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
-            this.scene.AddBox(this.body, Vector3.zero, size / 2);
+            this.body = battle.AddBody(this, q3BodyType.eStaticBody, center);
+            this.battle.AddBox(this.body, Vector3.zero, size / 2);
         }
     }
 }

@@ -6,16 +6,17 @@ using Data;
 public class BtScene : MonoBehaviour
 {
     public int Id;
-    public btBattle scene { get; private set; }
+    public btBattle battle { get; private set; }
     public bool DrawGizmos_ObjectBounds = false;
-    public void Apply(btBattle scene)
+    public void Apply(btBattle battle)
     {
-        this.scene = scene;
+        this.battle = battle;
         BtObject[] cobjs = this.GetComponentsInChildren<BtObject>(true);
         for (int i = 0; i < cobjs.Length; i++)
         {
             BtObject cObj = cobjs[i];
-            btObject lObj = scene.GetObject(cObj.Id);
+            btObject lObj;
+            battle.objects.TryGetValue(cObj.Id, out lObj);
             if (lObj == null)
             {
                 Debug.LogError("lObj is null, id: " + cObj.Id);
@@ -23,15 +24,5 @@ public class BtScene : MonoBehaviour
             }
             cObj.Apply(this, lObj);
         }
-    }
-    
-    private void Update()
-    {
-        this.scene.Update();
-    }
-
-    void OnDestroy()
-    {
-        this.scene.OnDestroy();
     }
 }

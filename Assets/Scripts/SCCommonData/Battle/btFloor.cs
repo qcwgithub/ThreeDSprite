@@ -7,15 +7,6 @@ namespace Data
     public class btFloor : btObject, btIWalkable
     {
         public float y;
-        public Vector3 worldMin;
-        public Vector3 worldMax;
-        public btFloor(btBattle scene, int id, Vector3 worldMin, Vector3 worldMax) : base(scene, id)
-        {
-            this.worldMin = worldMin;
-            this.worldMax = worldMax;
-            this.y = worldMin.y;
-        }
-        public override btObjectType Type { get { return btObjectType.floor; } }
 
         //public override int Priority { get { return 1; } }
 
@@ -89,8 +80,8 @@ namespace Data
             Vector3 center = (worldMin + worldMax) / 2;
             Vector3 size = worldMax - worldMin;
 
-            this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
-            scene.AddBox(this.body, Vector3.zero, size / 2);
+            this.body = battle.AddBody(this, q3BodyType.eStaticBody, center);
+            battle.AddBox(this.body, Vector3.zero, size / 2);
         }
     }
 }

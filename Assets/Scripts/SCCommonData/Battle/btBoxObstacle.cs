@@ -6,20 +6,8 @@ namespace Data
 {
     public class btBoxObstacle : btObject, btIObstacle
     {
-        public btTileData data { get; private set; }
+        public btTileData data;
         public btTileConfig tileConfig;
-        // public float Y { get; private set; }
-        public Vector3 worldMin;
-        public Vector3 worldMax;
-        public btBoxObstacle(btBattle scene, Vector3 parentOffset, btTileData data, btTileConfig config) : base(scene, data.id)
-        {
-            this.data = data;
-            this.tileConfig = config;
-            // this.Y = data.max.y;
-            this.worldMin = FVector3.ToVector3(this.data.position) + parentOffset;
-            this.worldMax = this.worldMin + FVector3.ToVector3(tileConfig.size);
-        }
-        public override btObjectType Type { get { return btObjectType.box_obstacle; } }
 
         public virtual bool LimitMove(Vector3 from, ref Vector3 delta)
         {
@@ -60,8 +48,8 @@ namespace Data
             Vector3 center = (worldMin + worldMax) / 2;
             Vector3 size = worldMax - worldMin;
 
-            this.body = scene.AddBody(this, q3BodyType.eStaticBody, center);
-            scene.AddBox(this.body, Vector3.zero, size / 2);
+            this.body = battle.AddBody(this, q3BodyType.eStaticBody, center);
+            battle.AddBox(this.body, Vector3.zero, size / 2);
         }
     }
 }

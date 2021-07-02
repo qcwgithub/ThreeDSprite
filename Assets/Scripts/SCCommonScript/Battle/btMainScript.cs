@@ -71,9 +71,16 @@ namespace Script
                     Vector3 worldMin = min + mapOffset + layerOffset;
                     Vector3 worldMax = max + mapOffset + layerOffset;
 
-                    btFloor floor = new btFloor(battle, layerData.id, worldMin, worldMax);
+                    btFloor floor = new btFloor();
+                    floor.battle = battle;
+                    floor.type = btObjectType.floor;
+                    floor.id = layerData.id;
+                    floor.worldMin = worldMin;
+                    floor.worldMax = worldMax;
+                    floor.y = worldMin.y;
+
                     battle.walkables.Add(floor);
-                    battle.DictObjects.Add(floor.id, floor);
+                    battle.objects.Add(floor.id, floor);
                 }
                 else if (layerData.objectType == btObjectType.stair)
                 {
@@ -106,9 +113,15 @@ namespace Script
                     Vector3 worldMin = min + mapOffset + layerOffset;
                     Vector3 worldMax = max + mapOffset + layerOffset;
 
-                    btStair stair = new btStair(battle, layerData.id, layerData.stairDir, worldMin, worldMax);
+                    btStair stair = new btStair();
+                    stair.battle = battle;
+                    stair.type = btObjectType.stair;
+                    stair.id = layerData.id;
+                    stair.worldMin = worldMin;
+                    stair.worldMax = worldMax;
+                    stair.dir = layerData.stairDir;
                     battle.walkables.Add(stair);
-                    battle.DictObjects.Add(stair.id, stair);
+                    battle.objects.Add(stair.id, stair);
                 }
                 else if (layerData.objectType == btObjectType.wall)
                 {
@@ -141,9 +154,13 @@ namespace Script
                     Vector3 worldMin = min + mapOffset + layerOffset;
                     Vector3 worldMax = max + mapOffset + layerOffset;
 
-                    btWall wall = new btWall(battle, layerData.id, worldMin, worldMax);
-                    battle.obstacles.Add(wall);
-                    battle.DictObjects.Add(wall.id, wall);
+                    btWall wall = new btWall();
+                    wall.battle = battle;
+                    wall.type = btObjectType.wall;
+                    wall.id = layerData.id;
+                    wall.worldMin = worldMin;
+                    wall.worldMax = worldMax;
+                    battle.objects.Add(wall.id, wall);
                 }
 
                 foreach (btTileData tileData in layerData.tileDatas)
@@ -153,24 +170,38 @@ namespace Script
                     {
                         case btObjectType.box_obstacle:
                             {
-                                btBoxObstacle obstacle = new btBoxObstacle(battle, mapOffset + layerOffset, tileData, tileConfig);
+                                btBoxObstacle obstacle = new btBoxObstacle();
+                                obstacle.battle = battle;
+                                obstacle.type = btObjectType.box_obstacle;
+                                obstacle.id = layerData.id;
+                                obstacle.worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
+                                obstacle.worldMax = obstacle.worldMin + FVector3.ToVector3(tileConfig.size);
+                                obstacle.tileConfig = tileConfig;
+                                obstacle.data = tileData;
                                 battle.obstacles.Add(obstacle);
-                                battle.DictObjects.Add(obstacle.id, obstacle);
+                                battle.objects.Add(obstacle.id, obstacle);
                             }
                             break;
 
                         case btObjectType.tree:
                             {
-                                btTree tree = new btTree(battle, mapOffset + layerOffset, tileData, tileConfig);
+                                btTree tree = new btTree();
+                                tree.battle = battle;
+                                tree.type = btObjectType.tree;
+                                tree.id = layerData.id;
+                                tree.worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
+                                tree.worldMax = tree.worldMin + FVector3.ToVector3(tileConfig.size);
+                                tree.tileConfig = tileConfig;
+                                tree.data = tileData;
                                 battle.trees.Add(tree);
-                                battle.DictObjects.Add(tree.id, tree);
+                                battle.objects.Add(tree.id, tree);
                             }
                             break;
                     }
                 }
             }
 
-            foreach (var kv in battle.DictObjects)
+            foreach (var kv in battle.objects)
             {
                 kv.Value.AddToPhysicsScene();
             }
@@ -178,10 +209,14 @@ namespace Script
 
         public btCharacter addCharacter(btBattle battle)
         {
-            btCharacter lChar = new btCharacter(battle, 10000);
-            battle.DictObjects.Add(lChar.id, lChar);
-            lChar.AddToPhysicsScene();
-            return lChar;
+            btCharacter character = new btCharacter();
+            character.battle = battle;
+            character.type = btObjectType.character;
+            character.id = 10000;
+            battle.objects.Add(character.id, character);
+            battle.characters.Add(character.id, character);
+            character.AddToPhysicsScene();
+            return character;
         }
 
         void onBeginContact(btBattle battle, IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
@@ -198,8 +233,8 @@ namespace Script
                 return;
             }
             Debug.Log(string.Format("OnBeginContact {0} - {1}", objectA, objectB));
-            objectA.Collidings.Add(new btObject_Time { obj = objectB });
-            objectB.Collidings.Add(new btObject_Time { obj = objectA });
+            objectA.collidings.Add(new btObject_Time { obj = objectB });
+            objectB.collidings.Add(new btObject_Time { obj = objectA });
         }
 
         void onEndContact(btBattle battle, IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
@@ -219,23 +254,30 @@ namespace Script
             }
 
             Debug.Log(string.Format("OnEndContact {0} x {1}", objectA, objectB));
-            for (int i = 0; i < objectA.Collidings.Count; i++)
+            for (int i = 0; i < objectA.collidings.Count; i++)
             {
-                if (objectA.Collidings[i].obj == objectB)
+                if (objectA.collidings[i].obj == objectB)
                 {
-                    objectA.Collidings.RemoveAt(i);
+                    objectA.collidings.RemoveAt(i);
                     i--;
                 }
             }
 
-            for (int i = 0; i < objectB.Collidings.Count; i++)
+            for (int i = 0; i < objectB.collidings.Count; i++)
             {
-                if (objectB.Collidings[i].obj == objectA)
+                if (objectB.collidings[i].obj == objectA)
                 {
-                    objectB.Collidings.RemoveAt(i);
+                    objectB.collidings.RemoveAt(i);
                     i--;
                 }
             }
+        }
+
+        public void update(btBattle battle, float dt)
+        {
+            battle.updating = true;
+            Qu3eApi.SceneStep(battle.physicsScene);
+            battle.updating = false;
         }
     }
 }

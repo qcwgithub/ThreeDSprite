@@ -14,11 +14,6 @@ namespace Data
 
     public class btCharacter : btObject
     {
-        public btCharacter(btBattle scene, int id) : base(scene, id)
-        {
-            
-        }
-        public override btObjectType Type { get { return btObjectType.character; } }
         public event Action<Vector3> PosChanged;
 
         private btIWalkable walkable;
@@ -58,7 +53,7 @@ namespace Data
                 this.pos = value;
 
                 if (this.body != IntPtr.Zero)
-                    scene.SetBodyPosition(this.body, value);
+                    battle.SetBodyPosition(this.body, value);
 
                 if (this.PosChanged != null)
                 {
@@ -71,8 +66,8 @@ namespace Data
 
         public override void AddToPhysicsScene()
         {
-            this.body = scene.AddBody(this, q3BodyType.eDynamicBody, this.pos + new Vector3(0f, 0.4f, 0f));
-            scene.AddBox(this.body, Vector3.zero, new Vector3(0.2f, 0.4f, 0.2f));
+            this.body = battle.AddBody(this, q3BodyType.eDynamicBody, this.pos + new Vector3(0f, 0.4f, 0f));
+            battle.AddBox(this.body, Vector3.zero, new Vector3(0.2f, 0.4f, 0.2f));
         }
     }
 }

@@ -63,7 +63,7 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
         this.battle = this.mainScript.createBattle(mapData, tilesetConfigs);
         btCharacter lChar = this.mainScript.addCharacter(battle);
 
-        Debug.Log("Object count: " + battle.DictObjects.Count);
+        Debug.Log("Object count: " + battle.objects.Count);
 
         GameObject prefab = Resources.Load<GameObject>(this.mapPath);
         if (prefab == null)
@@ -94,6 +94,11 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 
     private void Update()
     {
-        this.moveScript.update(this.battle, Time.deltaTime);
+        this.mainScript.update(this.battle, Time.deltaTime);
+    }
+
+    void OnDestroy()
+    {
+        this.mainScript.destroyBattle(this.battle);
     }
 }

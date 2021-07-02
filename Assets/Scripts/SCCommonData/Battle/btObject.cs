@@ -1,23 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Data
 {
     public abstract class btObject
     {
-        public int id { get; private set; }
-        public btBattle scene { get; private set; }
+        public btBattle battle;
+        public btObjectType type;
+        public int id;
+        public Vector3 worldMin;
+        public Vector3 worldMax;
+
         public IntPtr body = IntPtr.Zero;
         // public IntPtr box = IntPtr.Zero;
-        public List<btObject_Time> Collidings { get; } = new List<btObject_Time>();
 
-        public btObject(btBattle scene, int id)
-        {
-            this.scene = scene;
-            this.id = id;
-        }
-        public abstract btObjectType Type { get; }
+        public List<btObject_Time> collidings { get; } = new List<btObject_Time>();
+        
         public virtual void AddToPhysicsScene()
         {
 
@@ -25,7 +25,7 @@ namespace Data
 
         public override string ToString()
         {
-            return this.Type.ToString() + this.id;
+            return this.type.ToString() + this.id;
         }
         // public virtual void Update()
         // {
