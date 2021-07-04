@@ -1,6 +1,3 @@
 [submodule "Assets/Editor/TiledCS"]
 	path = Assets/Editor/TiledCS
 	url = https://github.com/qcwgithub/TiledCS.git
-[submodule "Assets/Scripts/SCCommonScript/ecs"]
-	path = Assets/Scripts/SCCommonScript/ecs
-	url = https://github.com/Leopotam/ecs.git

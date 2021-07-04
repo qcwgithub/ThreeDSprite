@@ -2,21 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Data;
-using Leopotam.Ecs;
 
 namespace Script
 {
-    public struct btMoveSystem : IEcsRunSystem
+    public class btMoveScript : btScriptBase
     {
-        public btBattle battle;
-        public IBattleConfigs configs;
-
-        // auto-injected fields: EcsWorld instance and EcsFilter.
-        EcsWorld world;
-        EcsFilter<btPositionComponent, btMoveDirComponent> filter;
-        // EcsFilter<btPhysicalComponent, btObstacleComponent> obstacleFilter;
-        // EcsFilter<btPhysicalComponent, btWalkableComponent> walkableFilter;
-
         public ECode characterMove(btCharacter character, Vector3 moveDir)
         {
             if (!(moveDir.x >= -1f && moveDir.x <= 1f && moveDir.y >= -1f && moveDir.y <= 1f && moveDir.z >= -1f && moveDir.z <= 1f))
@@ -28,19 +18,8 @@ namespace Script
             return ECode.Success;
         }
 
-        public void Run()
+        public void update(btBattle battle, float dt)
         {
-            float dt = 1f / 30f;
-            foreach (var i in this.filter)
-            {
-                ref btPositionComponent pos_c = ref this.filter.Get1(i);
-                btMoveDirComponent moveDir_c = this.filter.Get2(i);
-                Vector3 delta = 5f * dt * moveDir_c.moveDir;
-                pos_c.position = pos_c.position + delta;
-            
-                this.filter.GetEntity(i).Del<btMoveDirComponent>();
-            }
-
             foreach (var kv in battle.characters)
             {
                 btCharacter character = kv.Value;
@@ -129,7 +108,7 @@ namespace Script
                 }
             }
         }
-
+    
         public void PredictMove()
         {
 
