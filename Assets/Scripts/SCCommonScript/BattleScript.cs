@@ -8,13 +8,17 @@ namespace Script
 {
     public class BattleScript
     {
-        public static void createBattleScripts(IBattleConfigs configs/* in */, IBattleScripts scripts/* out */)
+        public static btBattle newBattle(IBattleConfigs configs/* in */, IBattleScripts scripts/* out */)
         {
+            btBattle battle = new btBattle();
+
             scripts.moveScript = new btMoveScript();
-            scripts.moveScript.Init(configs, scripts);
+            scripts.moveScript.Init(battle, configs, scripts);
 
             scripts.mainScript = new btMainScript();
-            scripts.mainScript.Init(configs, scripts);
+            scripts.mainScript.Init(battle, configs, scripts);
+
+            return battle;
         }
     }
 }

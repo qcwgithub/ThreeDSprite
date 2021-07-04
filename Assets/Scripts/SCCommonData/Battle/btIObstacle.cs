@@ -9,6 +9,6 @@ namespace Data
 {
     public interface btIObstacle
     {
-        bool LimitMove(Vector3 from, ref Vector3 delta);
+        
     }
 }

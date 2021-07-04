@@ -58,10 +58,10 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
             }
         }
 
-        BattleScript.createBattleScripts(this, this);
+        this.battle = BattleScript.newBattle(this, this);
 
-        this.battle = this.mainScript.createBattle(mapData, tilesetConfigs);
-        btCharacter lChar = this.mainScript.addCharacter(battle);
+        this.mainScript.initBattle(mapData, tilesetConfigs);
+        btCharacter lChar = this.mainScript.addCharacter();
 
         Debug.Log("Object count: " + battle.objects.Count);
 
@@ -76,11 +76,11 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
         BtScene cMap = go.GetComponent<BtScene>();
         cMap.Apply(battle);
 
-        lChar.Pos = this.Character.transform.position;
+        lChar.pos = this.Character.transform.position;
         this.Character.Apply(lChar, cMap);
         this.InputManager.OnInput += (Vector3 dir) =>
         {
-            if (lChar.Walkable == null)
+            if (lChar.walkable == null)
             {
                 dir.y = -1f;
             }
@@ -94,7 +94,7 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 
     private void Update()
     {
-        this.mainScript.update(this.battle, Time.deltaTime);
+        this.mainScript.update(Time.deltaTime);
     }
 
     void OnDestroy()
