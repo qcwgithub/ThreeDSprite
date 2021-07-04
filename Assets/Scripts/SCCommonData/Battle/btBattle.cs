@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Leopotam.Ecs;
 
 namespace Data
 {
     public class btBattle
     {
+        public EcsWorld ecsWorld;
+        public EcsSystems updateSystems;
+
         public btTilemapData tilemapData;
         public Dictionary<string, btTilesetConfig> tilesetConfigs;
         public Dictionary<int, btObject> objects = new Dictionary<int, btObject>();

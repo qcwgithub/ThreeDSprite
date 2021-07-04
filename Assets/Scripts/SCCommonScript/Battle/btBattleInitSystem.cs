@@ -3,34 +3,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Data;
+using Leopotam.Ecs;
 
 namespace Script
 {
-    public class btMainScript : btScriptBase
+    public class btBattleInitSystem : IEcsInitSystem, IEcsDestroySystem
     {
-        public btBattle createBattle(btTilemapData tilemapData, Dictionary<string, btTilesetConfig> tilesetConfigs)
+        // auto-injected fields: EcsWorld instance and EcsFilter.
+        EcsWorld world;
+
+        public btBattle battle;
+        public btTilemapData tilemapData;
+        public Dictionary<string, btTilesetConfig> tilesetConfigs;
+
+        public void Destroy()
         {
-            btBattle battle = new btBattle();
-            this.initBattle(battle, tilemapData, tilesetConfigs);
-            return battle;
+            Qu3eApi.SceneDestroy(this.battle.physicsScene);
+            this.battle.physicsScene = IntPtr.Zero;
         }
 
-        public void destroyBattle(btBattle battle)
+        EcsEntity createEntity(int id, btObjectType objectType, Vector3 worldMin, Vector3 worldMax, bool isWalkable, bool isObstacle)
         {
-            Qu3eApi.SceneDestroy(battle.physicsScene);
-            battle.physicsScene = IntPtr.Zero;
+            EcsEntity entity = this.world.NewEntity();
+            ref var obj_c = ref entity.Get<btObjectComponent>();
+            obj_c.id = id;
+            obj_c.objectType = btObjectType.floor;
+
+            ref var physics_c = ref entity.Get<btPhysicalComponent>();
+            physics_c.bodyType = q3BodyType.eStaticBody;
+            physics_c.body = IntPtr.Zero;
+            physics_c.worldMin = worldMin;
+            physics_c.worldMax = worldMax;
+
+            if (isWalkable)
+            {
+                entity.Get<btWalkableComponent>();
+            }
+
+            if (isObstacle)
+            {
+                entity.Get<btObstacleComponent>();
+            }
+
+            return entity;
         }
 
-        public void initBattle(btBattle battle, btTilemapData tilemapData, Dictionary<string, btTilesetConfig> tilesetConfigs)
+        void initEntity1(EcsEntity entity, btTileData tileData, btTileConfig tileConfig)
+        {
+            ref var tileData_c = ref entity.Get<btTileDataComponent>();
+            tileData_c.tileData = tileData;
+            tileData_c.tileConfig = tileConfig;
+        }
+
+        public void Init()
         {
             battle.tilemapData = tilemapData;
             battle.tilesetConfigs = tilesetConfigs;
             battle.physicsScene = Qu3eApi.CreateScene();
             battle.onBeginContactDel = new Qu3eApi.ContactDelegate(
-                (IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB) => this.onBeginContact(battle, bodyA, boxA, bodyB, boxB));
+                (IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB) => this.onBeginContact(battle, bodyA, boxA, bodyB, boxB)
+                );
 
             battle.onEndContactDel = new Qu3eApi.ContactDelegate(
-                (IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB) => this.onEndContact(battle, bodyA, boxA, bodyB, boxB));
+                (IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB) => this.onEndContact(battle, bodyA, boxA, bodyB, boxB)
+                );
 
             Qu3eApi.SceneSetContactListener(battle.physicsScene, battle.onBeginContactDel, battle.onEndContactDel);
 
@@ -71,16 +107,7 @@ namespace Script
                     Vector3 worldMin = min + mapOffset + layerOffset;
                     Vector3 worldMax = max + mapOffset + layerOffset;
 
-                    btFloor floor = new btFloor();
-                    floor.battle = battle;
-                    floor.type = btObjectType.floor;
-                    floor.id = layerData.id;
-                    floor.worldMin = worldMin;
-                    floor.worldMax = worldMax;
-                    floor.y = worldMin.y;
-
-                    battle.walkables.Add(floor);
-                    battle.objects.Add(floor.id, floor);
+                    this.createEntity(layerData.id, btObjectType.floor, worldMin, worldMax, true, false);
                 }
                 else if (layerData.objectType == btObjectType.stair)
                 {
@@ -113,15 +140,7 @@ namespace Script
                     Vector3 worldMin = min + mapOffset + layerOffset;
                     Vector3 worldMax = max + mapOffset + layerOffset;
 
-                    btStair stair = new btStair();
-                    stair.battle = battle;
-                    stair.type = btObjectType.stair;
-                    stair.id = layerData.id;
-                    stair.worldMin = worldMin;
-                    stair.worldMax = worldMax;
-                    stair.dir = layerData.stairDir;
-                    battle.walkables.Add(stair);
-                    battle.objects.Add(stair.id, stair);
+                    this.createEntity(layerData.id, btObjectType.stair, worldMin, worldMax, true, false);
                 }
                 else if (layerData.objectType == btObjectType.wall)
                 {
@@ -151,16 +170,10 @@ namespace Script
                         }
                     }
 
+
                     Vector3 worldMin = min + mapOffset + layerOffset;
                     Vector3 worldMax = max + mapOffset + layerOffset;
-
-                    btWall wall = new btWall();
-                    wall.battle = battle;
-                    wall.type = btObjectType.wall;
-                    wall.id = layerData.id;
-                    wall.worldMin = worldMin;
-                    wall.worldMax = worldMax;
-                    battle.objects.Add(wall.id, wall);
+                    this.createEntity(layerData.id, btObjectType.wall, worldMin, worldMax, false, false);
                 }
 
                 foreach (btTileData tileData in layerData.tileDatas)
@@ -170,53 +183,29 @@ namespace Script
                     {
                         case btObjectType.box_obstacle:
                             {
-                                btBoxObstacle obstacle = new btBoxObstacle();
-                                obstacle.battle = battle;
-                                obstacle.type = btObjectType.box_obstacle;
-                                obstacle.id = layerData.id;
-                                obstacle.worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
-                                obstacle.worldMax = obstacle.worldMin + FVector3.ToVector3(tileConfig.size);
-                                obstacle.tileConfig = tileConfig;
-                                obstacle.data = tileData;
-                                battle.obstacles.Add(obstacle);
-                                battle.objects.Add(obstacle.id, obstacle);
+                                var worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
+                                var worldMax = worldMin + FVector3.ToVector3(tileConfig.size);
+                                EcsEntity entity = this.createEntity(tileData.id, btObjectType.box_obstacle, worldMin, worldMax, false, true);
+                                this.initEntity1(entity, tileData, tileConfig);
                             }
                             break;
 
                         case btObjectType.tree:
                             {
-                                btTree tree = new btTree();
-                                tree.battle = battle;
-                                tree.type = btObjectType.tree;
-                                tree.id = layerData.id;
-                                tree.worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
-                                tree.worldMax = tree.worldMin + FVector3.ToVector3(tileConfig.size);
-                                tree.tileConfig = tileConfig;
-                                tree.data = tileData;
-                                battle.trees.Add(tree);
-                                battle.objects.Add(tree.id, tree);
+                                var worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
+                                var worldMax = worldMin + FVector3.ToVector3(tileConfig.size);
+                                EcsEntity entity = this.createEntity(tileData.id, btObjectType.tree, worldMin, worldMax, false, false);
+                                this.initEntity1(entity, tileData, tileConfig);
                             }
                             break;
                     }
                 }
             }
 
-            foreach (var kv in battle.objects)
-            {
-                kv.Value.AddToPhysicsScene();
-            }
-        }
-
-        public btCharacter addCharacter(btBattle battle)
-        {
-            btCharacter character = new btCharacter();
-            character.battle = battle;
-            character.type = btObjectType.character;
-            character.id = 10000;
-            battle.objects.Add(character.id, character);
-            battle.characters.Add(character.id, character);
-            character.AddToPhysicsScene();
-            return character;
+            EcsEntity characterEntity = this.world.NewEntity();
+            ref btAddCharacterInfoComponent info = ref characterEntity.Get<btAddCharacterInfoComponent>();
+            info.id = 10000;
+            info.pos = Vector3.zero;
         }
 
         void onBeginContact(btBattle battle, IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)

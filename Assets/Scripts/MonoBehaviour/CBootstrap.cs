@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Data;
 using Script;
+using Leopotam.Ecs;
 
 public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 {
@@ -14,8 +15,8 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 
     private BtScene Map;
 
-    public btMoveScript moveScript { get; set; }
-    public btMainScript mainScript { get; set; }
+    public btMoveSystem moveSystem { get; set; }
+    public btBattleInitSystem mainScript { get; set; }
 
     btBattle battle;
 
@@ -58,10 +59,15 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
             }
         }
 
-        BattleScript.createBattleScripts(this, this);
-
-        this.battle = this.mainScript.createBattle(mapData, tilesetConfigs);
-        btCharacter lChar = this.mainScript.addCharacter(battle);
+        this.battle = new btBattle();
+        this.battle.ecsWorld = new EcsWorld();
+        this.battle.updateSystems = new EcsSystems(battle.ecsWorld);
+        this.battle.updateSystems
+            .Add(new btBattleInitSystem())
+            .Add(new btBodyCreationSystem())
+            .Add(new btMoveSystem())
+            .Inject(battle)
+            .Inject((IGameConfigs)this);
 
         Debug.Log("Object count: " + battle.objects.Count);
 
@@ -87,7 +93,7 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
             if (dir != Vector3.zero)
             {
                 Vector3 delta = this.Speed * Time.deltaTime * dir;
-                this.moveScript.characterMove(lChar, delta);
+                this.moveSystem.characterMove(lChar, delta);
             }
         };
     }

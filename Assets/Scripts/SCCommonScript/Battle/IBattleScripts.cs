@@ -5,7 +5,7 @@ namespace Script
 {
     public interface IBattleScripts
     {
-        btMoveScript moveScript { get; set; }
-        btMainScript mainScript { get; set; }
+        btMoveSystem moveSystem { get; set; }
+        btBattleInitSystem mainScript { get; set; }
     }
 }
