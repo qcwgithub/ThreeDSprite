@@ -9,40 +9,41 @@ public class BtCharacter : MonoBehaviour
     public Spine.Unity.SkeletonAnimation Skel;
     private Transform trans;
     private Vector3 originalScale;
-    public btCharacter lChar { get; private set; }
+    public btCharacter character { get; private set; }
     private BtScene cMap;
     public void Apply(btCharacter character, BtScene scene)
     {
         this.trans = this.transform;
         this.originalScale = this.trans.localScale;
-        this.lChar = character;
-        character.PosChanged += this.OnPosChanged;
+        this.character = character;
+        // character.PosChanged += this.OnPosChanged;
         this.cMap = scene;
+        this.trans.position = this.character.pos;
     }
 
-    private bool moved = false;
-    private float movedX = 0f;
-    private void OnPosChanged(Vector3 pos)
-    {
-        this.movedX = pos.x - this.trans.position.x;
-        this.trans.position = pos;
-        this.moved = true;
-    }
+    // private bool moved = false;
+    // private float movedX = 0f;
+    // private void OnPosChanged(Vector3 pos)
+    // {
+    //     this.movedX = pos.x - this.trans.position.x;
+    //     this.trans.position = pos;
+    //     this.moved = true;
+    // }
 
-    private List<btObject> colliding1 = new List<btObject>();
-    private List<btObject> colliding2 = new List<btObject>();
+    private bool wasMoving = false;
     private void Update()
     {
-        if (this.moved)
+        bool moving = this.character.moveDir != Vector3.zero;
+        if (moving)
         {
-            this.Skel.AnimationName = "run";
+            this.trans.position = this.character.pos;
+            this.trans.localScale = new Vector3(this.character.moveDir.x < 0 ? -1f : 1f, this.originalScale.y, this.originalScale.z);
         }
-        else
+        if (moving != this.wasMoving)
         {
-            this.Skel.AnimationName = "idle";
+            this.Skel.AnimationName = moving ? "run" : "idle";
+            this.Skel.loop = true;
+            this.wasMoving = moving;
         }
-        this.Skel.loop = true;
-        this.trans.localScale = new Vector3(this.movedX < 0 ? -1f : 1f, this.originalScale.y, this.originalScale.z);
-        this.moved = false;
     }
 }

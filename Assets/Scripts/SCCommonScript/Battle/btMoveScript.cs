@@ -18,6 +18,10 @@ namespace Script
             character.moveDir = moveDir;
             return ECode.Success;
         }
+        public void characterStopMove(btCharacter character)
+        {
+            character.moveDir = Vector3.zero;
+        }
 
         public void setObjectPosition(btIHasPosition iHasPos, Vector3 pos)
         {
@@ -83,6 +87,7 @@ namespace Script
                 else
                 {
                     // keep pos unchanged
+                    character.walkable = preWalkable;
                 }
 
                 // if (character.walkable != null)
@@ -175,6 +180,15 @@ namespace Script
                     return this.stairXtoY(stair, x);
                     //break;
             }
+        }
+        
+        Vector3 floorRandomPos(btFloor floor)
+        {
+            Vector3 pos;
+            pos.x = UnityEngine.Random.Range(floor.worldMin.x, floor.worldMax.x);
+            pos.z = UnityEngine.Random.Range(floor.worldMin.z, floor.worldMax.z);
+            pos.y = floor.worldMin.y;
+            return pos;
         }
 
         bool floorCanAccept(btFloor floor, Vector3 from, Vector3 delta)
@@ -302,7 +316,9 @@ namespace Script
                 }
                 else
                 {
-                    throw new System.Exception();
+                    // throw new System.Exception();
+                    // newWalkable = null;
+                    return;
                 }
             }
 
@@ -321,6 +337,22 @@ namespace Script
                 if (this.canAccept((btObject)walkable, from, delta))
                 {
                     newWalkable = walkable;
+                    break;
+                }
+            }
+        }
+
+        public void randomWalkable(out btIWalkable walkable, out Vector3 pos)
+        {
+            walkable = null;
+            pos = Vector3.zero;
+
+            for (int i = 0; i < this.battle.walkables.Count; i++)
+            {
+                if (this.battle.walkables[i] is btFloor floor)
+                {
+                    walkable = floor;
+                    pos = this.floorRandomPos(floor);
                     break;
                 }
             }

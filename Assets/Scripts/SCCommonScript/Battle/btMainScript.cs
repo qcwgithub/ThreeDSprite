@@ -131,11 +131,11 @@ namespace Script
             Vector3 center = (obj.worldMin + obj.worldMax) / 2;
             Vector3 size = obj.worldMax - obj.worldMin;
 
-            var body = Qu3eApi.SceneAddBody(battle.physicsScene, obj.bodyType, center.x, center.y, center.z);
-            battle.body2Objects.Add(body, obj);
+            obj.body = Qu3eApi.SceneAddBody(battle.physicsScene, obj.bodyType, center.x, center.y, center.z);
+            battle.body2Objects.Add(obj.body, obj);
             
             Vector3 extends = size / 2;
-            Qu3eApi.BodyAddBox(body, 0f, 0f, 0f, extends.x, extends.y, extends.z);
+            Qu3eApi.BodyAddBox(obj.body, 0f, 0f, 0f, extends.x, extends.y, extends.z);
         }
 
         public void addObject(btObject obj)
@@ -164,6 +164,7 @@ namespace Script
         {
             btCharacter character = new btCharacter();
             character.type = btObjectType.character;
+            character.bodyType = q3BodyType.eDynamicBody;
             character.id = 10000;
             this.addObject(character);
             return character;
@@ -225,6 +226,8 @@ namespace Script
 
         public void update(float dt)
         {
+            this.scripts.moveScript.update(dt);
+
             battle.updating = true;
             Qu3eApi.SceneStep(battle.physicsScene);
             battle.updating = false;

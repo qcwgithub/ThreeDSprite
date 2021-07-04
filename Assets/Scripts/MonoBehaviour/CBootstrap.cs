@@ -61,7 +61,13 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
         this.battle = BattleScript.newBattle(this, this);
 
         this.mainScript.initBattle(mapData, tilesetConfigs);
-        btCharacter lChar = this.mainScript.addCharacter();
+        btCharacter character = this.mainScript.addCharacter();
+
+        btIWalkable chWalkable;
+        Vector3 chPos;
+        this.moveScript.randomWalkable(out chWalkable, out chPos);
+        character.walkable = chWalkable;
+        character.pos = chPos;
 
         Debug.Log("Object count: " + battle.objects.Count);
 
@@ -76,18 +82,21 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
         BtScene cMap = go.GetComponent<BtScene>();
         cMap.Apply(battle);
 
-        lChar.pos = this.Character.transform.position;
-        this.Character.Apply(lChar, cMap);
+        this.Character.Apply(character, cMap);
         this.InputManager.OnInput += (Vector3 dir) =>
         {
-            if (lChar.walkable == null)
+            if (character.walkable == null)
             {
                 dir.y = -1f;
             }
             if (dir != Vector3.zero)
             {
-                Vector3 delta = this.Speed * Time.deltaTime * dir;
-                this.moveScript.characterMove(lChar, delta);
+                // Vector3 delta = this.Speed * Time.deltaTime * dir;
+                this.moveScript.characterMove(character, dir);
+            }
+            else
+            {
+                this.moveScript.characterStopMove(character);
             }
         };
     }
