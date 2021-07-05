@@ -127,6 +127,8 @@ namespace Script
             {
                 ServerConst.LOBBY_ID,
             });
+            this.configLoader.loadMap(data, 1);
+            this.configLoader.loadMap(data, 2);
             InitListenForClient(data);
             return data;
         }

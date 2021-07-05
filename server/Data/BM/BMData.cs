@@ -33,5 +33,10 @@ namespace Data
 
         public bool lobbyReady;
         public bool allowNewBattle = true;
+
+        // 配置文件
+
+        public Dictionary<int, btTilemapData> tilemapDatas { get; set; }
+        public Dictionary<string, btTilesetConfig> tilesetConfigs { get; set; }
     }
 }

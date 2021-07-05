@@ -28,7 +28,7 @@ namespace Script
 
             this.dispatcher.addHandler(new BMMove { server = this });
 
-            BattleScript.createBattleScripts(this.bmData, this);
+            BattleScript.initBattleScripts(this.bmData, this);
         }
 
         public override void OnStart()

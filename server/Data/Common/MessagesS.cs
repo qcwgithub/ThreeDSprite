@@ -336,6 +336,7 @@ namespace Data
     public class MsgBMCreateBattle : ISerializable
     {
         public int battleId;
+        public int mapId;
     }
 
     public class MsgBMPlayerEnter : ISerializable

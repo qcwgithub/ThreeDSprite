@@ -26,8 +26,14 @@ namespace Script
             {
                 return ECode.InvalidToken.toTask();
             }
+
+            // add into battle
             
-            return ECode.Success.toTask();
+
+            var res = new ResBMPlayerLogin();
+            res.battleId = battleInfo.battleId;
+            
+            return new MyResponse(ECode.Success, res).toTask();
         }
     }
 }

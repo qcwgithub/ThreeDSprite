@@ -210,6 +210,8 @@ namespace Data
     public class ResBMPlayerLogin : ISerializable
     {
         // scene data!
+        public int battleId;
+        public int mapId;
     }
     
     public class MsgBMMove : ISerializable

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,16 @@ using Script;
 public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 {
     const string baseDir = "Imported/Egzd";
-    public string mapPath = baseDir + "/map1";
+    // public string mapPath = baseDir + "/map1";
+    public int mapId = 1;
     public CInputManager InputManager;
     public BtCharacter Character;
     public float Speed = 5f;
 
     private BtScene Map;
+
+    public Dictionary<int, btTilemapData> tilemapDatas { get; private set; }
+    public Dictionary<string, btTilesetConfig> tilesetConfigs { get; private set; }
 
     public btMoveScript moveScript { get; set; }
     public btMainScript mainScript { get; set; }
@@ -23,55 +28,43 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
     {
         Application.targetFrameRate = 60;
 
-        Debug.Log("Loading map " + this.mapPath + ".tmx");
-        TextAsset textAsset = Resources.Load<TextAsset>(this.mapPath + ".tmx");
-        if (textAsset == null)
-        {
-            Debug.LogError("load map error 1");
-            return;
-        }
-
-        btTilemapData mapData = JsonUtils.FromJson<btTilemapData>(textAsset.text);
-        var tilesetConfigs = new Dictionary<string, btTilesetConfig>();
-        for (int i = 0; i < mapData.layerDatas.Count; i++)
-        {
-            btTileLayerData layerData = mapData.layerDatas[i];
-
-            for (int j = 0; j < layerData.tileDatas.Count; j++)
+        BattleScript.initBattleScripts(this, this);
+        BattleScript.loadMap(new Script.JsonUtils(), this, this.mapId,
+            mapId =>
             {
-                btTileData thingData = layerData.tileDatas[j];
-                // string key = Path.GetFileNameWithoutExtension(aThing.tileset);
-
-                btTilesetConfig tilesetConfig;
-                if (!tilesetConfigs.TryGetValue(thingData.tileset, out tilesetConfig))
+                string mapPath = baseDir + "/map" + mapId;
+                Debug.Log("Loading map " + mapPath + ".tmx");
+                TextAsset textAsset = Resources.Load<TextAsset>(mapPath + ".tmx");
+                if (textAsset == null)
                 {
-                    string tilesetPath = baseDir + "/" + thingData.tileset;// + ".json";
-                    TextAsset tilesetAsset = Resources.Load<TextAsset>(tilesetPath);
-                    if (tilesetAsset == null)
-                    {
-                        Debug.LogError(tilesetPath + " not imported");
-                        break;
-                    }
-                    tilesetConfig = JsonUtils.FromJson<btTilesetConfig>(tilesetAsset.text);
-                    tilesetConfigs.Add(thingData.tileset, tilesetConfig);
+                    throw new Exception("load map error 1");
                 }
-            }
-        }
+                return textAsset.text;
+            },
+            tileset =>
+            {
+                string tilesetPath = baseDir + "/" + tileset;// + ".json";
+                TextAsset tilesetAsset = Resources.Load<TextAsset>(tilesetPath);
+                if (tilesetAsset == null)
+                {
+                    throw new Exception(tilesetPath + " not imported");
+                }
+                return tilesetAsset.text;
+            });
 
-        this.battle = BattleScript.newBattle(this, this);
-
-        this.mainScript.initBattle(mapData, tilesetConfigs);
-        btCharacter character = this.mainScript.addCharacter();
+        this.battle = this.mainScript.newBattle(this.mapId);
+        btCharacter character = this.mainScript.addCharacter(this.battle);
 
         btIWalkable chWalkable;
         Vector3 chPos;
-        this.moveScript.randomWalkable(out chWalkable, out chPos);
+        this.moveScript.randomWalkable(this.battle, out chWalkable, out chPos);
         character.walkable = chWalkable;
         character.pos = chPos;
 
         Debug.Log("Object count: " + battle.objects.Count);
 
-        GameObject prefab = Resources.Load<GameObject>(this.mapPath);
+        string mapPath = baseDir + "/map" + this.mapId;
+        GameObject prefab = Resources.Load<GameObject>(mapPath);
         if (prefab == null)
         {
             Debug.LogError("load map error 2");
@@ -103,7 +96,7 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 
     private void Update()
     {
-        this.mainScript.update(Time.deltaTime);
+        this.mainScript.update(this.battle, Time.deltaTime);
     }
 
     void OnDestroy()

@@ -43,29 +43,10 @@ namespace Data
         SubscribeNotInited = 38,
         UnknownPriceType = 39,
         DailyTaskNotExist = 40,
-        TownTaskNotExist = 41,
-        DoctorKTaskNotExist = 42,
-        StoryTaskNotExist = 43,
 
         DailyTaskCompleted = 44,
-        TownTaskCompleted = 45,
-        DoctorKTaskCompleted = 46,
-        StoryTaskCompleted = 47,
-
-        FloorNoNpc = 48,
-        FloorNpcRewardMax = 49,
-        FloorNpcRewardTimeError = 50,
-        InvalidFloor = 51,
-        InvalidFloorConfig = 52,
-        FloorNoLetter = 53,
-        FloorAlreadyHasNpc = 54,
-        FloorRandomNpcFail = 55,
-        FloorNpcLeaveTimeError = 56,
-
+        
         DailyTaskNotFinish = 57,
-        TownTaskNotFinish = 58,
-        DoctorKTaskNotFinish = 59,
-        StoryTaskNotFinish = 60,
 
         Pending = 61,
 
@@ -127,5 +108,8 @@ namespace Data
         PlayerNotInBattle = 112,
         BattleAlreadyContainsPlayer = 113,
         LobbyNotConnected = 114,
+
+        MapDataNotExist = 115,
+        MapAlreadyExist = 116,
     }
 }

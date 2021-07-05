@@ -1,2 +1,5 @@
 rmdir .\gameConfig /Q/S
-xcopy ..\assets\configs .\gameConfig\ /E/H
+mkdir .\gameConfig
+xcopy ..\Assets\Resources\Imported .\gameConfig\Imported\ /E/H
+
+xcopy ..\Assets\Configs .\gameConfig\ /E/H

@@ -5,6 +5,7 @@ namespace Data
 {
     public interface IBattleConfigs
     {
-
+        Dictionary<int, btTilemapData> tilemapDatas { get; }
+        Dictionary<string, btTilesetConfig> tilesetConfigs { get; }
     }
 }

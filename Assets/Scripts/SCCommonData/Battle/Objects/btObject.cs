@@ -16,20 +16,11 @@ namespace Data
         public IntPtr body = IntPtr.Zero;
         // public IntPtr box = IntPtr.Zero;
 
-        public List<btObject_Time> collidings { get; } = new List<btObject_Time>();
-        
-        public virtual void AddToPhysicsScene()
-        {
-
-        }
+        public List<btObject> collidings = new List<btObject>();
 
         public override string ToString()
         {
             return this.type.ToString() + this.id;
         }
-        // public virtual void Update()
-        // {
-
-        // }
     }
 }

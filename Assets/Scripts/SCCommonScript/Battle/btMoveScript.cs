@@ -23,7 +23,30 @@ namespace Script
             character.moveDir = Vector3.zero;
         }
 
-        public void setObjectPosition(btIHasPosition iHasPos, Vector3 pos)
+        public bool isWalkable(btObjectType objectType)
+        {
+            switch (objectType)
+            {
+                case btObjectType.floor:
+                case btObjectType.stair:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool isObstacle(btObjectType objectType)
+        {
+            switch (objectType)
+            {
+                case btObjectType.box_obstacle:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public void setObjectPosition(btBattle battle, btIHasPosition iHasPos, Vector3 pos)
         {
             iHasPos.prePos = iHasPos.pos;
             iHasPos.pos = pos;
@@ -38,7 +61,7 @@ namespace Script
             }
         }
 
-        public void update(float dt)
+        public void update(btBattle battle, float dt)
         {
             foreach (var kv in battle.characters)
             {
@@ -82,7 +105,7 @@ namespace Script
                 if (character.walkable != null)
                 {
                     delta.y = y - from.y;
-                    this.setObjectPosition(character, from + delta);
+                    this.setObjectPosition(battle, character, from + delta);
                 }
                 else
                 {
@@ -181,7 +204,7 @@ namespace Script
                     //break;
             }
         }
-        
+
         Vector3 floorRandomPos(btFloor floor)
         {
             Vector3 pos;
@@ -299,7 +322,7 @@ namespace Script
             return result;
         }
 
-        void findNewWalkable(btIWalkable preWalkable, List<btObject_Time> collidings, Vector3 from, Vector3 delta,
+        void findNewWalkable(btIWalkable preWalkable, List<btObject> collidings, Vector3 from, Vector3 delta,
             out btIWalkable newWalkable)
         {
             newWalkable = null;
@@ -309,7 +332,7 @@ namespace Script
             if (preWalkable != null)
             {
                 // 只找后面的，防止不断在 2 个 walkable 中切换
-                index = collidings.FindIndex(_ => _.obj is btIWalkable && (_.obj as btIWalkable) == preWalkable);
+                index = collidings.FindIndex(_ => _ is btIWalkable && (_ as btIWalkable) == preWalkable);
                 if (index >= 0)
                 {
                     index++;
@@ -324,7 +347,7 @@ namespace Script
 
             for (; index < collidings.Count; index++)
             {
-                btIWalkable walkable = collidings[index].obj as btIWalkable;
+                btIWalkable walkable = collidings[index] as btIWalkable;
                 if (walkable == null)
                 {
                     continue;
@@ -342,14 +365,14 @@ namespace Script
             }
         }
 
-        public void randomWalkable(out btIWalkable walkable, out Vector3 pos)
+        public void randomWalkable(btBattle battle, out btIWalkable walkable, out Vector3 pos)
         {
             walkable = null;
             pos = Vector3.zero;
 
-            for (int i = 0; i < this.battle.walkables.Count; i++)
+            for (int i = 0; i < battle.walkables.Count; i++)
             {
-                if (this.battle.walkables[i] is btFloor floor)
+                if (battle.walkables[i] is btFloor floor)
                 {
                     walkable = floor;
                     pos = this.floorRandomPos(floor);
