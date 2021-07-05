@@ -208,8 +208,8 @@ namespace Script
         Vector3 floorRandomPos(btFloor floor)
         {
             Vector3 pos;
-            pos.x = UnityEngine.Random.Range(floor.worldMin.x, floor.worldMax.x);
-            pos.z = UnityEngine.Random.Range(floor.worldMin.z, floor.worldMax.z);
+            pos.x = (floor.worldMin.x + floor.worldMax.x) / 2;
+            pos.z = (floor.worldMin.z + floor.worldMax.z) / 2;
             pos.y = floor.worldMin.y;
             return pos;
         }
