@@ -169,7 +169,7 @@ namespace Script
         {
             btCharacter character = new btCharacter();
             character.type = btObjectType.character;
-            character.id = 10000;
+            character.id = battle.nextCharacterId++;
             character.bodyType = q3BodyType.eDynamicBody;
             this.addObject(battle, character);
             return character;

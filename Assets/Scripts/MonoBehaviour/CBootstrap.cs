@@ -63,8 +63,8 @@ public class CBootstrap : MonoBehaviour, IBattleScripts, IBattleConfigs
 
         Debug.Log("Object count: " + battle.objects.Count);
 
-        string mapPath = baseDir + "/map" + this.mapId;
-        GameObject prefab = Resources.Load<GameObject>(mapPath);
+        string prefabPath = baseDir + "/map" + this.mapId;
+        GameObject prefab = Resources.Load<GameObject>(prefabPath);
         if (prefab == null)
         {
             Debug.LogError("load map error 2");

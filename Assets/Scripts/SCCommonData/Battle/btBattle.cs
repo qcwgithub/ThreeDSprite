@@ -13,6 +13,7 @@ namespace Data
         // public List<btIObstacle> obstacles = new List<btIObstacle>();
         // public List<btTree> trees = new List<btTree>();
         public Dictionary<int, btCharacter> characters = new Dictionary<int, btCharacter>();
+        public int nextCharacterId = 10000;
         public Dictionary<IntPtr, btObject> body2Objects = new Dictionary<IntPtr, btObject>();
 
         public IntPtr physicsScene = IntPtr.Zero;

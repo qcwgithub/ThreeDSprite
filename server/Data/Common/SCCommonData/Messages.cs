@@ -199,7 +199,16 @@ namespace Data
         public int bmPort;
     }
 
-    
+    public class MCharacter
+    {
+        public int id;
+        public FVector3 pos;
+        public FVector3 moveDir;
+    }
+    public class MBattleData
+    {
+        public List<MCharacter> characters;
+    }
 
     public class MsgBMPlayerLogin : ISerializable
     {
@@ -212,6 +221,8 @@ namespace Data
         // scene data!
         public int battleId;
         public int mapId;
+        public int characterId;
+        public MBattleData battleData;
     }
     
     public class MsgBMMove : ISerializable
