@@ -197,8 +197,7 @@ namespace Data
         public int battleId;
         public string bmIp;
         public int bmPort;
+        public int mapId;
     }
-
-    
 }
 

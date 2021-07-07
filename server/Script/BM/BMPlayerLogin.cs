@@ -10,7 +10,7 @@ namespace Script
         public override MsgType msgType => MsgType.BMPlayerLogin;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgBMPlayerLogin>(_msg);
+            var msg = this.server.castObject<BMMsgPlayerLogin>(_msg);
 
             BMBattleInfo battleInfo;
             if (!this.server.bmData.battleInfos.TryGetValue(msg.battleId, out battleInfo))
@@ -24,10 +24,10 @@ namespace Script
                 return ECode.PlayerNotInBattle.toTask();
             }
 
-            if (msg.token != playerInfo.token)
-            {
-                return ECode.InvalidToken.toTask();
-            }
+            // if (msg.token != playerInfo.token)
+            // {
+            //     return ECode.InvalidToken.toTask();
+            // }
 
             if (playerInfo.battleId > 0 && playerInfo.battleId != msg.battleId)
             {
@@ -39,7 +39,7 @@ namespace Script
             if (playerInfo.character == null)
             {
                 // playerInfo.characterId = this
-                playerInfo.character = this.server.mainScript.addCharacter(battleInfo.battle);
+                playerInfo.character = this.server.mainScript.addCharacter(battleInfo.battle, battleInfo.battleId++);
 
                 // random walkable
                 btIWalkable chWalkable;
@@ -49,7 +49,7 @@ namespace Script
                 playerInfo.character.pos = chPos;
             }
 
-            var res = new ResBMPlayerLogin();
+            var res = new BMResPlayerLogin();
             res.battleId = battleInfo.battleId;
             res.mapId = battleInfo.battle.mapId;
             res.characterId = playerInfo.character.id;
@@ -59,10 +59,13 @@ namespace Script
             res.battleData.characters = new List<MCharacter>();
             foreach (var kv in battleInfo.battle.characters)
             {
+                var character = kv.Value;
+
                 var mc = new MCharacter();
-                mc.id = kv.Value.id;
-                mc.pos = FVector3.FromVector3(kv.Value.pos);
-                mc.moveDir = FVector3.FromVector3(kv.Value.moveDir);
+                mc.id = character.id;
+                mc.pos = FVector3.FromVector3(character.pos);
+                mc.moveDir = FVector3.FromVector3(character.moveDir);
+                mc.walkableId = (character.walkable as btObject).id;
                 res.battleData.characters.Add(mc);
             }
 

@@ -49,7 +49,7 @@ namespace Data
         public List<object> values;
         public Dictionary<int, int> valueTypes;//?: any; // null, or: index of values -> MyDBValueType
         public int expectedAffectedRows;//?: number;
-        
+
         public int expectedCount;
     }
 
@@ -81,7 +81,7 @@ namespace Data
     {
         public SqlTableAccount accountInfo;
     }
-    
+
     public class MsgDBChangeChannel : ISerializable
     {
         public string channel1;
@@ -118,7 +118,7 @@ namespace Data
         public string channelUserId2;
     }
 
-    public class MsgSavePlayer : ISerializable {}
+    public class MsgSavePlayer : ISerializable { }
 
     public class MsgInsertPlayer : ISerializable
     {
@@ -245,7 +245,7 @@ namespace Data
         public List<int> ids;
         public MsgType msgType;
         public virtual object getMsg() { return null; }
-        public virtual void setMsg(object _msg) {}
+        public virtual void setMsg(object _msg) { }
     }
 
     public class MsgLocBroadcastMsgAAAAction : MsgLocBroadcast
@@ -302,7 +302,7 @@ namespace Data
         public bool requireBattleList;
     }
 
-    public class MsgLobbyDestroyBattle :ISerializable
+    public class MsgLobbyDestroyBattle : ISerializable
     {
         public int bmId;
         public int battleId;
@@ -311,14 +311,13 @@ namespace Data
 
     public class MsgLobbyCreateBattle : ISerializable
     {
-        
+
     }
 
     public class ResLobbyCreateBattle : ISerializable
     {
         public int bmId;
         public int battleId;
-
     }
     public class MsgLobbyPlayerEnterBattle : ISerializable
     {
@@ -331,6 +330,7 @@ namespace Data
         public int battleId;
         public string bmIp;
         public int bmPort;
+        public int mapId;
     }
 
     public class MsgBMCreateBattle : ISerializable

@@ -40,6 +40,7 @@ namespace Script
             res.battleId = lobbyRes.battleId;
             res.bmIp = lobbyRes.bmIp;
             res.bmPort = lobbyRes.bmPort;
+            res.mapId = lobbyRes.mapId;
             return new MyResponse(ECode.Success, res);
         }
     }

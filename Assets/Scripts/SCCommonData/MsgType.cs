@@ -64,7 +64,6 @@ namespace Data
         LobbyPlayerExitBattle = 60,
         LobbySetBMReady = 61,
         BMNewBattle = 62,
-        BMPlayerLogin = 63,
 
         // client
         ClientStart = 10000,
@@ -147,5 +146,6 @@ namespace Data
         ////////
         PMEnterBattle = 10075,
         BMMove = 10076,
+        BMPlayerLogin = 10077,
     }
 }

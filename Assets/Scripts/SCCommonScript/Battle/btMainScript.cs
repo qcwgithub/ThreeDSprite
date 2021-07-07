@@ -165,11 +165,11 @@ namespace Script
             this.addToPhysicsScene(battle, obj);
         }
 
-        public btCharacter addCharacter(btBattle battle)
+        public btCharacter addCharacter(btBattle battle, int characterId)
         {
             btCharacter character = new btCharacter();
             character.type = btObjectType.character;
-            character.id = battle.nextCharacterId++;
+            character.id = characterId;
             character.bodyType = q3BodyType.eDynamicBody;
             this.addObject(battle, character);
             return character;

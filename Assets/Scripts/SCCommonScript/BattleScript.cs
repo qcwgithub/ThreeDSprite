@@ -24,6 +24,7 @@ namespace Script
             {
                 string tmxText = loadTmx(mapId);
                 mapData = jsonUtils.parse<btTilemapData>(tmxText);
+                configs.tilemapDatas[mapId] = mapData;
             }
 
             for (int i = 0; i < mapData.layerDatas.Count; i++)

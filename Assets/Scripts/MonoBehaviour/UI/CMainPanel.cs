@@ -28,13 +28,22 @@ public class CMainPanel : MonoBehaviour
             if (r.err == ECode.Success)
             {
                 var res = r.res as ResEnterBattle;
-                //CBattleScene.resEnterBattle = res;
-                //CBattleScene.enter();
-                sc.bmServer.resEnterBattle = res;
-                sc.bmServer.start();
+                this.StartCoroutine(this.loginBM(res));
             }
         },
         10000,
         retryOnReconnect: false);
+    }
+
+    IEnumerator loginBM(ResEnterBattle res)
+    {
+        sc.bmServer.resEnterBattle = res;
+        sc.bmServer.playerId = sc.pmServer.playerId;
+        sc.bmServer.start();
+        while (sc.bmServer.status != BMNetworkStatus.LoginToBattleSucceeded)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        CBattleScene.enter();
     }
 }

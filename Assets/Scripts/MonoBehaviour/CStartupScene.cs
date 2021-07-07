@@ -9,13 +9,13 @@ public class CStartupScene : CSceneBase
 {
     public string NextSceneName;
     public CBoardPanel Board;
-    public GameObject LoadingPanelPrefab;
+    public GameObject loadingPanelPrefab;
 
     protected override void Awake()
     {
         sc.pmServer = new PMServer();
         sc.bmServer = new BMServer();
-        sc.LoadingPanelPrefab = this.LoadingPanelPrefab;
+        sc.LoadingPanelPrefab = this.loadingPanelPrefab;
         Board.gameObject.SetActive(false);
         base.Awake();
     }

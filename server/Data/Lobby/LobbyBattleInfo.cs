@@ -7,5 +7,6 @@ namespace Data
         public int bmId;
         public int battleId;
         public List<int> playerIds;
+        public int mapId;
     }
 }

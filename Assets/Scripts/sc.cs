@@ -1,5 +1,6 @@
 using Data;
 using UnityEngine;
+using Script;
 
 public class sc // shortcuts
 {
@@ -10,4 +11,6 @@ public class sc // shortcuts
     public static CSceneBase currentScene;
     public static PMServer pmServer;
     public static BMServer bmServer;
+
+    public static IBattleScripts battleScripts;
 }

@@ -37,7 +37,7 @@ namespace Data
 
         // 配置文件
 
-        public Dictionary<int, btTilemapData> tilemapDatas { get; set; }
-        public Dictionary<string, btTilesetConfig> tilesetConfigs { get; set; }
+        public Dictionary<int, btTilemapData> tilemapDatas { get; } = new Dictionary<int, btTilemapData>();
+        public Dictionary<string, btTilesetConfig> tilesetConfigs { get; } = new Dictionary<string, btTilesetConfig>();
     }
 }

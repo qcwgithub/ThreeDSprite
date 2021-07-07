@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class CPlayerStatus : MonoBehaviour
 {
-    public Image Portrait;
-    public Text Name;
-    public Text Level;
-    public Slider ExpSlider;
+    public Image portrait;
+    public Text nameText;
+    public Text levelText;
+    public Slider expSlider;
 
     public void Init()
     {
@@ -17,9 +17,9 @@ public class CPlayerStatus : MonoBehaviour
 
     public void Refresh()
     {
-        var profile = sc.Profile;
+        // var profile = sc.Profile;
 
-        Name.text = profile.userName;
-        Level.text = "Lv." + profile.level.ToString();
+        // this.nameText.text = profile.userName;
+        // levelText.text = "Lv." + profile.level.ToString();
     }
 }

@@ -12,7 +12,7 @@ public class CPlayerMoney : MonoBehaviour
     }
     public void Refresh()
     {
-        var profile = sc.Profile;
-        Money.text = profile.money.ToString();
+        // var profile = sc.Profile;
+        // Money.text = profile.money.ToString();
     }
 }

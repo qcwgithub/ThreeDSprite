@@ -75,8 +75,11 @@ namespace Script
                 return ECode.NoAvailableBM;
             }
 
+            int mapId = 2;
+
             var msg = new MsgBMCreateBattle();
             msg.battleId = this.getNextBattleId();
+            msg.mapId = mapId;
             MyResponse r = await this.server.tcpClientScript.sendToServerAsync(bmInfo.bmId, MsgType.BMNewBattle, msg);
             if (r.err != ECode.Success)
             {
@@ -87,6 +90,7 @@ namespace Script
             battleInfo.bmId = bmInfo.bmId;
             battleInfo.battleId = msg.battleId;
             battleInfo.playerIds = new List<int>();
+            battleInfo.mapId = mapId;
             bmInfo.battles.Add(battleInfo.battleId, battleInfo);
 
             var res = new ResLobbyCreateBattle();
@@ -136,15 +140,15 @@ namespace Script
             {
                 if (!this.findExistingBattle(out bmInfo, out battleInfo))
                 {
-                    // 没有任何一场战斗可以加入
+                    // 没有任何一场战斗可以加入，新建一场战斗
                     r = await this.newBattle();
                     if (r.err != ECode.Success)
                     {
                         return r;
                     }
-
-                    bmInfo = this.server.lobbyData.bmInfos[(r.res as ResLobbyCreateBattle).bmId];
-                    battleInfo = bmInfo.battles[(r.res as ResLobbyCreateBattle).battleId];
+                    var resLobbyCreateBattle = r.res as ResLobbyCreateBattle;
+                    bmInfo = this.server.lobbyData.bmInfos[resLobbyCreateBattle.bmId];
+                    battleInfo = bmInfo.battles[resLobbyCreateBattle.battleId];
                 }
 
                 r = await this.enterBattle(bmInfo, battleInfo, msg.playerId);
@@ -166,6 +170,7 @@ namespace Script
             res.battleId = lobbyPlayerInfo.battleId;
             res.bmIp = this.server.getKnownLoc(bmInfo.bmId).outIp;
             res.bmPort = this.server.getKnownLoc(bmInfo.bmId).outPort;
+            res.mapId = battleInfo.mapId;
             return new MyResponse(ECode.Success, res);
         }
     }

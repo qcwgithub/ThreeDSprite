@@ -9,6 +9,7 @@ namespace Data
         public int id;
         public FVector3 pos;
         public FVector3 moveDir;
+        public int walkableId;
     }
     public class MBattleData
     {

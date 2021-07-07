@@ -5,7 +5,7 @@ using UnityEngine;
 public class CSceneBase : MonoBehaviour
 {
     public Canvas Canvas;
-    protected virtual bool CarePMConnection => true;
+    protected virtual bool carePMConnection => true;
 
     protected virtual void Awake()
     {
@@ -19,7 +19,7 @@ public class CSceneBase : MonoBehaviour
         sc.loadingPanel = go.GetComponent<CLoadingPanel>();
         go.GetComponent<RectTransform>().SetParent(this.Canvas.GetComponent<RectTransform>(), false);
 
-        if (this.CarePMConnection)
+        if (this.carePMConnection)
         {
             sc.pmServer.OnStatusChange += this.onPMServerStatusChange;
             if (sc.pmServer.status != PMNetworkStatus.LoginToGSucceeded)

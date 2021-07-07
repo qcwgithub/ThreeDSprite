@@ -5,9 +5,13 @@
     {
       "id": 1,
       "name": "Background",
-      "y": 0.0,
+      "offset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
       "objectType": 0,
-      "thingDatas": [
+      "tileDatas": [
         {
           "id": 2,
           "tileset": "grasses.tsx",
@@ -6284,9 +6288,13 @@
     {
       "id": 629,
       "name": "Background2",
-      "y": 0.0,
+      "offset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
       "objectType": 0,
-      "thingDatas": [
+      "tileDatas": [
         {
           "id": 630,
           "tileset": "grasses.tsx",
@@ -6473,9 +6481,13 @@
     {
       "id": 648,
       "name": "Background2.5",
-      "y": 0.0,
+      "offset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
       "objectType": 0,
-      "thingDatas": [
+      "tileDatas": [
         {
           "id": 649,
           "tileset": "grounds.tsx",
@@ -6712,9 +6724,13 @@
     {
       "id": 672,
       "name": "Background3",
-      "y": 0.0,
+      "offset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
       "objectType": 0,
-      "thingDatas": [
+      "tileDatas": [
         {
           "id": 673,
           "tileset": "grounds.tsx",
@@ -6821,9 +6837,13 @@
     {
       "id": 683,
       "name": "Ground",
-      "y": 0.0,
+      "offset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
       "objectType": 2,
-      "thingDatas": [
+      "tileDatas": [
         {
           "id": 684,
           "tileset": "grounds.tsx",
@@ -7220,9 +7240,13 @@
     {
       "id": 723,
       "name": "Stones",
-      "y": 0.0,
+      "offset": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
       "objectType": 0,
-      "thingDatas": [
+      "tileDatas": [
         {
           "id": 724,
           "tileset": "flowers.tsx",

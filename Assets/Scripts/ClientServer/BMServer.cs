@@ -9,6 +9,7 @@ using System;
 public class BMServer : ClientServer
 {
     public ResEnterBattle resEnterBattle { get; set; }
+    public int playerId { get; set; }
     public override bool isConnected => throw new System.NotImplementedException();
 
     public BMNetworkStatus status { get; protected set; } = BMNetworkStatus.Init;
@@ -40,7 +41,7 @@ public class BMServer : ClientServer
     public event Action<bool> OnBMConnectionChange;
     private int loginSucCount = 0;
 
-    
+
     private LoginBMFailAdvice getLoginBMFailAdvice(MyResponse r, int bmConnectFailCount, bool isReconnect)
     {
         var ret = new LoginBMFailAdvice
@@ -93,7 +94,7 @@ public class BMServer : ClientServer
     {
         var msg = new BMMsgPlayerLogin();
         msg.battleId = this.resEnterBattle.battleId;
-        msg.playerId = 0;
+        msg.playerId = this.playerId;
         msg.token = "";
         return msg;
     }

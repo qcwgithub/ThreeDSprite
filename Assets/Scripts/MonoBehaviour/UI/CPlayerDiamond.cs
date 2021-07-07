@@ -12,7 +12,7 @@ public class CPlayerDiamond : MonoBehaviour
     }
     public void Refresh()
     {
-        var profile = sc.Profile;
-        Diamond.text = profile.diamond.ToString();
+        // var profile = sc.Profile;
+        // Diamond.text = profile.diamond.ToString();
     }
 }

@@ -150,7 +150,7 @@ namespace Script
         {
             BattleScript.loadMap(new Script.JsonUtils(), configs, mapId,
                 mapId => this.loadGameText("Imported/Egzd/map" + mapId + ".tmx.json"),
-                tileset => this.loadGameText("Imported/Egzd/" + tileset + ".tsx.json"));
+                tileset => this.loadGameText("Imported/Egzd/" + tileset + ".json"));
         }
     }
 }
