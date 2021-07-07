@@ -11,3 +11,4 @@ ThreeDSprite2.sln
 *.csproj
 Temp/
 server/bin/
+server/gameConfig/
