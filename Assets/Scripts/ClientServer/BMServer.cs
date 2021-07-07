@@ -36,7 +36,7 @@ public class BMServer : ClientServer
     }
 
     private TcpClientScriptC protoBM = null;
-    public ResBMPlayerLogin resBM { get; private set; }
+    public BMResPlayerLogin resBM { get; private set; }
     public event Action<bool> OnBMConnectionChange;
     private int loginSucCount = 0;
 
@@ -89,9 +89,9 @@ public class BMServer : ClientServer
         return ret;
     }
 
-    MsgBMPlayerLogin getMsgBM(bool isReconnect)
+    BMMsgPlayerLogin getMsgBM(bool isReconnect)
     {
-        var msg = new MsgBMPlayerLogin();
+        var msg = new BMMsgPlayerLogin();
         msg.battleId = this.resEnterBattle.battleId;
         msg.playerId = 0;
         msg.token = "";
@@ -188,7 +188,7 @@ public class BMServer : ClientServer
             if (rBM.err == ECode.Success)
             {
                 bmConnectFailCount = 0;
-                this.resBM = rBM.res as ResBMPlayerLogin;
+                this.resBM = rBM.res as BMResPlayerLogin;
 
                 // TODO 放这好像不对
                 //if (TimeMgr.Instance != null)
