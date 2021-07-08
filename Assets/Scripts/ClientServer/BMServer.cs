@@ -31,6 +31,12 @@ public class BMServer : ClientServer
         }
     }
 
+    Dictionary<MsgType, OnMessageBase> handlerDict = new Dictionary<MsgType, OnMessageBase>();
+    public void initHandlers()
+    {
+        this.handlerDict.Add(MsgType.BMMove, new OnBMResMove());
+    }
+
     public override void start()
     {
         this.loginProcedure();
@@ -240,5 +246,100 @@ public class BMServer : ClientServer
     void onFirstLoginBMSuccess()
     {
 
+    }
+
+    private List<CachedRequest> cachedRequests = new List<CachedRequest>();
+    private void resendTimeoutRequests()
+    {
+        if (this.cachedRequests.Count > 0)
+        {
+            var arr = this.cachedRequests;
+            this.cachedRequests = new List<CachedRequest>();
+
+            for (var i = 0; i < arr.Count; i++)
+            {
+                var req = arr[i];
+                Debug.Log("just connected, resend request ONCE for MsgType." + req.type);
+                this.request(req.type, req.msg, req.block, req.cb, req.timeoutMs, false);
+            }
+            arr.Clear();
+        }
+    }
+
+    public override void send(MsgType type, object _msg)
+    {
+        if (this.destroyed)
+        {
+            return;
+        }
+        Debug.Log("send " + type);
+        this.protoBM.send(type, _msg, (ECode err, object res) =>
+        {
+            Debug.Log(string.Format("send response {0}", err));
+        }, 10000);
+    }
+
+    public override void request(MsgType type, object _msg, bool block, Action<MyResponse> cb, int timeoutMs = 10000, bool retryOnReconnect = true)
+    {
+        if (this.destroyed)
+        {
+            return;
+        }
+        Debug.Log("request " + type);
+
+        if (block)
+        {
+            this.showRequestLoading(true, timeoutMs / 1000);
+        }
+        this.protoBM.send(type, _msg, (ECode err, object res) =>
+        {
+            Debug.Log(string.Format("response {0},{1}", err, JsonUtils.ToJson(res)));
+
+            var r = new MyResponse(err, res);
+            if (block)
+            {
+                this.showRequestLoading(false, 0);
+            }
+
+            if (retryOnReconnect && (r.err == ECode.NotConnected || r.err == ECode.Timeout))
+            {
+                Debug.Log("ECode." + r.err + "! Cache request MsgType." + type);
+                var cachedReq = new CachedRequest { type = type, msg = _msg, block = block, cb = cb, timeoutMs = timeoutMs };
+                this.cachedRequests.Add(cachedReq);
+            }
+            else
+            {
+                this.reply2(cb, r);
+                this.checkTimeJump(r);
+            }
+        }, timeoutMs);
+    }
+
+    // 检测客户端调时间
+    private int TIMEGAP = 10000;
+    private void checkTimeJump(object msg)
+    {
+        // if (!TimeMgr.Instance.hasServerTime())
+        // {
+        //     return;
+        // }
+        // var stime = msg[MagicValue.MSG_SERVERTIME];
+        // if (!(stime > 0))
+        // {
+        //     return;
+        // }
+        // var ctime = TimeMgr.Instance.getTime();
+        // var delta = stime - ctime;
+
+        // if (CC_DEBUG)
+        // {
+        //     Debug.Log("stime " + stime + " ctime " + ctime + " delta " + delta);
+        // }
+        // if (delta > -this.TIMEGAP && delta < this.TIMEGAP)
+        // {
+        //     return;
+        // }
+        // Bugly.error("server", "stime " + stime + " ctime " + ctime + " delta " + delta);
+        // setTimeout(() => Bootstrap.Instance.logout(), 10);
     }
 }

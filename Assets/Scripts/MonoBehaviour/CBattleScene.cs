@@ -124,19 +124,33 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
         
         this.InputManager.OnInput += (Vector3 dir) =>
         {
-            if (myCharacter.walkable == null)
-            {
-                dir.y = -1f;
-            }
+            // if (myCharacter.walkable == null)
+            // {
+            //     dir.y = -1f;
+            // }
+            
+            
+
             if (dir != Vector3.zero)
             {
                 // Vector3 delta = this.Speed * Time.deltaTime * dir;
-                this.moveScript.characterMove(myCharacter, dir);
+                // this.moveScript.characterMove(myCharacter, dir);
             }
             else
             {
-                this.moveScript.characterStopMove(myCharacter);
+                // this.moveScript.characterStopMove(myCharacter);
             }
         };
+    }
+
+    void Update()
+    {
+        this.mainScript.update(this.battle, Time.deltaTime);
+    }
+
+    protected override void OnDestroy()
+    {
+        this.mainScript.destroyBattle(this.battle);
+        base.OnDestroy();
     }
 }

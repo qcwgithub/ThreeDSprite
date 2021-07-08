@@ -33,6 +33,8 @@ namespace Data
     
     public class BMMsgMove : ISerializable
     {
+        public static BMMsgMove shared = new BMMsgMove();
+        
         public FVector3 moveDir;
     }
     public class BMResMove : ISerializable

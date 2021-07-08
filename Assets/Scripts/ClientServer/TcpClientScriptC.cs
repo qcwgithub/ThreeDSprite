@@ -18,6 +18,7 @@ namespace Script
         TcpClientData _tcpClientData;
         private string ip;
         private int port;
+        public event Action<TcpClientData, MsgType, object, Action<ECode, object>> onReceiveMessageFromServer;
         public TcpClientScriptC(string ip, int port)
         {
             _tcpClientData = new TcpClientData();
@@ -35,7 +36,15 @@ namespace Script
                 dispatch = (tcpClient, msgType, msg, reply) =>
                 {
                     // this.dispatcher.dispatch(tcpClient, msgType, msg, reply),
-                    Debug.LogError("receieve message from server");
+
+                    if (this.onReceiveMessageFromServer != null)
+                    {
+                        this.onReceiveMessageFromServer(tcpClient, msgType, msg, reply);
+                    }
+                    else
+                    {
+                        Debug.LogError("receieve message from server, no handler");
+                    }
                 }
             };
         }

@@ -33,7 +33,7 @@ public abstract class ClientServer
     {
         this.destroyed = true;
     }
-    
+
     public abstract bool isConnected { get; }
     public abstract void start();
 
@@ -77,6 +77,11 @@ public abstract class ClientServer
             }
         }
         cb(r);
+    }
+
+    public virtual void send(MsgType type, object _msg)
+    {
+        
     }
 
     public virtual void request(MsgType type, object _msg, bool block, Action<MyResponse> cb, int timeoutMs = 10000, bool retryOnReconnect = true)
