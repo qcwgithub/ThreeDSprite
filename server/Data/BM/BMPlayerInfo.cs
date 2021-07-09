@@ -4,8 +4,10 @@ namespace Data
     {
         public int playerId;
         public string token;
-        public int battleId;
+        public TcpClientData socket;
+        // public int battleId;
         // public int characterId;
+        public BMBattleInfo battleInfo;
         public btCharacter character;
     }
 }

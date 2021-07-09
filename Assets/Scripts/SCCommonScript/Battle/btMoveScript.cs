@@ -8,11 +8,17 @@ namespace Script
 {
     public class btMoveScript : btScriptBase
     {
-        public ECode characterMove(btCharacter character, Vector3 moveDir)
+        public ECode characterMove(btBattle battle, int characterId, Vector3 moveDir)
         {
             if (!(moveDir.x >= -1f && moveDir.x <= 1f && moveDir.y >= -1f && moveDir.y <= 1f && moveDir.z >= -1f && moveDir.z <= 1f))
             {
                 return ECode.InvalidParam;
+            }
+
+            btCharacter character = battle.GetCharacter(characterId);
+            if (character == null)
+            {
+                return ECode.CharacterNotExist;
             }
 
             character.moveDir = moveDir;

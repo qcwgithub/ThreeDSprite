@@ -29,13 +29,17 @@ namespace Script
             //     return ECode.InvalidToken.toTask();
             // }
 
-            if (playerInfo.battleId > 0 && playerInfo.battleId != msg.battleId)
+            if (playerInfo.battleInfo != null && playerInfo.battleInfo != battleInfo)
             {
                 return ECode.Error.toTask();
             }
 
+            playerInfo.socket = socket;
+
+            playerInfo.battleInfo = battleInfo;
+
             // add into battle
-            playerInfo.battleId = msg.battleId;
+            // playerInfo.battleId = msg.battleId;
             if (playerInfo.character == null)
             {
                 // playerInfo.characterId = this

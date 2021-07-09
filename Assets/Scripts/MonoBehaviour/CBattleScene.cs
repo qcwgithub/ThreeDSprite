@@ -21,7 +21,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     public btMoveScript moveScript { get; set; }
     public btMainScript mainScript { get; set; }
 
-    btBattle battle;
+    public btBattle battle { get; private set; }
     private BtScene Map;
 
     public int battleId;

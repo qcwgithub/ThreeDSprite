@@ -16,13 +16,29 @@ namespace Script
                 return ECode.PlayerNotExist.toTask();
             }
 
-            
-            
-            ECode e = this.server.moveScript.characterMove(player.character, FVector3.ToVector3(msg.moveDir));
+            if (player.character == null)
+            {
+                return ECode.PlayerHasNoCharacter.toTask();
+            }
+
+            // player.battleInfo
+
+            // BMBattleInfo battleInfo = this.server.bmData.GetBattleInfo(player.battleId);
+            // if (battleInfo == null)
+            // {
+            //     return ECode.BattleNotExist.toTask();
+            // }
+
+            ECode e = this.server.moveScript.characterMove(player.battleInfo.battle, player.character.id, FVector3.ToVector3(msg.moveDir));
             if (e != ECode.Success)
             {
                 return e.toTask();
             }
+
+            var res = new BMResMove();
+            res.characterId = player.character.id;
+            res.moveDir = msg.moveDir;
+            this.broadcast(player.battleInfo, this.msgType, res);
             
             return ECode.Success.toTask();
         }

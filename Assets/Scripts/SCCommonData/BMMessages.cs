@@ -39,6 +39,7 @@ namespace Data
     }
     public class BMResMove : ISerializable
     {
-        
+        public int characterId;
+        public FVector3 moveDir;
     }
 }
