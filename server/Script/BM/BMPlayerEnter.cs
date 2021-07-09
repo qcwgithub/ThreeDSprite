@@ -11,20 +11,21 @@ namespace Script
             var msg = this.server.castObject<MsgBMPlayerEnter>(_msg);
             this.server.logger.Info(this.msgName + ", playerId: " + msg.playerId);
 
-            BMBattleInfo battleInfo;
-            if (!this.server.bmData.battleInfos.TryGetValue(msg.battleId, out battleInfo))
+            BMBattleInfo battle = this.server.bmData.GetBattle(msg.battleId);
+            if (battle == null)
             {
                 return ECode.BattleNotExist.toTask();
             }
 
-            if (battleInfo.players.ContainsKey(msg.playerId))
+            BMPlayerInfo player = battle.GetPlayer(msg.playerId);
+            if (player != null)
             {
                 return ECode.BattleAlreadyContainsPlayer.toTask();
             }
 
-            BMPlayerInfo playerInfo = new BMPlayerInfo();
-            playerInfo.playerId = msg.playerId;
-            battleInfo.players.Add(msg.playerId, playerInfo);
+            player = this.server.mainScript.addPlayer(battle, msg.playerId);            
+            player.token = "";
+            player.socket = null;
 
             var res = new ResBMPlayerEnter();
             res.token = "";

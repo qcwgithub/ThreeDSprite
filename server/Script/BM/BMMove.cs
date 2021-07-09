@@ -29,7 +29,7 @@ namespace Script
             //     return ECode.BattleNotExist.toTask();
             // }
 
-            ECode e = this.server.moveScript.characterMove(player.battleInfo.battle, player.character.id, FVector3.ToVector3(msg.moveDir));
+            ECode e = this.server.moveScript.characterMove(player.battle, player.character.id, FVector3.ToVector3(msg.moveDir));
             if (e != ECode.Success)
             {
                 return e.toTask();
@@ -38,7 +38,7 @@ namespace Script
             var res = new BMResMove();
             res.characterId = player.character.id;
             res.moveDir = msg.moveDir;
-            this.broadcast(player.battleInfo, this.msgType, res);
+            this.broadcast(player.battle, this.msgType, res);
             
             return ECode.Success.toTask();
         }

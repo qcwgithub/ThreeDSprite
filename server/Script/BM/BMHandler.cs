@@ -11,9 +11,9 @@ namespace Script
             return (obj == null ? null : (BMPlayerInfo)obj);
         }
 
-        public void broadcast(BMBattleInfo battleInfo, MsgType msgType, object msg_, int excludePlayerId = 0)
+        public void broadcast(BMBattleInfo battle, MsgType msgType, object msg_, int excludePlayerId = 0)
         {
-            foreach (var kv in battleInfo.players)
+            foreach (var kv in battle.playerDict)
             {
                 BMPlayerInfo playerInfo = kv.Value;
                 if (excludePlayerId > 0 && playerInfo.playerId == excludePlayerId)

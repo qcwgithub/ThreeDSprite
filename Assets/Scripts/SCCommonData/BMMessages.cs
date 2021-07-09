@@ -4,17 +4,7 @@ using Data;
 
 namespace Data
 {
-    public class MCharacter
-    {
-        public int id;
-        public FVector3 pos;
-        public FVector3 moveDir;
-        public int walkableId;
-    }
-    public class MBattleData
-    {
-        public List<MCharacter> characters;
-    }
+    ///////////////////////////////////////////////////////////
 
     public class BMMsgPlayerLogin : ISerializable
     {
@@ -22,14 +12,22 @@ namespace Data
         public int playerId;
         public string token;
     }
+    public class MCharacter
+    {
+        public int characterId;
+        public FVector3 pos;
+        public FVector3 moveDir;
+        public int walkableId;
+    }
     public class BMResPlayerLogin : ISerializable
     {
-        // scene data!
-        public int battleId;
-        public int mapId;
-        public int characterId;
-        public MBattleData battleData;
+        public BMBattleInfo battle;
+
+        // key = playerId
+        public Dictionary<int, MCharacter> characterDict;
     }
+
+    ///////////////////////////////////////////////////////////
     
     public class BMMsgMove : ISerializable
     {
@@ -37,6 +35,7 @@ namespace Data
         
         public FVector3 moveDir;
     }
+
     public class BMResMove : ISerializable
     {
         public int characterId;

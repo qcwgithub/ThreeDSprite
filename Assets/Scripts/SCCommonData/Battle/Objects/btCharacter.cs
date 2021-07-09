@@ -7,7 +7,8 @@ namespace Data
 {
     public class btCharacter : btObject, btIHasPosition
     {
-        public event Action<Vector3> PosChanged;
+        // public event Action<Vector3> PosChanged;
+        public int playerId;
 
         public btIWalkable walkable;
 

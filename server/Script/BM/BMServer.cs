@@ -15,6 +15,10 @@ namespace Script
 
         public btMainScript mainScript { get; set; }
         public btMoveScript moveScript { get; set; }
+        public btCreateScript createScript { get; set; }
+        public btContactListenerScript contactListenerScript { get; set; }
+        public btDestroyScript destroyScript { get; set; }
+        public btUpdateScript updateScript { get; set; }
 
         public override void OnLoad(DataEntry dataEntry, int id, int version)
         {

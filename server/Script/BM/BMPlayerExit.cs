@@ -10,19 +10,19 @@ namespace Script
         {
             var msg = this.server.castObject<MsgBMPlayerExit>(_msg);
             
-            BMBattleInfo battleInfo;
-            if (!this.server.bmData.battleInfos.TryGetValue(msg.battleId, out battleInfo))
+            BMBattleInfo battle = this.server.bmData.GetBattle(msg.battleId);
+            if (battle == null)
             {
                 return ECode.BattleNotExist.toTask();
             }
 
-            BMPlayerInfo playerInfo;
-            if (!battleInfo.players.TryGetValue(msg.playerId, out playerInfo))
+            BMPlayerInfo player = battle.GetPlayer(msg.playerId);
+            if (player == null)
             {
                 return ECode.PlayerNotInBattle.toTask();
             }
 
-            battleInfo.players.Remove(msg.playerId);
+            battle.playerDict.Remove(msg.playerId);
 
             return ECode.Error.toTask();
         }

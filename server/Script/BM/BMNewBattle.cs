@@ -9,7 +9,7 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.castObject<MsgBMCreateBattle>(_msg);
-            if (this.server.bmData.battleInfos.ContainsKey(msg.battleId))
+            if (this.server.bmData.battleDict.ContainsKey(msg.battleId))
             {
                 return ECode.MapAlreadyExist.toTask();
             }
@@ -20,11 +20,8 @@ namespace Script
                 return ECode.MapDataNotExist.toTask();
             }
 
-            BMBattleInfo battleInfo = new BMBattleInfo();
-            battleInfo.battleId = msg.battleId;
-            battleInfo.battle = this.server.mainScript.newBattle(msg.mapId);
-
-            this.server.bmData.battleInfos.Add(msg.battleId, battleInfo);
+            BMBattleInfo battle = this.server.createScript.newBattle(msg.battleId, msg.mapId);
+            this.server.bmData.battleDict.Add(msg.battleId, battle);
 
             return ECode.Success.toTask();
         }

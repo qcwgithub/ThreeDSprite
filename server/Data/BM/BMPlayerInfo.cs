@@ -1,13 +1,15 @@
+using Newtonsoft.Json;
+
 namespace Data
 {
-    public class BMPlayerInfo
+    public partial class BMPlayerInfo
     {
-        public int playerId;
+        [JsonIgnore]
         public string token;
+        
+        [JsonIgnore]
         public TcpClientData socket;
         // public int battleId;
         // public int characterId;
-        public BMBattleInfo battleInfo;
-        public btCharacter character;
     }
 }

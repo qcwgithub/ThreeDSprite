@@ -12,14 +12,14 @@ namespace Script
         {
             var msg = this.server.castObject<BMMsgPlayerLogin>(_msg);
 
-            BMBattleInfo battleInfo;
-            if (!this.server.bmData.battleInfos.TryGetValue(msg.battleId, out battleInfo))
+            BMBattleInfo battle = this.server.bmData.GetBattle(msg.battleId);
+            if (battle == null)
             {
                 return ECode.BattleNotExist.toTask();
             }
 
-            BMPlayerInfo playerInfo;
-            if (!battleInfo.players.TryGetValue(msg.playerId, out playerInfo))
+            BMPlayerInfo player = battle.GetPlayer(msg.playerId);
+            if (player == null)
             {
                 return ECode.PlayerNotInBattle.toTask();
             }
@@ -29,48 +29,47 @@ namespace Script
             //     return ECode.InvalidToken.toTask();
             // }
 
-            if (playerInfo.battleInfo != null && playerInfo.battleInfo != battleInfo)
+            if (player.battle != null && player.battle != battle)
             {
                 return ECode.Error.toTask();
             }
 
-            playerInfo.socket = socket;
+            player.socket = socket;
+            player.battle = battle;
 
-            playerInfo.battleInfo = battleInfo;
+            ////////////////////////////////////////////////////////////////////////
 
-            // add into battle
-            // playerInfo.battleId = msg.battleId;
-            if (playerInfo.character == null)
+            if (player.character == null)
             {
                 // playerInfo.characterId = this
-                playerInfo.character = this.server.mainScript.addCharacter(battleInfo.battle, battleInfo.battleId++);
+                player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId);
 
                 // random walkable
                 btIWalkable chWalkable;
                 Vector3 chPos;
-                this.server.moveScript.randomWalkable(battleInfo.battle, out chWalkable, out chPos);
-                playerInfo.character.walkable = chWalkable;
-                playerInfo.character.pos = chPos;
+                this.server.moveScript.randomWalkable(battle, out chWalkable, out chPos);
+                player.character.walkable = chWalkable;
+                player.character.pos = chPos;
             }
 
+            ////////////////////////////////////////////////////////////////////////
+            // send whole game
+
             var res = new BMResPlayerLogin();
-            res.battleId = battleInfo.battleId;
-            res.mapId = battleInfo.battle.mapId;
-            res.characterId = playerInfo.character.id;
-
-            //------------------------------
-            res.battleData = new MBattleData();
-            res.battleData.characters = new List<MCharacter>();
-            foreach (var kv in battleInfo.battle.characters)
+            res.battle = battle;
+            res.characterDict = new Dictionary<int, MCharacter>();
+            foreach (var kv in battle.playerDict)
             {
-                var character = kv.Value;
-
-                var mc = new MCharacter();
-                mc.id = character.id;
-                mc.pos = FVector3.FromVector3(character.pos);
-                mc.moveDir = FVector3.FromVector3(character.moveDir);
-                mc.walkableId = (character.walkable as btObject).id;
-                res.battleData.characters.Add(mc);
+                var player2 = kv.Value;
+                if (player2.character != null)
+                {
+                    var mc = new MCharacter();
+                    mc.characterId = player2.character.id;
+                    mc.pos = FVector3.FromVector3(player2.character.pos);
+                    mc.moveDir = FVector3.FromVector3(player2.character.moveDir);
+                    mc.walkableId = (player2.character.walkable as btObject).id;
+                    res.characterDict.Add(kv.Key, mc);
+                }
             }
 
             return new MyResponse(ECode.Success, res).toTask();

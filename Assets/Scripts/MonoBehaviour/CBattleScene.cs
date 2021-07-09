@@ -15,17 +15,35 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     public CInputManager InputManager;
     public GameObject characterPrefab;
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    #region IBattleConfigs
+
     public Dictionary<int, btTilemapData> tilemapDatas { get; } = new Dictionary<int, btTilemapData>();
     public Dictionary<string, btTilesetConfig> tilesetConfigs { get; } = new Dictionary<string, btTilesetConfig> ();
 
+    #endregion
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    #region IBattleScripts
+
     public btMoveScript moveScript { get; set; }
     public btMainScript mainScript { get; set; }
+    public btCreateScript createScript { get; set; }
+    public btContactListenerScript contactListenerScript { get; set; }
+    public btDestroyScript destroyScript { get; set; }
+    public btUpdateScript updateScript { get; set; }
 
-    public btBattle battle { get; private set; }
+    #endregion
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    public BMBattleInfo battle { get; private set; }
+
     private BtScene Map;
 
     public int battleId;
     public int mapId;
+    public int myPlayerId;
     public int myCharacerId;
     public btCharacter myCharacter;
 
@@ -40,14 +58,23 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
         CLoadingScene.s_enterScene("Battle");
     }
 
+    Vector3 lastInputDir = Vector3.zero;
     protected void Start()
     {
         Application.targetFrameRate = 60;
 
+        this.myPlayerId = sc.pmServer.playerId;
+
         BMResPlayerLogin res = sc.bmServer.resBM;
-        this.battleId = res.battleId;
-        this.myCharacerId = res.characterId;
-        this.mapId = res.mapId;
+        this.battleId = res.battle.battleId;
+        this.mapId = res.battle.mapId;
+
+        // myCharacter may be 0
+        this.myCharacerId = 0;
+        if (res.characterDict.ContainsKey(this.myPlayerId))
+        {
+            this.myCharacerId = res.characterDict[this.myPlayerId].characterId;
+        }
 
         /////////////////////////////////////////////////////////////////////////////
 
@@ -80,7 +107,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
 
         /////////////////////////////////////////////////////////////////////////////
 
-        this.battle = this.mainScript.newBattle(this.mapId);
+        this.battle = this.createScript.newBattle(res.battle.battleId, res.battle.mapId);
 
         /////////////////////////////////////////////////////////////////////////////
 
@@ -98,11 +125,13 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
 
         /////////////////////////////////////////////////////////////////////////////
 
-        for (int i = 0; i < res.battleData.characters.Count; i++)
+        foreach (var kv in res.characterDict)
         {
+            int playerId = kv.Key;
+            MCharacter mc = kv.Value;
+
             ////
-            MCharacter mc = res.battleData.characters[i];
-            btCharacter character = this.mainScript.addCharacter(this.battle, mc.id);
+            btCharacter character = this.mainScript.addCharacter(this.battle, mc.characterId, playerId);
             character.walkable = this.battle.walkables[mc.walkableId];
             character.pos = FVector3.ToVector3(mc.pos);
 
@@ -114,7 +143,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
             char_go.SetActive(true);
 
             ////
-            if (mc.id == this.myCharacerId)
+            if (mc.characterId == this.myCharacerId)
             {
                 this.myCharacter = character;
             }
@@ -128,29 +157,26 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
             // {
             //     dir.y = -1f;
             // }
-            
-            
 
-            if (dir != Vector3.zero)
+            if (dir != this.lastInputDir)            
             {
-                // Vector3 delta = this.Speed * Time.deltaTime * dir;
-                // this.moveScript.characterMove(myCharacter, dir);
-            }
-            else
-            {
-                // this.moveScript.characterStopMove(myCharacter);
+                this.lastInputDir = dir;
+
+                var msg = BMMsgMove.shared;
+                msg.moveDir = FVector3.FromVector3(dir);
+                sc.bmServer.send(MsgType.BMMove, msg);
             }
         };
     }
 
     void Update()
     {
-        this.mainScript.update(this.battle, Time.deltaTime);
+        this.updateScript.update(this.battle, Time.deltaTime);
     }
 
     protected override void OnDestroy()
     {
-        this.mainScript.destroyBattle(this.battle);
+        this.destroyScript.destroyBattle(this.battle);
         base.OnDestroy();
     }
 }

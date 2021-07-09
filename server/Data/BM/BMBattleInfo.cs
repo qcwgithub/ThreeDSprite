@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Data
 {
-    public class BMBattleInfo
+    public partial class BMBattleInfo
     {
-        public int battleId;
-        public btBattle battle;
-        public Dictionary<int, BMPlayerInfo> players = new Dictionary<int, BMPlayerInfo>();
+        [JsonIgnore]
+        public int nextCharacterId = 10000;
     }
 }

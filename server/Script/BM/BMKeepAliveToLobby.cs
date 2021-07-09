@@ -42,7 +42,7 @@ namespace Script
                 this.logger.Info("alive.requireBattleList = true");
                 alive.requireBattleList = false;
                 playerList = new List<int>();
-                foreach (var kv in this.server.bmData.battleInfos)
+                foreach (var kv in this.server.bmData.battleDict)
                 {
                     playerList.Add(kv.Key);
                 }
