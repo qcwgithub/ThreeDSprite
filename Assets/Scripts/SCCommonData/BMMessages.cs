@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Data;
+using MessagePack;
+using UnityEngine;
 
 namespace Data
 {
@@ -15,8 +17,8 @@ namespace Data
     public class MCharacter
     {
         public int characterId;
-        public FVector3 pos;
-        public FVector3 moveDir;
+        public Vector3 pos;
+        public Vector3 moveDir;
         public int walkableId;
     }
     public class BMResPlayerLogin : ISerializable
@@ -29,16 +31,20 @@ namespace Data
 
     ///////////////////////////////////////////////////////////
     
+    [MessagePackObject]
     public class BMMsgMove : ISerializable
     {
         public static BMMsgMove shared = new BMMsgMove();
-        
-        public FVector3 moveDir;
+        [Key(0)]
+        public Vector3 moveDir;
     }
 
+    [MessagePackObject]
     public class BMResMove : ISerializable
     {
+        [Key(0)]
         public int characterId;
-        public FVector3 moveDir;
+        [Key(1)]
+        public Vector3 moveDir;
     }
 }

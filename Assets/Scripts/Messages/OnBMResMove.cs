@@ -7,6 +7,6 @@ public class OnBMResMove : OnMessageBase
     {
         var res = this.CastMsg<BMResMove>(msg_);
         sc.battleScene.moveScript.characterMove(
-            sc.battleScene.battle, res.characterId, FVector3.ToVector3(res.moveDir));
+            sc.battleScene.battle, res.characterId, res.moveDir);
     }
 }

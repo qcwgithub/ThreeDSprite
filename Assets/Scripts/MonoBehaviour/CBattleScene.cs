@@ -133,7 +133,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
             ////
             btCharacter character = this.mainScript.addCharacter(this.battle, mc.characterId, playerId);
             character.walkable = this.battle.walkables[mc.walkableId];
-            character.pos = FVector3.ToVector3(mc.pos);
+            character.pos = mc.pos;
 
             ////
             GameObject char_go = GameObject.Instantiate(this.characterPrefab);
@@ -163,7 +163,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
                 this.lastInputDir = dir;
 
                 var msg = BMMsgMove.shared;
-                msg.moveDir = FVector3.FromVector3(dir);
+                msg.moveDir = dir;
                 sc.bmServer.send(MsgType.BMMove, msg);
             }
         };
