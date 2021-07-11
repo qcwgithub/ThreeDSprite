@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Script", "Script\Script.csproj", "{ED9249BA-D585-4D8C-A90F-4889863F699C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGen", "CodeGen\CodeGen.csproj", "{AC611762-ECD8-47A5-B051-05B9521003AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{ED9249BA-D585-4D8C-A90F-4889863F699C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED9249BA-D585-4D8C-A90F-4889863F699C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED9249BA-D585-4D8C-A90F-4889863F699C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC611762-ECD8-47A5-B051-05B9521003AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC611762-ECD8-47A5-B051-05B9521003AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC611762-ECD8-47A5-B051-05B9521003AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC611762-ECD8-47A5-B051-05B9521003AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

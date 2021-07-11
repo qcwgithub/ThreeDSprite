@@ -4,6 +4,12 @@ using MessagePack;
 namespace Data
 {
     [MessagePackObject]
+    public class MsgNull
+    {
+
+    }
+    
+    [MessagePackObject]
     public class ResMisc : IJsonSerializable
     {
         [Key(0)]

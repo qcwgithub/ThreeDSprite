@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using MessagePack;
 
 namespace Data
 {
     public partial class BMBattleInfo
     {
-        [JsonIgnore]
+        [IgnoreMember]
         public int nextCharacterId = 10000;
     }
 }

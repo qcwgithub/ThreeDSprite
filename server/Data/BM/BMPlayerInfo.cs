@@ -1,13 +1,13 @@
-using Newtonsoft.Json;
+using MessagePack;
 
 namespace Data
 {
     public partial class BMPlayerInfo
     {
-        [JsonIgnore]
+        [IgnoreMember]
         public string token;
         
-        [JsonIgnore]
+        [IgnoreMember]
         public TcpClientData socket;
         // public int battleId;
         // public int characterId;

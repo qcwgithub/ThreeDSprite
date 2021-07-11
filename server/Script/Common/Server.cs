@@ -51,7 +51,8 @@ namespace Script
             this.dispatcher = new MessageDispatcher { server = this };
             this.utils = new Utils();
             this.JSON = new JsonUtils();
-            this.messagePacker = new JsonMessagePackerS { server = this };
+            // this.messagePacker = new JsonMessagePackerS { server = this };
+            this.messagePacker = new BinaryMessagePacker();
             this.sqlLog = new SqlLog { server = this };
 
 

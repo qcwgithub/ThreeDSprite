@@ -2,16 +2,41 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "CodeGen",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/CodeGen/bin/Debug/netcoreapp3.1/CodeGen.dll",
+            "args": [
+                "${workspaceFolder}/../Assets/Scripts/Gen/mpc.cs",
+                "${workspaceFolder}/../Assets/Scripts/Gen/MessageCode.cs",
+                "${workspaceFolder}/../Assets/Scripts/Gen/BinaryMessagePackerGen.cs",
+                
+                "${workspaceFolder}/Script/Common/Gen/mpc.cs",
+                "${workspaceFolder}/Data/Common/Gen/MessageCode.cs",
+                "${workspaceFolder}/Script/Common/Gen/BinaryMessagePackerGen.cs"
+            ],
+            "cwd": "${workspaceFolder}",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": ".NET Core Launch (console)",
+            "name": "Start Server",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Data/bin/Debug/netcoreapp3.1/Data.dll",
-            "args": ["scriptDll=${workspaceFolder}/Script/bin/Debug/netcoreapp3.1/Script.dll", "purpose=Test", "ids=all"],
+            "args": [
+                "scriptDll=${workspaceFolder}/Script/bin/Debug/netcoreapp3.1/Script.dll",
+                "purpose=Test",
+                "ids=all"
+            ],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",

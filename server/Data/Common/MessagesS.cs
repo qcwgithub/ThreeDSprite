@@ -56,6 +56,8 @@ namespace Data
     {
         DateTime = 1,
     }
+
+/*
     [MessagePackObject]
     public abstract class MsgDBQuery
     {
@@ -71,7 +73,7 @@ namespace Data
         [Key(4)]
         public int expectedCount;
     }
-
+*/
     [MessagePackObject]
     public class MsgQueryAccountByPlayerId
     {
@@ -299,6 +301,8 @@ namespace Data
         [Key(1)]
         public string script;
     }
+
+    [MessagePackObject]
     public class MsgPMAction
     {
         [Key(0)]
@@ -381,15 +385,16 @@ namespace Data
     [MessagePackObject]
     public class MsgLocBroadcastMsgAAAAction : MsgLocBroadcast
     {
-        [Key(0)]
+        [Key(2)]
         public MsgAAAAction msg;
         public override object getMsg() { return msg; }
         public override void setMsg(object _msg) { msg = (MsgAAAAction)_msg; }
     }
+
     [MessagePackObject]
     public class MsgLocBroadcastMsgPMAction : MsgLocBroadcast
     {
-        [Key(0)]
+        [Key(2)]
         public MsgPMAction msg;
         public override object getMsg() { return msg; }
         public override void setMsg(object _msg) { msg = (MsgPMAction)_msg; }

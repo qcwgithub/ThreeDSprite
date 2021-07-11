@@ -96,6 +96,8 @@ namespace Script
         public UnpackResult Unpack(byte[] buffer, ref int offset, int count)
         {
             var r = new UnpackResult();
+
+            int startOffset = offset;
             
             // 4 = total length
             r.totalLength = BitConverter.ToInt32(buffer, offset);
@@ -122,6 +124,9 @@ namespace Script
             r.requireResponse = buffer[offset] == 1;
             offset++;
             count--;
+
+            r.msg = this.UnpackBody(r.messageCode, buffer, offset, count);
+            offset = startOffset + r.totalLength;
 
             r.success = true;
             return r;

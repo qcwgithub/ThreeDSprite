@@ -1,0 +1,44 @@
+namespace Data
+{
+    public enum MessageCode
+    {
+        #region AUTO
+        BMBattleInfo,
+        BMMsgMove,
+        BMMsgPlayerLogin,
+        BMPlayerInfo,
+        BMResMove,
+        BMResPlayerLogin,
+        btBattle,
+        MCharacter,
+        MsgChangeChannel,
+        MsgChangeName,
+        MsgChangePortrait,
+        MsgEnterBattle,
+        MsgGetVipDailyReward,
+        MsgLoginAAA,
+        MsgLoginPM,
+        MsgNull,
+        MsgPay,
+        MsgPayIvyStart,
+        MsgPayLtStart,
+        MsgSyncProfile,
+        MsgUploadProfile,
+        Profile,
+        PurchasedItem,
+        ResChangeChannel,
+        ResChangeName,
+        ResChangePortrait,
+        ResEnterBattle,
+        ResGetVipDailyReward,
+        ResLoginAAA,
+        ResLoginPM,
+        ResMisc,
+        ResMysqlError,
+        ResPay,
+        ResPayIvyStart,
+        ResPayLtStart,
+        ResSyncProfile,
+        #endregion
+    }
+}

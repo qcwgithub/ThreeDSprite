@@ -7,6 +7,8 @@ using log4net;
 using log4net.Config;
 using log4net.Repository;
 using System.Linq;
+using MessagePack.Resolvers;
+using MessagePack;
 
 namespace Script
 {
@@ -47,8 +49,33 @@ namespace Script
         {
             return this.version;
         }
+
+
+
+        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static bool serializerRegistered = false;
+            // init message pack
+        static void Initialize()
+        {
+            if (!serializerRegistered)
+            {
+                StaticCompositeResolver.Instance.Register(
+                     MessagePack.Resolvers.GeneratedResolver.Instance,
+                     MessagePack.Resolvers.StandardResolver.Instance
+                );
+
+                var option = MessagePackSerializerOptions.Standard.WithResolver(StaticCompositeResolver.Instance);
+
+                MessagePackSerializer.DefaultOptions = option;
+                serializerRegistered = true;
+            }
+        }
+
         public bool OnLoad(Dictionary<string, string> args, DataEntry dataEntry, int version)
         {
+            // init message pack
+            Initialize();
+
             this.version = version;
             JsonUtils JSON = new JsonUtils();
             if (!dataEntry.inited)

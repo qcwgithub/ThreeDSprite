@@ -16,7 +16,8 @@ namespace Script
             {
                 if (!inited)
                 {
-                    _code = (MessageCode) Enum.Parse(typeof(MessageCode), typeof(T).Name);
+                    string name = typeof(T).Name;
+                    _code = (MessageCode) Enum.Parse(typeof(MessageCode), name);
                     inited = true;
                 }
                 return _code;
