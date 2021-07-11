@@ -29,6 +29,8 @@ namespace Script
             //     return ECode.InvalidToken.toTask();
             // }
 
+            this.server.tcpClientScript.bindPlayer(socket, player, 0);
+
             if (player.battle != null && player.battle != battle)
             {
                 return ECode.Error.toTask();

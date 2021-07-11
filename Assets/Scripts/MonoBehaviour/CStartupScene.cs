@@ -109,7 +109,7 @@ public class CStartupScene : CSceneBase
     {
         var info = sc.loadingPanel.show("loadServerList", -1);
         info.setMessage("loading server list");
-        string url = $"https://hecxxzdl.jysyx.net/server_list/{PlatformUtils.getPlatformString()}_{ProjectUtils.ProjectName}/{PlatformUtils.getAppVersion()}.txt";
+        string url = $"https://hecxxzdl.jysyx.net/server_list/{PlatformUtils.getPlatformString()}_{ProjectUtils.ProjectName}/{PlatformUtils.getAppVersion()}.txt?t=" + DateTime.Now.Ticks.ToString();
         Debug.Log(url);
 
         while (true)

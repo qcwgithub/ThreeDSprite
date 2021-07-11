@@ -102,6 +102,20 @@ namespace Script
             @this.clientTimestamp = 0;
         }
 
+        public void bindPlayer(TcpClientData @this, BMPlayerInfo player, int clientTimestamp)
+        {
+            player.socket = @this;
+            @this.Player = player;
+            @this.clientTimestamp = clientTimestamp;
+        }
+
+        public void unbindPlayer(TcpClientData @this, BMPlayerInfo player)
+        {
+            player.socket = null;
+            @this.Player = null;
+            @this.clientTimestamp = 0;
+        }
+
         public int getClientTimestamp(TcpClientData @this)
         {
             return @this.clientTimestamp;
