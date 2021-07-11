@@ -45,7 +45,7 @@ namespace Script
                     var allDataTypes = typeof(Data.MsgType).Assembly.GetTypes();
                     foreach (var type in allDataTypes)
                     {
-                        if (typeof(Data.ISerializable).IsAssignableFrom(type))
+                        if (typeof(Data.IJsonSerializable).IsAssignableFrom(type))
                         {
                             _name2Type.Add(type.Name, type);
                         }

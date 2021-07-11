@@ -119,7 +119,7 @@ namespace Script
             return xxx;
         }
 
-        public void send(TcpClientData @this, MsgType msgType, object msg, Action<ECode, object> cb)
+        public void send<T>(TcpClientData @this, MsgType msgType, T msg, Action<ECode, object> cb)
         {
             if (!this.isConnected(@this))
             {

@@ -1,14 +1,21 @@
 using System;
 using System.Numerics;
+using MessagePack;
 
 namespace Data
 {
-    public class Profile : ISerializable
+    [MessagePackObject]
+    public class Profile : IJsonSerializable
     {
+        [Key(0)]
         public int level;
+        [Key(1)]
         public int money;
+        [Key(2)]
         public int diamond;
+        [Key(3)]
         public string portrait;
+        [Key(4)]
         public string userName;        
     }
 }

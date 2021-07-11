@@ -59,7 +59,9 @@ public class CStartupScene : CSceneBase
     IEnumerator Start()
     {
         Data.BMMsgMove bb = new Data.BMMsgMove();
+        bb.moveDir.x = 1.2f;
         var bbbb = MessagePackSerializer.Serialize(bb);
+        var cc = MessagePackSerializer.Deserialize<Data.BMMsgMove>(bbbb);
         SDKManager.Instance.init();
 
         yield return this.downloadServerList();

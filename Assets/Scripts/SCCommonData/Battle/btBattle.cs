@@ -1,23 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Newtonsoft.Json;
+using MessagePack;
 
 namespace Data
 {
+    [MessagePackObject]
     public class btBattle
     {
+        [Key(0)]
         public int mapId;
         
-        [JsonIgnore]
+        [IgnoreMember]
         public Dictionary<int, btObject> objects = new Dictionary<int, btObject>();
         
-        [JsonIgnore]
+        [IgnoreMember]
         public List<btIWalkable> walkables = new List<btIWalkable>();
         // public List<btIObstacle> obstacles = new List<btIObstacle>();
         // public List<btTree> trees = new List<btTree>();
         
-        [JsonIgnore]
+        [IgnoreMember]
         public Dictionary<int, btCharacter> characters = new Dictionary<int, btCharacter>();
         public btCharacter GetCharacter(int characterId)
         {
@@ -29,22 +31,22 @@ namespace Data
             return null;
         }
         
-        [JsonIgnore]
+        [IgnoreMember]
         public Dictionary<IntPtr, btObject> body2Objects = new Dictionary<IntPtr, btObject>();
 
-        [JsonIgnore]
+        [IgnoreMember]
         public IntPtr physicsScene = IntPtr.Zero;
 
-        [JsonIgnore]
+        [IgnoreMember]
         public float[] tempForPosition = new float[3];
 
-        [JsonIgnore]
+        [IgnoreMember]
         public Qu3eApi.ContactDelegate onBeginContactDel;
         
-        [JsonIgnore]
+        [IgnoreMember]
         public Qu3eApi.ContactDelegate onEndContactDel;
         
-        [JsonIgnore]
+        [IgnoreMember]
         public bool updating = false;
     }
 }

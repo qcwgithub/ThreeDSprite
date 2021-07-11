@@ -65,8 +65,8 @@ namespace Script
                 {
                     var mc = new MCharacter();
                     mc.characterId = player2.character.id;
-                    mc.pos = FVector3.FromVector3(player2.character.pos);
-                    mc.moveDir = FVector3.FromVector3(player2.character.moveDir);
+                    mc.pos = player2.character.pos;
+                    mc.moveDir = player2.character.moveDir;
                     mc.walkableId = (player2.character.walkable as btObject).id;
                     res.characterDict.Add(kv.Key, mc);
                 }

@@ -49,10 +49,47 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(2)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(39)
             {
-                { typeof(global::Data.BMMsgMove), 0 },
-                { typeof(global::Data.BMResMove), 1 },
+                { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayerInfo>), 0 },
+                { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.MCharacter>), 1 },
+                { typeof(global::System.Collections.Generic.List<global::Data.PurchasedItem>), 2 },
+                { typeof(global::System.Collections.Generic.List<int>), 3 },
+                { typeof(global::Data.BMBattleInfo), 4 },
+                { typeof(global::Data.BMMsgMove), 5 },
+                { typeof(global::Data.BMMsgPlayerLogin), 6 },
+                { typeof(global::Data.BMPlayerInfo), 7 },
+                { typeof(global::Data.BMResMove), 8 },
+                { typeof(global::Data.BMResPlayerLogin), 9 },
+                { typeof(global::Data.btBattle), 10 },
+                { typeof(global::Data.MCharacter), 11 },
+                { typeof(global::Data.MsgChangeChannel), 12 },
+                { typeof(global::Data.MsgChangeName), 13 },
+                { typeof(global::Data.MsgChangePortrait), 14 },
+                { typeof(global::Data.MsgEnterBattle), 15 },
+                { typeof(global::Data.MsgGetVipDailyReward), 16 },
+                { typeof(global::Data.MsgLoginAAA), 17 },
+                { typeof(global::Data.MsgLoginPM), 18 },
+                { typeof(global::Data.MsgPay), 19 },
+                { typeof(global::Data.MsgPayIvyStart), 20 },
+                { typeof(global::Data.MsgPayLtStart), 21 },
+                { typeof(global::Data.MsgSyncProfile), 22 },
+                { typeof(global::Data.MsgUploadProfile), 23 },
+                { typeof(global::Data.Profile), 24 },
+                { typeof(global::Data.PurchasedItem), 25 },
+                { typeof(global::Data.ResChangeChannel), 26 },
+                { typeof(global::Data.ResChangeName), 27 },
+                { typeof(global::Data.ResChangePortrait), 28 },
+                { typeof(global::Data.ResEnterBattle), 29 },
+                { typeof(global::Data.ResGetVipDailyReward), 30 },
+                { typeof(global::Data.ResLoginAAA), 31 },
+                { typeof(global::Data.ResLoginPM), 32 },
+                { typeof(global::Data.ResMisc), 33 },
+                { typeof(global::Data.ResMysqlError), 34 },
+                { typeof(global::Data.ResPay), 35 },
+                { typeof(global::Data.ResPayIvyStart), 36 },
+                { typeof(global::Data.ResPayLtStart), 37 },
+                { typeof(global::Data.ResSyncProfile), 38 },
             };
         }
 
@@ -66,8 +103,45 @@ namespace MessagePack.Resolvers
 
             switch (key)
             {
-                case 0: return new MessagePack.Formatters.Data.BMMsgMoveFormatter();
-                case 1: return new MessagePack.Formatters.Data.BMResMoveFormatter();
+                case 0: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Data.BMPlayerInfo>();
+                case 1: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Data.MCharacter>();
+                case 2: return new global::MessagePack.Formatters.ListFormatter<global::Data.PurchasedItem>();
+                case 3: return new global::MessagePack.Formatters.ListFormatter<int>();
+                case 4: return new MessagePack.Formatters.Data.BMBattleInfoFormatter();
+                case 5: return new MessagePack.Formatters.Data.BMMsgMoveFormatter();
+                case 6: return new MessagePack.Formatters.Data.BMMsgPlayerLoginFormatter();
+                case 7: return new MessagePack.Formatters.Data.BMPlayerInfoFormatter();
+                case 8: return new MessagePack.Formatters.Data.BMResMoveFormatter();
+                case 9: return new MessagePack.Formatters.Data.BMResPlayerLoginFormatter();
+                case 10: return new MessagePack.Formatters.Data.btBattleFormatter();
+                case 11: return new MessagePack.Formatters.Data.MCharacterFormatter();
+                case 12: return new MessagePack.Formatters.Data.MsgChangeChannelFormatter();
+                case 13: return new MessagePack.Formatters.Data.MsgChangeNameFormatter();
+                case 14: return new MessagePack.Formatters.Data.MsgChangePortraitFormatter();
+                case 15: return new MessagePack.Formatters.Data.MsgEnterBattleFormatter();
+                case 16: return new MessagePack.Formatters.Data.MsgGetVipDailyRewardFormatter();
+                case 17: return new MessagePack.Formatters.Data.MsgLoginAAAFormatter();
+                case 18: return new MessagePack.Formatters.Data.MsgLoginPMFormatter();
+                case 19: return new MessagePack.Formatters.Data.MsgPayFormatter();
+                case 20: return new MessagePack.Formatters.Data.MsgPayIvyStartFormatter();
+                case 21: return new MessagePack.Formatters.Data.MsgPayLtStartFormatter();
+                case 22: return new MessagePack.Formatters.Data.MsgSyncProfileFormatter();
+                case 23: return new MessagePack.Formatters.Data.MsgUploadProfileFormatter();
+                case 24: return new MessagePack.Formatters.Data.ProfileFormatter();
+                case 25: return new MessagePack.Formatters.Data.PurchasedItemFormatter();
+                case 26: return new MessagePack.Formatters.Data.ResChangeChannelFormatter();
+                case 27: return new MessagePack.Formatters.Data.ResChangeNameFormatter();
+                case 28: return new MessagePack.Formatters.Data.ResChangePortraitFormatter();
+                case 29: return new MessagePack.Formatters.Data.ResEnterBattleFormatter();
+                case 30: return new MessagePack.Formatters.Data.ResGetVipDailyRewardFormatter();
+                case 31: return new MessagePack.Formatters.Data.ResLoginAAAFormatter();
+                case 32: return new MessagePack.Formatters.Data.ResLoginPMFormatter();
+                case 33: return new MessagePack.Formatters.Data.ResMiscFormatter();
+                case 34: return new MessagePack.Formatters.Data.ResMysqlErrorFormatter();
+                case 35: return new MessagePack.Formatters.Data.ResPayFormatter();
+                case 36: return new MessagePack.Formatters.Data.ResPayIvyStartFormatter();
+                case 37: return new MessagePack.Formatters.Data.ResPayLtStartFormatter();
+                case 38: return new MessagePack.Formatters.Data.ResSyncProfileFormatter();
                 default: return null;
             }
         }

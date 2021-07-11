@@ -29,7 +29,7 @@ namespace Script
             //     return ECode.BattleNotExist.toTask();
             // }
 
-            ECode e = this.server.moveScript.characterMove(player.battle, player.character.id, FVector3.ToVector3(msg.moveDir));
+            ECode e = this.server.moveScript.characterMove(player.battle, player.character.id, msg.moveDir);
             if (e != ECode.Success)
             {
                 return e.toTask();

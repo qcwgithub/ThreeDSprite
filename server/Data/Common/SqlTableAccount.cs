@@ -1,6 +1,6 @@
 namespace Data
 {
-    public class SqlTableAccount : ISerializable
+    public class SqlTableAccount
     {
         public int playerId;
         public string platform;

@@ -1,202 +1,296 @@
 using System.Collections.Generic;
+using MessagePack;
 
 namespace Data
 {
-    public class ResMisc : ISerializable
+    [MessagePackObject]
+    public class ResMisc : IJsonSerializable
     {
+        [Key(0)]
         public int oldSocketTimestamp;
     }
 
-    public class MsgLoginAAA : ISerializable
+    [MessagePackObject]
+    public class MsgLoginAAA : IJsonSerializable
     {
         // 版本号，如果与服务器不一致，则不允许登录
+        [Key(0)]
         public string version;
 
         // android | ios | 101
+        [Key(1)]
         public string platform;
         // uuid | apple | ...
+        [Key(2)]
         public string channel;
         // 如果 channel == uuid 是 uuid
         // 如果 channel == apple，channelUserId 是苹果 id
+        [Key(3)]
         public string channelUserId;
 
+        [IgnoreMember]
         public Dictionary<string, object> verifyData;
+        [Key(4)]
         public string oaid;
+        [Key(5)]
         public string imei;
     }
 
 
-    public class ResLoginAAA : ISerializable
+    [MessagePackObject]
+    public class ResLoginAAA : IJsonSerializable
     {
+        [Key(0)]
         public string channel;
+        [Key(1)]
         public string channelUserId;
+        [Key(2)]
         public int playerId;
+        [Key(3)]
         public int pmId;
+        [Key(4)]
         public string pmIp;
+        [Key(5)]
         public int pmPort;
+        [Key(6)]
         public string pmToken;
+        [Key(7)]
         public bool needUploadProfile;
     }
 
-    public class MsgChangeChannel : ISerializable
+    [MessagePackObject]
+    public class MsgChangeChannel : IJsonSerializable
     {
+        [Key(0)]
         public string channel1;
+        [Key(1)]
         public string channelUserId1;
 
+        [Key(2)]
         public string channel2;
+        [Key(3)]
         public string channelUserId2;
+        [IgnoreMember]
         public Dictionary<string, object> verifyData2;
 
+        [Key(4)]
         public int playerId; // 由PM赋值，客户端传0
     }
-    public class ResChangeChannel : ISerializable
+    [MessagePackObject]
+    public class ResChangeChannel : IJsonSerializable
     {
+        [Key(0)]
         public bool channel2Exist; // 由 AAA 赋值，true表示要更换的渠道已经存在了，客户端此次不是绑定，而是需要用此号重新登录一下游戏
+        [Key(1)]
         public string userName; // 由 AAA 赋值
+        [Key(2)]
         public int loginReward; // 由 PM 赋值
     }
 
-    public class MsgLoginPM : ISerializable
+    [MessagePackObject]
+    public class MsgLoginPM : IJsonSerializable
     {
+        [Key(0)]
         public bool isReconnect;
+        [Key(1)]
         public int playerId;
+        [Key(2)]
         public string token;
+        [Key(3)]
         public int timestamp;
     }
 
-    public class ResLoginPM : ISerializable
+    [MessagePackObject]
+    public class ResLoginPM : IJsonSerializable
     {
+        [Key(0)]
         public int id;
+        [Key(1)]
         public bool keepSyncProfile;
+        [Key(2)]
         public Profile profile; // 重连时为 null
+        [Key(3)]
         public int timeMs;
+        [Key(4)]
         public int timezoneOffset;
 
         // 以下几个只需要在重连时使用
+        [Key(5)]
         public int offlineBonusTime; // 不管是不是重连，都有值。如果不是重连，值等于 profile.offlineBonus.time
+        [Key(6)]
         public int totalGameTimeMs; // 不管是不是重连，都有值。
+        [Key(7)]
         public int totalLoginTimes; // 不管是不是重连，都有值。
+        [Key(8)]
         public int diamond; // 不管是不是重连，都有值。
         //--------------------------------public IapLeitingInfo[] ltProducts; // 不管是不是重连，都有值。
+        [Key(9)]
         public string payNotifyUri; // 不管是不是重连，都有值。
     }
 
     ///////////////////////////////////////////////////////////
 
-    public class MsgUploadProfile : ISerializable
+    [MessagePackObject]
+    public class MsgUploadProfile : IJsonSerializable
     {
         //--------------------------------public CProfile profile;
     }
 
     // 与 ProfileType 一一对应
-    public class MsgSyncProfile : ISerializable
+    [MessagePackObject]
+    public class MsgSyncProfile : IJsonSerializable
     {
 
     }
-    public class ResSyncProfile : ISerializable
+    [MessagePackObject]
+    public class ResSyncProfile : IJsonSerializable
     {
     }
-    public class MsgChangeName : ISerializable
+    [MessagePackObject]
+    public class MsgChangeName : IJsonSerializable
     {
+        [Key(0)]
         public string name;
     }
-    public class ResChangeName : ISerializable
+    [MessagePackObject]
+    public class ResChangeName : IJsonSerializable
     {
 
     }
 
-    public class MsgChangePortrait : ISerializable
+    [MessagePackObject]
+    public class MsgChangePortrait : IJsonSerializable
     {
+        [Key(0)]
         public string portrait;
     }
-    public class ResChangePortrait : ISerializable
+    [MessagePackObject]
+    public class ResChangePortrait : IJsonSerializable
     {
 
     }
 
-    public class MsgGetVipDailyReward : ISerializable
+    [MessagePackObject]
+    public class MsgGetVipDailyReward : IJsonSerializable
     {
 
     }
-    public class ResGetVipDailyReward : ISerializable
+    [MessagePackObject]
+    public class ResGetVipDailyReward : IJsonSerializable
     {
+        [Key(0)]
         public int todayMs;
+        [Key(1)]
         public int addDiamond;
     }
 
     // 雷霆--发起支付请求，其他是在服务器创建个订单号
-    public class MsgPayLtStart : ISerializable
+    [MessagePackObject]
+    public class MsgPayLtStart : IJsonSerializable
     {
+        [Key(0)]
         public string productId;
+        [Key(1)]
         public string fen; // 分
     }
-    public class ResPayLtStart : ISerializable
+    [MessagePackObject]
+    public class ResPayLtStart : IJsonSerializable
     {
+        [Key(0)]
         public string orderId; // 当 err = ECode.Success
         //--------------------------------public IapLeitingInfo[] ltProducts; // 当 err = ECode.ProductPriceRefreshed
     }
 
-    public class MsgPayIvyStart : ISerializable
+    [MessagePackObject]
+    public class MsgPayIvyStart : IJsonSerializable
     {
+        [Key(0)]
         public int id;
     }
-    public class ResPayIvyStart : ISerializable
+    [MessagePackObject]
+    public class ResPayIvyStart : IJsonSerializable
     {
+        [Key(0)]
         public string orderId; // 当 err = ECode.Success
     }
 
-    public class MsgPay : ISerializable
+    [MessagePackObject]
+    public class MsgPay : IJsonSerializable
     {
+        [Key(0)]
         public string receipt;
     }
 
-    public class PurchasedItem : ISerializable
+    [MessagePackObject]
+    public class PurchasedItem : IJsonSerializable
     {
+        [Key(0)]
         public bool duplicated;
+        [Key(1)]
         public string productId;  // 由于一个 id 可以对应多个 productId（不同平台），因此这里传 productId
+        [Key(2)]
         public string transactionId;
+        [Key(3)]
         public int addDiamond;
+        [Key(4)]
         public int addGiftVoucher;
     }
+    [MessagePackObject]
     public class ResPay
     {
         // 月卡也可能在 items 列表中
+        [Key(0)]
         public List<PurchasedItem> items;
         // 月卡
+        [Key(1)]
         public bool monthlyCardUpdated;
+        [Key(2)]
         public int purchaseDateMs;
+        [Key(3)]
         public int expiresDateMs;
 
         // profile.numbers
         // index - newValue - index - newValue
+        [Key(4)]
         public List<int> numberUpdates;
     }
-    public class ResMysqlError : ISerializable
+    [MessagePackObject]
+    public class ResMysqlError : IJsonSerializable
     {
         /**
          * Either a MySQL server error (e.g. "ER_ACCESS_DENIED_ERROR"),
          * a node.js error (e.g. "ECONNREFUSED") or an internal error
          * (e.g. "PROTOCOL_CONNECTION_LOST").
          */
+        [Key(0)]
         public string code;
 
         /**
          * The error number for the error code
          */
+        [Key(1)]
         public int errno;
     }
 
-    public class MsgEnterBattle : ISerializable
+    [MessagePackObject]
+    public class MsgEnterBattle : IJsonSerializable
     {
 
     }
-    public class ResEnterBattle : ISerializable
+    [MessagePackObject]
+    public class ResEnterBattle : IJsonSerializable
     {
+        [Key(0)]
         public bool alreadyInBattle;
+        [Key(1)]
         public int bmId;
+        [Key(2)]
         public int battleId;
+        [Key(3)]
         public string bmIp;
+        [Key(4)]
         public int bmPort;
+        [Key(5)]
         public int mapId;
     }
 }

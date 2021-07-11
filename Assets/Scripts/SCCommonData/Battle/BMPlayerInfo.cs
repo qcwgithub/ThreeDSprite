@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Newtonsoft.Json;
+using MessagePack;
 
 namespace Data
 {
+    [MessagePackObject]
     public partial class BMPlayerInfo
     {
+        [Key(0)]
         public int playerId;
+        [Key(1)]
         public int battleId;
 
-        [JsonIgnore]
+        [IgnoreMember]
         public BMBattleInfo battle;
-
-        [JsonIgnore]
+        [IgnoreMember]
         public btCharacter character;
     }
 }

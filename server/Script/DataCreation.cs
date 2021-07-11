@@ -231,7 +231,7 @@ namespace Script
             var allDataTypes = dataEntry.GetType().Assembly.GetTypes();
             foreach (var type in allDataTypes)
             {
-                if (typeof(ISerializable).IsAssignableFrom(type))
+                if (typeof(IJsonSerializable).IsAssignableFrom(type))
                 {
                     dataEntry.name2Type.Add(type.Name, type);
                 }
