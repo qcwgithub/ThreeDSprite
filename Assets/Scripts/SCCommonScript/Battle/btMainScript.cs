@@ -58,14 +58,18 @@ namespace Script
             this.addToPhysicsScene(battle, obj);
         }
 
-        public btCharacter addCharacter(BMBattleInfo battle, int characterId, int playerId)
+        public btCharacter addCharacter(BMBattleInfo battle, int characterId, int playerId, Vector3 pos)
         {
             btCharacter character = new btCharacter();
             character.playerId = playerId;
             character.type = btObjectType.character;
             character.id = characterId;
             character.bodyType = q3BodyType.eDynamicBody;
+            character.pos = Vector3.zero;
+            character.worldMin = new Vector3(-0.5f, 0f, 0f);
+            character.worldMax = new Vector3(0.5f, 2f, 0f);
             this.addObject(battle, character);
+            this.scripts.moveScript.setObjectPosition(battle, character, pos);
             return character;
         }
 

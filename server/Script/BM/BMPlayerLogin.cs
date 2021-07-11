@@ -43,15 +43,14 @@ namespace Script
 
             if (player.character == null)
             {
-                // playerInfo.characterId = this
-                player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId);
-
                 // random walkable
                 btIWalkable chWalkable;
                 Vector3 chPos;
                 this.server.moveScript.randomWalkable(battle, out chWalkable, out chPos);
+
+                // playerInfo.characterId = this
+                player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId, chPos);
                 player.character.walkable = chWalkable;
-                player.character.pos = chPos;
             }
 
             ////////////////////////////////////////////////////////////////////////

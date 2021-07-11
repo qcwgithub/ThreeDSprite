@@ -20,6 +20,19 @@ public class BtCharacter : MonoBehaviour
         this.cMap = scene;
         this.trans.position = this.character.pos;
     }
+#if UNITY_EDITOR
+    protected void OnDrawGizmos()
+    {
+        if (character == null) return;
+        var min = character.worldMin + character.pos;
+        var max = character.worldMax + character.pos;
+
+        Vector3 center = (min + max) / 2;
+        Vector3 size = max - min;
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(center, size);
+    }
+#endif
 
     // private bool moved = false;
     // private float movedX = 0f;

@@ -131,9 +131,8 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
             MCharacter mc = kv.Value;
 
             ////
-            btCharacter character = this.mainScript.addCharacter(this.battle, mc.characterId, playerId);
-            character.walkable = this.battle.walkables[mc.walkableId];
-            character.pos = mc.pos;
+            btCharacter character = this.mainScript.addCharacter(this.battle, mc.characterId, playerId, mc.pos);
+            character.walkable = this.battle.walkables.Find(_ => ((btObject)_).id == mc.walkableId);
 
             ////
             GameObject char_go = GameObject.Instantiate(this.characterPrefab);

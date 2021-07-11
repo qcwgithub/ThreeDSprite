@@ -37,8 +37,25 @@ public class BMServer : ClientServer
         this.handlerDict.Add(MsgType.BMMove, new OnBMResMove());
     }
 
+    public void handlerServerMessage(TcpClientData socket, MsgType msgType, object msg, Action<ECode, object> reply)
+    {
+        OnMessageBase handler;
+        if (this.handlerDict.TryGetValue(msgType, out handler))
+        {
+            handler.Handle(msg);
+        }
+        else
+        {
+            Debug.LogError("No handler for MsgType." + msgType);
+        }
+    }
+
     public override void start()
     {
+        if (this.handlerDict.Count == 0)
+        {
+            this.initHandlers();
+        }
         this.loginProcedure();
     }
 
@@ -190,6 +207,7 @@ public class BMServer : ClientServer
             }
 
             this.protoBM = new TcpClientScriptC(this.resEnterBattle.bmIp, this.resEnterBattle.bmPort);
+            this.protoBM.onReceiveMessageFromServer += this.handlerServerMessage;
             bool isReconnect = this.loginSucCount > 0;
             MyResponse rBM = await this.loginBMOnce(this.protoBM, isReconnect);
             if (rBM.err == ECode.Success)
