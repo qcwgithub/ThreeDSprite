@@ -85,6 +85,7 @@ namespace Data
         MsgSendDestroyPlayer,
         ResBMAlive,
         ResBMPlayerEnter,
+        ResDBQueryAccountPlayerId,
         ResLobbyCreateBattle,
         ResLobbyPlayerEnterBattle,
         ResLocRequestLoc,

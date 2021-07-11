@@ -96,7 +96,7 @@ namespace Script
         }
 
         public abstract UnpackResult Unpack(byte[] buffer, ref int offset, int count);
-        public abstract byte[] Pack<T>(int msgTypeOrECode, T msg, int seq, bool requireResponse);
+        public abstract byte[] Pack(int msgTypeOrECode, object msg, int seq, bool requireResponse);
     }
 
     public abstract class JsonMessagePacker : JsonMessageHeaderPacker
@@ -105,7 +105,7 @@ namespace Script
         protected abstract Dictionary<string, Type> name2Type { get; }
         protected abstract void onError(string msg);
 
-        public override byte[] Pack<T>(int msgTypeOrECode,  T _msg, int seq, bool requireResponse)
+        public override byte[] Pack(int msgTypeOrECode, object _msg, int seq, bool requireResponse)
         {
             string typeStr = null;
             int typeLength = 0;

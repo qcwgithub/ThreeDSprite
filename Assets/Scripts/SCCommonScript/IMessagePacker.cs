@@ -27,6 +27,6 @@ namespace Script
     {
         bool IsCompeteMessage(byte[] buffer, int offset, int count);
         UnpackResult Unpack(byte[] buffer, ref int offset, int count);
-        byte[] Pack<T>(int msgTypeOrECode, T msg, int seq, bool requireResponse);
+        byte[] Pack(int msgTypeOrECode, object msg, int seq, bool requireResponse);
     }
 }

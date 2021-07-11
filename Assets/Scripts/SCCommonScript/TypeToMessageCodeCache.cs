@@ -6,22 +6,25 @@ using Data;
 
 namespace Script
 {
-    public class TypeToMessageCodeCache<T>
+    public class TypeToMessageCodeCache
     {
-        static MessageCode _code;
-        static bool inited = false;
-        public static MessageCode messageCode
+        static Dictionary<Type, MessageCode> dict = new Dictionary<Type, MessageCode>();
+        public static MessageCode getMessageCode(object obj)
         {
-            get
+            if (obj == null)
             {
-                if (!inited)
-                {
-                    string name = typeof(T).Name;
-                    _code = (MessageCode) Enum.Parse(typeof(MessageCode), name);
-                    inited = true;
-                }
-                return _code;
+                return MessageCode.MsgNull;
             }
+
+            Type type = obj.GetType();
+
+            MessageCode messageCode;
+            if (!dict.TryGetValue(type, out messageCode))
+            {
+                messageCode = (MessageCode)Enum.Parse(typeof(MessageCode), type.Name);
+                dict.Add(type, messageCode);
+            }
+            return messageCode;
         }
     }
 }

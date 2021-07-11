@@ -61,6 +61,7 @@ namespace Script
             {
                 StaticCompositeResolver.Instance.Register(
                      MessagePack.Resolvers.GeneratedResolver.Instance,
+                     MessagePack.Unity.UnityResolver.Instance,
                      MessagePack.Resolvers.StandardResolver.Instance
                 );
 

@@ -97,6 +97,7 @@ namespace Script
                 case MessageCode.MsgSendDestroyPlayer: obj = MessagePackSerializer.Deserialize<MsgSendDestroyPlayer>(readonlyMemory); break;
                 case MessageCode.ResBMAlive: obj = MessagePackSerializer.Deserialize<ResBMAlive>(readonlyMemory); break;
                 case MessageCode.ResBMPlayerEnter: obj = MessagePackSerializer.Deserialize<ResBMPlayerEnter>(readonlyMemory); break;
+                case MessageCode.ResDBQueryAccountPlayerId: obj = MessagePackSerializer.Deserialize<ResDBQueryAccountPlayerId>(readonlyMemory); break;
                 case MessageCode.ResLobbyCreateBattle: obj = MessagePackSerializer.Deserialize<ResLobbyCreateBattle>(readonlyMemory); break;
                 case MessageCode.ResLobbyPlayerEnterBattle: obj = MessagePackSerializer.Deserialize<ResLobbyPlayerEnterBattle>(readonlyMemory); break;
                 case MessageCode.ResLocRequestLoc: obj = MessagePackSerializer.Deserialize<ResLocRequestLoc>(readonlyMemory); break;

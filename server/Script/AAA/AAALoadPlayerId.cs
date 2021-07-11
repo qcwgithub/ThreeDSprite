@@ -33,7 +33,7 @@ namespace Script
             }
             else
             {
-                this.aaaData.nextPlayerId = this.server.castObject<int>(r.res);
+                this.aaaData.nextPlayerId = this.server.castObject<ResDBQueryAccountPlayerId>(r.res).playerId;
                 if (this.aaaData.nextPlayerId > 0)
                 {
                     this.logger.Info("AAALoadPlayerId success. nextPlayerId: " + this.aaaData.nextPlayerId);

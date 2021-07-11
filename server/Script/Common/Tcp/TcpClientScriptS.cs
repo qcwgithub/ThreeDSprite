@@ -116,17 +116,17 @@ namespace Script
         #endregion
 
         #region send
-        public async Task<MyResponse> sendToServerAsync<T>(int serverId, MsgType type, T msg)
+        public async Task<MyResponse> sendToServerAsync(int serverId, MsgType type, object msg)
         {
             TcpClientData socket;
             if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !this.isConnected(socket))
             {
                 return ECode.NotConnected;
             }
-            return await this.sendAsync<T>(socket, type, msg);
+            return await this.sendAsync(socket, type, msg);
         }
 
-        public void sendToServer<T>(int serverId, MsgType type, T msg, Action<ECode, object> cb)
+        public void sendToServer(int serverId, MsgType type, object msg, Action<ECode, object> cb)
         {
             TcpClientData socket;
             if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !this.isConnected(socket))
@@ -137,7 +137,7 @@ namespace Script
                 }
                 return;
             }
-            this.send<T>(socket, type, msg, cb);
+            this.send(socket, type, msg, cb);
         }
         #endregion
 

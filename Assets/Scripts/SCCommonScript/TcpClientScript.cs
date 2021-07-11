@@ -104,10 +104,10 @@ namespace Script
 
         #region send
 
-        public async Task<MyResponse> sendAsync<T>(TcpClientData @this, MsgType type, T msg)
+        public async Task<MyResponse> sendAsync(TcpClientData @this, MsgType type, object msg)
         {
             var cs = new TaskCompletionSource<MyResponse>();
-            this.send<T>(@this, type, msg, (e, r) =>
+            this.send(@this, type, msg, (e, r) =>
             {
                 bool success = cs.TrySetResult(new MyResponse(e, r));
                 if (!success)
@@ -119,7 +119,7 @@ namespace Script
             return xxx;
         }
 
-        public void send<T>(TcpClientData @this, MsgType msgType, T msg, Action<ECode, object> cb)
+        public void send(TcpClientData @this, MsgType msgType, object msg, Action<ECode, object> cb)
         {
             if (!this.isConnected(@this))
             {
@@ -144,9 +144,9 @@ namespace Script
             this.sendOnePacket(@this, (int)msgType, msg, seq, cb != null);
         }
 
-        void sendOnePacket<T>(TcpClientData @this, int msgTypeOrECode, T msg, int seq, bool requireResponse)
+        void sendOnePacket(TcpClientData @this, int msgTypeOrECode, object msg, int seq, bool requireResponse)
         {
-            var bytes = this.messagePacker.Pack<T>(msgTypeOrECode, msg, seq, requireResponse);
+            var bytes = this.messagePacker.Pack(msgTypeOrECode, msg, seq, requireResponse);
             @this.sendList.Add(bytes);
             this.send(@this);
         }
@@ -248,7 +248,7 @@ namespace Script
                     this.logError(@this, "receive invalid message from client! " + msgType.ToString());
                     if (requireResponse)
                     {
-                        this.sendOnePacket<MsgNull>(@this, (int)ECode.Exception, null, -seq, false);
+                        this.sendOnePacket(@this, (int)ECode.Exception, null, -seq, false);
                     }
                     return;
                 }

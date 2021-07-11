@@ -1,4 +1,6 @@
-﻿namespace UnityEngine
+﻿using MessagePack;
+
+namespace UnityEngine
 {
     using System;
     //using System.Reflection;
@@ -8,11 +10,15 @@
     //using UnityEngine.Scripting;
 
     //[StructLayout(LayoutKind.Sequential), UsedByNativeCode]
+    [MessagePackObject]
     public struct Vector3
     {
         public const float kEpsilon = 1E-05f;
+        [Key(0)]
         public float x;
+        [Key(1)]
         public float y;
+        [Key(2)]
         public float z;
         public Vector3(float x, float y, float z)
         {

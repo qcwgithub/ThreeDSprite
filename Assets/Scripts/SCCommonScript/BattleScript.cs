@@ -10,11 +10,31 @@ namespace Script
     {
         public static void initBattleScripts(IBattleConfigs configs/* in */, IBattleScripts scripts/* out */)
         {
+            
+        // btCreateScript createScript { get; set; }
+        // btMoveScript moveScript { get; set; }
+        // btMainScript mainScript { get; set; }
+        // btContactListenerScript contactListenerScript { get; set; }
+        // btDestroyScript destroyScript { get; set; }
+        // btUpdateScript updateScript { get; set; }
+
+            scripts.createScript = new btCreateScript();
+            scripts.createScript.Init(configs, scripts);
+
             scripts.moveScript = new btMoveScript();
             scripts.moveScript.Init(configs, scripts);
 
             scripts.mainScript = new btMainScript();
             scripts.mainScript.Init(configs, scripts);
+
+            scripts.contactListenerScript = new btContactListenerScript();
+            scripts.contactListenerScript.Init(configs, scripts);
+
+            scripts.destroyScript = new btDestroyScript();
+            scripts.destroyScript.Init(configs, scripts);
+            
+            scripts.updateScript = new btUpdateScript();
+            scripts.updateScript.Init(configs, scripts);
         }
 
         public static void loadMap(JsonUtils jsonUtils, IBattleConfigs configs, int mapId, Func<int, string> loadTmx, Func<string, string> loadTileset)

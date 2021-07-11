@@ -133,6 +133,13 @@ namespace Data
     }
 
     [MessagePackObject]
+    public class ResDBQueryAccountPlayerId
+    {
+        [Key(0)]
+        public int playerId;
+    }
+
+    [MessagePackObject]
     public class MsgQueryPlayerById
     {
         [Key(0)]

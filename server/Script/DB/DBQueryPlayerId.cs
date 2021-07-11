@@ -21,7 +21,7 @@ namespace Script
             int playerId = helper.GetInt32("playerId");
             await reader.CloseAsync();
 
-            return new MyResponse(ECode.Success, playerId);
+            return new MyResponse(ECode.Success, new ResDBQueryAccountPlayerId { playerId = playerId });
         }
     }
 }

@@ -56,10 +56,10 @@ namespace Script
             buffer[offset + 0] = (byte)(value << 8 >> 8);
             buffer[offset + 1] = (byte)(value << 0 >> 8);
         }
-        public byte[] Pack<T>(int msgTypeOrECode, T msg, int seq, bool requireResponse)
+        public byte[] Pack(int msgTypeOrECode, object msg, int seq, bool requireResponse)
         {
-            var messageCode = TypeToMessageCodeCache<T>.messageCode;
-            var bytes = MessagePackSerializer.Serialize<T>(msg);
+            var messageCode = TypeToMessageCodeCache.getMessageCode(msg);
+            var bytes = MessagePackSerializer.Serialize(msg);
             int totalLength = this.GetHeaderLength() + sizeof(int) + bytes.Length;
 
             var buffer = new byte[totalLength];
@@ -81,7 +81,7 @@ namespace Script
 
             // 2 = MessageCode
             this.WriteShort(buffer, offset, (short)messageCode);
-            offset += 2;
+            offset += sizeof(short);
 
             // 1 = require response?
             buffer[offset] = (requireResponse ? (byte)1 : (byte)0);
@@ -117,8 +117,8 @@ namespace Script
             // 2 = MessageCode
             r.typeLength = 0;
             r.messageCode = (MessageCode) BitConverter.ToInt16(buffer, offset);
-            offset += sizeof(int);
-            count -= sizeof(int);
+            offset += sizeof(short);
+            count -= sizeof(short);
 
             // 1 = require response
             r.requireResponse = buffer[offset] == 1;
