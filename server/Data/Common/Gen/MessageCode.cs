@@ -4,9 +4,11 @@ namespace Data
     {
         #region AUTO
         BMBattleInfo,
+        BMMsgDebugGetCharacterPosition,
         BMMsgMove,
         BMMsgPlayerLogin,
         BMPlayerInfo,
+        BMResDebugGetCharacterPosition,
         BMResMove,
         BMResPlayerLogin,
         btBattle,

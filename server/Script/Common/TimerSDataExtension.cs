@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Script
 {
-    public static class TimerDataExtension
+    public static class TimerSDataExtension
     {
-        public static void onTick(this TimerData @this)
+        public static void onTick(this TimerSData @this)
         {
             if (@this.triggerMap.Count == 0)
             {
@@ -52,12 +52,12 @@ namespace Script
 
         }
 
-        public static int getTimeS(this TimerData @this)
+        public static int getTimeS(this TimerSData @this)
         {
             return (int)(DateTime.Now - @this.baseDate).TotalSeconds;
         }
 
-        private static void addTrigger(this TimerData @this, TimerInfo info)
+        private static void addTrigger(this TimerSData @this, TimerInfo info)
         {
             if (info.nextTimeS < @this.minTimeS)
             {
@@ -73,7 +73,7 @@ namespace Script
             list.Add(info);
         }
 
-        public static int setTimer(this TimerData @this, int timeoutS, MsgType msgType, object msg/*, bool loop*/)
+        public static int setTimer(this TimerSData @this, int timeoutS, MsgType msgType, object msg/*, bool loop*/)
         {
             bool loop = false;
             if (timeoutS < 0)
@@ -101,7 +101,7 @@ namespace Script
             return info.id;
         }
 
-        public static void clearTimer(this TimerData @this, int id)
+        public static void clearTimer(this TimerSData @this, int id)
         {
             TimerInfo info;
             if (@this.timerMap.TryGetValue(id, out info))

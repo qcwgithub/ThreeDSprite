@@ -28,7 +28,7 @@ namespace Script
             data.knownLocs[selfLoc.id] = selfLoc;
 
             data.logger = this.log4NetCreation.getLogger(Utils.numberId2stringId(serverId));
-            data.timerData = new Data.TimerData { serverData = data };
+            data.timerSData = new Data.TimerSData { serverData = data };
 
             data.connectToServerIds.AddRange(connectToServerIds);
         }

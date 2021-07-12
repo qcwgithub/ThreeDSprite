@@ -11,6 +11,7 @@ public class BtCharacter : MonoBehaviour
     private Vector3 originalScale;
     public btCharacter character { get; private set; }
     private BtScene cMap;
+    public bool showServerCharacterPosition = false;
     public void Apply(btCharacter character, BtScene scene)
     {
         this.trans = this.transform;
@@ -20,6 +21,7 @@ public class BtCharacter : MonoBehaviour
         this.cMap = scene;
         this.trans.position = this.character.pos;
     }
+
 #if UNITY_EDITOR
     protected void OnDrawGizmos()
     {
@@ -31,6 +33,16 @@ public class BtCharacter : MonoBehaviour
         Vector3 size = max - min;
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(center, size);
+
+        if (this.hasServerPosition)
+        {
+            min = character.worldMin + this.serverPosition;
+            max = character.worldMax + this.serverPosition;
+            center = (min + max) / 2;
+            size = max - min;
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(center, size);
+        }
     }
 #endif
 
@@ -44,6 +56,10 @@ public class BtCharacter : MonoBehaviour
     // }
 
     private bool wasMoving = false;
+    private float time = 0f;
+    private bool pending = false;
+    Vector3 serverPosition = Vector3.zero;
+    bool hasServerPosition = false;
     private void Update()
     {
         bool moving = this.character.moveDir != Vector3.zero;
@@ -57,6 +73,25 @@ public class BtCharacter : MonoBehaviour
             this.Skel.AnimationName = moving ? "run" : "idle";
             this.Skel.loop = true;
             this.wasMoving = moving;
+        }
+
+        if (this.showServerCharacterPosition && !this.pending)
+        {
+            this.time += Time.deltaTime;
+            if (this.time >= 0.1f)
+            {
+                this.pending = true;
+                sc.bmServer.request(MsgType.BMDebugGetCharacterPosition, new BMMsgDebugGetCharacterPosition { characterId = this.character.id }, false, (MyResponse r) =>
+                {
+                    this.pending = false;
+                    if (r.err == ECode.Success)
+                    {
+                        var res = r.res as BMResDebugGetCharacterPosition;
+                        this.serverPosition = res.position;
+                        this.hasServerPosition = true;
+                    }
+                });
+            }
         }
     }
 }

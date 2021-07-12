@@ -66,4 +66,20 @@ namespace Data
         [Key(1)]
         public Vector3 moveDir;
     }
+
+    
+
+    [MessagePackObject]
+    public class BMMsgDebugGetCharacterPosition
+    {
+        [Key(0)]
+        public int characterId;
+    }
+
+    [MessagePackObject]
+    public class BMResDebugGetCharacterPosition
+    {
+        [Key(0)]
+        public Vector3 position;
+    }
 }

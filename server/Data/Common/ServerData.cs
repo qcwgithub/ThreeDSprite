@@ -75,6 +75,6 @@ namespace Data
         /////////////////////////////////////////////////////////////////////
 
         // 临时方案
-        public TimerData timerData;
+        public TimerSData timerSData;
     }
 }

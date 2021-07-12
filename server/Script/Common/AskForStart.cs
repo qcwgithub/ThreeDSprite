@@ -20,9 +20,9 @@ namespace Script
 
             Console.WriteLine("**** {0} {1}", Utils.numberId2stringId(this.server.id), this.msgName);
 
-            if (!data.timerData.started)
+            if (!data.timerSData.started)
             {
-                data.timerData.start();
+                data.timerSData.start();
             }
 
             var tcpClientScript = this.server.tcpClientScript;

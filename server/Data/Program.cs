@@ -34,18 +34,18 @@ namespace Data
 
     public class Program
     {
-        public static int ScriptDllVersion = 1;
+        public static int scriptDllVersion = 1;
         public static bool LoadScriptDll()
         {
             try
             {
-                var bytes = File.ReadAllBytes(ScriptDllPath);
-                var symbols = File.ReadAllBytes(ScriptDllPath.Substring(0, ScriptDllPath.Length-4)+".pdb");
+                var bytes = File.ReadAllBytes(scriptDllPath);
+                var symbols = File.ReadAllBytes(scriptDllPath.Substring(0, scriptDllPath.Length - 4) + ".pdb");
 
                 ScriptEntryAndContextWeakRef last = null;
-                if (AssemblyLoadContextRefs.Count > 0)
+                if (assemblyLoadContextRefs.Count > 0)
                 {
-                    last = AssemblyLoadContextRefs[AssemblyLoadContextRefs.Count - 1];
+                    last = assemblyLoadContextRefs[assemblyLoadContextRefs.Count - 1];
                 }
 
                 var context = new MyAssemblyLoadContext();
@@ -61,11 +61,11 @@ namespace Data
                 }
 
                 var scriptEntry = (IScriptEntry)assembly.CreateInstance("Script.ScriptEntry");
-                scriptEntry.OnLoad(Args, DataEntry, ScriptDllVersion++);
+                scriptEntry.OnLoad(args, dataEntry, scriptDllVersion++);
                 assembly = null;
                 // context.Unload();
 
-                AssemblyLoadContextRefs.Add(
+                assemblyLoadContextRefs.Add(
                     new ScriptEntryAndContextWeakRef
                     {
                         scriptEntry = scriptEntry,
@@ -86,7 +86,7 @@ namespace Data
                     // }
                 }
 
-                CheckTime = DateTime.Now.AddSeconds(-1);
+                checkTime = DateTime.Now.AddSeconds(-1);
 
                 return true;
             }
@@ -100,9 +100,9 @@ namespace Data
         public static void LogToLoggerOrConsole(string message, Exception ex, string type)
         {
             bool logged = false;
-            if (DataEntry != null && DataEntry.serverDatas != null && DataEntry.serverDatas.Count > 0)
+            if (dataEntry != null && dataEntry.serverDatas != null && dataEntry.serverDatas.Count > 0)
             {
-                foreach (var kv in DataEntry.serverDatas)
+                foreach (var kv in dataEntry.serverDatas)
                 {
                     if (kv.Value.logger != null)
                     {
@@ -131,7 +131,7 @@ namespace Data
             LogToLoggerOrConsole("unhandled exception ", (Exception)e.ExceptionObject, "error");
         }
 
-        
+
         static Dictionary<string, string> ParseArguments(string[] args)
         {
             var argMap = new Dictionary<string, string>();
@@ -150,15 +150,16 @@ namespace Data
             return argMap;
         }
 
-        public static Dictionary<string, string> Args;
-        public static List<ScriptEntryAndContextWeakRef> AssemblyLoadContextRefs;
-        public static string ScriptDllPath;
-        public static DataEntry DataEntry;
-        public static DateTime CheckTime;
+        public static Dictionary<string, string> args;
+        public static List<ScriptEntryAndContextWeakRef> assemblyLoadContextRefs;
+        public static string scriptDllPath;
+        public static DataEntry dataEntry;
+        public static DateTime checkTime;
+        public static DateTime updateTime;
 
         // scriptDll=./xx/Script.dll ids=all purpose=Test
         public static void Main(string[] args)
-        { 
+        {
             Console.WriteLine();
 #if DEBUG
             Console.WriteLine("**** Configuration: Debug");
@@ -172,10 +173,10 @@ namespace Data
                 Console.WriteLine("**** Arguments[{0}] {1}", i, args[i]);
             }
 
-            Args = ParseArguments(args);
-            ScriptDllPath = Args["scriptDll"];
-            DataEntry = new DataEntry();
-            AssemblyLoadContextRefs = new List<ScriptEntryAndContextWeakRef>();
+            Program.args = ParseArguments(args);
+            scriptDllPath = Program.args["scriptDll"];
+            dataEntry = new DataEntry();
+            assemblyLoadContextRefs = new List<ScriptEntryAndContextWeakRef>();
 
             // unhandled exception
             System.AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(OnUnhandledException);
@@ -192,14 +193,29 @@ namespace Data
                     Thread.Sleep(1);
                     ET.ThreadSynchronizationContext.Instance.Update();
 
-                    var refs = AssemblyLoadContextRefs;
+                    var refs = assemblyLoadContextRefs;
+                    if (refs.Count > 0)
+                    {
+                        var last = refs[refs.Count - 1];
+                        if (last.scriptEntry.needUpdate)
+                        {
+                            DateTime now = DateTime.Now;
+                            TimeSpan span = now - updateTime;
+                            double ms = span.TotalSeconds;
+                            if (ms >= 0.03333f)
+                            {
+                                updateTime = now;
+                                last.scriptEntry.Update(0.03333f);
+                            }
+                        }
+                    }
                     if (refs.Count > 1)
                     {
                         DateTime now = DateTime.Now;
                         var sb = new StringBuilder();
-                        if (now.Subtract(CheckTime).TotalSeconds > 1)
+                        if (now.Subtract(checkTime).TotalSeconds > 1)
                         {
-                            CheckTime = now;
+                            checkTime = now;
                             for (int i = 0; i < refs.Count; i++)
                             {
                                 if (!refs[i].contextWeakRef.IsAlive)

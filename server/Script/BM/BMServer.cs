@@ -31,6 +31,7 @@ namespace Script
             this.dispatcher.addHandler(new BMPlayerEnter { server = this });
             this.dispatcher.addHandler(new BMPlayerExit { server = this });
             this.dispatcher.addHandler(new BMPlayerLogin { server = this });
+            this.dispatcher.addHandler(new BMDebugGetCharacterPosition { server = this });
 
 
             BattleScript.initBattleScripts(this.bmData, this);
@@ -46,6 +47,15 @@ namespace Script
         public override void OnUnload()
         {
             base.OnUnload();
+        }
+
+        public void Update(float dt)
+        {
+            foreach (var kv in this.bmData.battleDict)
+            {
+                BMBattleInfo battle = kv.Value;
+                this.updateScript.update(battle, dt);
+            }
         }
     }
 }

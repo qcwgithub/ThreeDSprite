@@ -10,13 +10,13 @@ namespace Script
     {
         public int setTimer(int timeoutMs, MsgType msgType, object msg/*, bool loop*/)
         {
-            int id = this.data.timerData.setTimer(timeoutMs, msgType, msg/*, loop*/);
+            int id = this.data.timerSData.setTimer(timeoutMs, msgType, msg/*, loop*/);
             return id;
         }
 
         public void clearTimer(int id)
         {
-            this.data.timerData.clearTimer(id);
+            this.data.timerSData.clearTimer(id);
         }
     }
 }

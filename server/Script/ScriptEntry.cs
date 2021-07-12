@@ -44,6 +44,14 @@ namespace Script
         }
 
         List<Server> servers;
+        BMServer bmServer;
+        public bool needUpdate
+        {
+            get
+            {
+                return this.bmServer != null;
+            }
+        }
         int version;
         public int GetVersion()
         {
@@ -72,6 +80,11 @@ namespace Script
             }
         }
 
+        public void Update(float dt)
+        {
+            this.bmServer.Update(dt);
+        }
+
         public bool OnLoad(Dictionary<string, string> args, DataEntry dataEntry, int version)
         {
             // init message pack
@@ -94,6 +107,10 @@ namespace Script
             foreach (Server server in this.servers)
             {
                 server.proxyDispatch(null, MsgType.AskForStart, null, null);
+                if (server is BMServer)
+                {
+                    this.bmServer = (BMServer) server;
+                }
             }
 
             return true;

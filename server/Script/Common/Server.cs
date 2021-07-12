@@ -84,9 +84,9 @@ namespace Script
 
         public virtual void OnStart()
         {
-            if (!data.timerData.started)
+            if (!data.timerSData.started)
             {
-                data.timerData.start();
+                data.timerSData.start();
             }
 
             if (data.tcpListenerForServer != null)

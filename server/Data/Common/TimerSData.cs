@@ -23,7 +23,7 @@ namespace Data
         }
     }
 
-    public class TimerData
+    public class TimerSData
     {
         public int nextId = 1;
         public ServerData serverData;

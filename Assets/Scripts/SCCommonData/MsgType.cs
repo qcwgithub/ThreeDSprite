@@ -147,5 +147,6 @@ namespace Data
         PMEnterBattle = 10075,
         BMMove = 10076,
         BMPlayerLogin = 10077,
+        BMDebugGetCharacterPosition = 10078,
     }
 }
