@@ -80,6 +80,7 @@ public class BtCharacter : MonoBehaviour
             this.time += Time.deltaTime;
             if (this.time >= 0.1f)
             {
+                this.time = 0f;
                 this.pending = true;
                 sc.bmServer.request(MsgType.BMDebugGetCharacterPosition, new BMMsgDebugGetCharacterPosition { characterId = this.character.id }, false, (MyResponse r) =>
                 {

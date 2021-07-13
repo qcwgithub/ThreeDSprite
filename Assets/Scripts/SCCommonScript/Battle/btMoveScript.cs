@@ -94,7 +94,7 @@ namespace Script
                     }
                     else
                     {
-                        Debug.Log("Out of range, " + character.walkable.ToString());
+                        // Debug.Log("Out of range, " + character.walkable.ToString());
                         character.walkable = null;
                     }
                 }

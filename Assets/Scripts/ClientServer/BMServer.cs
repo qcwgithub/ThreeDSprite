@@ -290,7 +290,7 @@ public class BMServer : ClientServer
         {
             return;
         }
-        Debug.Log("send " + type);
+        // Debug.Log("send " + type);
         this.protoBM.send(type, _msg, (ECode err, object res) =>
         {
             Debug.Log(string.Format("send response {0}", err));

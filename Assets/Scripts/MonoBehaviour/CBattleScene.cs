@@ -150,6 +150,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
 
         /////////////////////////////////////////////////////////////////////////////
         
+        int id = 1;
         this.InputManager.OnInput += (Vector3 dir) =>
         {
             // if (myCharacter.walkable == null)
@@ -160,9 +161,11 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
             if (dir != this.lastInputDir)            
             {
                 this.lastInputDir = dir;
+                // Debug.LogFormat("send dir {0} {1},{2},{3}", id, dir.x, dir.y, dir.z);
 
                 var msg = BMMsgMove.shared;
                 msg.moveDir = dir;
+                msg.id = id++;
                 sc.bmServer.send(MsgType.BMMove, msg);
             }
         };

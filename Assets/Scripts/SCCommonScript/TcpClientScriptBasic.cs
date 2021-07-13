@@ -137,8 +137,8 @@ namespace Script
 
             @this.sending = true;
 
-            var bytes = @this.sendList[@this.sendList.Count - 1];
-            @this.sendList.RemoveAt(@this.sendList.Count - 1);
+            var bytes = @this.sendList[0];
+            @this.sendList.RemoveAt(0);
 
             this.sendAsync(@this, bytes, 0, bytes.Length);
         }

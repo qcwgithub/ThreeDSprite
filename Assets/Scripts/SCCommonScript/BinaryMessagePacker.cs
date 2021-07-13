@@ -31,7 +31,7 @@ namespace Script
                 return false;
             }
 
-            int length = BitConverter.ToInt32(buffer, offset);
+            int length = this.ReadInt(buffer, offset);
             if (count < length)
             {
                 return false;
@@ -44,17 +44,34 @@ namespace Script
             return 3 * sizeof(int) + sizeof(short) + 1;
         }
         
-        protected void WriteInt(byte[] buffer, int offset, int value)
+        protected void WriteInt(byte[] buffer, int offset, int value_)
         {
-            buffer[offset + 0] = (byte)(value << 24 >> 24);
-            buffer[offset + 1] = (byte)(value << 16 >> 24);
-            buffer[offset + 2] = (byte)(value << 8 >> 24);
-            buffer[offset + 3] = (byte)(value << 0 >> 24);
+            uint value = (uint)value_;
+            buffer[offset + 0] = (byte)(value);
+            buffer[offset + 1] = (byte)(value >> 8);
+            buffer[offset + 2] = (byte)(value >> 16);
+            buffer[offset + 3] = (byte)(value >> 24);
+        }
+        protected int ReadInt(byte[] buffer, int offset)
+        {
+            uint value = 0;
+            value += buffer[offset];
+            value += (((uint)buffer[offset + 1]) << 8);
+            value += (((uint)buffer[offset + 2]) << 16);
+            value += (((uint)buffer[offset + 3]) << 24);
+            return (int)value;
         }
         protected void WriteShort(byte[] buffer, int offset, short value)
         {
             buffer[offset + 0] = (byte)(value << 8 >> 8);
             buffer[offset + 1] = (byte)(value << 0 >> 8);
+        }
+        protected short ReadShort(byte[] buffer, int offset)
+        {
+            ushort value = 0;
+            value += buffer[offset];
+            value += (ushort)(((ushort)buffer[offset + 1]) << 8);
+            return (short)value;
         }
         public byte[] Pack(int msgTypeOrECode, object msg, int seq, bool requireResponse)
         {
@@ -100,23 +117,23 @@ namespace Script
             int startOffset = offset;
             
             // 4 = total length
-            r.totalLength = BitConverter.ToInt32(buffer, offset);
+            r.totalLength = this.ReadInt(buffer, offset);
             offset += sizeof(int);
             count -= sizeof(int);
 
             // 4 = seq
-            r.seq = BitConverter.ToInt32(buffer, offset);
+            r.seq = this.ReadInt(buffer, offset);
             offset += sizeof(int);
             count -= sizeof(int);
 
             // 4 = ECode/MsgType
-            r.code = BitConverter.ToInt32(buffer, offset);
+            r.code = this.ReadInt(buffer, offset);
             offset += sizeof(int);
             count -= sizeof(int);
 
             // 2 = MessageCode
             r.typeLength = 0;
-            r.messageCode = (MessageCode) BitConverter.ToInt16(buffer, offset);
+            r.messageCode = (MessageCode) this.ReadShort(buffer, offset);
             offset += sizeof(short);
             count -= sizeof(short);
 

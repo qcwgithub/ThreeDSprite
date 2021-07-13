@@ -149,7 +149,7 @@ namespace Script
         }
 
         #region send
-        public void send<T>(MsgType msgType, T msg, Action<ECode, object> cb, int timeoutMs)
+        public void send(MsgType msgType, object msg, Action<ECode, object> cb, int timeoutMs)
         {
             this.send(this._tcpClientData, msgType, msg, cb);
         }

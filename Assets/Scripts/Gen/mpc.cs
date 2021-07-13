@@ -306,8 +306,9 @@ namespace MessagePack.Formatters.Data
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(1);
+            writer.WriteArrayHeader(2);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.moveDir, options);
+            writer.Write(value.id);
         }
 
         public global::Data.BMMsgMove Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -321,6 +322,7 @@ namespace MessagePack.Formatters.Data
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __moveDir__ = default(global::UnityEngine.Vector3);
+            var __id__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -328,6 +330,9 @@ namespace MessagePack.Formatters.Data
                 {
                     case 0:
                         __moveDir__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __id__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();
@@ -337,6 +342,7 @@ namespace MessagePack.Formatters.Data
 
             var ____result = new global::Data.BMMsgMove();
             ____result.moveDir = __moveDir__;
+            ____result.id = __id__;
             reader.Depth--;
             return ____result;
         }

@@ -54,6 +54,8 @@ namespace Data
 
         [Key(0)]
         public Vector3 moveDir;
+        [Key(1)]
+        public int id;
     }
 
     [MessagePackObject]
