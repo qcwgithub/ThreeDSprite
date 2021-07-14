@@ -134,6 +134,7 @@ namespace Script
             if (cb != null)
             {
                 @this.waitingResponses.Add(seq, cb);
+                // UnityEngine.Debug.LogFormat("++waiting {0} MsgType.{1} seq = {2}", @this.waitingResponses.Count, msgType, seq);
             }
 
             // int length = Encoding.UTF8.GetByteCount(message);
@@ -187,27 +188,22 @@ namespace Script
             }
 
             @this.recvOffset += e.BytesTransferred;
-            if (this.messagePacker.IsCompeteMessage(@this.recvBuffer, 0, @this.recvOffset))
+            int offset = 0;
+            int count = @this.recvOffset;
+            while (this.messagePacker.IsCompeteMessage(@this.recvBuffer, offset, count))
             {
-                int offset = 0;
-                UnpackResult r = this.messagePacker.Unpack(@this.recvBuffer, ref offset, @this.recvOffset);
-
-                Array.Copy(@this.recvBuffer, offset, @this.recvBuffer, 0, @this.recvOffset - offset);
-                @this.recvOffset = 0;
+                UnpackResult r = this.messagePacker.Unpack(@this.recvBuffer, offset, count);
                 this.onMsg(@this, r.seq, r.code, r.msg, r.requireResponse);
-            }
-            // if (@this.recvOffset >= sizeof(int))
-            // {
-            //     int length = BitConverter.ToInt32(@this.recvBuffer, 0);
-            //     if (@this.recvOffset >= length)
-            //     {
-            //         string message = Encoding.UTF8.GetString(@this.recvBuffer, sizeof(int), length - sizeof(int));
-            //         this.onMsg(@this, message);
 
-            //         Array.Copy(@this.recvBuffer, length, @this.recvBuffer, 0, @this.recvOffset - length);
-            //         @this.recvOffset = 0;
-            //     }
-            // }
+                offset += r.totalLength;
+                count -= r.totalLength;
+            }
+
+            if (offset > 0)
+            {
+                Array.Copy(@this.recvBuffer, offset, @this.recvBuffer, 0, count);
+                @this.recvOffset = count;
+            }
 
             if (@this.recvOffset >= @this.recvBuffer.Length)
             {
@@ -277,6 +273,7 @@ namespace Script
                 if (@this.waitingResponses.TryGetValue(-seq, out responseFun))
                 {
                     @this.waitingResponses.Remove(-seq);
+                    // UnityEngine.Debug.LogFormat("--waiting {0}, -seq = {1}", @this.waitingResponses.Count, seq);
                     responseFun(eCode, msg);
                 }
                 else

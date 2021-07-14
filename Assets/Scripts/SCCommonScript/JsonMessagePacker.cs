@@ -95,7 +95,7 @@ namespace Script
             offset++;
         }
 
-        public abstract UnpackResult Unpack(byte[] buffer, ref int offset, int count);
+        public abstract UnpackResult Unpack(byte[] buffer, int offset, int count);
         public abstract byte[] Pack(int msgTypeOrECode, object msg, int seq, bool requireResponse);
     }
 
@@ -152,7 +152,7 @@ namespace Script
             return buffer;
         }
 
-        public override UnpackResult Unpack(byte[] buffer, ref int offset, int count)
+        public override UnpackResult Unpack(byte[] buffer, int offset, int count)
         {
             var r = new UnpackResult();
             base.UnpackHeader(buffer, ref offset, ref count, ref r);

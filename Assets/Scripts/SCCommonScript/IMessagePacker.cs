@@ -26,7 +26,7 @@ namespace Script
     public interface IMessagePacker
     {
         bool IsCompeteMessage(byte[] buffer, int offset, int count);
-        UnpackResult Unpack(byte[] buffer, ref int offset, int count);
+        UnpackResult Unpack(byte[] buffer, int offset, int count);
         byte[] Pack(int msgTypeOrECode, object msg, int seq, bool requireResponse);
     }
 }

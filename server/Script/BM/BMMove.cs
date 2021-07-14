@@ -38,10 +38,10 @@ namespace Script
                 return e.toTask();
             }
 
-            // var res = new BMResMove();
-            // res.characterId = player.character.id;
-            // res.moveDir = msg.moveDir;
-            // this.broadcast(player.battle, this.msgType, res);
+            var res = new BMResMove();
+            res.characterId = player.character.id;
+            res.moveDir = msg.moveDir;
+            this.broadcast(player.battle, this.msgType, res);
             
             return ECode.Success.toTask();
         }

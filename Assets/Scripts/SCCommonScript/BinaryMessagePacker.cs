@@ -110,7 +110,7 @@ namespace Script
             return buffer;
         }
 
-        public UnpackResult Unpack(byte[] buffer, ref int offset, int count)
+        public UnpackResult Unpack(byte[] buffer, int offset, int count)
         {
             var r = new UnpackResult();
 
