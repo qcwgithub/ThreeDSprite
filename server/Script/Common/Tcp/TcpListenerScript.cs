@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace Script
 {
-    public class TcpListenerScript : IServerScript<Server>
+    public class TcpListenerScript : IServerScript<Server>, ITcpListenerCallback
     {
         public Server server { get; set; }
 

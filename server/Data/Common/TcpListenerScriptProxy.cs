@@ -4,9 +4,9 @@ using System.IO;
 
 namespace Data
 {
-    public class TcpListenerScriptProxy
+    public interface ITcpListenerCallback
     {
-        public Action<TcpListenerData, SocketAsyncEventArgs> onListenerComplete;
-        public Action<TcpListenerData, SocketAsyncEventArgs> onAcceptComplete;
+        // void onListenerComplete(TcpListenerData data, SocketAsyncEventArgs e);
+        void onAcceptComplete(TcpListenerData data, SocketAsyncEventArgs e);
     }
 }

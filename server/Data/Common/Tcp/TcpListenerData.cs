@@ -7,7 +7,7 @@ using Data;
 
 namespace Data
 {
-    public sealed class TcpListenerData
+    public partial class TcpListenerData
     {
         public bool isForClient;
         public ServerData serverData;
@@ -22,12 +22,6 @@ namespace Data
         public void _onComplete(object sender, SocketAsyncEventArgs e)
         {
             ET.ThreadSynchronizationContext.Instance.Post(onComplete, e);
-        }
-
-        private void onComplete(object _e)
-        {
-            var e = (SocketAsyncEventArgs)_e;
-            this.serverData.scriptProxy.onListenerComplete(this, e);
         }
     }
 }

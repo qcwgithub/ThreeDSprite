@@ -55,20 +55,13 @@ namespace Script
             this.messagePacker = new BinaryMessagePacker();
             this.sqlLog = new SqlLog { server = this };
 
-
-            // script proxy
-            this.data.scriptProxy = new TcpListenerScriptProxy
-            {
-                onListenerComplete = (listener, e) => listener.onComplete(e),
-                onAcceptComplete = (listener, e) => this.tcpListenerScript.onAcceptComplete(listener, e),
-            };
-
             this.data.timerScriptProxy = new TimerScriptProxy
             {
                 onTimerTick = (timerData) => timerData.onTick(),
             };
 
             this.data.tcpClientCallback = this.tcpClientScript;
+            this.data.tcpListenerCallback = this.tcpListenerScript;
         }
 
         public virtual void OnStart()

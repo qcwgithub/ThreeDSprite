@@ -11,7 +11,7 @@ namespace Data
 
         // id: 所有服务器都不同
         public int id;
-        public TcpListenerScriptProxy scriptProxy;
+        public ITcpListenerCallback tcpListenerCallback;
         public ITcpClientCallback tcpClientCallback;
         public TimerScriptProxy timerScriptProxy;
 
