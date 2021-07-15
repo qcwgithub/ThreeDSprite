@@ -8,26 +8,24 @@ using System.Collections.Generic;
 
 namespace Script
 {
-    public class TcpClientScriptS : TcpClientScript, IServerScript<Server>
+    public class TcpClientScriptS : IServerScript<Server>, ITcpClientCallback
     {
         public Server server { get; set; }
 
-        protected override void logError(TcpClientData @this, string str)
+        /////////////////////////////////////////////////////////////////
+        #region  ITcpClientCallback
+
+        public void logError(TcpClientData data, string str)
         {
             this.server.logger.Error(str);
         }
-        protected override void logInfo(TcpClientData @this, string str)
+
+        public void logInfo(TcpClientData data, string str)
         {
             this.server.logger.Info(str);
         }
-        public override TcpClientScriptProxy tcpClientScriptProxy
-        {
-            get
-            {
-                return this.server.data.tcpClientScriptProxy;
-            }
-        }
-        protected override IMessagePacker messagePacker
+
+        public IMessagePacker messagePacker
         {
             get
             {
@@ -35,7 +33,7 @@ namespace Script
             }
         }
 
-        protected override int nextSocketId
+        public int nextSocketId
         {
             get
             {
@@ -43,7 +41,7 @@ namespace Script
             }
         }
 
-        protected override int nextMsgSeq
+        public int nextMsgSeq
         {
             get
             {
@@ -51,34 +49,42 @@ namespace Script
             }
         }
 
-        public TcpClientData acceptorConstructor(TcpClientData @this, Socket socket, bool connectedFromClient)
+        public void dispatch(TcpClientData data, MsgType msgType, object msg, Action<ECode, object> reply)
         {
-            @this.isConnector = false;
-
-            @this._socket = socket;
-            // @this._cancellationTaskSource = new CancellationTokenSource();
-            // @this._cancellationToken = @this._cancellationTaskSource.Token;
-            @this._innArgs = new SocketAsyncEventArgs();
-            @this._outArgs = new SocketAsyncEventArgs();
-            @this._innArgs.Completed += @this._onComplete;
-            @this._outArgs.Completed += @this._onComplete;
-
-            @this.proxyProvider = this.server.data;
-            @this.socketId = this.nextSocketId;
-            @this.oppositeIsClient = connectedFromClient;
-
-            @this.connecting = false;
-            @this.connected = true;
-            @this.sending = false;
-            @this.closed = false;
-            return @this;
+            this.server.rawDispatch(data, msgType, msg, reply);
         }
+
+        public void onConnectComplete(TcpClientData data, SocketAsyncEventArgs e, SocketError socketError)
+        {
+            if (socketError == SocketError.Success)
+            {
+                var msg = new MsgOnConnect
+                {
+                    isAcceptor = !data.isConnector,
+                    // isServer = @this.connectedFromServer,
+                };
+                this.server.rawDispatch(data, MsgType.OnSocketConnect, msg, null);
+            }
+        }
+
+        public void onCloseComplete(TcpClientData data)
+        {
+            var msg = new MsgOnClose
+            {
+                isAcceptor = !data.isConnector,
+                // isServer = @this.connectedFromServer,
+            };
+            this.server.rawDispatch(data, MsgType.OnSocketClose, msg, null);
+        }
+
+        #endregion
+        /////////////////////////////////////////////////////////////////
 
         #region basic access
         public bool isServerConnected(int serverId)
         {
             TcpClientData socket;
-            if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !this.isConnected(socket))
+            if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !socket.isConnected())
             {
                 return false;
             }
@@ -125,7 +131,7 @@ namespace Script
         {
             return @this.Player == null ? null : @this.Player;
         }
-        
+
 
         #endregion
 
@@ -133,17 +139,17 @@ namespace Script
         public async Task<MyResponse> sendToServerAsync(int serverId, MsgType type, object msg)
         {
             TcpClientData socket;
-            if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !this.isConnected(socket))
+            if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !socket.isConnected())
             {
                 return ECode.NotConnected;
             }
-            return await this.sendAsync(socket, type, msg);
+            return await socket.sendAsync(type, msg);
         }
 
         public void sendToServer(int serverId, MsgType type, object msg, Action<ECode, object> cb)
         {
             TcpClientData socket;
-            if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !this.isConnected(socket))
+            if (!this.server.data.otherServerSockets.TryGetValue(serverId, out socket) || !socket.isConnected())
             {
                 if (cb != null)
                 {
@@ -151,60 +157,8 @@ namespace Script
                 }
                 return;
             }
-            this.send(socket, type, msg, cb);
+            socket.send(type, msg, cb);
         }
-        #endregion
-
-        #region connect
-
-        public override void onConnectComplete(TcpClientData @this, SocketAsyncEventArgs e)
-        {
-            bool success = e.SocketError == SocketError.Success;
-            if (success)
-            {
-                var msg = new MsgOnConnect
-                {
-                    isAcceptor = !@this.isConnector,
-                    // isServer = @this.connectedFromServer,
-                };
-                this.tcpClientScriptProxy.dispatch(@this, MsgType.OnSocketConnect, msg, null);
-
-                this.recv(@this);
-                this.send(@this);
-            }
-            else
-            {
-                this.logError(@this, "TcpClientScriptS.onConnectComplete, e.SocketError = " + e.SocketError);
-            }
-        }
-        #endregion
-
-        #region disconnect
-
-        public override void onDisconnectComplete(TcpClientData @this, SocketAsyncEventArgs e)
-        {
-            // this.logError(@this, "TcpClientScriptS.onDisconnectComplete, e.SocketError = " + e.SocketError);
-            // var msg = new MsgOnDisconnect
-            // {
-            //     isAcceptor = !@this.isConnector,
-            //     // isServer = @this.connectedFromServer,
-            // };
-            // this.tcpClientScriptProxy.dispatch(@this, MsgType.OnDisconnect, msg, null);
-            this.close(@this, "onDisconnectComplete");
-        }
-
-        public override void onCloseComplete(TcpClientData @this)
-        {
-            base.onCloseComplete(@this);
-            // this.logError(@this, "TcpClientScriptS.onClose");
-            var msg = new MsgOnClose
-            {
-                isAcceptor = !@this.isConnector,
-                // isServer = @this.connectedFromServer,
-            };
-            this.tcpClientScriptProxy.dispatch(@this, MsgType.OnSocketClose, msg, null);
-        }
-
         #endregion
     }
 }

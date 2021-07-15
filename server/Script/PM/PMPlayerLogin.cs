@@ -44,7 +44,7 @@ namespace Script
             {
                 // 情况1 同一个客户端意外地登录2次
                 // 情况2 客户端A已经登录，B再登录
-                this.logger.InfoFormat("2 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, this.server.tcpClientScript.getSocketId(oldSocket));
+                this.logger.InfoFormat("2 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, oldSocket.getSocketId());
                 var resMisc = new ResMisc
                 {
                     oldSocketTimestamp = this.server.tcpClientScript.getClientTimestamp(oldSocket),

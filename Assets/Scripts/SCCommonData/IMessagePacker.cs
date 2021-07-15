@@ -1,8 +1,7 @@
 using System;
 using System.Text;
-using Data;
 
-namespace Script
+namespace Data
 {
     public struct UnpackResult
     {

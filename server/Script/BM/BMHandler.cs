@@ -20,9 +20,9 @@ namespace Script
                 {
                     continue;
                 }
-                if (playerInfo.socket != null && this.server.tcpClientScript.isConnected(playerInfo.socket))
+                if (playerInfo.socket != null && playerInfo.socket.isConnected())
                 {
-                    this.server.tcpClientScript.send(playerInfo.socket, msgType, msg_, null);
+                    playerInfo.socket.send(msgType, msg_, null);
                 }
             }
         }

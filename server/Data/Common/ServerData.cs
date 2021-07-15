@@ -4,7 +4,7 @@ using log4net;
 
 namespace Data
 {
-    public abstract class ServerData : ITcpClientScriptProxyProvider
+    public abstract class ServerData
     {
         public bool replyServerTime = true;
         public bool grantedToStart = false;
@@ -12,7 +12,7 @@ namespace Data
         // id: 所有服务器都不同
         public int id;
         public TcpListenerScriptProxy scriptProxy;
-        public TcpClientScriptProxy tcpClientScriptProxy { get; set; }
+        public ITcpClientCallback tcpClientCallback;
         public TimerScriptProxy timerScriptProxy;
 
         public TcpListenerData tcpListenerForServer;

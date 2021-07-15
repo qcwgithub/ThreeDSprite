@@ -11,7 +11,7 @@ namespace Script
 
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            this.logger.DebugFormat("{0} socket id: {1}", this.msgName, this.server.tcpClientScript.getSocketId(socket));
+            this.logger.DebugFormat("{0} socket id: {1}", this.msgName, socket.getSocketId());
 
             // 如果是服务器，这里不需要 remove，因为服务器是一直尝试保持连接，需要 connect 事件，移除了就收不到了
             // 如果是客户端，这里移不移除没差

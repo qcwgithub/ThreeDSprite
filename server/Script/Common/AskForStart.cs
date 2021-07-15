@@ -30,16 +30,16 @@ namespace Script
             // 请求启动此进程，如果申请失败，则结束本进程
             TcpClientData locSocket;
             if (!data.otherServerSockets.TryGetValue(ServerConst.LOC_ID, out locSocket) ||
-                tcpClientScript.isClosed(locSocket))
+                locSocket.isClosed())
             {
                 locSocket = new TcpClientData();
                 Loc loc = this.server.getKnownLoc(ServerConst.LOC_ID);
-                tcpClientScript.connectorConstructor(locSocket, loc.inIp, loc.inPort, this.server.data);
+                locSocket.connectorInit(this.server.data.tcpClientCallback, loc.inIp, loc.inPort);
                 data.otherServerSockets[ServerConst.LOC_ID] = locSocket;
             }
 
-            bool connected = tcpClientScript.isConnected(locSocket);
-            bool connecting = tcpClientScript.isConnecting(locSocket);
+            bool connected = locSocket.isConnected();
+            bool connecting = locSocket.isConnecting();
             bool isLocAndConnectLocFail = (data.id == ServerConst.LOC_ID && !connected && !connecting && connectLocCount > 0);
             if (!isLocAndConnectLocFail)
             {
@@ -50,7 +50,7 @@ namespace Script
                         connectLocCount++;
                         // connect once
                         // this.server.logger.Info("call connect to loc");
-                        this.server.tcpClientScript.connect(locSocket);
+                        locSocket.connect();
                         return ECode.Success;
                     }
                     return ECode.Success;
@@ -76,7 +76,7 @@ namespace Script
             {
                 if (connected)
                 {
-                    tcpClientScript.close(locSocket, "loc dose not need to connect to loc");
+                    locSocket.close("loc dose not need to connect to loc");
                 }
                 data.otherServerSockets.Remove(data.id);
             }

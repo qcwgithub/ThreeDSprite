@@ -42,21 +42,21 @@ namespace Script
             {
                 TcpClientData locSocket;
                 if (!data.otherServerSockets.TryGetValue(ServerConst.LOC_ID, out locSocket) ||
-                    tcpClientScript.isClosed(locSocket))
+                    locSocket.isClosed())
                 {
                     locSocket = new TcpClientData();
                     Loc loc = this.server.getKnownLoc(ServerConst.LOC_ID);
-                    tcpClientScript.connectorConstructor(locSocket, loc.inIp, loc.inPort, this.server.data);
+                    locSocket.connectorInit(this.server.data.tcpClientCallback, loc.inIp, loc.inPort);
                     data.otherServerSockets[ServerConst.LOC_ID] = locSocket;
                 }
 
-                if (!tcpClientScript.isConnected(locSocket))
+                if (!locSocket.isConnected())
                 {
-                    if (!tcpClientScript.isConnecting(locSocket))
+                    if (!locSocket.isConnecting())
                     {
                         // connect once
                         // this.server.logger.Info("call connect to loc");
-                        this.server.tcpClientScript.connect(locSocket);
+                        locSocket.connect();
                         return ECode.Success;
                     }
                     return ECode.Success;
@@ -90,18 +90,18 @@ namespace Script
                 int serverId = data.connectToServerIds[i];
                 TcpClientData socket;
                 if (!data.otherServerSockets.TryGetValue(serverId, out socket) ||
-                    tcpClientScript.isClosed(socket))
+                    socket.isClosed())
                 {
                     socket = new TcpClientData();
                     Loc loc = this.server.getKnownLoc(serverId);
-                    tcpClientScript.connectorConstructor(socket, loc.inIp, loc.inPort, this.server.data);
+                    socket.connectorInit(this.server.data.tcpClientCallback, loc.inIp, loc.inPort);
                     data.otherServerSockets[serverId] = socket;
                 }
-                if (!tcpClientScript.isConnected(socket) && !tcpClientScript.isConnecting(socket))
+                if (!socket.isConnected() && !socket.isConnecting())
                 {
                     // connect once
                     // this.server.logger.Info("call connect to " + serverId + ", " + this.server.data.getInt("keepServerConnectionsing"));
-                    this.server.tcpClientScript.connect(socket);
+                    socket.connect();
                 }
             }
 

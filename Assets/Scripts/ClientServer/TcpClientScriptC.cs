@@ -9,83 +9,55 @@ using UnityEngine;
 
 namespace Script
 {
-    public class TcpClientScriptC : TcpClientScript, ITcpClientScriptProxyProvider
+    public class TcpClientScriptC : ITcpClientCallback
     {
-        public static int s_msgSeq = 1;
-        public static int s_socketId = 1000;
-
-        TcpClientScriptProxy _tcpClientScriptProxy;
-        TcpClientData _tcpClientData;
+        TcpClientData tcpClientData;
         private string ip;
         private int port;
         public event Action<TcpClientData, MsgType, object, Action<ECode, object>> onReceiveMessageFromServer;
         public TcpClientScriptC(string ip, int port)
         {
-            _tcpClientData = new TcpClientData();
-            this.connectorConstructor(_tcpClientData, ip, port, this);
-
-            this._tcpClientScriptProxy = new TcpClientScriptProxy
-            {
-                onSomethingComplete = (tcpClient, e) => this.onSomethingComplete(tcpClient, e),
-                onConnectComplete = (tcpClient, e) => this.onConnectComplete(tcpClient, e),
-                onDisconnectComplete = (tcpClient, e) => this.onDisconnectComplete(tcpClient, e),
-                onSendComplete = (tcpClient, e) => this.onSendComplete(tcpClient, e),
-                onRecvComplete = (tcpClient, e) => this.onRecvComplete(tcpClient, e),
-                onCloseComplete = (tcpClient) => this.onCloseComplete(tcpClient),
-
-                dispatch = (tcpClient, msgType, msg, reply) =>
-                {
-                    // this.dispatcher.dispatch(tcpClient, msgType, msg, reply),
-
-                    if (this.onReceiveMessageFromServer != null)
-                    {
-                        this.onReceiveMessageFromServer(tcpClient, msgType, msg, reply);
-                    }
-                    else
-                    {
-                        Debug.LogError("receieve message from server, no handler");
-                    }
-                }
-            };
+            this.tcpClientData = new TcpClientData();
+            this.tcpClientData.connectorInit(this, ip, port);
         }
 
-        private Dictionary<int, Action<ECode, object>> _waitingResponses = new Dictionary<int, Action<ECode, object>>();
+        /////////////////////////////////////////////////////////////////
+        #region  ITcpClientCallback
 
-        public bool isConnected()
-        {
-            return this.isConnected(this._tcpClientData);
-        }
-
-        public void open()
-        {
-            this.connect(this._tcpClientData);
-        }
-
-        protected override void logError(TcpClientData @this, string str)
+        public void logError(TcpClientData data, string str)
         {
             Debug.LogError(str);
         }
-        protected override void logInfo(TcpClientData @this, string str)
+
+        public void logInfo(TcpClientData data, string str)
         {
             Debug.Log(str);
         }
-        public override TcpClientScriptProxy tcpClientScriptProxy
+
+        public void dispatch(TcpClientData data, MsgType msgType, object msg, Action<ECode, object> reply)
         {
-            get
+            // this.dispatcher.dispatch(tcpClient, msgType, msg, reply),
+
+            if (this.onReceiveMessageFromServer != null)
             {
-                return _tcpClientScriptProxy;
+                this.onReceiveMessageFromServer(data, msgType, msg, reply);
+            }
+            else
+            {
+                Debug.LogError("receieve message from server, no handler");
             }
         }
-        protected override IMessagePacker messagePacker
+
+        public IMessagePacker messagePacker
         {
             get
             {
-                // return JsonMessagePackerC.Instance;
                 return BinaryMessagePacker.Instance;
             }
         }
 
-        protected override int nextSocketId
+        public static int s_socketId = 1000;
+        public int nextSocketId
         {
             get
             {
@@ -93,7 +65,8 @@ namespace Script
             }
         }
 
-        protected override int nextMsgSeq
+        public static int s_msgSeq = 1;
+        public int nextMsgSeq
         {
             get
             {
@@ -101,46 +74,19 @@ namespace Script
             }
         }
 
-        #region connect
-
         public Action<bool, string> onConnect;
-        public override void onConnectComplete(TcpClientData @this, SocketAsyncEventArgs e)
+        public void onConnectComplete(TcpClientData @this, SocketAsyncEventArgs e, SocketError socketError)
         {
-            //var msg = new MsgOnConnect { isListen = !@this.isConnector, isServer = @this.connectedFromServer };
-            //this.tcpClientScriptProxy.dispatch(@this, MsgType.OnConnect, msg, null);
-            // this.logError(@this, "TcpClientScriptC.onConnectComplete, e.SocketError = " + e.SocketError);
             bool success = e.SocketError == SocketError.Success;
-            if (success)
-            {
-                this.recv(@this);
-                this.send(@this);
-            }
-
             if (onConnect != null)
             {
                 onConnect(success, "SocketError." + e.SocketError);
             }
         }
-        #endregion
-
-        #region disconnect
 
         public Action<string> onClose;
-        public override void onDisconnectComplete(TcpClientData @this, SocketAsyncEventArgs e)
+        public void onCloseComplete(TcpClientData data)
         {
-            //var msg = new MsgOnDisconnect { isListen = !@this.isConnector, isServer = @this.connectedFromServer };
-            //this.tcpClientScriptProxy.dispatch(@this, MsgType.OnDisconnect, msg, null);
-            // Debug.Log("TcpClientScriptC.onDisconnectComplete");
-            // if (onDisconnect != null)
-            // {
-            //     onDisconnect("to do: message");
-            // }
-            this.close(@this, "onDisconnectComplete");
-        }
-
-        public override void onCloseComplete(TcpClientData @this)
-        {
-            base.onCloseComplete(@this);
             // this.logError(@this, "TcpClientScriptS.onClose");
             if (onClose != null)
             {
@@ -148,28 +94,32 @@ namespace Script
             }
         }
 
-        #region send
+        #endregion
+        /////////////////////////////////////////////////////////////////
+
+        public void open()
+        {
+            this.tcpClientData.connect();
+        }
+
+        public bool isConnected()
+        {
+            return this.tcpClientData.isConnected();
+        }
+
         public void send(MsgType msgType, object msg, Action<ECode, object> cb, int timeoutMs)
         {
-            this.send(this._tcpClientData, msgType, msg, cb);
+            this.tcpClientData.send(msgType, msg, cb);
         }
-        #endregion
 
         public void cleanup()
         {
             this.onConnect = null;
             this.onClose = null;
-            if (!this._tcpClientData.closed)
+            if (!this.tcpClientData.closed)
             {
-                this.close(this._tcpClientData, "TcpClientScriptC.cleanup");
+                this.tcpClientData.close("TcpClientScriptC.cleanup");
             }
-            foreach (var kv in this._waitingResponses)
-            {
-                kv.Value(ECode.Timeout, null);
-            }
-            this._waitingResponses.Clear();
         }
-
-        #endregion
     }
 }

@@ -12,7 +12,7 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = (MsgOnConnect)_msg;
-            this.logger.DebugFormat("{0} socket id: {1}", this.msgName, this.server.tcpClientScript.getSocketId(socket));
+            this.logger.DebugFormat("{0} socket id: {1}", this.msgName, socket.getSocketId());
             // var s = socket;
             // bool isClient = !msg.isServer;
             return ECode.Success.toTask();

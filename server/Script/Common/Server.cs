@@ -63,23 +63,12 @@ namespace Script
                 onAcceptComplete = (listener, e) => this.tcpListenerScript.onAcceptComplete(listener, e),
             };
 
-            // tcp client proxy 
-            this.data.tcpClientScriptProxy = new TcpClientScriptProxy
-            {
-                onSomethingComplete = (tcpClient, e) => this.tcpClientScript.onSomethingComplete(tcpClient, e),
-                onConnectComplete = (tcpClient, e) => this.tcpClientScript.onConnectComplete(tcpClient, e),
-                onDisconnectComplete = (tcpClient, e) => this.tcpClientScript.onDisconnectComplete(tcpClient, e),
-                onSendComplete = (tcpClient, e) => this.tcpClientScript.onSendComplete(tcpClient, e),
-                onRecvComplete = (tcpClient, e) => this.tcpClientScript.onRecvComplete(tcpClient, e),
-                onCloseComplete = (tcpClient) => this.tcpClientScript.onCloseComplete(tcpClient),
-
-                dispatch = (tcpClient, msgType, msg, reply) => this.dispatcher.dispatch(tcpClient, msgType, msg, reply),
-            };
-
             this.data.timerScriptProxy = new TimerScriptProxy
             {
                 onTimerTick = (timerData) => timerData.onTick(),
             };
+
+            this.data.tcpClientCallback = this.tcpClientScript;
         }
 
         public virtual void OnStart()
@@ -121,7 +110,12 @@ namespace Script
 
         public void proxyDispatch(TcpClientData data, MsgType msgType, object msg, Action<ECode, object> reply)
         {
-            this.data.tcpClientScriptProxy.dispatch(data, msgType, msg, reply);
+            this.data.tcpClientCallback.dispatch(data, msgType, msg, reply);
+        }
+
+        public void rawDispatch(TcpClientData data, MsgType msgType, object msg, Action<ECode, object> reply)
+        {
+            this.dispatcher.dispatch(data, msgType, msg, reply);
         }
     }
 }

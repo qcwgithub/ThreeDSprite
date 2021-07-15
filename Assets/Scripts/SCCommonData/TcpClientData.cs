@@ -9,13 +9,9 @@ using System.Threading;
 
 namespace Data
 {
-    public interface ITcpClientScriptProxyProvider
+    public partial class TcpClientData
     {
-        TcpClientScriptProxy tcpClientScriptProxy { get; }
-    }
-
-    public sealed class TcpClientData
-    {
+        public ITcpClientCallback tcpClientCallback;
         public bool isConnector;
         public bool isAcceptor { get { return !this.isConnector; } }
 
@@ -29,7 +25,7 @@ namespace Data
 
         // 自定义的 id
         public int socketId;
-        public ITcpClientScriptProxyProvider proxyProvider;
+        public ITcpClientCallback callback;
 
         // when isAcceptor == true
         public bool oppositeIsClient;
@@ -50,17 +46,7 @@ namespace Data
         // 这个是多线程调用，因为需要放在 Data 这边
         public void _onComplete(object sender, SocketAsyncEventArgs e)
         {
-            ET.ThreadSynchronizationContext.Instance.Post(onSomethingComplete, e);
-        }
-
-        void onSomethingComplete(object _e)
-        {
-            if (this.closed)
-            {
-                return;
-            }
-            var e = (SocketAsyncEventArgs)_e;
-            this.proxyProvider.tcpClientScriptProxy.onSomethingComplete(this, e);
+            ET.ThreadSynchronizationContext.Instance.Post(this.onSomethingComplete, e);
         }
     }
 }

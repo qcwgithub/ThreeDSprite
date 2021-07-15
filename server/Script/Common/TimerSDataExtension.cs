@@ -24,7 +24,7 @@ namespace Script
 
             foreach (TimerInfo info in list)
             {
-                @this.serverData.tcpClientScriptProxy.dispatch(null, info.msgType, info.msg, null);
+                @this.serverData.tcpClientCallback.dispatch(null, info.msgType, info.msg, null);
             }
 
             // reset minTimeS to a big value

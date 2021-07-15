@@ -10,7 +10,7 @@ namespace Data
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                this.tcpClientScriptProxy.dispatch(null, MsgType.MonitorOnInput, null, null);
+                this.tcpClientCallback.dispatch(null, MsgType.MonitorOnInput, null, null);
             }
         }
     }

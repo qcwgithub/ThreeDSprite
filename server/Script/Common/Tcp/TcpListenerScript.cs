@@ -75,9 +75,9 @@ namespace Script
             // enableKeepAlive(socket);
             //////////////////////////////////////////////////////////
 
-            this.server.tcpClientScript.acceptorConstructor(tcpClientData, socket, tcpListener.isForClient);
-            this.server.tcpClientScript.recv(tcpClientData);
-            this.server.tcpClientScript.send(tcpClientData);
+            tcpClientData.acceptorInit(this.server.data.tcpClientCallback, socket, tcpListener.isForClient);
+            tcpClientData.recv();
+            tcpClientData.send();
 
             tcpListener.accept();
         }

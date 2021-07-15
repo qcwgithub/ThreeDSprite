@@ -28,7 +28,7 @@ namespace Script
 
             if (player.socket != null)
             {
-                this.server.tcpClientScript.close(player.socket, "PMDestroyPlayer"); // PMOnDisconnect
+                player.socket.close("PMDestroyPlayer"); // PMOnDisconnect
             }
 
             script.clearDestroyTimer(player, false);
