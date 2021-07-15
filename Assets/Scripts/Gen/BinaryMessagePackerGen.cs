@@ -9,6 +9,55 @@ namespace Script
     public partial class BinaryMessagePacker
     {
         
+        byte[] PackBody(MessageCode messageCode, object obj)
+        {
+            byte[] bytes = null;
+            switch (messageCode)
+            {
+                case MessageCode.BMBattleInfo: bytes = MessagePackSerializer.Serialize<BMBattleInfo>((BMBattleInfo)obj); break;
+                case MessageCode.BMMsgDebugGetCharacterPosition: bytes = MessagePackSerializer.Serialize<BMMsgDebugGetCharacterPosition>((BMMsgDebugGetCharacterPosition)obj); break;
+                case MessageCode.BMMsgMove: bytes = MessagePackSerializer.Serialize<BMMsgMove>((BMMsgMove)obj); break;
+                case MessageCode.BMMsgPlayerLogin: bytes = MessagePackSerializer.Serialize<BMMsgPlayerLogin>((BMMsgPlayerLogin)obj); break;
+                case MessageCode.BMPlayerInfo: bytes = MessagePackSerializer.Serialize<BMPlayerInfo>((BMPlayerInfo)obj); break;
+                case MessageCode.BMResDebugGetCharacterPosition: bytes = MessagePackSerializer.Serialize<BMResDebugGetCharacterPosition>((BMResDebugGetCharacterPosition)obj); break;
+                case MessageCode.BMResMove: bytes = MessagePackSerializer.Serialize<BMResMove>((BMResMove)obj); break;
+                case MessageCode.BMResPlayerLogin: bytes = MessagePackSerializer.Serialize<BMResPlayerLogin>((BMResPlayerLogin)obj); break;
+                case MessageCode.btBattle: bytes = MessagePackSerializer.Serialize<btBattle>((btBattle)obj); break;
+                case MessageCode.MCharacter: bytes = MessagePackSerializer.Serialize<MCharacter>((MCharacter)obj); break;
+                case MessageCode.MsgChangeChannel: bytes = MessagePackSerializer.Serialize<MsgChangeChannel>((MsgChangeChannel)obj); break;
+                case MessageCode.MsgChangeName: bytes = MessagePackSerializer.Serialize<MsgChangeName>((MsgChangeName)obj); break;
+                case MessageCode.MsgChangePortrait: bytes = MessagePackSerializer.Serialize<MsgChangePortrait>((MsgChangePortrait)obj); break;
+                case MessageCode.MsgEnterBattle: bytes = MessagePackSerializer.Serialize<MsgEnterBattle>((MsgEnterBattle)obj); break;
+                case MessageCode.MsgGetVipDailyReward: bytes = MessagePackSerializer.Serialize<MsgGetVipDailyReward>((MsgGetVipDailyReward)obj); break;
+                case MessageCode.MsgLoginAAA: bytes = MessagePackSerializer.Serialize<MsgLoginAAA>((MsgLoginAAA)obj); break;
+                case MessageCode.MsgLoginPM: bytes = MessagePackSerializer.Serialize<MsgLoginPM>((MsgLoginPM)obj); break;
+                case MessageCode.MsgNull: bytes = MessagePackSerializer.Serialize<MsgNull>((MsgNull)obj); break;
+                case MessageCode.MsgPay: bytes = MessagePackSerializer.Serialize<MsgPay>((MsgPay)obj); break;
+                case MessageCode.MsgPayIvyStart: bytes = MessagePackSerializer.Serialize<MsgPayIvyStart>((MsgPayIvyStart)obj); break;
+                case MessageCode.MsgPayLtStart: bytes = MessagePackSerializer.Serialize<MsgPayLtStart>((MsgPayLtStart)obj); break;
+                case MessageCode.MsgSyncProfile: bytes = MessagePackSerializer.Serialize<MsgSyncProfile>((MsgSyncProfile)obj); break;
+                case MessageCode.MsgUploadProfile: bytes = MessagePackSerializer.Serialize<MsgUploadProfile>((MsgUploadProfile)obj); break;
+                case MessageCode.Profile: bytes = MessagePackSerializer.Serialize<Profile>((Profile)obj); break;
+                case MessageCode.PurchasedItem: bytes = MessagePackSerializer.Serialize<PurchasedItem>((PurchasedItem)obj); break;
+                case MessageCode.ResChangeChannel: bytes = MessagePackSerializer.Serialize<ResChangeChannel>((ResChangeChannel)obj); break;
+                case MessageCode.ResChangeName: bytes = MessagePackSerializer.Serialize<ResChangeName>((ResChangeName)obj); break;
+                case MessageCode.ResChangePortrait: bytes = MessagePackSerializer.Serialize<ResChangePortrait>((ResChangePortrait)obj); break;
+                case MessageCode.ResEnterBattle: bytes = MessagePackSerializer.Serialize<ResEnterBattle>((ResEnterBattle)obj); break;
+                case MessageCode.ResGetVipDailyReward: bytes = MessagePackSerializer.Serialize<ResGetVipDailyReward>((ResGetVipDailyReward)obj); break;
+                case MessageCode.ResLoginAAA: bytes = MessagePackSerializer.Serialize<ResLoginAAA>((ResLoginAAA)obj); break;
+                case MessageCode.ResLoginPM: bytes = MessagePackSerializer.Serialize<ResLoginPM>((ResLoginPM)obj); break;
+                case MessageCode.ResMisc: bytes = MessagePackSerializer.Serialize<ResMisc>((ResMisc)obj); break;
+                case MessageCode.ResMysqlError: bytes = MessagePackSerializer.Serialize<ResMysqlError>((ResMysqlError)obj); break;
+                case MessageCode.ResPay: bytes = MessagePackSerializer.Serialize<ResPay>((ResPay)obj); break;
+                case MessageCode.ResPayIvyStart: bytes = MessagePackSerializer.Serialize<ResPayIvyStart>((ResPayIvyStart)obj); break;
+                case MessageCode.ResPayLtStart: bytes = MessagePackSerializer.Serialize<ResPayLtStart>((ResPayLtStart)obj); break;
+                case MessageCode.ResSyncProfile: bytes = MessagePackSerializer.Serialize<ResSyncProfile>((ResSyncProfile)obj); break;
+                default:
+                    throw new Exception();
+                    //break;
+            }
+            return bytes;
+        }
         object UnpackBody(MessageCode messageCode, byte[] buffer, int offset, int count)
         {
             object obj = null;

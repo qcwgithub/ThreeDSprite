@@ -7,12 +7,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class Startup
+public class MessagePackInitializer
 {
     static bool serializerRegistered = false;
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    static void Initialize()
+    public static void Initialize()
     {
         if (!serializerRegistered)
         {
@@ -27,17 +25,6 @@ public class Startup
             serializerRegistered = true;
         }
     }
-
-#if UNITY_EDITOR
-
-
-    [UnityEditor.InitializeOnLoadMethod]
-    static void EditorInitialize()
-    {
-        Initialize();
-    }
-
-#endif
 }
 
 public class CStartupScene : CSceneBase
@@ -48,6 +35,8 @@ public class CStartupScene : CSceneBase
 
     protected override void Awake()
     {
+        MessagePackInitializer.Initialize();
+
         sc.pmServer = new PMServer();
         sc.bmServer = new BMServer();
         sc.LoadingPanelPrefab = this.loadingPanelPrefab;

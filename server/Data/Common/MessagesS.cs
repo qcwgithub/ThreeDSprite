@@ -81,6 +81,14 @@ namespace Data
         public int playerId;
     }
 
+    
+    [MessagePackObject]
+    public class MsgQueryAccountUpdatePlayerId
+    {
+        [Key(0)]
+        public int playerId;
+    }
+
     [MessagePackObject]
     public class MsgQueryAccountByChannel
     {

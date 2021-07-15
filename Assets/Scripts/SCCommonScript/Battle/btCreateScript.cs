@@ -90,7 +90,7 @@ namespace Script
                             {
                                 btBoxObstacle obstacle = new btBoxObstacle();
                                 obstacle.type = btObjectType.box_obstacle;
-                                obstacle.id = layerData.id;
+                                obstacle.id = tileData.id;
                                 obstacle.worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
                                 obstacle.worldMax = obstacle.worldMin + FVector3.ToVector3(tileConfig.size);
                                 obstacle.tileConfig = tileConfig;
@@ -103,7 +103,7 @@ namespace Script
                             {
                                 btTree tree = new btTree();
                                 tree.type = btObjectType.tree;
-                                tree.id = layerData.id;
+                                tree.id = tileData.id;
                                 tree.worldMin = FVector3.ToVector3(tileData.position) + mapOffset + layerOffset;
                                 tree.worldMax = tree.worldMin + FVector3.ToVector3(tileConfig.size);
                                 tree.tileConfig = tileConfig;

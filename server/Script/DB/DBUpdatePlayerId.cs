@@ -11,7 +11,7 @@ namespace Script
 
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var playerId = this.server.castObject<int>(_msg);
+            var playerId = this.server.castObject<MsgQueryAccountUpdatePlayerId>(_msg).playerId;
             var queryStr = "UPDATE player_id SET playerId = @0";
             var param = new MySqlParameter[] { new MySqlParameter("@0", playerId) };
 

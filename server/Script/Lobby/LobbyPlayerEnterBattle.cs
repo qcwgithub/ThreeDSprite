@@ -75,7 +75,7 @@ namespace Script
                 return ECode.NoAvailableBM;
             }
 
-            int mapId = 2;
+            int mapId = 1;
 
             var msg = new MsgBMCreateBattle();
             msg.battleId = this.getNextBattleId();

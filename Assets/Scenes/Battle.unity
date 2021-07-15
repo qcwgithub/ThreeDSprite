@@ -269,11 +269,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 1306017656}
+  cameraFollow: {fileID: 1350650844}
   Speed: 5
   InputManager: {fileID: 199662855}
   characterPrefab: {fileID: 838541981}
   battleId: 0
   mapId: 0
+  myPlayerId: 0
   myCharacerId: 0
 --- !u!4 &301353566
 Transform:
@@ -400,6 +402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skel: {fileID: 838541985}
+  showServerCharacterPosition: 0
 --- !u!114 &838541985
 MonoBehaviour:
   m_ObjectHideFlags: 0

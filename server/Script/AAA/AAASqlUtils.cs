@@ -20,7 +20,9 @@ namespace Script
 
         public async Task<MyResponse> updatePlayerIdAsync(int playerId)
         {
-            return await this.queryAccount(MsgType.DBUpdatePlayerId, playerId);
+            var msg = new MsgQueryAccountUpdatePlayerId();
+            msg.playerId = playerId;
+            return await this.queryAccount(MsgType.DBUpdatePlayerId, msg);
         }
 
         public async Task<MyResponse> queryAccountByPlayerIdAsync(int playerId)

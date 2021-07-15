@@ -80,6 +80,7 @@ namespace Data
         MsgQueryAccountByChannel,
         MsgQueryAccountByPlayerId,
         MsgQueryAccountForChangeChannel,
+        MsgQueryAccountUpdatePlayerId,
         MsgQueryPlayerById,
         MsgReloadScript,
         MsgRunScript,

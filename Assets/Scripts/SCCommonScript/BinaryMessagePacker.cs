@@ -76,7 +76,7 @@ namespace Script
         public byte[] Pack(int msgTypeOrECode, object msg, int seq, bool requireResponse)
         {
             var messageCode = TypeToMessageCodeCache.getMessageCode(msg);
-            var bytes = MessagePackSerializer.Serialize(msg);
+            var bytes = this.PackBody(messageCode, msg);
             int totalLength = this.GetHeaderLength() + sizeof(int) + bytes.Length;
 
             var buffer = new byte[totalLength];

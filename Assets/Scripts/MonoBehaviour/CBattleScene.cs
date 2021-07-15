@@ -11,6 +11,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     protected override bool carePMConnection => false;
     
     const string baseDir = "Imported/Egzd";
+    public CCameraFollow cameraFollow;
     public float Speed = 5f;
     public CInputManager InputManager;
     public GameObject characterPrefab;
@@ -145,6 +146,8 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
             if (mc.characterId == this.myCharacerId)
             {
                 this.myCharacter = character;
+
+                this.cameraFollow.Target = char_go.transform;
             }
         }
 
