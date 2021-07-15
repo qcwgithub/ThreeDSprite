@@ -11,7 +11,7 @@ namespace Data
 {
     public partial class TcpClientData
     {
-        public ITcpClientCallback tcpClientCallback;
+        public ITcpClientCallback callback;
         public bool isConnector;
         public bool isAcceptor { get { return !this.isConnector; } }
 
@@ -25,7 +25,6 @@ namespace Data
 
         // 自定义的 id
         public int socketId;
-        public ITcpClientCallback callback;
 
         // when isAcceptor == true
         public bool oppositeIsClient;

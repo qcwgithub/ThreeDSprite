@@ -44,7 +44,7 @@ namespace Data
 
         public void connectorInit(ITcpClientCallback tcpClientCallback, string ip, int port)
         {
-            this.tcpClientCallback = tcpClientCallback;
+            this.callback = tcpClientCallback;
             this.isConnector = true;
             this._initConnectSocket(ip, port);
 
@@ -66,7 +66,7 @@ namespace Data
 
         public void acceptorInit(ITcpClientCallback tcpClientCallback, Socket socket, bool connectedFromClient)
         {
-            this.tcpClientCallback = tcpClientCallback;
+            this.callback = tcpClientCallback;
             this.isConnector = false;
 
             this._socket = socket;
@@ -277,7 +277,7 @@ namespace Data
                     this.callback.dispatch(this, msgType, msg,
                             (ECode e2, object msg2) =>
                             {
-                                Console.WriteLine("reply -seq = {0}, msgType = {1}", -seq, msgType);
+                                // Console.WriteLine("reply -seq = {0}, msgType = {1}", -seq, msgType);
                                 this.sendOnePacket((int)e2, msg2, -seq, false);
                             });
                 }
