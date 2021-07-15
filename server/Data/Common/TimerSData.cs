@@ -23,7 +23,7 @@ namespace Data
         }
     }
 
-    public class TimerSData
+    public partial class TimerSData
     {
         public int nextId = 1;
         public ServerData serverData;
@@ -44,7 +44,7 @@ namespace Data
             while (true)
             {
                 await Task.Delay(tickIntervalMs);
-                this.serverData.timerScriptProxy.onTimerTick(this);
+                this.onTick();
             }
         }
     }

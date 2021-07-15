@@ -13,7 +13,6 @@ namespace Data
         public int id;
         public ITcpListenerCallback tcpListenerCallback;
         public ITcpClientCallback tcpClientCallback;
-        public TimerScriptProxy timerScriptProxy;
 
         public TcpListenerData tcpListenerForServer;
         public TcpListenerData tcpListenerForClient;

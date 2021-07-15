@@ -55,11 +55,6 @@ namespace Script
             this.messagePacker = new BinaryMessagePacker();
             this.sqlLog = new SqlLog { server = this };
 
-            this.data.timerScriptProxy = new TimerScriptProxy
-            {
-                onTimerTick = (timerData) => timerData.onTick(),
-            };
-
             this.data.tcpClientCallback = this.tcpClientScript;
             this.data.tcpListenerCallback = this.tcpListenerScript;
         }
