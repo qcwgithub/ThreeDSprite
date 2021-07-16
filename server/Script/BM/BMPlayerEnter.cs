@@ -24,13 +24,22 @@ namespace Script
                 return ECode.BattleAlreadyContainsPlayer.toTask();
             }
 
-            player = this.server.mainScript.addPlayer(battle, msg.playerId);            
+            player = this.server.mainScript.addPlayer(battle, msg.playerId, battle.battleId);
             player.token = "";
             player.socket = null;
+
+            this.broadcastAddPlayer(battle, player);
 
             var res = new ResBMPlayerEnter();
             res.token = "";
             return new MyResponse(ECode.Success, res).toTask();
+        }
+
+        void broadcastAddPlayer(BMBattleInfo battle, BMPlayerInfo playerInfo)
+        {
+            var msg = new BMMsgAddPlayer();
+            msg.player = playerInfo;
+            this.broadcast(battle, MsgType.BMAddPlayer, msg);
         }
     }
 }

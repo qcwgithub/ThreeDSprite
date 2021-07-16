@@ -277,7 +277,7 @@ public partial class TiledImporterWindow
         }
 
         //---
-        mapGo.AddComponent<BtScene>();
+        mapGo.AddComponent<BtBattle>();
 
         bool success;
         string prefabPath = this.importedDir + "/" + name + ".prefab";

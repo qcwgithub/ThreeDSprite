@@ -3,16 +3,20 @@ namespace Data
     public enum MessageCode
     {
         #region AUTO
+        btObjectType,
         BMBattleInfo,
+        BMMsgAddCharacter,
+        BMMsgAddPlayer,
+        BMMsgCharacterMove,
         BMMsgDebugGetCharacterPosition,
         BMMsgMove,
         BMMsgPlayerLogin,
         BMPlayerInfo,
         BMResDebugGetCharacterPosition,
-        BMResMove,
         BMResPlayerLogin,
         btBattle,
-        MCharacter,
+        btCharacter,
+        btObject,
         MsgChangeChannel,
         MsgChangeName,
         MsgChangePortrait,

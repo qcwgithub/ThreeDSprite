@@ -49,8 +49,9 @@ namespace Script
                 this.server.moveScript.randomWalkable(battle, out chWalkable, out chPos);
 
                 // playerInfo.characterId = this
-                player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId, chPos);
-                player.character.walkable = chWalkable;
+                player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId, ((btObject)chWalkable).id, chPos, Vector3.zero);
+
+
             }
 
             ////////////////////////////////////////////////////////////////////////
@@ -58,22 +59,14 @@ namespace Script
 
             var res = new BMResPlayerLogin();
             res.battle = battle;
-            res.characterDict = new Dictionary<int, MCharacter>();
-            foreach (var kv in battle.playerDict)
-            {
-                var player2 = kv.Value;
-                if (player2.character != null)
-                {
-                    var mc = new MCharacter();
-                    mc.characterId = player2.character.id;
-                    mc.pos = player2.character.pos;
-                    mc.moveDir = player2.character.moveDir;
-                    mc.walkableId = (player2.character.walkable as btObject).id;
-                    res.characterDict.Add(kv.Key, mc);
-                }
-            }
-
             return new MyResponse(ECode.Success, res).toTask();
+        }
+
+        void broadcastAddCharacter(BMBattleInfo battle, btCharacter character)
+        {
+            var msg = new BMMsgAddCharacter();
+            msg.character = character;
+            this.broadcast(battle, MsgType.BMAddCharacter, msg);
         }
     }
 }

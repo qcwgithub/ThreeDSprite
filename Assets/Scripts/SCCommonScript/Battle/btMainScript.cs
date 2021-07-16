@@ -8,18 +8,51 @@ namespace Script
 {
     public class btMainScript : btScriptBase
     {
-        public BMPlayerInfo addPlayer(BMBattleInfo battleInfo,  int playerId)
+        public BMPlayerInfo addPlayer(BMBattleInfo battleInfo, int playerId, int battleId)
         {
-            var playerInfo = new BMPlayerInfo();
-            playerInfo.playerId = playerId;
+            var player = new BMPlayerInfo();
+            // [0]
+            player.playerId = playerId;
+            // [1]
+            player.battleId = battleId;
             // playerInfo.token = "";
             // init
             // playerInfo.socket = null;
-            playerInfo.battle = null;
-            playerInfo.character = null;
+            player.battle = null;
+            player.character = null;
 
-            battleInfo.playerDict.Add(playerId, playerInfo);
-            return playerInfo;
+            battleInfo.playerDict.Add(playerId, player);
+            return player;
+        }
+
+        public btCharacter addCharacter(BMBattleInfo battle, int characterId, int playerId, int walkableId, Vector3 pos, Vector3 moveDir)
+        {
+            btCharacter character = new btCharacter();
+            // [0]
+            character.type = btObjectType.character;
+            // [1]
+            character.id = characterId;
+            // [2]
+            character.playerId = playerId;
+            // [3]
+            character.walkableId = walkableId;
+            // [4]
+            character.pos = pos;
+            // [5]
+            character.moveDir = moveDir;
+            
+            character.bodyType = q3BodyType.eDynamicBody;
+            character.worldMin = new Vector3(-0.5f, 0f, 0f);
+            character.worldMax = new Vector3(0.5f, 2f, 0f);
+            this.addObject(battle, character);
+            this.scripts.moveScript.setObjectPosition(battle, character, pos);
+
+            if (character.walkableId > 0)
+            {
+                character.walkable = battle.walkables.Find(_ => ((btObject)_).id == character.walkableId);
+            }
+
+            return character;
         }
 
         void addToPhysicsScene(BMBattleInfo battle, btObject obj)
@@ -56,21 +89,6 @@ namespace Script
             //     battle.trees.Add(tree);
             // }
             this.addToPhysicsScene(battle, obj);
-        }
-
-        public btCharacter addCharacter(BMBattleInfo battle, int characterId, int playerId, Vector3 pos)
-        {
-            btCharacter character = new btCharacter();
-            character.playerId = playerId;
-            character.type = btObjectType.character;
-            character.id = characterId;
-            character.bodyType = q3BodyType.eDynamicBody;
-            character.pos = Vector3.zero;
-            character.worldMin = new Vector3(-0.5f, 0f, 0f);
-            character.worldMax = new Vector3(0.5f, 2f, 0f);
-            this.addObject(battle, character);
-            this.scripts.moveScript.setObjectPosition(battle, character, pos);
-            return character;
         }
 
     }

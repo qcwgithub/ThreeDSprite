@@ -9,7 +9,7 @@ namespace Data
     ///////////////////////////////////////////////////////////
 
     [MessagePackObject]
-    public class BMMsgPlayerLogin : IJsonSerializable
+    public class BMMsgPlayerLogin
     {
         [Key(0)]
         public int battleId;
@@ -20,33 +20,30 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class MCharacter
-    {
-        [Key(0)]
-        public int characterId;
-        [Key(1)]
-        public Vector3 pos;
-        [Key(2)]
-        public Vector3 moveDir;
-        [Key(3)]
-        public int walkableId;
-    }
-
-    [MessagePackObject]
-    public class BMResPlayerLogin : IJsonSerializable
+    public class BMResPlayerLogin
     {
         [Key(0)]
         public BMBattleInfo battle;
+    }
 
-        // key = playerId
-        [Key(1)]
-        public Dictionary<int, MCharacter> characterDict;
+    [MessagePackObject]
+    public class BMMsgAddPlayer
+    {
+        [Key(0)]
+        public BMPlayerInfo player;
+    }
+
+    [MessagePackObject]
+    public class BMMsgAddCharacter
+    {
+        [Key(0)]
+        public btCharacter character;
     }
 
     ///////////////////////////////////////////////////////////
     
     [MessagePackObject]
-    public class BMMsgMove : IJsonSerializable
+    public class BMMsgMove
     {
         // public MessageCode code => MessageCode.BMMsgMove;
 
@@ -59,10 +56,8 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class BMResMove : IJsonSerializable
-    {
-        // public MessageCode code => MessageCode.BMResMove;
-        
+    public class BMMsgCharacterMove
+    {        
         [Key(0)]
         public int characterId;
         [Key(1)]

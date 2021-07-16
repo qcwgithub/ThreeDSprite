@@ -8,9 +8,9 @@ namespace Data
     [MessagePackObject]
     public partial class BMBattleInfo : btBattle
     {
-        [Key(1)]
-        public int battleId;
         [Key(2)]
+        public int battleId;
+        [Key(3)]
         public Dictionary<int, BMPlayerInfo> playerDict = new Dictionary<int, BMPlayerInfo>();
         public BMPlayerInfo GetPlayer(int playerId)
         {

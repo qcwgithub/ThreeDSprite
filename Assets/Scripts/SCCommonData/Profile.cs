@@ -5,7 +5,7 @@ using MessagePack;
 namespace Data
 {
     [MessagePackObject]
-    public class Profile : IJsonSerializable
+    public class Profile
     {
         [Key(0)]
         public int level;

@@ -6,7 +6,7 @@ using Data;
 public class BtWall: BtObject
 {
     protected btWall wall;
-    public override void Apply(BtScene scene, btObject obj)
+    public override void Apply(BtBattle scene, btObject obj)
     {
         base.Apply(scene, obj);
         this.wall = obj as btWall;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Data;
 
-public class BtScene : MonoBehaviour
+public class BtBattle : MonoBehaviour
 {
     public int Id;
     public BMBattleInfo battle { get; private set; }

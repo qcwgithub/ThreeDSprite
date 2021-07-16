@@ -10,6 +10,14 @@ namespace Data
     {
         [Key(0)]
         public int mapId;
+        [Key(1)]
+        public Dictionary<int, btCharacter> characters = new Dictionary<int, btCharacter>();
+        
+        public btCharacter GetCharacter(int characterId)
+        {
+            btCharacter character;
+            return this.characters.TryGetValue(characterId, out character) ? character : null;
+        }
         
         [IgnoreMember]
         public Dictionary<int, btObject> objects = new Dictionary<int, btObject>();
@@ -19,13 +27,6 @@ namespace Data
         // public List<btIObstacle> obstacles = new List<btIObstacle>();
         // public List<btTree> trees = new List<btTree>();
         
-        [IgnoreMember]
-        public Dictionary<int, btCharacter> characters = new Dictionary<int, btCharacter>();
-        public btCharacter GetCharacter(int characterId)
-        {
-            btCharacter character;
-            return this.characters.TryGetValue(characterId, out character) ? character : null;
-        }
         
         [IgnoreMember]
         public Dictionary<IntPtr, btObject> body2Objects = new Dictionary<IntPtr, btObject>();

@@ -10,9 +10,9 @@ public class BtCharacter : MonoBehaviour
     private Transform trans;
     private Vector3 originalScale;
     public btCharacter character { get; private set; }
-    private BtScene cMap;
+    private BtBattle cMap;
     public bool showServerCharacterPosition = false;
-    public void Apply(btCharacter character, BtScene scene)
+    public void Apply(btCharacter character, BtBattle scene)
     {
         this.trans = this.transform;
         this.originalScale = this.trans.localScale;

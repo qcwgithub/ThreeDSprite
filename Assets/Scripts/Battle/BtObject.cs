@@ -7,8 +7,8 @@ public class BtObject : MonoBehaviour
 {
     public int Id;
     public btObject obj { get; protected set; }
-    public BtScene scene { get; protected set; }
-    public virtual void Apply(BtScene scene, btObject obj)
+    public BtBattle scene { get; protected set; }
+    public virtual void Apply(BtBattle scene, btObject obj)
     {
         this.scene = scene;
         this.obj = obj;

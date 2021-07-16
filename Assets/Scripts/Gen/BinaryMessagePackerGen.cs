@@ -14,16 +14,20 @@ namespace Script
             byte[] bytes = null;
             switch (messageCode)
             {
+                case MessageCode.btObjectType: bytes = MessagePackSerializer.Serialize<btObjectType>((btObjectType)obj); break;
                 case MessageCode.BMBattleInfo: bytes = MessagePackSerializer.Serialize<BMBattleInfo>((BMBattleInfo)obj); break;
+                case MessageCode.BMMsgAddCharacter: bytes = MessagePackSerializer.Serialize<BMMsgAddCharacter>((BMMsgAddCharacter)obj); break;
+                case MessageCode.BMMsgAddPlayer: bytes = MessagePackSerializer.Serialize<BMMsgAddPlayer>((BMMsgAddPlayer)obj); break;
+                case MessageCode.BMMsgCharacterMove: bytes = MessagePackSerializer.Serialize<BMMsgCharacterMove>((BMMsgCharacterMove)obj); break;
                 case MessageCode.BMMsgDebugGetCharacterPosition: bytes = MessagePackSerializer.Serialize<BMMsgDebugGetCharacterPosition>((BMMsgDebugGetCharacterPosition)obj); break;
                 case MessageCode.BMMsgMove: bytes = MessagePackSerializer.Serialize<BMMsgMove>((BMMsgMove)obj); break;
                 case MessageCode.BMMsgPlayerLogin: bytes = MessagePackSerializer.Serialize<BMMsgPlayerLogin>((BMMsgPlayerLogin)obj); break;
                 case MessageCode.BMPlayerInfo: bytes = MessagePackSerializer.Serialize<BMPlayerInfo>((BMPlayerInfo)obj); break;
                 case MessageCode.BMResDebugGetCharacterPosition: bytes = MessagePackSerializer.Serialize<BMResDebugGetCharacterPosition>((BMResDebugGetCharacterPosition)obj); break;
-                case MessageCode.BMResMove: bytes = MessagePackSerializer.Serialize<BMResMove>((BMResMove)obj); break;
                 case MessageCode.BMResPlayerLogin: bytes = MessagePackSerializer.Serialize<BMResPlayerLogin>((BMResPlayerLogin)obj); break;
                 case MessageCode.btBattle: bytes = MessagePackSerializer.Serialize<btBattle>((btBattle)obj); break;
-                case MessageCode.MCharacter: bytes = MessagePackSerializer.Serialize<MCharacter>((MCharacter)obj); break;
+                case MessageCode.btCharacter: bytes = MessagePackSerializer.Serialize<btCharacter>((btCharacter)obj); break;
+                case MessageCode.btObject: bytes = MessagePackSerializer.Serialize<btObject>((btObject)obj); break;
                 case MessageCode.MsgChangeChannel: bytes = MessagePackSerializer.Serialize<MsgChangeChannel>((MsgChangeChannel)obj); break;
                 case MessageCode.MsgChangeName: bytes = MessagePackSerializer.Serialize<MsgChangeName>((MsgChangeName)obj); break;
                 case MessageCode.MsgChangePortrait: bytes = MessagePackSerializer.Serialize<MsgChangePortrait>((MsgChangePortrait)obj); break;
@@ -64,16 +68,20 @@ namespace Script
             var readonlyMemory = new ReadOnlyMemory<byte>(buffer, offset, count);
             switch (messageCode)
             {
+                case MessageCode.btObjectType: obj = MessagePackSerializer.Deserialize<btObjectType>(readonlyMemory); break;
                 case MessageCode.BMBattleInfo: obj = MessagePackSerializer.Deserialize<BMBattleInfo>(readonlyMemory); break;
+                case MessageCode.BMMsgAddCharacter: obj = MessagePackSerializer.Deserialize<BMMsgAddCharacter>(readonlyMemory); break;
+                case MessageCode.BMMsgAddPlayer: obj = MessagePackSerializer.Deserialize<BMMsgAddPlayer>(readonlyMemory); break;
+                case MessageCode.BMMsgCharacterMove: obj = MessagePackSerializer.Deserialize<BMMsgCharacterMove>(readonlyMemory); break;
                 case MessageCode.BMMsgDebugGetCharacterPosition: obj = MessagePackSerializer.Deserialize<BMMsgDebugGetCharacterPosition>(readonlyMemory); break;
                 case MessageCode.BMMsgMove: obj = MessagePackSerializer.Deserialize<BMMsgMove>(readonlyMemory); break;
                 case MessageCode.BMMsgPlayerLogin: obj = MessagePackSerializer.Deserialize<BMMsgPlayerLogin>(readonlyMemory); break;
                 case MessageCode.BMPlayerInfo: obj = MessagePackSerializer.Deserialize<BMPlayerInfo>(readonlyMemory); break;
                 case MessageCode.BMResDebugGetCharacterPosition: obj = MessagePackSerializer.Deserialize<BMResDebugGetCharacterPosition>(readonlyMemory); break;
-                case MessageCode.BMResMove: obj = MessagePackSerializer.Deserialize<BMResMove>(readonlyMemory); break;
                 case MessageCode.BMResPlayerLogin: obj = MessagePackSerializer.Deserialize<BMResPlayerLogin>(readonlyMemory); break;
                 case MessageCode.btBattle: obj = MessagePackSerializer.Deserialize<btBattle>(readonlyMemory); break;
-                case MessageCode.MCharacter: obj = MessagePackSerializer.Deserialize<MCharacter>(readonlyMemory); break;
+                case MessageCode.btCharacter: obj = MessagePackSerializer.Deserialize<btCharacter>(readonlyMemory); break;
+                case MessageCode.btObject: obj = MessagePackSerializer.Deserialize<btObject>(readonlyMemory); break;
                 case MessageCode.MsgChangeChannel: obj = MessagePackSerializer.Deserialize<MsgChangeChannel>(readonlyMemory); break;
                 case MessageCode.MsgChangeName: obj = MessagePackSerializer.Deserialize<MsgChangeName>(readonlyMemory); break;
                 case MessageCode.MsgChangePortrait: obj = MessagePackSerializer.Deserialize<MsgChangePortrait>(readonlyMemory); break;

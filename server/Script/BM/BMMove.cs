@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Data;
+using UnityEngine;
 
 namespace Script
 {
@@ -38,12 +39,16 @@ namespace Script
                 return e.toTask();
             }
 
-            var res = new BMResMove();
-            res.characterId = player.character.id;
-            res.moveDir = msg.moveDir;
-            this.broadcast(player.battle, this.msgType, res);
-            
+            this.broadcastCharcterMove(player.battle, player.character.id, msg.moveDir);
             return ECode.Success.toTask();
+        }
+
+        void broadcastCharcterMove(BMBattleInfo battle, int characterId, Vector3 moveDir)
+        {
+            var res = new BMMsgCharacterMove();
+            res.characterId = characterId;
+            res.moveDir = moveDir;
+            this.broadcast(battle, this.msgType, res);
         }
     }
 }

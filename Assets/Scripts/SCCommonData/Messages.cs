@@ -10,14 +10,14 @@ namespace Data
     }
     
     [MessagePackObject]
-    public class ResMisc : IJsonSerializable
+    public class ResMisc
     {
         [Key(0)]
         public int oldSocketTimestamp;
     }
 
     [MessagePackObject]
-    public class MsgLoginAAA : IJsonSerializable
+    public class MsgLoginAAA
     {
         // 版本号，如果与服务器不一致，则不允许登录
         [Key(0)]
@@ -44,7 +44,7 @@ namespace Data
 
 
     [MessagePackObject]
-    public class ResLoginAAA : IJsonSerializable
+    public class ResLoginAAA
     {
         [Key(0)]
         public string channel;
@@ -65,7 +65,7 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class MsgChangeChannel : IJsonSerializable
+    public class MsgChangeChannel
     {
         [Key(0)]
         public string channel1;
@@ -83,7 +83,7 @@ namespace Data
         public int playerId; // 由PM赋值，客户端传0
     }
     [MessagePackObject]
-    public class ResChangeChannel : IJsonSerializable
+    public class ResChangeChannel
     {
         [Key(0)]
         public bool channel2Exist; // 由 AAA 赋值，true表示要更换的渠道已经存在了，客户端此次不是绑定，而是需要用此号重新登录一下游戏
@@ -94,7 +94,7 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class MsgLoginPM : IJsonSerializable
+    public class MsgLoginPM
     {
         [Key(0)]
         public bool isReconnect;
@@ -107,7 +107,7 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class ResLoginPM : IJsonSerializable
+    public class ResLoginPM
     {
         [Key(0)]
         public int id;
@@ -137,52 +137,52 @@ namespace Data
     ///////////////////////////////////////////////////////////
 
     [MessagePackObject]
-    public class MsgUploadProfile : IJsonSerializable
+    public class MsgUploadProfile
     {
         //--------------------------------public CProfile profile;
     }
 
     // 与 ProfileType 一一对应
     [MessagePackObject]
-    public class MsgSyncProfile : IJsonSerializable
+    public class MsgSyncProfile
     {
 
     }
     [MessagePackObject]
-    public class ResSyncProfile : IJsonSerializable
+    public class ResSyncProfile
     {
     }
     [MessagePackObject]
-    public class MsgChangeName : IJsonSerializable
+    public class MsgChangeName
     {
         [Key(0)]
         public string name;
     }
     [MessagePackObject]
-    public class ResChangeName : IJsonSerializable
+    public class ResChangeName
     {
 
     }
 
     [MessagePackObject]
-    public class MsgChangePortrait : IJsonSerializable
+    public class MsgChangePortrait
     {
         [Key(0)]
         public string portrait;
     }
     [MessagePackObject]
-    public class ResChangePortrait : IJsonSerializable
+    public class ResChangePortrait
     {
 
     }
 
     [MessagePackObject]
-    public class MsgGetVipDailyReward : IJsonSerializable
+    public class MsgGetVipDailyReward
     {
 
     }
     [MessagePackObject]
-    public class ResGetVipDailyReward : IJsonSerializable
+    public class ResGetVipDailyReward
     {
         [Key(0)]
         public int todayMs;
@@ -192,7 +192,7 @@ namespace Data
 
     // 雷霆--发起支付请求，其他是在服务器创建个订单号
     [MessagePackObject]
-    public class MsgPayLtStart : IJsonSerializable
+    public class MsgPayLtStart
     {
         [Key(0)]
         public string productId;
@@ -200,7 +200,7 @@ namespace Data
         public string fen; // 分
     }
     [MessagePackObject]
-    public class ResPayLtStart : IJsonSerializable
+    public class ResPayLtStart
     {
         [Key(0)]
         public string orderId; // 当 err = ECode.Success
@@ -208,27 +208,27 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class MsgPayIvyStart : IJsonSerializable
+    public class MsgPayIvyStart
     {
         [Key(0)]
         public int id;
     }
     [MessagePackObject]
-    public class ResPayIvyStart : IJsonSerializable
+    public class ResPayIvyStart
     {
         [Key(0)]
         public string orderId; // 当 err = ECode.Success
     }
 
     [MessagePackObject]
-    public class MsgPay : IJsonSerializable
+    public class MsgPay
     {
         [Key(0)]
         public string receipt;
     }
 
     [MessagePackObject]
-    public class PurchasedItem : IJsonSerializable
+    public class PurchasedItem
     {
         [Key(0)]
         public bool duplicated;
@@ -261,7 +261,7 @@ namespace Data
         public List<int> numberUpdates;
     }
     [MessagePackObject]
-    public class ResMysqlError : IJsonSerializable
+    public class ResMysqlError
     {
         /**
          * Either a MySQL server error (e.g. "ER_ACCESS_DENIED_ERROR"),
@@ -279,12 +279,12 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class MsgEnterBattle : IJsonSerializable
+    public class MsgEnterBattle
     {
 
     }
     [MessagePackObject]
-    public class ResEnterBattle : IJsonSerializable
+    public class ResEnterBattle
     {
         [Key(0)]
         public bool alreadyInBattle;

@@ -227,17 +227,6 @@ namespace Script
             //dataEntry.name2Type.Add(typeof(List<int>).Name, typeof(List<int>));
             //dataEntry.name2Type.Add(typeof(List<string>).Name, typeof(List<string>));
 
-            // data.dll types
-            var allDataTypes = dataEntry.GetType().Assembly.GetTypes();
-            foreach (var type in allDataTypes)
-            {
-                if (typeof(IJsonSerializable).IsAssignableFrom(type))
-                {
-                    dataEntry.name2Type.Add(type.Name, type);
-                }
-            }
-
-
             //// per-server data
             dataEntry.serverDatas = new Dictionary<int, ServerData>();
             foreach (var serverId in dataEntry.serverIds)

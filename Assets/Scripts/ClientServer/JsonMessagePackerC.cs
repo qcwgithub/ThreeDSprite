@@ -31,26 +31,26 @@ namespace Script
         {
             get
             {
-                if (_name2Type == null)
-                {
-                    _name2Type = new Dictionary<string, Type>();
+                // if (_name2Type == null)
+                // {
+                //     _name2Type = new Dictionary<string, Type>();
 
-                    // system types
-                    _name2Type.Add(typeof(int).Name, typeof(int));
-                    _name2Type.Add(typeof(string).Name, typeof(string));
-                    //dataEntry.name2Type.Add(typeof(List<int>).Name, typeof(List<int>));
-                    //dataEntry.name2Type.Add(typeof(List<string>).Name, typeof(List<string>));
+                //     // system types
+                //     _name2Type.Add(typeof(int).Name, typeof(int));
+                //     _name2Type.Add(typeof(string).Name, typeof(string));
+                //     //dataEntry.name2Type.Add(typeof(List<int>).Name, typeof(List<int>));
+                //     //dataEntry.name2Type.Add(typeof(List<string>).Name, typeof(List<string>));
 
-                    // data.dll types
-                    var allDataTypes = typeof(Data.MsgType).Assembly.GetTypes();
-                    foreach (var type in allDataTypes)
-                    {
-                        if (typeof(Data.IJsonSerializable).IsAssignableFrom(type))
-                        {
-                            _name2Type.Add(type.Name, type);
-                        }
-                    }
-                }
+                //     // data.dll types
+                //     var allDataTypes = typeof(Data.MsgType).Assembly.GetTypes();
+                //     foreach (var type in allDataTypes)
+                //     {
+                //         if (typeof(Data.IJsonSerializable).IsAssignableFrom(type))
+                //         {
+                //             _name2Type.Add(type.Name, type);
+                //         }
+                //     }
+                // }
                 return _name2Type;
             }
         }

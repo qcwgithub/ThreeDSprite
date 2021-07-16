@@ -34,7 +34,9 @@ public class BMServer : ClientServer
     Dictionary<MsgType, OnMessageBase> handlerDict = new Dictionary<MsgType, OnMessageBase>();
     public void initHandlers()
     {
-        this.handlerDict.Add(MsgType.BMMove, new OnBMResMove());
+        this.handlerDict.Add(MsgType.BMMove, new OnBMCharacterMove());
+        this.handlerDict.Add(MsgType.BMAddPlayer, new OnBMAddPlayer());
+        this.handlerDict.Add(MsgType.BMAddCharacter, new OnBMAddCharacter());
     }
 
     public void handlerServerMessage(TcpClientData socket, MsgType msgType, object msg, Action<ECode, object> reply)

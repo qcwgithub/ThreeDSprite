@@ -6,7 +6,7 @@ using Data;
 public class BtFloor : BtObject
 {
     protected btFloor floor;
-    public override void Apply(BtScene scene, btObject obj)
+    public override void Apply(BtBattle scene, btObject obj)
     {
         base.Apply(scene, obj);
         this.floor = obj as btFloor;

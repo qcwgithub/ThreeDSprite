@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEditor;
 
 using System.IO;
-using UnityEditor.Experimental.AssetImporters;
+
 
 namespace Assets.Editor
 {
@@ -35,12 +35,12 @@ namespace Assets.Editor
     // quad xz horizontal
     // quad xy vertical
     //[UnityEditor.AssetImporters.ScriptedImporter(1, new string[] { "cube", "cubes" })]
-    public class MyImporter2 : ScriptedImporter
+    public class MyImporter2 : UnityEditor.AssetImporters.ScriptedImporter
     {
         public MyShape shape = MyShape.Cube;
         public MyQuadDir quadDir = MyQuadDir.XZ;      
 
-        private void ImportOne(AssetImportContext ctx, string spritePath)
+        private void ImportOne(UnityEditor.AssetImporters.AssetImportContext ctx, string spritePath)
         {
             string name = Path.GetFileNameWithoutExtension(spritePath);
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
@@ -98,7 +98,7 @@ namespace Assets.Editor
             transCollider.parent = trans;
         }
 
-        public override void OnImportAsset(AssetImportContext ctx)
+        public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
         {
             string assetPath = ctx.assetPath;
             if (assetPath.EndsWith(".cube"))

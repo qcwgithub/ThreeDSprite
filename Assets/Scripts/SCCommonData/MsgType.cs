@@ -148,5 +148,7 @@ namespace Data
         BMMove = 10076,
         BMPlayerLogin = 10077,
         BMDebugGetCharacterPosition = 10078,
+        BMAddPlayer = 10079,
+        BMAddCharacter = 10080,
     }
 }

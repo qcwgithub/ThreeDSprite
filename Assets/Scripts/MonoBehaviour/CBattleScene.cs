@@ -9,7 +9,7 @@ using Script;
 public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
 {
     protected override bool carePMConnection => false;
-    
+
     const string baseDir = "Imported/Egzd";
     public CCameraFollow cameraFollow;
     public float Speed = 5f;
@@ -20,7 +20,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     #region IBattleConfigs
 
     public Dictionary<int, btTilemapData> tilemapDatas { get; } = new Dictionary<int, btTilemapData>();
-    public Dictionary<string, btTilesetConfig> tilesetConfigs { get; } = new Dictionary<string, btTilesetConfig> ();
+    public Dictionary<string, btTilesetConfig> tilesetConfigs { get; } = new Dictionary<string, btTilesetConfig>();
 
     #endregion
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -39,8 +39,9 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     ////////////////////////////////////////////////////////////////////////////////////////
 
     public BMBattleInfo battle { get; private set; }
+    public BtBattle BtBattle { get; private set; }
 
-    private BtScene Map;
+    private BtBattle Map;
 
     public int battleId;
     public int mapId;
@@ -72,10 +73,6 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
 
         // myCharacter may be 0
         this.myCharacerId = 0;
-        if (res.characterDict.ContainsKey(this.myPlayerId))
-        {
-            this.myCharacerId = res.characterDict[this.myPlayerId].characterId;
-        }
 
         /////////////////////////////////////////////////////////////////////////////
 
@@ -109,6 +106,23 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
         /////////////////////////////////////////////////////////////////////////////
 
         this.battle = this.createScript.newBattle(res.battle.battleId, res.battle.mapId);
+        foreach (var kv in res.battle.playerDict)
+        {
+            BMPlayerInfo p = kv.Value;
+            this.mainScript.addPlayer(this.battle, p.playerId, p.battleId);
+        }
+
+        foreach (var kv in res.battle.characters)
+        {
+            btCharacter c = kv.Value;
+            btCharacter c2 = this.mainScript.addCharacter(this.battle, c.id, c.playerId, c.walkableId, c.pos, c.moveDir);
+
+            if (c.playerId == this.myPlayerId)
+            {
+                this.myCharacerId = c.id;
+                this.myCharacter = c2;
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////
 
@@ -121,38 +135,19 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
         }
 
         GameObject go = GameObject.Instantiate<GameObject>(prefab);
-        BtScene cMap = go.GetComponent<BtScene>();
-        cMap.Apply(battle);
+        this.BtBattle = go.GetComponent<BtBattle>();
+        this.BtBattle.Apply(battle);
 
         /////////////////////////////////////////////////////////////////////////////
 
-        foreach (var kv in res.characterDict)
+        foreach (var kv in this.battle.characters)
         {
-            int playerId = kv.Key;
-            MCharacter mc = kv.Value;
-
-            ////
-            btCharacter character = this.mainScript.addCharacter(this.battle, mc.characterId, playerId, mc.pos);
-            character.walkable = this.battle.walkables.Find(_ => ((btObject)_).id == mc.walkableId);
-
-            ////
-            GameObject char_go = GameObject.Instantiate(this.characterPrefab);
-            char_go.transform.SetParent(this.characterPrefab.transform.parent, false);
-            BtCharacter char_mono = char_go.GetComponent<BtCharacter>();
-            char_mono.Apply(character, cMap);
-            char_go.SetActive(true);
-
-            ////
-            if (mc.characterId == this.myCharacerId)
-            {
-                this.myCharacter = character;
-
-                this.cameraFollow.Target = char_go.transform;
-            }
+            btCharacter c = kv.Value;
+            this.ApplyCharacter(c);
         }
 
         /////////////////////////////////////////////////////////////////////////////
-        
+
         int id = 1;
         this.InputManager.OnInput += (Vector3 dir) =>
         {
@@ -161,7 +156,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
             //     dir.y = -1f;
             // }
 
-            if (dir != this.lastInputDir)            
+            if (dir != this.lastInputDir)
             {
                 this.lastInputDir = dir;
                 // Debug.LogFormat("send dir {0} {1},{2},{3}", id, dir.x, dir.y, dir.z);
@@ -172,6 +167,22 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
                 sc.bmServer.send(MsgType.BMMove, msg);
             }
         };
+    }
+
+    public void ApplyCharacter(btCharacter character)
+    {
+        ////
+        GameObject char_go = GameObject.Instantiate(this.characterPrefab);
+        char_go.transform.SetParent(this.characterPrefab.transform.parent, false);
+        BtCharacter char_mono = char_go.GetComponent<BtCharacter>();
+        char_mono.Apply(character, this.BtBattle);
+        char_go.SetActive(true);
+
+        ////
+        if (character.id == this.myCharacerId)
+        {
+            this.cameraFollow.Target = char_go.transform;
+        }
     }
 
     void Update()
