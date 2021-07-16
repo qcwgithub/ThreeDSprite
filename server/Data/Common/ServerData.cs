@@ -39,9 +39,7 @@ namespace Data
         public int getInt(string key)
         {
             int value;
-            if (!this.intMap.TryGetValue(key, out value))
-                return 0;
-            return value;
+            return this.intMap.TryGetValue(key, out value) ? value : 0;
         }
         public void setInt(string key, int value)
         {
@@ -56,9 +54,7 @@ namespace Data
         public string getString(string key)
         {
             string value;
-            if (!this.stringMap.TryGetValue(key, out value))
-                return null;
-            return value;
+            return this.stringMap.TryGetValue(key, out value) ? value : null;
         }
         public void setString(string key, string value)
         {

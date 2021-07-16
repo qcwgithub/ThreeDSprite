@@ -17,9 +17,7 @@ namespace Data
         public AAAPlayerInfo GetPlayerInfo(int id)
         {
             AAAPlayerInfo info;
-            if (!this.playerInfos.TryGetValue(id, out info))
-                return null;
-            return info;
+            return this.playerInfos.TryGetValue(id, out info) ? info : null;
         }
 
         // player manager info
@@ -27,9 +25,7 @@ namespace Data
         public AAAPlayerManagerInfo GetPlayerManagerInfo(int id)
         {
             AAAPlayerManagerInfo info;
-            if (!this.playerManagerInfos.TryGetValue(id, out info))
-                return null;
-            return info;
+            return this.playerManagerInfos.TryGetValue(id, out info) ? info : null;
         }
 
         // 0 means not ready

@@ -24,11 +24,7 @@ namespace Data
         public btCharacter GetCharacter(int characterId)
         {
             btCharacter character;
-            if (this.characters.TryGetValue(characterId, out character))
-            {
-                return character;
-            }
-            return null;
+            return this.characters.TryGetValue(characterId, out character) ? character : null;
         }
         
         [IgnoreMember]

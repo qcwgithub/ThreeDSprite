@@ -20,11 +20,7 @@ namespace Script
         public Loc getKnownLoc(int id)
         {
             Loc loc;
-            if (!this.data.knownLocs.TryGetValue(id, out loc))
-            {
-                return loc;
-            }
-            return loc;
+            return this.data.knownLocs.TryGetValue(id, out loc) ? loc : null;
         }
 
         public bool isLocalhost()

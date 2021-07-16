@@ -10,18 +10,14 @@ namespace Data
         public LobbyPlayerInfo GetPlayerInfo(int id)
         {
             LobbyPlayerInfo info;
-            if (!this.playerInfos.TryGetValue(id, out info))
-                return null;
-            return info;
+            return this.playerInfos.TryGetValue(id, out info) ? info : null;
         }
         
         public Dictionary<int, LobbyBMInfo> bmInfos = new Dictionary<int, LobbyBMInfo>();
         public LobbyBMInfo GetBMInfo(int bmId)
         {
             LobbyBMInfo info;
-            if (!this.bmInfos.TryGetValue(bmId, out info))
-                return null;
-            return info;
+            return this.bmInfos.TryGetValue(bmId, out info) ? info : null;
         }
 
         // public Dictionary<int, LobbyBattleInfo> battleInfos = new Dictionary<int, LobbyBattleInfo>();

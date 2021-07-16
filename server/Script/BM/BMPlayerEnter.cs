@@ -3,6 +3,7 @@ using Data;
 
 namespace Script
 {
+    // from lobby
     public class BMPlayerEnter : BMHandler
     {
         public override MsgType msgType => MsgType.BMPlayerEnter;

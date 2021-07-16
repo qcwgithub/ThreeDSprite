@@ -9,13 +9,12 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.castObject<MsgBMCreateBattle>(_msg);
-            if (this.server.bmData.battleDict.ContainsKey(msg.battleId))
+            if (null != this.server.bmData.GetBattle(msg.battleId))
             {
-                return ECode.MapAlreadyExist.toTask();
+                return ECode.BattleIdAlreadyExist.toTask();
             }
 
-            btTilemapData tilemapData;
-            if (!this.server.bmData.tilemapDatas.TryGetValue(msg.mapId, out tilemapData))
+            if (null == this.server.bmData.GetTilemapData(msg.mapId))
             {
                 return ECode.MapDataNotExist.toTask();
             }

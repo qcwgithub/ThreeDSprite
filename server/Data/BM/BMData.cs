@@ -18,11 +18,7 @@ namespace Data
         public BMBattleInfo GetBattle(int id)
         {
             BMBattleInfo info;
-            if (!this.battleDict.TryGetValue(id, out info))
-            {
-                return null;
-            }
-            return info;
+            return this.battleDict.TryGetValue(id, out info) ? info : null;
         }
 
         public _BMActive alive = new _BMActive
@@ -38,6 +34,17 @@ namespace Data
         // 配置文件
 
         public Dictionary<int, btTilemapData> tilemapDatas { get; } = new Dictionary<int, btTilemapData>();
+        public btTilemapData GetTilemapData(int mapId)
+        {
+            btTilemapData data;
+            return this.tilemapDatas.TryGetValue(mapId, out data) ? data : null;
+        }
+
         public Dictionary<string, btTilesetConfig> tilesetConfigs { get; } = new Dictionary<string, btTilesetConfig>();
+        public btTilesetConfig GetTilesetConfig(string tileset)
+        {
+            btTilesetConfig config;
+            return this.tilesetConfigs.TryGetValue(tileset, out config) ? config : null;
+        }
     }
 }

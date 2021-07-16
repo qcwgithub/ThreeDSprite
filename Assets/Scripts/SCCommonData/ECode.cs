@@ -113,5 +113,6 @@ namespace Data
         MapAlreadyExist = 116,
         CharacterNotExist = 117,
         PlayerHasNoCharacter = 118,
+        BattleIdAlreadyExist = 119,
     }
 }

@@ -16,11 +16,7 @@ namespace Data
         public PMPlayerInfo GetPlayerInfo(int id)
         {
             PMPlayerInfo info;
-            if (!this.playerInfos.TryGetValue(id, out info))
-            {
-                return null;
-            }
-            return info;
+            return this.playerInfos.TryGetValue(id, out info) ? info : null;
         }
 
         public _PMActive alive = new _PMActive

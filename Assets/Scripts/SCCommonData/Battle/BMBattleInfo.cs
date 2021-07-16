@@ -15,11 +15,7 @@ namespace Data
         public BMPlayerInfo GetPlayer(int playerId)
         {
             BMPlayerInfo playerInfo;
-            if (this.playerDict.TryGetValue(playerId, out playerInfo))
-            {
-                return playerInfo;
-            }
-            return null;
+            return this.playerDict.TryGetValue(playerId, out playerInfo) ? playerInfo : null;
         }
     }
 }
