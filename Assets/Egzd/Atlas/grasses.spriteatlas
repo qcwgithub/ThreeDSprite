@@ -7,7 +7,6 @@ SpriteAtlas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: grasses
-  serializedVersion: 2
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -29,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 598cdeeca95332242943f62b8a6cd177, type: 3}
+    totalSpriteSurfaceArea: 1057713
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: ea43abd47ac9af34bb9b326e7be2b348, type: 3}
@@ -48,6 +51,6 @@ SpriteAtlas:
   - grass_basic_b
   - grassplus_b
   - grassplus_c
+  m_RenderDataMap: {}
   m_Tag: grasses
   m_IsVariant: 0
-  m_IsPlaceholder: 0

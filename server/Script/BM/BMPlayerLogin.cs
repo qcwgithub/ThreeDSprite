@@ -51,7 +51,7 @@ namespace Script
                 // playerInfo.characterId = this
                 player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId, ((btObject)chWalkable).id, chPos, Vector3.zero);
 
-
+                this.broadcastAddCharacter(battle, player);
             }
 
             ////////////////////////////////////////////////////////////////////////
@@ -62,11 +62,11 @@ namespace Script
             return new MyResponse(ECode.Success, res).toTask();
         }
 
-        void broadcastAddCharacter(BMBattleInfo battle, btCharacter character)
+        void broadcastAddCharacter(BMBattleInfo battle, BMPlayerInfo player)
         {
             var msg = new BMMsgAddCharacter();
-            msg.character = character;
-            this.broadcast(battle, MsgType.BMAddCharacter, msg);
+            msg.character = player.character;
+            this.broadcast(battle, MsgType.BMAddCharacter, msg, player.playerId);
         }
     }
 }

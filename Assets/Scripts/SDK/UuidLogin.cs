@@ -64,7 +64,7 @@ public class UuidLogin : ILoginInterface
     public Task init()
     {
         this._channelUserId = LSUtils.GetString(LSKeys.UUID_CHANNEL_USER_ID, null);
-        if (string.IsNullOrEmpty(this._channelUserId))
+        // if (string.IsNullOrEmpty(this._channelUserId))
         {
             this._channelUserId = Guid.NewGuid().ToString();
             LSUtils.SetString(LSKeys.UUID_CHANNEL_USER_ID, this._channelUserId);

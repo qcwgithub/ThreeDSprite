@@ -7,7 +7,6 @@ SpriteAtlas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: stones
-  serializedVersion: 2
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -29,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: b824718171671be478df726c45529213, type: 3}
+    totalSpriteSurfaceArea: 74512
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: d570a6c44278c064ea855d95b45dd2a3, type: 3}
@@ -42,6 +45,6 @@ SpriteAtlas:
   - pillow_0.3
   - relic_c
   - relic_d
+  m_RenderDataMap: {}
   m_Tag: stones
   m_IsVariant: 0
-  m_IsPlaceholder: 0
