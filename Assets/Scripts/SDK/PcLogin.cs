@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class UuidLogin : ILoginInterface
+public class PcLogin : ILoginInterface
 {
-    public string getName() { return "UuidLogin"; }
+    public string getName() { return "PcLogin"; }
     public string channel
     {
-        get { return MyChannels.uuid; }
+        get { return MyChannels.pc; }
     }
 
     // private bool inited1 = false;
@@ -63,13 +63,6 @@ public class UuidLogin : ILoginInterface
     //// init
     public Task init()
     {
-        this._channelUserId = LSUtils.GetString(LSKeys.UUID_CHANNEL_USER_ID, null);
-        if (string.IsNullOrEmpty(this._channelUserId))
-        {
-            this._channelUserId = Guid.NewGuid().ToString();
-            LSUtils.SetString(LSKeys.UUID_CHANNEL_USER_ID, this._channelUserId);
-        }
-        Debug.Log("this._channelUserId = " + this._channelUserId);
         this.emit(SDKEvent.Inited);
         return null;
     }
@@ -110,10 +103,10 @@ public class UuidLogin : ILoginInterface
     {
         get { return true; }
     }
-    private string _channelUserId = null;
+    
     public string channelUserId
     {
-        get { return this._channelUserId; }
+        get; set;
     }
     public string originalChannelUserId
     {

@@ -6,6 +6,7 @@ using MessagePack.Resolvers;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using Data;
 
 public class MessagePackInitializer
 {
@@ -32,6 +33,7 @@ public class CStartupScene : CSceneBase
     public string NextSceneName;
     public CBoardPanel Board;
     public GameObject loadingPanelPrefab;
+    public CAccountPanel accountPanel;
 
     protected override void Awake()
     {
@@ -47,11 +49,29 @@ public class CStartupScene : CSceneBase
     ServerList serverList = null;
     IEnumerator Start()
     {
-        Data.BMMsgMove bb = new Data.BMMsgMove();
-        bb.moveDir.x = 1.2f;
-        var bbbb = MessagePackSerializer.Serialize(bb);
-        var cc = MessagePackSerializer.Deserialize<Data.BMMsgMove>(bbbb);
+        // Data.BMMsgMove bb = new Data.BMMsgMove();
+        // bb.moveDir.x = 1.2f;
+        // var bbbb = MessagePackSerializer.Serialize(bb);
+        // var cc = MessagePackSerializer.Deserialize<Data.BMMsgMove>(bbbb);
+
         SDKManager.Instance.init();
+        
+        if (PlatformUtils.getPlatformString() == MyChannels.pc)
+        {
+            this.accountPanel.gameObject.SetActive(true);
+
+            while (string.IsNullOrEmpty(this.accountPanel.account))
+            {
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            (SDKManager.Instance.getLoginInterface(MyChannels.pc) as PcLogin).channelUserId = this.accountPanel.account;
+        }
+        else
+        {
+            this.accountPanel.gameObject.SetActive(false);
+        }
+
 
         yield return this.downloadServerList();
 

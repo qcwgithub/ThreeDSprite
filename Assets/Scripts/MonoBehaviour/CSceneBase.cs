@@ -36,6 +36,10 @@ public class CSceneBase : MonoBehaviour
 
     protected virtual void onPMServerStatusChange(PMNetworkStatus status, string message)
     {
+        if (status == PMNetworkStatus.Init)
+        {
+            return;
+        }
         var info = sc.loadingPanel.show("login", -1);
         info.setMessage(status.ToString() + (message != null ? ", message: " + message : ""));
 

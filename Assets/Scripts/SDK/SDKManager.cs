@@ -171,6 +171,7 @@ public class SDKManager
         // }
 
         _logins.Add(new UuidLogin());
+        _logins.Add(new PcLogin());
 
         // if (this.deviceInterface == null)
         // {

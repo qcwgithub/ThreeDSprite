@@ -14,7 +14,19 @@ namespace Script
         public async Task<MyResponse> verifyAccount(string channel, string channelUserId, Dictionary<string, object> verifyData)
         {
             MyResponse r = null;
-            if (channel == MyChannels.uuid)
+            if (channel == MyChannels.pc)
+            {
+                // if (msg.channelUserId == null) {
+                //     msg.channelUserId = v4();
+                // }
+
+                r = await this.server.channelPc.verifyAccount(channelUserId, verifyData);
+                if (r.err != ECode.Success)
+                {
+                    return r;
+                }
+            }
+            else if (channel == MyChannels.uuid)
             {
                 // if (msg.channelUserId == null) {
                 //     msg.channelUserId = v4();

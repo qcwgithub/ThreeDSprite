@@ -80,7 +80,14 @@ public class PMServer : ClientServer
         this.channel = LSUtils.GetString(LSKeys.CHANNEL, null);
         if (!MyChannels.isValidChannel(this.channel))
         {
-            this.channel = MyChannels.uuid;
+            if (PlatformUtils.getPlatformString() == MyChannels.pc)
+            {
+                this.channel = MyChannels.pc;
+            }
+            else
+            {
+                this.channel = MyChannels.uuid;
+            }
 
             LSUtils.SetString(LSKeys.CHANNEL, this.channel);
             LSUtils.Save();

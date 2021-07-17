@@ -3,6 +3,7 @@ using UnityEngine;
 public class LSKeys
 {
     public const string CHANNEL = ProjectUtils.ProjectName + "Channel";
+    public const string PC_CHANNEL_USER_ID = ProjectUtils.ProjectName + "PcChannelUserId";
     public const string UUID_CHANNEL_USER_ID = ProjectUtils.ProjectName + "UuidChannelUserId";
     public const string APPLE_CHANNEL_USER_ID = ProjectUtils.ProjectName + "AppWSServerAddress";
 }

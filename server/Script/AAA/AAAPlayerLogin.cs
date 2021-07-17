@@ -184,6 +184,7 @@ namespace Script
             {
                 return ECode.InvalidPlatform;
             }
+            
             this.logger.InfoFormat("{0} channel:{1}, channelUserId:{2} version:{3} ", this.msgName, msg.channel, msg.channelUserId, msg.version);
 
             // 验证登录

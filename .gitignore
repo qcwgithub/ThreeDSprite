@@ -12,3 +12,5 @@ ThreeDSprite2.sln
 Temp/
 server/bin/
 server/gameConfig/
+build/
+server/CodeGen/bin/

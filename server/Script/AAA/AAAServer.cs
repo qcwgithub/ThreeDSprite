@@ -14,6 +14,7 @@ namespace Script
 
         public AAAScript aaaScript;
         public AAASqlUtils aaaSqlUtils;
+        public AAAChannel_Pc channelPc;
         public AAAChannel_Uuid channelUuid;
         public AAAChannel_Debug channelDebug;
         public AAAChannel_Apple channelApple;
