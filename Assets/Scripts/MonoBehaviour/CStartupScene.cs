@@ -35,6 +35,11 @@ public class CStartupScene : CSceneBase
     public GameObject loadingPanelPrefab;
     public CAccountPanel accountPanel;
 
+    public static void Enter()
+    {
+        CLoadingScene.EnterScene("Startup");
+    }
+
     protected override void Awake()
     {
         MessagePackInitializer.Initialize();
@@ -99,7 +104,7 @@ public class CStartupScene : CSceneBase
 
         if (serverList.enterGame)
         {
-            CMainScene.enter();
+            CMainScene.Enter();
         }
     }
 

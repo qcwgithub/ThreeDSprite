@@ -20,7 +20,7 @@ namespace Data
     }
 
     [MessagePackObject]
-    public class BMResPlayerLogin
+    public class BMMsgBattle
     {
         [Key(0)]
         public BMBattleInfo battle;

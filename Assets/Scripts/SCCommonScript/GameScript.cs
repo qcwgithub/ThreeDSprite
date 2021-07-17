@@ -10,7 +10,7 @@ namespace Script
 
         public ECode changeChannelCheck(IProfileInput input, MsgChangeChannel msg, ResChangeChannel res)
         {
-            if (!this.scripts.scUtils.isValidChannelType(msg.channel1) || !this.scripts.scUtils.isValidChannelType(msg.channel2))
+            if (!MyChannels.isValidChannel(msg.channel1) || !MyChannels.isValidChannel(msg.channel2))
             {
                 return ECode.InvalidChannel;
             }

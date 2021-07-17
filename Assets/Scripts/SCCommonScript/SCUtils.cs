@@ -21,14 +21,5 @@ namespace Script
             }
             return max;
         }
-
-        public bool isValidChannelType(string channelType)
-        {
-            return channelType == MyChannels.debug ||
-                channelType == MyChannels.uuid ||
-                channelType == MyChannels.apple ||
-                channelType == MyChannels.leiting ||
-                channelType == MyChannels.ivy;
-        }
     }
 }

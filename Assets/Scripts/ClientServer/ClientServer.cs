@@ -29,7 +29,7 @@ public abstract class ClientServer
     public event Action<string> OnError = null;
 
     protected bool destroyed = false;
-    public virtual void onDestroy()
+    public virtual void OnDestroy()
     {
         this.destroyed = true;
     }

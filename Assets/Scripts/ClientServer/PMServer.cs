@@ -77,20 +77,20 @@ public class PMServer : ClientServer
     public string channel { get; private set; }
     public void initChannel()
     {
-        this.channel = LSUtils.GetString(LSKeys.CHANNEL, null);
-        if (!MyChannels.isValidChannel(this.channel))
+        if (PlatformUtils.getPlatformString() == MyChannels.pc)
         {
-            if (PlatformUtils.getPlatformString() == MyChannels.pc)
-            {
-                this.channel = MyChannels.pc;
-            }
-            else
+            this.channel = MyChannels.pc;
+        }
+        else
+        {
+            this.channel = LSUtils.GetString(LSKeys.CHANNEL, null);
+            if (!MyChannels.isValidChannel(this.channel))
             {
                 this.channel = MyChannels.uuid;
-            }
 
-            LSUtils.SetString(LSKeys.CHANNEL, this.channel);
-            LSUtils.Save();
+                LSUtils.SetString(LSKeys.CHANNEL, this.channel);
+                LSUtils.Save();
+            }
         }
         Debug.Log(">RealServer.initChannel: " + this.channel);
     }
@@ -668,7 +668,7 @@ public class PMServer : ClientServer
     }
     #endregion
 
-    public override void onDestroy()
+    public override void OnDestroy()
     {
         this.cachedRequests.Clear();
 
@@ -677,7 +677,7 @@ public class PMServer : ClientServer
             this.protoPM.cleanup();
             this.protoPM = null;
         }
-        base.onDestroy();
+        base.OnDestroy();
     }
 
     private List<CachedRequest> cachedRequests = new List<CachedRequest>();
@@ -699,7 +699,7 @@ public class PMServer : ClientServer
     }
 
     //#region request
-    
+
     public override void request(MsgType type, object _msg, bool block, Action<MyResponse> cb, int timeoutMs = 10000, bool retryOnReconnect = true)
     {
         if (this.destroyed)

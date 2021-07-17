@@ -25,7 +25,7 @@ public class CLoadingScene : CSceneBase
     }
 
     static string s_sceneName;
-    public static void s_enterScene(string sceneName)
+    public static void EnterScene(string sceneName)
     {
         Debug.Log("CLoadingScene.s_enterScene " + sceneName);
         s_sceneName = sceneName;

@@ -150,5 +150,6 @@ namespace Data
         BMDebugGetCharacterPosition = 10078,
         BMAddPlayer = 10079,
         BMAddCharacter = 10080,
+        BMBattle = 10081,
     }
 }

@@ -154,7 +154,7 @@ namespace Script
             }
 
             // 检查参数
-            if (!this.server.utils.isValidChannelType(msg.channel))
+            if (!MyChannels.isValidChannel(msg.channel))
             {
                 return ECode.InvalidChannel;
             }

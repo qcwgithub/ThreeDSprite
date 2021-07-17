@@ -6,11 +6,23 @@ using Data;
 using Script;
 using System;
 
+public class CacheMessage
+{
+    public MsgType msgType;
+    public object msg;
+}
+
 public class BMServer : ClientServer
 {
-    public ResEnterBattle resEnterBattle { get; set; }
-    public int playerId { get; set; }
-    public override bool isConnected => throw new System.NotImplementedException();
+    public static ResEnterBattle resEnterBattle { get; set; }
+    public static int playerId { get; set; }
+    public override bool isConnected
+    {
+        get
+        {
+            return this.protoBM != null && this.protoBM.isConnected();
+        }
+    }
 
     public BMNetworkStatus status { get; protected set; } = BMNetworkStatus.Init;
     public string statusMsg { get; protected set; }
@@ -31,38 +43,27 @@ public class BMServer : ClientServer
         }
     }
 
-    Dictionary<MsgType, OnMessageBase> handlerDict = new Dictionary<MsgType, OnMessageBase>();
-    public void initHandlers()
+    public event Action<MsgType, object> onServerMessage;
+    public List<CacheMessage> cacheMessages = new List<CacheMessage>();
+    public void handleServerMessage(TcpClientData socket, MsgType msgType, object msg, Action<ECode, object> reply)
     {
-        this.handlerDict.Add(MsgType.BMMove, new OnBMCharacterMove());
-        this.handlerDict.Add(MsgType.BMAddPlayer, new OnBMAddPlayer());
-        this.handlerDict.Add(MsgType.BMAddCharacter, new OnBMAddCharacter());
-    }
-
-    public void handlerServerMessage(TcpClientData socket, MsgType msgType, object msg, Action<ECode, object> reply)
-    {
-        OnMessageBase handler;
-        if (this.handlerDict.TryGetValue(msgType, out handler))
+        if (this.onServerMessage == null)
         {
-            handler.Handle(msg);
+            this.cacheMessages.Add(new CacheMessage { msgType = msgType, msg = msg });
         }
         else
         {
-            Debug.LogError("No handler for MsgType." + msgType);
+            this.onServerMessage(msgType, msg);
         }
     }
 
     public override void start()
     {
-        if (this.handlerDict.Count == 0)
-        {
-            this.initHandlers();
-        }
         this.loginProcedure();
     }
 
     private TcpClientScriptC protoBM = null;
-    public BMResPlayerLogin resBM { get; private set; }
+    public BMMsgBattle resBM { get; private set; }
     public event Action<bool> OnBMConnectionChange;
     private int loginSucCount = 0;
 
@@ -118,8 +119,8 @@ public class BMServer : ClientServer
     BMMsgPlayerLogin getMsgBM(bool isReconnect)
     {
         var msg = new BMMsgPlayerLogin();
-        msg.battleId = this.resEnterBattle.battleId;
-        msg.playerId = this.playerId;
+        msg.battleId = resEnterBattle.battleId;
+        msg.playerId = playerId;
         msg.token = "";
         return msg;
     }
@@ -208,14 +209,14 @@ public class BMServer : ClientServer
                 }
             }
 
-            this.protoBM = new TcpClientScriptC(this.resEnterBattle.bmIp, this.resEnterBattle.bmPort);
-            this.protoBM.onReceiveMessageFromServer += this.handlerServerMessage;
+            this.protoBM = new TcpClientScriptC(resEnterBattle.bmIp, resEnterBattle.bmPort);
+            this.protoBM.onReceiveMessageFromServer += this.handleServerMessage;
             bool isReconnect = this.loginSucCount > 0;
             MyResponse rBM = await this.loginBMOnce(this.protoBM, isReconnect);
             if (rBM.err == ECode.Success)
             {
                 bmConnectFailCount = 0;
-                this.resBM = rBM.res as BMResPlayerLogin;
+                this.resBM = rBM.res as BMMsgBattle;
 
                 // TODO 放这好像不对
                 //if (TimeMgr.Instance != null)
@@ -266,6 +267,18 @@ public class BMServer : ClientServer
     void onFirstLoginBMSuccess()
     {
 
+    }
+
+    public override void OnDestroy()
+    {
+        this.cachedRequests.Clear();
+
+        if (this.protoBM != null)
+        {
+            this.protoBM.cleanup();
+            this.protoBM = null;
+        }
+        base.OnDestroy();
     }
 
     private List<CachedRequest> cachedRequests = new List<CachedRequest>();

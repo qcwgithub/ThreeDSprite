@@ -59,13 +59,13 @@ namespace MessagePack.Resolvers
                 { typeof(global::Data.BMBattleInfo), 5 },
                 { typeof(global::Data.BMMsgAddCharacter), 6 },
                 { typeof(global::Data.BMMsgAddPlayer), 7 },
-                { typeof(global::Data.BMMsgCharacterMove), 8 },
-                { typeof(global::Data.BMMsgDebugGetCharacterPosition), 9 },
-                { typeof(global::Data.BMMsgMove), 10 },
-                { typeof(global::Data.BMMsgPlayerLogin), 11 },
-                { typeof(global::Data.BMPlayerInfo), 12 },
-                { typeof(global::Data.BMResDebugGetCharacterPosition), 13 },
-                { typeof(global::Data.BMResPlayerLogin), 14 },
+                { typeof(global::Data.BMMsgBattle), 8 },
+                { typeof(global::Data.BMMsgCharacterMove), 9 },
+                { typeof(global::Data.BMMsgDebugGetCharacterPosition), 10 },
+                { typeof(global::Data.BMMsgMove), 11 },
+                { typeof(global::Data.BMMsgPlayerLogin), 12 },
+                { typeof(global::Data.BMPlayerInfo), 13 },
+                { typeof(global::Data.BMResDebugGetCharacterPosition), 14 },
                 { typeof(global::Data.btBattle), 15 },
                 { typeof(global::Data.btCharacter), 16 },
                 { typeof(global::Data.btObject), 17 },
@@ -118,13 +118,13 @@ namespace MessagePack.Resolvers
                 case 5: return new MessagePack.Formatters.Data.BMBattleInfoFormatter();
                 case 6: return new MessagePack.Formatters.Data.BMMsgAddCharacterFormatter();
                 case 7: return new MessagePack.Formatters.Data.BMMsgAddPlayerFormatter();
-                case 8: return new MessagePack.Formatters.Data.BMMsgCharacterMoveFormatter();
-                case 9: return new MessagePack.Formatters.Data.BMMsgDebugGetCharacterPositionFormatter();
-                case 10: return new MessagePack.Formatters.Data.BMMsgMoveFormatter();
-                case 11: return new MessagePack.Formatters.Data.BMMsgPlayerLoginFormatter();
-                case 12: return new MessagePack.Formatters.Data.BMPlayerInfoFormatter();
-                case 13: return new MessagePack.Formatters.Data.BMResDebugGetCharacterPositionFormatter();
-                case 14: return new MessagePack.Formatters.Data.BMResPlayerLoginFormatter();
+                case 8: return new MessagePack.Formatters.Data.BMMsgBattleFormatter();
+                case 9: return new MessagePack.Formatters.Data.BMMsgCharacterMoveFormatter();
+                case 10: return new MessagePack.Formatters.Data.BMMsgDebugGetCharacterPositionFormatter();
+                case 11: return new MessagePack.Formatters.Data.BMMsgMoveFormatter();
+                case 12: return new MessagePack.Formatters.Data.BMMsgPlayerLoginFormatter();
+                case 13: return new MessagePack.Formatters.Data.BMPlayerInfoFormatter();
+                case 14: return new MessagePack.Formatters.Data.BMResDebugGetCharacterPositionFormatter();
                 case 15: return new MessagePack.Formatters.Data.btBattleFormatter();
                 case 16: return new MessagePack.Formatters.Data.btCharacterFormatter();
                 case 17: return new MessagePack.Formatters.Data.btObjectFormatter();
@@ -395,6 +395,54 @@ namespace MessagePack.Formatters.Data
 
             var ____result = new global::Data.BMMsgAddPlayer();
             ____result.player = __player__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class BMMsgBattleFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMMsgBattle>
+    {
+
+        public void Serialize(ref MessagePackWriter writer, global::Data.BMMsgBattle value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            IFormatterResolver formatterResolver = options.Resolver;
+            writer.WriteArrayHeader(1);
+            formatterResolver.GetFormatterWithVerify<global::Data.BMBattleInfo>().Serialize(ref writer, value.battle, options);
+        }
+
+        public global::Data.BMMsgBattle Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            IFormatterResolver formatterResolver = options.Resolver;
+            var length = reader.ReadArrayHeader();
+            var __battle__ = default(global::Data.BMBattleInfo);
+
+            for (int i = 0; i < length; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        __battle__ = formatterResolver.GetFormatterWithVerify<global::Data.BMBattleInfo>().Deserialize(ref reader, options);
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::Data.BMMsgBattle();
+            ____result.battle = __battle__;
             reader.Depth--;
             return ____result;
         }
@@ -709,54 +757,6 @@ namespace MessagePack.Formatters.Data
 
             var ____result = new global::Data.BMResDebugGetCharacterPosition();
             ____result.position = __position__;
-            reader.Depth--;
-            return ____result;
-        }
-    }
-
-    public sealed class BMResPlayerLoginFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMResPlayerLogin>
-    {
-
-        public void Serialize(ref MessagePackWriter writer, global::Data.BMResPlayerLogin value, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            if (value == null)
-            {
-                writer.WriteNil();
-                return;
-            }
-
-            IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::Data.BMBattleInfo>().Serialize(ref writer, value.battle, options);
-        }
-
-        public global::Data.BMResPlayerLogin Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            if (reader.TryReadNil())
-            {
-                return null;
-            }
-
-            options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
-            var length = reader.ReadArrayHeader();
-            var __battle__ = default(global::Data.BMBattleInfo);
-
-            for (int i = 0; i < length; i++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        __battle__ = formatterResolver.GetFormatterWithVerify<global::Data.BMBattleInfo>().Deserialize(ref reader, options);
-                        break;
-                    default:
-                        reader.Skip();
-                        break;
-                }
-            }
-
-            var ____result = new global::Data.BMResPlayerLogin();
-            ____result.battle = __battle__;
             reader.Depth--;
             return ____result;
         }

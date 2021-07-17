@@ -28,6 +28,7 @@ namespace Script
 
             this.aaaScript = new AAAScript { server = this };
             this.aaaSqlUtils = new AAASqlUtils { server = this };
+            this.channelPc = new AAAChannel_Pc { server = this };
             this.channelUuid = new AAAChannel_Uuid { server = this };
             this.channelDebug = new AAAChannel_Debug { server = this };
             this.channelApple = new AAAChannel_Apple { server = this };

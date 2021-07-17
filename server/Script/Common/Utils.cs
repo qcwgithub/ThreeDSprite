@@ -3,15 +3,6 @@ namespace Script
 {
     public class Utils
     {
-        public bool isValidChannelType(string channelType)
-        {
-            return channelType == MyChannels.debug ||
-                channelType == MyChannels.uuid ||
-                channelType == MyChannels.apple ||
-                channelType == MyChannels.leiting ||
-                channelType == MyChannels.ivy;
-        }
-
         static public string numberId2stringId(int id)
         {
             if (id == ServerConst.LOC_ID)

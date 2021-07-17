@@ -6,11 +6,22 @@ public class CMainScene : CSceneBase
 {
     protected override void Awake()
     {
+        sc.mainScene = this;
         base.Awake();
     }
 
-    public static void enter()
+    public static void Enter()
     {
-        CLoadingScene.s_enterScene("Main");
+        CLoadingScene.EnterScene("Main");
+    }
+
+    public void Logout()
+    {   
+        Debug.Log("CMainScene.logout");
+        SDKManager.Instance.onLogoutGame();
+
+        sc.pmServer.OnDestroy();
+
+        CStartupScene.Enter();
     }
 }

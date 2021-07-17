@@ -57,9 +57,10 @@ namespace Script
             ////////////////////////////////////////////////////////////////////////
             // send whole game
 
-            var res = new BMResPlayerLogin();
-            res.battle = battle;
-            return new MyResponse(ECode.Success, res).toTask();
+            var msgBattle = new BMMsgBattle();
+            msgBattle.battle = battle;
+            player.socket.send(MsgType.BMBattle, msgBattle, null);
+            return ECode.Success.toTask();
         }
 
         void broadcastAddCharacter(BMBattleInfo battle, BMPlayerInfo player)
