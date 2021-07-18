@@ -4,7 +4,8 @@ using Script;
 
 public class sc // shortcuts
 {
-    public static Profile Profile;
+    public static Game game;
+    public static Profile profile;
     public static GameObject LoadingPanelPrefab;
     public static CLoadingPanel loadingPanel;
     public static CBattleScene battleScene;

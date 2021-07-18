@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,10 +10,21 @@ namespace Script
         List<string[]> lines;
         int rowIndex;
         Dictionary<string, int> name2ColumnIndex;
-        public CsvHelper(string[] headers, List<string[]> lines)
+        int startColumn;
+        int endColumn;
+        public CsvHelper(string[] headers, List<string[]> lines, int startColumn = -1, int endColumn = -1)
         {
+
+            if (startColumn == -1 || endColumn == -1)
+            {
+                startColumn = 0;
+                endColumn = headers.Length - 1;
+            }
+            this.startColumn = startColumn;
+            this.endColumn = endColumn;
+
             this.name2ColumnIndex = new Dictionary<string, int>();
-            for (int i = 0; i < headers.Length; i++)
+            for (int i = startColumn; i <= endColumn; i++)
             {
                 this.name2ColumnIndex.Add(headers[i], i);
             }
@@ -21,8 +33,13 @@ namespace Script
             this.rowIndex = -1;
         }
 
+        public void ResetRowIndex()
+        {
+            this.rowIndex = -1;
+        }
+
         string[] currentRow;
-        public bool readRow()
+        public bool ReadRow()
         {
             this.rowIndex++;
             if (this.rowIndex >= this.lines.Count)
@@ -30,10 +47,17 @@ namespace Script
                 return false;
             }
             this.currentRow = this.lines[this.rowIndex];
-            return true;
+            for (int i = startColumn; i <= endColumn; i++)
+            {
+                if (!string.IsNullOrEmpty(this.currentRow[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        string getCell(string name)
+        string GetCell(string name)
         {
             int columnIndex;
             if (!this.name2ColumnIndex.TryGetValue(name, out columnIndex))
@@ -43,14 +67,14 @@ namespace Script
             return this.currentRow[columnIndex];
         }
 
-        public string readString(string name)
+        public string ReadString(string name)
         {
-            return this.getCell(name);
+            return this.GetCell(name);
         }
 
-        public int readInt(string name, int default_ = 0)
+        public int ReadInt(string name, int default_ = 0)
         {
-            var cell = this.getCell(name);
+            var cell = this.GetCell(name);
             if (string.IsNullOrEmpty(cell))
             {
                 return default_;
@@ -58,19 +82,29 @@ namespace Script
             return int.Parse(cell);
         }
 
-        public float readFloat(string name, float default_ = 0f)
+        public BigInteger ReadBigInteter(string name, BigInteger default_)
         {
-            var cell = this.getCell(name);
+            var cell = this.GetCell(name);
+            if (string.IsNullOrEmpty(cell))
+            {
+                return default_;
+            }
+            return BigInteger.Parse(cell);
+        }
+
+        public float ReadFloat(string name, float default_ = 0f)
+        {
+            var cell = this.GetCell(name);
             if (string.IsNullOrEmpty(cell))
             {
                 return default_;
             }
             return float.Parse(cell);
         }
-        
-        public T readObject<T>(string name, T default_ = null) where T : class
+
+        public T ReadObject<T>(string name, T default_ = null) where T : class
         {
-            var cell = this.getCell(name);
+            var cell = this.GetCell(name);
             if (string.IsNullOrEmpty(cell))
             {
                 return default_;
@@ -82,9 +116,21 @@ namespace Script
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(cell);
         }
 
-        public T readEnum<T>(string name) where T : Enum
+        public T ReadEnum<T>(string name) where T : Enum
         {
-            var cell = this.getCell(name);
+            var cell = this.GetCell(name);
+            return (T)Enum.Parse(typeof(T), cell);
+        }
+
+        public T ReadEnum<T>(string name, T default_) where T : Enum
+        {
+            var cell = this.GetCell(name);
+
+            if (string.IsNullOrEmpty(cell))
+            {
+                return default_;
+            }
+
             return (T)Enum.Parse(typeof(T), cell);
         }
     }
@@ -92,14 +138,13 @@ namespace Script
     public class CsvUtils
     {
         public const string IGNORE_LINE_FLAG = "#";
+        public const string NULL_CELL_FLAG = "NULL";
         public const char CELL_SPLITER = ',';
         public const char COMMA_REPLACEMENT = '|';
 
-        public static CsvHelper parse(string text)
+        public static void SplitToLines(string text, Action<string[]> handleLine)
         {
             string[] lines = text.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            string[] headers = null;
-            List<string[]> lines2 = new List<string[]>();
             foreach (var line in lines)
             {
                 if (line.StartsWith(IGNORE_LINE_FLAG))
@@ -107,15 +152,50 @@ namespace Script
                     continue;
                 }
                 string[] cells = line.Split(CELL_SPLITER);
-                if (headers == null)
-                {
-                    headers = cells;
-                    continue;
-                }
-
-                lines2.Add(cells);
+                handleLine(cells);
             }
-            return new CsvHelper(headers, lines2);
+        }
+
+        public static CsvHelper Parse(string text)
+        {
+            string[] headers = null;
+            List<string[]> lines = new List<string[]>();
+            SplitToLines(text, line =>
+            {
+                if (headers == null)
+                    headers = line;
+                else
+                    lines.Add(line);
+            });
+            return new CsvHelper(headers, lines);
+        }
+
+        // parts 例：0,2,4,6,8,10
+        // [0,2]列是一个表，[4,6]是一个表，[8,10]是一个表
+        public static Dictionary<string, CsvHelper> ParseMultiple(string text, params int[] parts)
+        {
+            string[] tableNames = null;
+            string[] headers = null;
+            List<string[]> lines = new List<string[]>();
+            SplitToLines(text, line =>
+            {
+                if (tableNames == null)
+                    tableNames = line;
+                else if (headers == null)
+                    headers = line;
+                else
+                    lines.Add(line);
+            });
+
+            var dict = new Dictionary<string, CsvHelper>();
+            for (int i = 0; i < parts.Length; i += 2)
+            {
+                var tableName = tableNames[parts[i]];
+                var helper = new CsvHelper(headers, lines, parts[i], parts[i + 1]);
+                dict.Add(tableName, helper);
+            }
+
+            return dict;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Script
                 return ECode.ServerNotReady;
             }
 
-            this.logger.InfoFormat("AAAChangeChannel playerId: {0}, ({1},{2}) -> ({3},{4}), {5}", msg.playerId, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2, this.server.JSON.stringify(msg.verifyData2));
+            this.logger.InfoFormat("AAAChangeChannel playerId: {0}, ({1},{2}) -> ({3},{4}), {5}", msg.playerId, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2, JsonUtils.stringify(msg.verifyData2));
 
             // 和 gameScript.changeChannelCheck 一样的实现，但是这里没有办法调用 gameScript
             if (!MyChannels.isValidChannel(msg.channel1) || !MyChannels.isValidChannel(msg.channel2))
@@ -93,7 +93,7 @@ namespace Script
                 r = await this.server.aaaSqlUtils.changeChannelYield(
                     msg.channel1, msg.channelUserId1,
                     msg.channel2, msg.channelUserId2,
-                    this.server.JSON.stringify(aaaUserInfo2));
+                    JsonUtils.stringify(aaaUserInfo2));
                 if (r.err != ECode.Success)
                 {
                     return r;

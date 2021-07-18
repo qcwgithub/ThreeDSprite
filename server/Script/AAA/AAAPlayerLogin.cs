@@ -216,7 +216,7 @@ namespace Script
                 // 创建新账号
                 r = await this.newAccount(
                     msg.platform, msg.channel, msg.channelUserId, msg.oaid, msg.imei,
-                    this.server.JSON.stringify(aaaUserInfo));
+                    JsonUtils.stringify(aaaUserInfo));
                 if (r.err != ECode.Success)
                 {
                     return r;

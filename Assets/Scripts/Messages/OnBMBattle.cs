@@ -23,7 +23,7 @@ public class OnBMBattle : OnMessageBase
 
         /////////////////////////////////////////////////////////////////////////////
 
-        BattleScript.loadMap(new Script.JsonUtils(), bs, bs.mapId,
+        BattleScript.loadMap(bs, bs.mapId,
             mapId =>
             {
                 string mapPath = CBattleScene.baseDir + "/map" + mapId;

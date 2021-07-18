@@ -12,7 +12,7 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.castObject<MsgLocBroadcast>(_msg);
-            this.logger.InfoFormat("LocBroadcast, ids: {0}, msgType: {1}", this.server.JSON.stringify(msg.ids), msg.msgType.ToString());
+            this.logger.InfoFormat("LocBroadcast, ids: {0}, msgType: {1}", JsonUtils.stringify(msg.ids), msg.msgType.ToString());
 
             // 只允许全部有效
             for (int i = 0; i < msg.ids.Count; i++)

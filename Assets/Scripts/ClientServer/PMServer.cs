@@ -617,7 +617,7 @@ public class PMServer : ClientServer
                 }
 
                 // TODO 放这好像不对
-                sc.Profile = this.resPM.profile;
+                sc.profile = Profile.Ensure(this.resPM.profile);
 
                 // Debug.Log("fire logintopmsucceeded!");
                 this.setStatus(PMNetworkStatus.LoginToGSucceeded);
@@ -714,7 +714,7 @@ public class PMServer : ClientServer
         }
         this.protoPM.send(type, _msg, (ECode err, object res) =>
         {
-            Debug.Log(string.Format("response {0},{1}", err, JsonUtils.ToJson(res)));
+            Debug.Log(string.Format("response {0},{1}", err, JsonUtils.stringify(res)));
 
             var r = new MyResponse(err, res);
             if (block)

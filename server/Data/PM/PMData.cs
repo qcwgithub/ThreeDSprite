@@ -34,5 +34,15 @@ namespace Data
         public int playerSCSaveIntervalS = 60;
 
         // 配置文件
+
+        //// IGameConfigs
+        public int minCharacterConfigId { get; set; }
+        public int maxCharacterConfigId { get; set; }
+        public Dictionary<int, CharacterConfig> characterConfigDict { get; set; }
+        public CharacterConfig GetCharacterConfig(int characterId)
+        {
+            CharacterConfig characterConfig;
+            return this.characterConfigDict.TryGetValue(characterId, out characterConfig) ? characterConfig : null;
+        }
     }
 }

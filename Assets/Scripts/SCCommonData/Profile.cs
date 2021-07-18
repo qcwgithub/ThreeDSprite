@@ -16,6 +16,28 @@ namespace Data
         [Key(3)]
         public string portrait;
         [Key(4)]
-        public string userName;        
+        public string userName;
+        [Key(5)]
+        public int characterConfigId;
+
+        public static Profile Ensure(Profile obj)
+        {
+            if (obj == null)
+            {
+                obj = new Profile();
+            }
+
+            if (obj.level <= 0)
+            {
+                obj.level = 1;
+            }
+
+            if (obj.characterConfigId <= 0)
+            {
+                obj.characterConfigId = 1;
+            }
+
+            return obj;
+        }        
     }
 }

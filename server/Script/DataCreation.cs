@@ -106,6 +106,8 @@ namespace Script
                 ServerConst.LOBBY_ID,
             });
 
+            ConfigScript.Load(data, file => this.configLoader.loadGameText(file));
+
             // data.timerData.setTimer(1, MsgType.PMKeepAliveToAAA, null, false);
             InitListenForServer(data);
             InitListenForClient(data);

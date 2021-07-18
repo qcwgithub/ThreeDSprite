@@ -299,5 +299,19 @@ namespace Data
         [Key(5)]
         public int mapId;
     }
+
+    [MessagePackObject]
+    public class MsgChangeCharacter
+    {
+        [Key(0)]
+        public int characterConfigId;
+    }
+
+    [MessagePackObject]
+    public class ResChangeCharacter
+    {
+        [Key(0)]
+        public int characterConfigId;
+    }
 }
 

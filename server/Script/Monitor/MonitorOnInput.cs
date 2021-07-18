@@ -122,11 +122,11 @@ namespace Script
             List<int> ids = null;
             if (space2 > 0)
             {
-                ids = this.server.JSON.parse<List<int>>(line0.Substring(space1 + 1, space2 - space1 - 1));
+                ids = JsonUtils.parse<List<int>>(line0.Substring(space1 + 1, space2 - space1 - 1));
             }
             else
             {
-                ids = this.server.JSON.parse<List<int>>(line0.Substring(space1 + 1));
+                ids = JsonUtils.parse<List<int>>(line0.Substring(space1 + 1));
             }
 
             string param = null;
@@ -152,14 +152,14 @@ namespace Script
 
                 case PM_ACTION:
                     {
-                        var msg = this.server.JSON.parse<MsgPMAction>(param);
+                        var msg = JsonUtils.parse<MsgPMAction>(param);
                         this.broadcast(new MsgLocBroadcastMsgPMAction { ids = ids, msgType = MsgType.ServerAction, msg = msg });
                     }
                     break;
 
                 case AAA_ACTION:
                     {
-                        var msg = this.server.JSON.parse<MsgAAAAction>(param);
+                        var msg = JsonUtils.parse<MsgAAAAction>(param);
                         this.broadcast(new MsgLocBroadcastMsgAAAAction { ids = ids, msgType = MsgType.ServerAction, msg = msg });
                     }
                     break;

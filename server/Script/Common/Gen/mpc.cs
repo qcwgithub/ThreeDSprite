@@ -49,7 +49,7 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(107)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(109)
             {
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayerInfo>), 0 },
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.btCharacter>), 1 },
@@ -85,79 +85,81 @@ namespace MessagePack.Resolvers
                 { typeof(global::Data.MsgBMPlayerEnter), 31 },
                 { typeof(global::Data.MsgBMPlayerExit), 32 },
                 { typeof(global::Data.MsgChangeChannel), 33 },
-                { typeof(global::Data.MsgChangeName), 34 },
-                { typeof(global::Data.MsgChangePortrait), 35 },
-                { typeof(global::Data.MsgDBChangeChannel), 36 },
-                { typeof(global::Data.MsgDBInsertAccount), 37 },
-                { typeof(global::Data.MsgDestroyPlayer), 38 },
-                { typeof(global::Data.MsgEnterBattle), 39 },
-                { typeof(global::Data.MsgGetVipDailyReward), 40 },
-                { typeof(global::Data.MsgInsertPayiOS), 41 },
-                { typeof(global::Data.MsgInsertPlayer), 42 },
-                { typeof(global::Data.MsgKeepAliveToLoc), 43 },
-                { typeof(global::Data.MsgLobbyCreateBattle), 44 },
-                { typeof(global::Data.MsgLobbyDestroyBattle), 45 },
-                { typeof(global::Data.MsgLobbyPlayerEnterBattle), 46 },
-                { typeof(global::Data.MsgLobbyPlayerExitBattle), 47 },
-                { typeof(global::Data.MsgLocBroadcast), 48 },
-                { typeof(global::Data.MsgLocBroadcastMsgAAAAction), 49 },
-                { typeof(global::Data.MsgLocBroadcastMsgPMAction), 50 },
-                { typeof(global::Data.MsgLocReportLoc), 51 },
-                { typeof(global::Data.MsgLocRequestLoc), 52 },
-                { typeof(global::Data.MsgLogChangeChannel), 53 },
-                { typeof(global::Data.MsgLoginAAA), 54 },
-                { typeof(global::Data.MsgLoginPM), 55 },
-                { typeof(global::Data.MsgLogPlayerLogin), 56 },
-                { typeof(global::Data.MsgLogPlayerLogout), 57 },
-                { typeof(global::Data.MsgNull), 58 },
-                { typeof(global::Data.MsgOnClose), 59 },
-                { typeof(global::Data.MsgOnConnect), 60 },
-                { typeof(global::Data.MsgOnDisconnect), 61 },
-                { typeof(global::Data.MsgPay), 62 },
-                { typeof(global::Data.MsgPayIvyStart), 63 },
-                { typeof(global::Data.MsgPayLtStart), 64 },
-                { typeof(global::Data.MsgPlayerSCSave), 65 },
-                { typeof(global::Data.MsgPMAction), 66 },
-                { typeof(global::Data.MsgPMAlive), 67 },
-                { typeof(global::Data.MsgPreparePlayerLogin), 68 },
-                { typeof(global::Data.MsgQueryAccountByChannel), 69 },
-                { typeof(global::Data.MsgQueryAccountByPlayerId), 70 },
-                { typeof(global::Data.MsgQueryAccountForChangeChannel), 71 },
-                { typeof(global::Data.MsgQueryAccountUpdatePlayerId), 72 },
-                { typeof(global::Data.MsgQueryPlayerById), 73 },
-                { typeof(global::Data.MsgReloadScript), 74 },
-                { typeof(global::Data.MsgRunScript), 75 },
-                { typeof(global::Data.MsgSavePlayer), 76 },
-                { typeof(global::Data.MsgSendDestroyPlayer), 77 },
-                { typeof(global::Data.MsgSyncProfile), 78 },
-                { typeof(global::Data.MsgUploadProfile), 79 },
-                { typeof(global::Data.Profile), 80 },
-                { typeof(global::Data.PurchasedItem), 81 },
-                { typeof(global::Data.ResBMAlive), 82 },
-                { typeof(global::Data.ResBMPlayerEnter), 83 },
-                { typeof(global::Data.ResChangeChannel), 84 },
-                { typeof(global::Data.ResChangeName), 85 },
-                { typeof(global::Data.ResChangePortrait), 86 },
-                { typeof(global::Data.ResDBQueryAccountPlayerId), 87 },
-                { typeof(global::Data.ResEnterBattle), 88 },
-                { typeof(global::Data.ResGetVipDailyReward), 89 },
-                { typeof(global::Data.ResLobbyCreateBattle), 90 },
-                { typeof(global::Data.ResLobbyPlayerEnterBattle), 91 },
-                { typeof(global::Data.ResLocRequestLoc), 92 },
-                { typeof(global::Data.ResLoginAAA), 93 },
-                { typeof(global::Data.ResLoginPM), 94 },
-                { typeof(global::Data.ResMisc), 95 },
-                { typeof(global::Data.ResMysqlError), 96 },
-                { typeof(global::Data.ResPay), 97 },
-                { typeof(global::Data.ResPayIvyStart), 98 },
-                { typeof(global::Data.ResPayLtStart), 99 },
-                { typeof(global::Data.ResPMAlive), 100 },
-                { typeof(global::Data.ResPreparePlayerLogin), 101 },
-                { typeof(global::Data.ResQueryAccount), 102 },
-                { typeof(global::Data.ResQueryPlayer), 103 },
-                { typeof(global::Data.ResSyncProfile), 104 },
-                { typeof(global::Data.SqlTableAccount), 105 },
-                { typeof(global::Data.SqlTablePlayer), 106 },
+                { typeof(global::Data.MsgChangeCharacter), 34 },
+                { typeof(global::Data.MsgChangeName), 35 },
+                { typeof(global::Data.MsgChangePortrait), 36 },
+                { typeof(global::Data.MsgDBChangeChannel), 37 },
+                { typeof(global::Data.MsgDBInsertAccount), 38 },
+                { typeof(global::Data.MsgDestroyPlayer), 39 },
+                { typeof(global::Data.MsgEnterBattle), 40 },
+                { typeof(global::Data.MsgGetVipDailyReward), 41 },
+                { typeof(global::Data.MsgInsertPayiOS), 42 },
+                { typeof(global::Data.MsgInsertPlayer), 43 },
+                { typeof(global::Data.MsgKeepAliveToLoc), 44 },
+                { typeof(global::Data.MsgLobbyCreateBattle), 45 },
+                { typeof(global::Data.MsgLobbyDestroyBattle), 46 },
+                { typeof(global::Data.MsgLobbyPlayerEnterBattle), 47 },
+                { typeof(global::Data.MsgLobbyPlayerExitBattle), 48 },
+                { typeof(global::Data.MsgLocBroadcast), 49 },
+                { typeof(global::Data.MsgLocBroadcastMsgAAAAction), 50 },
+                { typeof(global::Data.MsgLocBroadcastMsgPMAction), 51 },
+                { typeof(global::Data.MsgLocReportLoc), 52 },
+                { typeof(global::Data.MsgLocRequestLoc), 53 },
+                { typeof(global::Data.MsgLogChangeChannel), 54 },
+                { typeof(global::Data.MsgLoginAAA), 55 },
+                { typeof(global::Data.MsgLoginPM), 56 },
+                { typeof(global::Data.MsgLogPlayerLogin), 57 },
+                { typeof(global::Data.MsgLogPlayerLogout), 58 },
+                { typeof(global::Data.MsgNull), 59 },
+                { typeof(global::Data.MsgOnClose), 60 },
+                { typeof(global::Data.MsgOnConnect), 61 },
+                { typeof(global::Data.MsgOnDisconnect), 62 },
+                { typeof(global::Data.MsgPay), 63 },
+                { typeof(global::Data.MsgPayIvyStart), 64 },
+                { typeof(global::Data.MsgPayLtStart), 65 },
+                { typeof(global::Data.MsgPlayerSCSave), 66 },
+                { typeof(global::Data.MsgPMAction), 67 },
+                { typeof(global::Data.MsgPMAlive), 68 },
+                { typeof(global::Data.MsgPreparePlayerLogin), 69 },
+                { typeof(global::Data.MsgQueryAccountByChannel), 70 },
+                { typeof(global::Data.MsgQueryAccountByPlayerId), 71 },
+                { typeof(global::Data.MsgQueryAccountForChangeChannel), 72 },
+                { typeof(global::Data.MsgQueryAccountUpdatePlayerId), 73 },
+                { typeof(global::Data.MsgQueryPlayerById), 74 },
+                { typeof(global::Data.MsgReloadScript), 75 },
+                { typeof(global::Data.MsgRunScript), 76 },
+                { typeof(global::Data.MsgSavePlayer), 77 },
+                { typeof(global::Data.MsgSendDestroyPlayer), 78 },
+                { typeof(global::Data.MsgSyncProfile), 79 },
+                { typeof(global::Data.MsgUploadProfile), 80 },
+                { typeof(global::Data.Profile), 81 },
+                { typeof(global::Data.PurchasedItem), 82 },
+                { typeof(global::Data.ResBMAlive), 83 },
+                { typeof(global::Data.ResBMPlayerEnter), 84 },
+                { typeof(global::Data.ResChangeChannel), 85 },
+                { typeof(global::Data.ResChangeCharacter), 86 },
+                { typeof(global::Data.ResChangeName), 87 },
+                { typeof(global::Data.ResChangePortrait), 88 },
+                { typeof(global::Data.ResDBQueryAccountPlayerId), 89 },
+                { typeof(global::Data.ResEnterBattle), 90 },
+                { typeof(global::Data.ResGetVipDailyReward), 91 },
+                { typeof(global::Data.ResLobbyCreateBattle), 92 },
+                { typeof(global::Data.ResLobbyPlayerEnterBattle), 93 },
+                { typeof(global::Data.ResLocRequestLoc), 94 },
+                { typeof(global::Data.ResLoginAAA), 95 },
+                { typeof(global::Data.ResLoginPM), 96 },
+                { typeof(global::Data.ResMisc), 97 },
+                { typeof(global::Data.ResMysqlError), 98 },
+                { typeof(global::Data.ResPay), 99 },
+                { typeof(global::Data.ResPayIvyStart), 100 },
+                { typeof(global::Data.ResPayLtStart), 101 },
+                { typeof(global::Data.ResPMAlive), 102 },
+                { typeof(global::Data.ResPreparePlayerLogin), 103 },
+                { typeof(global::Data.ResQueryAccount), 104 },
+                { typeof(global::Data.ResQueryPlayer), 105 },
+                { typeof(global::Data.ResSyncProfile), 106 },
+                { typeof(global::Data.SqlTableAccount), 107 },
+                { typeof(global::Data.SqlTablePlayer), 108 },
             };
         }
 
@@ -205,79 +207,81 @@ namespace MessagePack.Resolvers
                 case 31: return new MessagePack.Formatters.Data.MsgBMPlayerEnterFormatter();
                 case 32: return new MessagePack.Formatters.Data.MsgBMPlayerExitFormatter();
                 case 33: return new MessagePack.Formatters.Data.MsgChangeChannelFormatter();
-                case 34: return new MessagePack.Formatters.Data.MsgChangeNameFormatter();
-                case 35: return new MessagePack.Formatters.Data.MsgChangePortraitFormatter();
-                case 36: return new MessagePack.Formatters.Data.MsgDBChangeChannelFormatter();
-                case 37: return new MessagePack.Formatters.Data.MsgDBInsertAccountFormatter();
-                case 38: return new MessagePack.Formatters.Data.MsgDestroyPlayerFormatter();
-                case 39: return new MessagePack.Formatters.Data.MsgEnterBattleFormatter();
-                case 40: return new MessagePack.Formatters.Data.MsgGetVipDailyRewardFormatter();
-                case 41: return new MessagePack.Formatters.Data.MsgInsertPayiOSFormatter();
-                case 42: return new MessagePack.Formatters.Data.MsgInsertPlayerFormatter();
-                case 43: return new MessagePack.Formatters.Data.MsgKeepAliveToLocFormatter();
-                case 44: return new MessagePack.Formatters.Data.MsgLobbyCreateBattleFormatter();
-                case 45: return new MessagePack.Formatters.Data.MsgLobbyDestroyBattleFormatter();
-                case 46: return new MessagePack.Formatters.Data.MsgLobbyPlayerEnterBattleFormatter();
-                case 47: return new MessagePack.Formatters.Data.MsgLobbyPlayerExitBattleFormatter();
-                case 48: return new MessagePack.Formatters.Data.MsgLocBroadcastFormatter();
-                case 49: return new MessagePack.Formatters.Data.MsgLocBroadcastMsgAAAActionFormatter();
-                case 50: return new MessagePack.Formatters.Data.MsgLocBroadcastMsgPMActionFormatter();
-                case 51: return new MessagePack.Formatters.Data.MsgLocReportLocFormatter();
-                case 52: return new MessagePack.Formatters.Data.MsgLocRequestLocFormatter();
-                case 53: return new MessagePack.Formatters.Data.MsgLogChangeChannelFormatter();
-                case 54: return new MessagePack.Formatters.Data.MsgLoginAAAFormatter();
-                case 55: return new MessagePack.Formatters.Data.MsgLoginPMFormatter();
-                case 56: return new MessagePack.Formatters.Data.MsgLogPlayerLoginFormatter();
-                case 57: return new MessagePack.Formatters.Data.MsgLogPlayerLogoutFormatter();
-                case 58: return new MessagePack.Formatters.Data.MsgNullFormatter();
-                case 59: return new MessagePack.Formatters.Data.MsgOnCloseFormatter();
-                case 60: return new MessagePack.Formatters.Data.MsgOnConnectFormatter();
-                case 61: return new MessagePack.Formatters.Data.MsgOnDisconnectFormatter();
-                case 62: return new MessagePack.Formatters.Data.MsgPayFormatter();
-                case 63: return new MessagePack.Formatters.Data.MsgPayIvyStartFormatter();
-                case 64: return new MessagePack.Formatters.Data.MsgPayLtStartFormatter();
-                case 65: return new MessagePack.Formatters.Data.MsgPlayerSCSaveFormatter();
-                case 66: return new MessagePack.Formatters.Data.MsgPMActionFormatter();
-                case 67: return new MessagePack.Formatters.Data.MsgPMAliveFormatter();
-                case 68: return new MessagePack.Formatters.Data.MsgPreparePlayerLoginFormatter();
-                case 69: return new MessagePack.Formatters.Data.MsgQueryAccountByChannelFormatter();
-                case 70: return new MessagePack.Formatters.Data.MsgQueryAccountByPlayerIdFormatter();
-                case 71: return new MessagePack.Formatters.Data.MsgQueryAccountForChangeChannelFormatter();
-                case 72: return new MessagePack.Formatters.Data.MsgQueryAccountUpdatePlayerIdFormatter();
-                case 73: return new MessagePack.Formatters.Data.MsgQueryPlayerByIdFormatter();
-                case 74: return new MessagePack.Formatters.Data.MsgReloadScriptFormatter();
-                case 75: return new MessagePack.Formatters.Data.MsgRunScriptFormatter();
-                case 76: return new MessagePack.Formatters.Data.MsgSavePlayerFormatter();
-                case 77: return new MessagePack.Formatters.Data.MsgSendDestroyPlayerFormatter();
-                case 78: return new MessagePack.Formatters.Data.MsgSyncProfileFormatter();
-                case 79: return new MessagePack.Formatters.Data.MsgUploadProfileFormatter();
-                case 80: return new MessagePack.Formatters.Data.ProfileFormatter();
-                case 81: return new MessagePack.Formatters.Data.PurchasedItemFormatter();
-                case 82: return new MessagePack.Formatters.Data.ResBMAliveFormatter();
-                case 83: return new MessagePack.Formatters.Data.ResBMPlayerEnterFormatter();
-                case 84: return new MessagePack.Formatters.Data.ResChangeChannelFormatter();
-                case 85: return new MessagePack.Formatters.Data.ResChangeNameFormatter();
-                case 86: return new MessagePack.Formatters.Data.ResChangePortraitFormatter();
-                case 87: return new MessagePack.Formatters.Data.ResDBQueryAccountPlayerIdFormatter();
-                case 88: return new MessagePack.Formatters.Data.ResEnterBattleFormatter();
-                case 89: return new MessagePack.Formatters.Data.ResGetVipDailyRewardFormatter();
-                case 90: return new MessagePack.Formatters.Data.ResLobbyCreateBattleFormatter();
-                case 91: return new MessagePack.Formatters.Data.ResLobbyPlayerEnterBattleFormatter();
-                case 92: return new MessagePack.Formatters.Data.ResLocRequestLocFormatter();
-                case 93: return new MessagePack.Formatters.Data.ResLoginAAAFormatter();
-                case 94: return new MessagePack.Formatters.Data.ResLoginPMFormatter();
-                case 95: return new MessagePack.Formatters.Data.ResMiscFormatter();
-                case 96: return new MessagePack.Formatters.Data.ResMysqlErrorFormatter();
-                case 97: return new MessagePack.Formatters.Data.ResPayFormatter();
-                case 98: return new MessagePack.Formatters.Data.ResPayIvyStartFormatter();
-                case 99: return new MessagePack.Formatters.Data.ResPayLtStartFormatter();
-                case 100: return new MessagePack.Formatters.Data.ResPMAliveFormatter();
-                case 101: return new MessagePack.Formatters.Data.ResPreparePlayerLoginFormatter();
-                case 102: return new MessagePack.Formatters.Data.ResQueryAccountFormatter();
-                case 103: return new MessagePack.Formatters.Data.ResQueryPlayerFormatter();
-                case 104: return new MessagePack.Formatters.Data.ResSyncProfileFormatter();
-                case 105: return new MessagePack.Formatters.Data.SqlTableAccountFormatter();
-                case 106: return new MessagePack.Formatters.Data.SqlTablePlayerFormatter();
+                case 34: return new MessagePack.Formatters.Data.MsgChangeCharacterFormatter();
+                case 35: return new MessagePack.Formatters.Data.MsgChangeNameFormatter();
+                case 36: return new MessagePack.Formatters.Data.MsgChangePortraitFormatter();
+                case 37: return new MessagePack.Formatters.Data.MsgDBChangeChannelFormatter();
+                case 38: return new MessagePack.Formatters.Data.MsgDBInsertAccountFormatter();
+                case 39: return new MessagePack.Formatters.Data.MsgDestroyPlayerFormatter();
+                case 40: return new MessagePack.Formatters.Data.MsgEnterBattleFormatter();
+                case 41: return new MessagePack.Formatters.Data.MsgGetVipDailyRewardFormatter();
+                case 42: return new MessagePack.Formatters.Data.MsgInsertPayiOSFormatter();
+                case 43: return new MessagePack.Formatters.Data.MsgInsertPlayerFormatter();
+                case 44: return new MessagePack.Formatters.Data.MsgKeepAliveToLocFormatter();
+                case 45: return new MessagePack.Formatters.Data.MsgLobbyCreateBattleFormatter();
+                case 46: return new MessagePack.Formatters.Data.MsgLobbyDestroyBattleFormatter();
+                case 47: return new MessagePack.Formatters.Data.MsgLobbyPlayerEnterBattleFormatter();
+                case 48: return new MessagePack.Formatters.Data.MsgLobbyPlayerExitBattleFormatter();
+                case 49: return new MessagePack.Formatters.Data.MsgLocBroadcastFormatter();
+                case 50: return new MessagePack.Formatters.Data.MsgLocBroadcastMsgAAAActionFormatter();
+                case 51: return new MessagePack.Formatters.Data.MsgLocBroadcastMsgPMActionFormatter();
+                case 52: return new MessagePack.Formatters.Data.MsgLocReportLocFormatter();
+                case 53: return new MessagePack.Formatters.Data.MsgLocRequestLocFormatter();
+                case 54: return new MessagePack.Formatters.Data.MsgLogChangeChannelFormatter();
+                case 55: return new MessagePack.Formatters.Data.MsgLoginAAAFormatter();
+                case 56: return new MessagePack.Formatters.Data.MsgLoginPMFormatter();
+                case 57: return new MessagePack.Formatters.Data.MsgLogPlayerLoginFormatter();
+                case 58: return new MessagePack.Formatters.Data.MsgLogPlayerLogoutFormatter();
+                case 59: return new MessagePack.Formatters.Data.MsgNullFormatter();
+                case 60: return new MessagePack.Formatters.Data.MsgOnCloseFormatter();
+                case 61: return new MessagePack.Formatters.Data.MsgOnConnectFormatter();
+                case 62: return new MessagePack.Formatters.Data.MsgOnDisconnectFormatter();
+                case 63: return new MessagePack.Formatters.Data.MsgPayFormatter();
+                case 64: return new MessagePack.Formatters.Data.MsgPayIvyStartFormatter();
+                case 65: return new MessagePack.Formatters.Data.MsgPayLtStartFormatter();
+                case 66: return new MessagePack.Formatters.Data.MsgPlayerSCSaveFormatter();
+                case 67: return new MessagePack.Formatters.Data.MsgPMActionFormatter();
+                case 68: return new MessagePack.Formatters.Data.MsgPMAliveFormatter();
+                case 69: return new MessagePack.Formatters.Data.MsgPreparePlayerLoginFormatter();
+                case 70: return new MessagePack.Formatters.Data.MsgQueryAccountByChannelFormatter();
+                case 71: return new MessagePack.Formatters.Data.MsgQueryAccountByPlayerIdFormatter();
+                case 72: return new MessagePack.Formatters.Data.MsgQueryAccountForChangeChannelFormatter();
+                case 73: return new MessagePack.Formatters.Data.MsgQueryAccountUpdatePlayerIdFormatter();
+                case 74: return new MessagePack.Formatters.Data.MsgQueryPlayerByIdFormatter();
+                case 75: return new MessagePack.Formatters.Data.MsgReloadScriptFormatter();
+                case 76: return new MessagePack.Formatters.Data.MsgRunScriptFormatter();
+                case 77: return new MessagePack.Formatters.Data.MsgSavePlayerFormatter();
+                case 78: return new MessagePack.Formatters.Data.MsgSendDestroyPlayerFormatter();
+                case 79: return new MessagePack.Formatters.Data.MsgSyncProfileFormatter();
+                case 80: return new MessagePack.Formatters.Data.MsgUploadProfileFormatter();
+                case 81: return new MessagePack.Formatters.Data.ProfileFormatter();
+                case 82: return new MessagePack.Formatters.Data.PurchasedItemFormatter();
+                case 83: return new MessagePack.Formatters.Data.ResBMAliveFormatter();
+                case 84: return new MessagePack.Formatters.Data.ResBMPlayerEnterFormatter();
+                case 85: return new MessagePack.Formatters.Data.ResChangeChannelFormatter();
+                case 86: return new MessagePack.Formatters.Data.ResChangeCharacterFormatter();
+                case 87: return new MessagePack.Formatters.Data.ResChangeNameFormatter();
+                case 88: return new MessagePack.Formatters.Data.ResChangePortraitFormatter();
+                case 89: return new MessagePack.Formatters.Data.ResDBQueryAccountPlayerIdFormatter();
+                case 90: return new MessagePack.Formatters.Data.ResEnterBattleFormatter();
+                case 91: return new MessagePack.Formatters.Data.ResGetVipDailyRewardFormatter();
+                case 92: return new MessagePack.Formatters.Data.ResLobbyCreateBattleFormatter();
+                case 93: return new MessagePack.Formatters.Data.ResLobbyPlayerEnterBattleFormatter();
+                case 94: return new MessagePack.Formatters.Data.ResLocRequestLocFormatter();
+                case 95: return new MessagePack.Formatters.Data.ResLoginAAAFormatter();
+                case 96: return new MessagePack.Formatters.Data.ResLoginPMFormatter();
+                case 97: return new MessagePack.Formatters.Data.ResMiscFormatter();
+                case 98: return new MessagePack.Formatters.Data.ResMysqlErrorFormatter();
+                case 99: return new MessagePack.Formatters.Data.ResPayFormatter();
+                case 100: return new MessagePack.Formatters.Data.ResPayIvyStartFormatter();
+                case 101: return new MessagePack.Formatters.Data.ResPayLtStartFormatter();
+                case 102: return new MessagePack.Formatters.Data.ResPMAliveFormatter();
+                case 103: return new MessagePack.Formatters.Data.ResPreparePlayerLoginFormatter();
+                case 104: return new MessagePack.Formatters.Data.ResQueryAccountFormatter();
+                case 105: return new MessagePack.Formatters.Data.ResQueryPlayerFormatter();
+                case 106: return new MessagePack.Formatters.Data.ResSyncProfileFormatter();
+                case 107: return new MessagePack.Formatters.Data.SqlTableAccountFormatter();
+                case 108: return new MessagePack.Formatters.Data.SqlTablePlayerFormatter();
                 default: return null;
             }
         }
@@ -1858,6 +1862,52 @@ namespace MessagePack.Formatters.Data
             ____result.channel2 = __channel2__;
             ____result.channelUserId2 = __channelUserId2__;
             ____result.playerId = __playerId__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class MsgChangeCharacterFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.MsgChangeCharacter>
+    {
+
+        public void Serialize(ref MessagePackWriter writer, global::Data.MsgChangeCharacter value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            writer.WriteArrayHeader(1);
+            writer.Write(value.characterConfigId);
+        }
+
+        public global::Data.MsgChangeCharacter Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            var length = reader.ReadArrayHeader();
+            var __characterConfigId__ = default(int);
+
+            for (int i = 0; i < length; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::Data.MsgChangeCharacter();
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -4331,12 +4381,13 @@ namespace MessagePack.Formatters.Data
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(5);
+            writer.WriteArrayHeader(6);
             writer.Write(value.level);
             writer.Write(value.money);
             writer.Write(value.diamond);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.portrait, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.userName, options);
+            writer.Write(value.characterConfigId);
         }
 
         public global::Data.Profile Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -4354,6 +4405,7 @@ namespace MessagePack.Formatters.Data
             var __diamond__ = default(int);
             var __portrait__ = default(string);
             var __userName__ = default(string);
+            var __characterConfigId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -4374,6 +4426,9 @@ namespace MessagePack.Formatters.Data
                     case 4:
                         __userName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
+                    case 5:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -4386,6 +4441,7 @@ namespace MessagePack.Formatters.Data
             ____result.diamond = __diamond__;
             ____result.portrait = __portrait__;
             ____result.userName = __userName__;
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -4612,6 +4668,52 @@ namespace MessagePack.Formatters.Data
             ____result.channel2Exist = __channel2Exist__;
             ____result.userName = __userName__;
             ____result.loginReward = __loginReward__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class ResChangeCharacterFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.ResChangeCharacter>
+    {
+
+        public void Serialize(ref MessagePackWriter writer, global::Data.ResChangeCharacter value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            writer.WriteArrayHeader(1);
+            writer.Write(value.characterConfigId);
+        }
+
+        public global::Data.ResChangeCharacter Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            var length = reader.ReadArrayHeader();
+            var __characterConfigId__ = default(int);
+
+            for (int i = 0; i < length; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::Data.ResChangeCharacter();
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }

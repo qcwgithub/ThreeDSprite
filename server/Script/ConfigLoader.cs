@@ -19,18 +19,16 @@ namespace Script
 
     public class ConfigLoader
     {
-        JsonUtils JSON;
         Purpose purpose;
-        public void Load(JsonUtils JSON, Purpose purpose)
+        public void Load(Purpose purpose)
         {
-            this.JSON = JSON;
             this.purpose = purpose;
         }
 
         T loadHomeJson<T>(string f)
         {
             string personalPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            return JSON.parse<T>(File.ReadAllText(personalPath + "/config/" + f, Encoding.UTF8));
+            return JsonUtils.parse<T>(File.ReadAllText(personalPath + "/config/" + f, Encoding.UTF8));
         }
 
         string loadConfigText(string f)
@@ -46,17 +44,17 @@ namespace Script
 
         T loadPurposeConfigJson<T>(string f)
         {
-            return JSON.parse<T>(File.ReadAllText("./Purposes/" + purpose + "/" + f, Encoding.UTF8));
+            return JsonUtils.parse<T>(File.ReadAllText("./Purposes/" + purpose + "/" + f, Encoding.UTF8));
         }
 
-        string loadGameText(string f)
+        public string loadGameText(string f)
         {
             return File.ReadAllText("./gameConfig/" + f, Encoding.UTF8);
         }
 
         T loadGameJson<T>(string f)
         {
-            return JSON.parse<T>(File.ReadAllText("./gameConfig/" + f, Encoding.UTF8));
+            return JsonUtils.parse<T>(File.ReadAllText("./gameConfig/" + f, Encoding.UTF8));
         }
 
         SqlConfig initSqlConfig(string name)
@@ -148,7 +146,7 @@ namespace Script
 
         public void loadMap(IBattleConfigs configs, int mapId)
         {
-            BattleScript.loadMap(new Script.JsonUtils(), configs, mapId,
+            BattleScript.loadMap(configs, mapId,
                 mapId => this.loadGameText("Imported/Egzd/map" + mapId + ".tmx.json"),
                 tileset => this.loadGameText("Imported/Egzd/" + tileset + ".json"));
         }

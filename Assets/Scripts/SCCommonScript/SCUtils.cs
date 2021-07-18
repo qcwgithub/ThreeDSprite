@@ -9,7 +9,7 @@ namespace Script
         /**
          * 返回将value限定于[min,max]区间
          */
-        public int clamp(int value, int min, int max)
+        public static int clamp(int value, int min, int max)
         {
             if (!(value > min))
             {

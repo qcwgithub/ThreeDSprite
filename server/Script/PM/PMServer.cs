@@ -17,7 +17,7 @@ namespace Script
         public PMScriptCreateNewPlayer pmScriptCreateNewPlayer;
 
         public SCUtils scUtils { get; set; }
-        public GameScript gameScript;
+        public GameScript gameScript { get; private set; }
 
         public override void OnLoad(DataEntry dataEntry, int id, int version)
         {
@@ -38,6 +38,7 @@ namespace Script
             // this.dispatcher.addHandler(new PMStart { server = this });
             this.dispatcher.addHandler(new PMAction { server = this });
             this.dispatcher.addHandler(new PMChangeChannel { server = this });
+            this.dispatcher.addHandler(new PMChangeCharacter { server = this });
             this.dispatcher.addHandler(new PMDestroyPlayer { server = this });
             this.dispatcher.addHandler(new PMEnterBattle { server = this });
             this.dispatcher.addHandler(new PMKeepAliveToAAA { server = this });

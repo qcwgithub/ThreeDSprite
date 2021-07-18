@@ -21,7 +21,7 @@ namespace Script
             if (ids == "all")
                 serverIds = new List<int> { 1, 2, 3, 4, 5, 11, 12, 13, 101, 201 };
             else
-                serverIds = JSON.parse<List<int>>(ids);
+                serverIds = JsonUtils.parse<List<int>>(ids);
 
             if (serverIds == null || serverIds.Count == 0)
             {
@@ -32,7 +32,7 @@ namespace Script
             var purpose = Enum.Parse<Purpose>(args["purpose"]);
 
             var configLoader = new ConfigLoader();
-            configLoader.Load(JSON, purpose);
+            configLoader.Load(purpose);
 
             var log4NetCreation = new Log4netCreation();
             log4NetCreation.Create(serverIds.Select(_ => Utils.numberId2stringId(_)).ToList(), configLoader);

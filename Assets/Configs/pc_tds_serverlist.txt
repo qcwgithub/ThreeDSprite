@@ -1,0 +1,2 @@
+{ "enterGame":true,"purpose":"tds-test","needLogin":true,"aaaIp":"localhost","aaaPort":8001,"showBoard":false
+}

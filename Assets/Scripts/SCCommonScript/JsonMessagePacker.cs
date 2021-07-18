@@ -125,7 +125,7 @@ namespace Script
                 typeStr = type.Name;
                 typeLength = Encoding.UTF8.GetByteCount(typeStr);
 
-                msgStr = this.JSON.stringify(_msg);
+                msgStr = JsonUtils.stringify(_msg);
                 msgLength = Encoding.UTF8.GetByteCount(msgStr);
             }
 
@@ -200,7 +200,7 @@ namespace Script
                     this.onError(string.Format("type==null, typeStr={0}, msgStr={1}", typeStr, msgStr));
                 }
 
-                object obj = JSON.parse(msgStr, type);
+                object obj = JsonUtils.parse(msgStr, type);
                 return obj;
             }
             catch (Exception ex)

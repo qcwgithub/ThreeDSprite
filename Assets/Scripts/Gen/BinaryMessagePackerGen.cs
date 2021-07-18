@@ -29,6 +29,7 @@ namespace Script
                 case MessageCode.btCharacter: bytes = MessagePackSerializer.Serialize<btCharacter>((btCharacter)obj); break;
                 case MessageCode.btObject: bytes = MessagePackSerializer.Serialize<btObject>((btObject)obj); break;
                 case MessageCode.MsgChangeChannel: bytes = MessagePackSerializer.Serialize<MsgChangeChannel>((MsgChangeChannel)obj); break;
+                case MessageCode.MsgChangeCharacter: bytes = MessagePackSerializer.Serialize<MsgChangeCharacter>((MsgChangeCharacter)obj); break;
                 case MessageCode.MsgChangeName: bytes = MessagePackSerializer.Serialize<MsgChangeName>((MsgChangeName)obj); break;
                 case MessageCode.MsgChangePortrait: bytes = MessagePackSerializer.Serialize<MsgChangePortrait>((MsgChangePortrait)obj); break;
                 case MessageCode.MsgEnterBattle: bytes = MessagePackSerializer.Serialize<MsgEnterBattle>((MsgEnterBattle)obj); break;
@@ -44,6 +45,7 @@ namespace Script
                 case MessageCode.Profile: bytes = MessagePackSerializer.Serialize<Profile>((Profile)obj); break;
                 case MessageCode.PurchasedItem: bytes = MessagePackSerializer.Serialize<PurchasedItem>((PurchasedItem)obj); break;
                 case MessageCode.ResChangeChannel: bytes = MessagePackSerializer.Serialize<ResChangeChannel>((ResChangeChannel)obj); break;
+                case MessageCode.ResChangeCharacter: bytes = MessagePackSerializer.Serialize<ResChangeCharacter>((ResChangeCharacter)obj); break;
                 case MessageCode.ResChangeName: bytes = MessagePackSerializer.Serialize<ResChangeName>((ResChangeName)obj); break;
                 case MessageCode.ResChangePortrait: bytes = MessagePackSerializer.Serialize<ResChangePortrait>((ResChangePortrait)obj); break;
                 case MessageCode.ResEnterBattle: bytes = MessagePackSerializer.Serialize<ResEnterBattle>((ResEnterBattle)obj); break;
@@ -83,6 +85,7 @@ namespace Script
                 case MessageCode.btCharacter: obj = MessagePackSerializer.Deserialize<btCharacter>(readonlyMemory); break;
                 case MessageCode.btObject: obj = MessagePackSerializer.Deserialize<btObject>(readonlyMemory); break;
                 case MessageCode.MsgChangeChannel: obj = MessagePackSerializer.Deserialize<MsgChangeChannel>(readonlyMemory); break;
+                case MessageCode.MsgChangeCharacter: obj = MessagePackSerializer.Deserialize<MsgChangeCharacter>(readonlyMemory); break;
                 case MessageCode.MsgChangeName: obj = MessagePackSerializer.Deserialize<MsgChangeName>(readonlyMemory); break;
                 case MessageCode.MsgChangePortrait: obj = MessagePackSerializer.Deserialize<MsgChangePortrait>(readonlyMemory); break;
                 case MessageCode.MsgEnterBattle: obj = MessagePackSerializer.Deserialize<MsgEnterBattle>(readonlyMemory); break;
@@ -98,6 +101,7 @@ namespace Script
                 case MessageCode.Profile: obj = MessagePackSerializer.Deserialize<Profile>(readonlyMemory); break;
                 case MessageCode.PurchasedItem: obj = MessagePackSerializer.Deserialize<PurchasedItem>(readonlyMemory); break;
                 case MessageCode.ResChangeChannel: obj = MessagePackSerializer.Deserialize<ResChangeChannel>(readonlyMemory); break;
+                case MessageCode.ResChangeCharacter: obj = MessagePackSerializer.Deserialize<ResChangeCharacter>(readonlyMemory); break;
                 case MessageCode.ResChangeName: obj = MessagePackSerializer.Deserialize<ResChangeName>(readonlyMemory); break;
                 case MessageCode.ResChangePortrait: obj = MessagePackSerializer.Deserialize<ResChangePortrait>(readonlyMemory); break;
                 case MessageCode.ResEnterBattle: obj = MessagePackSerializer.Deserialize<ResEnterBattle>(readonlyMemory); break;

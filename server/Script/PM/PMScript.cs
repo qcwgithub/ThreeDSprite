@@ -20,7 +20,7 @@ namespace Script
             T obj = null;
             try
             {
-                obj = this.server.JSON.parse<T>(str);
+                obj = JsonUtils.parse<T>(str);
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace Script
 
             // server only data
             player.id = sqlData.id;
-            var p = player.Profile = new Profile();
+            var p = player.profile = new Profile();
             // Profile.Ensure(p);
             return player;
         }

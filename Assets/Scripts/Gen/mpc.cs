@@ -49,7 +49,7 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(46)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(48)
             {
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayerInfo>), 0 },
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.btCharacter>), 1 },
@@ -70,33 +70,35 @@ namespace MessagePack.Resolvers
                 { typeof(global::Data.btCharacter), 16 },
                 { typeof(global::Data.btObject), 17 },
                 { typeof(global::Data.MsgChangeChannel), 18 },
-                { typeof(global::Data.MsgChangeName), 19 },
-                { typeof(global::Data.MsgChangePortrait), 20 },
-                { typeof(global::Data.MsgEnterBattle), 21 },
-                { typeof(global::Data.MsgGetVipDailyReward), 22 },
-                { typeof(global::Data.MsgLoginAAA), 23 },
-                { typeof(global::Data.MsgLoginPM), 24 },
-                { typeof(global::Data.MsgNull), 25 },
-                { typeof(global::Data.MsgPay), 26 },
-                { typeof(global::Data.MsgPayIvyStart), 27 },
-                { typeof(global::Data.MsgPayLtStart), 28 },
-                { typeof(global::Data.MsgSyncProfile), 29 },
-                { typeof(global::Data.MsgUploadProfile), 30 },
-                { typeof(global::Data.Profile), 31 },
-                { typeof(global::Data.PurchasedItem), 32 },
-                { typeof(global::Data.ResChangeChannel), 33 },
-                { typeof(global::Data.ResChangeName), 34 },
-                { typeof(global::Data.ResChangePortrait), 35 },
-                { typeof(global::Data.ResEnterBattle), 36 },
-                { typeof(global::Data.ResGetVipDailyReward), 37 },
-                { typeof(global::Data.ResLoginAAA), 38 },
-                { typeof(global::Data.ResLoginPM), 39 },
-                { typeof(global::Data.ResMisc), 40 },
-                { typeof(global::Data.ResMysqlError), 41 },
-                { typeof(global::Data.ResPay), 42 },
-                { typeof(global::Data.ResPayIvyStart), 43 },
-                { typeof(global::Data.ResPayLtStart), 44 },
-                { typeof(global::Data.ResSyncProfile), 45 },
+                { typeof(global::Data.MsgChangeCharacter), 19 },
+                { typeof(global::Data.MsgChangeName), 20 },
+                { typeof(global::Data.MsgChangePortrait), 21 },
+                { typeof(global::Data.MsgEnterBattle), 22 },
+                { typeof(global::Data.MsgGetVipDailyReward), 23 },
+                { typeof(global::Data.MsgLoginAAA), 24 },
+                { typeof(global::Data.MsgLoginPM), 25 },
+                { typeof(global::Data.MsgNull), 26 },
+                { typeof(global::Data.MsgPay), 27 },
+                { typeof(global::Data.MsgPayIvyStart), 28 },
+                { typeof(global::Data.MsgPayLtStart), 29 },
+                { typeof(global::Data.MsgSyncProfile), 30 },
+                { typeof(global::Data.MsgUploadProfile), 31 },
+                { typeof(global::Data.Profile), 32 },
+                { typeof(global::Data.PurchasedItem), 33 },
+                { typeof(global::Data.ResChangeChannel), 34 },
+                { typeof(global::Data.ResChangeCharacter), 35 },
+                { typeof(global::Data.ResChangeName), 36 },
+                { typeof(global::Data.ResChangePortrait), 37 },
+                { typeof(global::Data.ResEnterBattle), 38 },
+                { typeof(global::Data.ResGetVipDailyReward), 39 },
+                { typeof(global::Data.ResLoginAAA), 40 },
+                { typeof(global::Data.ResLoginPM), 41 },
+                { typeof(global::Data.ResMisc), 42 },
+                { typeof(global::Data.ResMysqlError), 43 },
+                { typeof(global::Data.ResPay), 44 },
+                { typeof(global::Data.ResPayIvyStart), 45 },
+                { typeof(global::Data.ResPayLtStart), 46 },
+                { typeof(global::Data.ResSyncProfile), 47 },
             };
         }
 
@@ -129,33 +131,35 @@ namespace MessagePack.Resolvers
                 case 16: return new MessagePack.Formatters.Data.btCharacterFormatter();
                 case 17: return new MessagePack.Formatters.Data.btObjectFormatter();
                 case 18: return new MessagePack.Formatters.Data.MsgChangeChannelFormatter();
-                case 19: return new MessagePack.Formatters.Data.MsgChangeNameFormatter();
-                case 20: return new MessagePack.Formatters.Data.MsgChangePortraitFormatter();
-                case 21: return new MessagePack.Formatters.Data.MsgEnterBattleFormatter();
-                case 22: return new MessagePack.Formatters.Data.MsgGetVipDailyRewardFormatter();
-                case 23: return new MessagePack.Formatters.Data.MsgLoginAAAFormatter();
-                case 24: return new MessagePack.Formatters.Data.MsgLoginPMFormatter();
-                case 25: return new MessagePack.Formatters.Data.MsgNullFormatter();
-                case 26: return new MessagePack.Formatters.Data.MsgPayFormatter();
-                case 27: return new MessagePack.Formatters.Data.MsgPayIvyStartFormatter();
-                case 28: return new MessagePack.Formatters.Data.MsgPayLtStartFormatter();
-                case 29: return new MessagePack.Formatters.Data.MsgSyncProfileFormatter();
-                case 30: return new MessagePack.Formatters.Data.MsgUploadProfileFormatter();
-                case 31: return new MessagePack.Formatters.Data.ProfileFormatter();
-                case 32: return new MessagePack.Formatters.Data.PurchasedItemFormatter();
-                case 33: return new MessagePack.Formatters.Data.ResChangeChannelFormatter();
-                case 34: return new MessagePack.Formatters.Data.ResChangeNameFormatter();
-                case 35: return new MessagePack.Formatters.Data.ResChangePortraitFormatter();
-                case 36: return new MessagePack.Formatters.Data.ResEnterBattleFormatter();
-                case 37: return new MessagePack.Formatters.Data.ResGetVipDailyRewardFormatter();
-                case 38: return new MessagePack.Formatters.Data.ResLoginAAAFormatter();
-                case 39: return new MessagePack.Formatters.Data.ResLoginPMFormatter();
-                case 40: return new MessagePack.Formatters.Data.ResMiscFormatter();
-                case 41: return new MessagePack.Formatters.Data.ResMysqlErrorFormatter();
-                case 42: return new MessagePack.Formatters.Data.ResPayFormatter();
-                case 43: return new MessagePack.Formatters.Data.ResPayIvyStartFormatter();
-                case 44: return new MessagePack.Formatters.Data.ResPayLtStartFormatter();
-                case 45: return new MessagePack.Formatters.Data.ResSyncProfileFormatter();
+                case 19: return new MessagePack.Formatters.Data.MsgChangeCharacterFormatter();
+                case 20: return new MessagePack.Formatters.Data.MsgChangeNameFormatter();
+                case 21: return new MessagePack.Formatters.Data.MsgChangePortraitFormatter();
+                case 22: return new MessagePack.Formatters.Data.MsgEnterBattleFormatter();
+                case 23: return new MessagePack.Formatters.Data.MsgGetVipDailyRewardFormatter();
+                case 24: return new MessagePack.Formatters.Data.MsgLoginAAAFormatter();
+                case 25: return new MessagePack.Formatters.Data.MsgLoginPMFormatter();
+                case 26: return new MessagePack.Formatters.Data.MsgNullFormatter();
+                case 27: return new MessagePack.Formatters.Data.MsgPayFormatter();
+                case 28: return new MessagePack.Formatters.Data.MsgPayIvyStartFormatter();
+                case 29: return new MessagePack.Formatters.Data.MsgPayLtStartFormatter();
+                case 30: return new MessagePack.Formatters.Data.MsgSyncProfileFormatter();
+                case 31: return new MessagePack.Formatters.Data.MsgUploadProfileFormatter();
+                case 32: return new MessagePack.Formatters.Data.ProfileFormatter();
+                case 33: return new MessagePack.Formatters.Data.PurchasedItemFormatter();
+                case 34: return new MessagePack.Formatters.Data.ResChangeChannelFormatter();
+                case 35: return new MessagePack.Formatters.Data.ResChangeCharacterFormatter();
+                case 36: return new MessagePack.Formatters.Data.ResChangeNameFormatter();
+                case 37: return new MessagePack.Formatters.Data.ResChangePortraitFormatter();
+                case 38: return new MessagePack.Formatters.Data.ResEnterBattleFormatter();
+                case 39: return new MessagePack.Formatters.Data.ResGetVipDailyRewardFormatter();
+                case 40: return new MessagePack.Formatters.Data.ResLoginAAAFormatter();
+                case 41: return new MessagePack.Formatters.Data.ResLoginPMFormatter();
+                case 42: return new MessagePack.Formatters.Data.ResMiscFormatter();
+                case 43: return new MessagePack.Formatters.Data.ResMysqlErrorFormatter();
+                case 44: return new MessagePack.Formatters.Data.ResPayFormatter();
+                case 45: return new MessagePack.Formatters.Data.ResPayIvyStartFormatter();
+                case 46: return new MessagePack.Formatters.Data.ResPayLtStartFormatter();
+                case 47: return new MessagePack.Formatters.Data.ResSyncProfileFormatter();
                 default: return null;
             }
         }
@@ -1020,6 +1024,52 @@ namespace MessagePack.Formatters.Data
         }
     }
 
+    public sealed class MsgChangeCharacterFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.MsgChangeCharacter>
+    {
+
+        public void Serialize(ref MessagePackWriter writer, global::Data.MsgChangeCharacter value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            writer.WriteArrayHeader(1);
+            writer.Write(value.characterConfigId);
+        }
+
+        public global::Data.MsgChangeCharacter Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            var length = reader.ReadArrayHeader();
+            var __characterConfigId__ = default(int);
+
+            for (int i = 0; i < length; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::Data.MsgChangeCharacter();
+            ____result.characterConfigId = __characterConfigId__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
     public sealed class MsgChangeNameFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.MsgChangeName>
     {
 
@@ -1620,12 +1670,13 @@ namespace MessagePack.Formatters.Data
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(5);
+            writer.WriteArrayHeader(6);
             writer.Write(value.level);
             writer.Write(value.money);
             writer.Write(value.diamond);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.portrait, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.userName, options);
+            writer.Write(value.characterConfigId);
         }
 
         public global::Data.Profile Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1643,6 +1694,7 @@ namespace MessagePack.Formatters.Data
             var __diamond__ = default(int);
             var __portrait__ = default(string);
             var __userName__ = default(string);
+            var __characterConfigId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -1663,6 +1715,9 @@ namespace MessagePack.Formatters.Data
                     case 4:
                         __userName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
+                    case 5:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -1675,6 +1730,7 @@ namespace MessagePack.Formatters.Data
             ____result.diamond = __diamond__;
             ____result.portrait = __portrait__;
             ____result.userName = __userName__;
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -1807,6 +1863,52 @@ namespace MessagePack.Formatters.Data
             ____result.channel2Exist = __channel2Exist__;
             ____result.userName = __userName__;
             ____result.loginReward = __loginReward__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class ResChangeCharacterFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.ResChangeCharacter>
+    {
+
+        public void Serialize(ref MessagePackWriter writer, global::Data.ResChangeCharacter value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            writer.WriteArrayHeader(1);
+            writer.Write(value.characterConfigId);
+        }
+
+        public global::Data.ResChangeCharacter Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            var length = reader.ReadArrayHeader();
+            var __characterConfigId__ = default(int);
+
+            for (int i = 0; i < length; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::Data.ResChangeCharacter();
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }

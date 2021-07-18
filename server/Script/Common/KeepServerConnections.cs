@@ -12,7 +12,7 @@ namespace Script
         // ids=null 表示全部，monitor使用
         public async Task<MyResponse> requestLocAsync(List<int> ids)
         {
-            this.logger.Info("requestLoc " + this.server.JSON.stringify(ids));
+            this.logger.Info("requestLoc " + JsonUtils.stringify(ids));
             var r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.LOC_ID,
                     MsgType.LocRequestLoc,
                     new MsgLocRequestLoc { ids = ids });

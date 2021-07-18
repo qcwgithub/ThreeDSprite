@@ -3,9 +3,9 @@ namespace Script
 {
     public abstract class GameScript : GameScriptBase
     {
-        public abstract int getTime();
-        public abstract int getTodayTime(int hour, int minute, int second, int ms);
-        public abstract int setHours(int timeMs, int hour, int minute, int second, int ms);
+        public abstract int getTimeS();
+        public abstract int getTodayTimeS(int hour, int minute, int second);
+        public abstract int setHours(int timeMs, int hour, int minute, int second);
 
 
         public ECode changeChannelCheck(IProfileInput input, MsgChangeChannel msg, ResChangeChannel res)
@@ -39,6 +39,17 @@ namespace Script
             // {
             //     input.profile.userName = res.userName;
             // }
+        }
+
+        public ECode ChangeCharacterCheck(IProfileInput input, MsgChangeCharacter msg, ResChangeCharacter res)
+        {
+            res.characterConfigId = msg.characterConfigId;
+            return ECode.Success;
+        }
+
+        public void ChangeCharacterExecute(IProfileInput input, MsgChangeCharacter msg, ResChangeCharacter res)
+        {
+            input.profile.characterConfigId = res.characterConfigId;
         }
     }
 }

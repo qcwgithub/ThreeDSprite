@@ -30,6 +30,7 @@ public class MessagePackInitializer
 
 public class CStartupScene : CSceneBase
 {
+    public TextAsset serverListTxt;
     public string NextSceneName;
     public CBoardPanel Board;
     public GameObject loadingPanelPrefab;
@@ -121,6 +122,12 @@ public class CStartupScene : CSceneBase
 
     IEnumerator downloadServerList()
     {
+        if (PlatformUtils.getPlatformString() == MyChannels.pc)
+        {
+            this.serverList = Script.JsonUtils.parse<ServerList>(this.serverListTxt.text);
+            yield break;
+        }
+
         var info = sc.loadingPanel.show("loadServerList", -1);
         info.setMessage("loading server list");
         string url = $"https://hecxxzdl.jysyx.net/server_list/{PlatformUtils.getPlatformString()}_{ProjectUtils.ProjectName}/{PlatformUtils.getAppVersion()}.txt?t=" + DateTime.Now.Ticks.ToString();

@@ -12,7 +12,7 @@ namespace Script
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.castObject<MsgLocRequestLoc>(_msg);
-            this.logger.Info("LocRequestLoc ids: " + this.server.JSON.stringify(msg.ids));
+            this.logger.Info("LocRequestLoc ids: " + JsonUtils.stringify(msg.ids));
 
             if (msg.ids == null)
             {

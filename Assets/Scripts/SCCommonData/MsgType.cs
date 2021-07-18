@@ -151,5 +151,6 @@ namespace Data
         BMAddPlayer = 10079,
         BMAddCharacter = 10080,
         BMBattle = 10081,
+        ChangeCharacter = 10082,
     }
 }

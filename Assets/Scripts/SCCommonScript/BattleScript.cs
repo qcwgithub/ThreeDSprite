@@ -37,13 +37,13 @@ namespace Script
             scripts.updateScript.Init(configs, scripts);
         }
 
-        public static void loadMap(JsonUtils jsonUtils, IBattleConfigs configs, int mapId, Func<int, string> loadTmx, Func<string, string> loadTileset)
+        public static void loadMap(IBattleConfigs configs, int mapId, Func<int, string> loadTmx, Func<string, string> loadTileset)
         {
             btTilemapData mapData;
             if (!configs.tilemapDatas.TryGetValue(mapId, out mapData))
             {
                 string tmxText = loadTmx(mapId);
-                mapData = jsonUtils.parse<btTilemapData>(tmxText);
+                mapData = JsonUtils.parse<btTilemapData>(tmxText);
                 configs.tilemapDatas[mapId] = mapData;
             }
 
@@ -60,7 +60,7 @@ namespace Script
                     if (!configs.tilesetConfigs.TryGetValue(thingData.tileset, out tilesetConfig))
                     {
                         string tilesetText = loadTileset(thingData.tileset);
-                        tilesetConfig = jsonUtils.parse<btTilesetConfig>(tilesetText);
+                        tilesetConfig = JsonUtils.parse<btTilesetConfig>(tilesetText);
                         configs.tilesetConfigs.Add(thingData.tileset, tilesetConfig);
                     }
                 }

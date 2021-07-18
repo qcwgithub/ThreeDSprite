@@ -8,6 +8,7 @@ using UnityEditor;
 using TiledCS;
 using Data;
 using Newtonsoft.Json;
+using Script;
 
 public partial class TiledImporterWindow
 {
@@ -26,7 +27,7 @@ public partial class TiledImporterWindow
             Debug.LogError(tilemapPath + " not imported");
             return false;
         }
-        mapData = JsonUtils.FromJson<btTilemapData>(mapAsset.text);
+        mapData = JsonUtils.parse<btTilemapData>(mapAsset.text);
 
         Vector3 mapOffset = Vector3.zero; // to do ?
 
@@ -51,7 +52,7 @@ public partial class TiledImporterWindow
                         Debug.LogError(tilesetPath + " not imported");
                         break;
                     }
-                    tilesetConfig = JsonUtils.FromJson<btTilesetConfig>(tilesetAsset.text);
+                    tilesetConfig = JsonUtils.parse<btTilesetConfig>(tilesetAsset.text);
                     tilesetConfigs.Add(tileData.tileset, tilesetConfig);
                 }
             }
