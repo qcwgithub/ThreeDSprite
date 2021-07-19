@@ -13,7 +13,7 @@ namespace Script
         {
             // this.server.logger.InfoFormat("{0} V{1}", this.msgName, this.server.scriptDllVersion);
 
-            var msg = this.server.castObject<MsgPMAlive>(_msg);
+            var msg = this.server.CastObject<MsgPMAlive>(_msg);
             var data = this.aaaData;
             var script = this.aaaScript;
             var logger = this.logger;

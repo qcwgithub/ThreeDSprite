@@ -20,6 +20,18 @@ namespace Script
         public abstract MsgType msgType { get; }
         public abstract Task<MyResponse> handle(TcpClientData socket, object _msg);
         public virtual MyResponse postHandle(object socket, object msg, MyResponse r) { return r; }
-        public string msgName { get { return this.msgType.ToString(); } }
+
+        string cachedMsgName = null;
+        public string msgName
+        {
+            get
+            {
+                if (this.cachedMsgName == null)
+                {
+                    this.cachedMsgName = this.msgType.ToString();
+                }
+                return this.cachedMsgName;
+            }
+        }
     }
 }

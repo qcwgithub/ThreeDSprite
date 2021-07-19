@@ -34,7 +34,7 @@ namespace Script
             return true;
         }
 
-        public T castObject<T>(object msg)
+        public T CastObject<T>(object msg)
         {
             if (msg == null || !(msg is T))
             {

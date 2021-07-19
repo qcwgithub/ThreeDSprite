@@ -9,7 +9,7 @@ namespace Script
         public override MsgType msgType { get { return MsgType.PMEnterBattle; } }
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgEnterBattle>(_msg);
+            var msg = this.server.CastObject<MsgEnterBattle>(_msg);
             
             var player = this.getPlayer(socket);
             if (player == null)

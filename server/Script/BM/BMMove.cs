@@ -9,7 +9,7 @@ namespace Script
         public override MsgType msgType => MsgType.BMMove;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<BMMsgMove>(_msg);
+            var msg = this.server.CastObject<BMMsgMove>(_msg);
             BMPlayer player = this.getPlayer(socket);
             if (player == null)
             {

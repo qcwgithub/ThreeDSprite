@@ -8,7 +8,7 @@ namespace Script
         public override MsgType msgType => MsgType.BMPlayerExit;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgBMPlayerExit>(_msg);
+            var msg = this.server.CastObject<MsgBMPlayerExit>(_msg);
             
             BMBattle battle = this.server.bmData.GetBattle(msg.battleId);
             if (battle == null)

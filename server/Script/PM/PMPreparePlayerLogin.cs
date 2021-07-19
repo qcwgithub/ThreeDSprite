@@ -11,7 +11,7 @@ namespace Script
 
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgPreparePlayerLogin>(_msg);
+            var msg = this.server.CastObject<MsgPreparePlayerLogin>(_msg);
             var data = this.data;
             var script = this.pmScript;
             var logger = this.logger;
@@ -89,13 +89,13 @@ namespace Script
             if (player.lastProfile == null)
             {
                 // 有值就不能再赋值了，不然玩家上线下线就错了
-                player.lastProfile = this.server.pmPlayerToSqlTablePlayer.convert(player);
+                player.lastProfile = this.server.pmPlayerToSqlTablePlayer.Convert(player);
             }
 
             player.channel = msg.channel;
             player.channelUserId = msg.channelUserId;
             player.token = msg.token;
-            script.setDestroyTimer(player, "PMPreparePlayerLogin");
+            script.setDestroyTimer(player, this.msgName);
             if (player.saveTimer == 0)
             {
                 this.pmScript.setSaveTimer(player);

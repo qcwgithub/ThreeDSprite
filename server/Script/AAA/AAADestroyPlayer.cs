@@ -11,7 +11,7 @@ namespace Script
 
         public override Task<MyResponse> handle(TcpClientData socket/* null */, object _msg)
         {
-            var msg = this.server.castObject<MsgDestroyPlayer>(_msg);
+            var msg = this.server.CastObject<MsgDestroyPlayer>(_msg);
             var aaaData = this.aaaData;
             var aaaScript = this.aaaScript;
             this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);

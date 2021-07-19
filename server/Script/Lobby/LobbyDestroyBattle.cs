@@ -10,7 +10,7 @@ namespace Script
 
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgLobbyDestroyBattle>(_msg);
+            var msg = this.server.CastObject<MsgLobbyDestroyBattle>(_msg);
             var bmInfo = this.server.lobbyData.GetBMInfo(msg.bmId);
             if (bmInfo == null)
             {

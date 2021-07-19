@@ -9,7 +9,7 @@ namespace Script
         public override MsgType msgType => MsgType.BMPlayerEnter;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgBMPlayerEnter>(_msg);
+            var msg = this.server.CastObject<MsgBMPlayerEnter>(_msg);
             this.server.logger.Info(this.msgName + ", playerId: " + msg.playerId);
 
             BMBattle battle = this.server.bmData.GetBattle(msg.battleId);

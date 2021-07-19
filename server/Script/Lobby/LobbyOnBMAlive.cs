@@ -12,7 +12,7 @@ namespace Script
         {
             // this.server.logger.InfoFormat("{0} V{1}", this.msgName, this.server.scriptDllVersion);
 
-            var msg = this.server.castObject<MsgBMAlive>(_msg);
+            var msg = this.server.CastObject<MsgBMAlive>(_msg);
 
             this.server.addKnownLoc(msg.loc);
 

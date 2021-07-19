@@ -10,7 +10,7 @@ namespace Script
         public override MsgType msgType => MsgType.DBQueryPlayerById;
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgQueryPlayerById>(_msg);
+            var msg = this.server.CastObject<MsgQueryPlayerById>(_msg);
             string queryStr = "SELECT * FROM player WHERE id=@0;";
             MySqlParameter[] param = this.makeParameters(msg.playerId);
 

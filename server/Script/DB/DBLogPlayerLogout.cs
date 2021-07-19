@@ -11,7 +11,7 @@ namespace Script
 
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgLogPlayerLogout>(_msg);
+            var msg = this.server.CastObject<MsgLogPlayerLogout>(_msg);
 
             var queryStr = "INSERT INTO player_logout (playerId,level) VALUES (@0,1);";
             var param = this.makeParameters(msg.playerId);

@@ -120,7 +120,7 @@ namespace Script
                 return ECode.NoAvailableBM;
             }
 
-            var msg = this.server.castObject<MsgLobbyPlayerEnterBattle>(_msg);
+            var msg = this.server.CastObject<MsgLobbyPlayerEnterBattle>(_msg);
             this.server.logger.Info(this.msgName + ", playerId: " + msg.playerId);
 
             LobbyBMInfo bmInfo = null;

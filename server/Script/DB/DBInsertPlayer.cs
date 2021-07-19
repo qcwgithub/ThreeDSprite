@@ -10,7 +10,7 @@ namespace Script
         public override MsgType msgType => MsgType.DBInsertPlayer;
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgInsertPlayer>(_msg);
+            var msg = this.server.CastObject<MsgInsertPlayer>(_msg);
             string queryStr = "INSERT INTO player (id) VALUES (@0);";
             MySqlParameter[] param = this.makeParameters(msg.player.id);
 

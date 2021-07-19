@@ -9,7 +9,7 @@ namespace Script
 
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgLocReportLoc>(_msg);
+            var msg = this.server.CastObject<MsgLocReportLoc>(_msg);
             // if (msg.id == ServerConst.MONITOR_ID)
             // {
             //     // monitor 不受限制

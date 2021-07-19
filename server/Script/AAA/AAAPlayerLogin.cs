@@ -129,7 +129,7 @@ namespace Script
 
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgLoginAAA>(_msg);
+            var msg = this.server.CastObject<MsgLoginAAA>(_msg);
 
             var logger = this.logger;
             var aaaData = this.aaaData;

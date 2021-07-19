@@ -9,7 +9,7 @@ namespace Script
         public override MsgType msgType { get { return MsgType.PMPlayerLogin; } }
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgLoginPM>(_msg);
+            var msg = this.server.CastObject<MsgLoginPM>(_msg);
             // this.logger.info("PMPlayerLogin playerId: " + msg.playerId);
 
             if (msg.playerId <= 0 || msg.token == null)

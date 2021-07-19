@@ -8,7 +8,7 @@ namespace Script
         public override MsgType msgType => MsgType.BMDebugGetCharacterPosition;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<BMMsgDebugGetCharacterPosition>(_msg);
+            var msg = this.server.CastObject<BMMsgDebugGetCharacterPosition>(_msg);
             BMPlayer player = this.getPlayer(socket);
             if (player == null)
             {

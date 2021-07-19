@@ -10,7 +10,7 @@ namespace Script
         public override MsgType msgType => MsgType.BMPlayerLogin;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<BMMsgPlayerLogin>(_msg);
+            var msg = this.server.CastObject<BMMsgPlayerLogin>(_msg);
 
             BMBattle battle = this.server.bmData.GetBattle(msg.battleId);
             if (battle == null)

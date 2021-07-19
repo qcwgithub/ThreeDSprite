@@ -10,7 +10,7 @@ namespace Script
         public override MsgType msgType { get { return MsgType.PMPlayerSave; } }
         public override Task<MyResponse> handle(TcpClientData socket/* null */, object _msg)
         {
-            var msg = this.server.castObject<MsgPlayerSCSave>(_msg);
+            var msg = this.server.CastObject<MsgPlayerSCSave>(_msg);
             var player = this.data.GetPlayerInfo(msg.playerId);
             if (player == null)
             {
@@ -24,7 +24,7 @@ namespace Script
             var obj = this.server.pmSqlUtils.beginSave(player);
             List<string> buffer = null;
             var last = player.lastProfile;
-            var curr = this.server.pmPlayerToSqlTablePlayer.convert(player);
+            var curr = this.server.pmPlayerToSqlTablePlayer.Convert(player);
 
             this.server.pmSqlUtils.endSave(obj);
             player.lastProfile = curr; // 先假设一定成功吧
@@ -42,7 +42,7 @@ namespace Script
 
         public override MyResponse postHandle(object socket, object _msg, MyResponse r)
         {
-            var msg = this.server.castObject<MsgPlayerSCSave>(_msg);
+            var msg = this.server.CastObject<MsgPlayerSCSave>(_msg);
             var player = this.data.GetPlayerInfo(msg.playerId);
             if (player != null)
             {

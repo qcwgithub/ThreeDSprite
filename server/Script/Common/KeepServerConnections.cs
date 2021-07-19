@@ -23,7 +23,7 @@ namespace Script
                 return r.err;
             }
 
-            var res = this.server.castObject<ResLocRequestLoc>(r.res);
+            var res = this.server.CastObject<ResLocRequestLoc>(r.res);
             List<Loc> locs = res.locs;
             for (int i = 0; i < locs.Count; i++)
             {

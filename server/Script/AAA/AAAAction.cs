@@ -13,7 +13,7 @@ namespace Script
         {
             this.server.logger.Info(this.msgName);
 
-            var msg = this.server.castObject<MsgAAAAction>(_msg);
+            var msg = this.server.CastObject<MsgAAAAction>(_msg);
 
             this.logger.Info(this.msgName);
             var aaaData = this.server.aaaData;

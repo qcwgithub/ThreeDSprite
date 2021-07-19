@@ -11,7 +11,7 @@ namespace Script
 
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgDBInsertAccount>(_msg);
+            var msg = this.server.CastObject<MsgDBInsertAccount>(_msg);
             var a = msg.accountInfo;
 
             var queryStr = "INSERT INTO account (platform, channel, channelUserId, playerId, createTime, oaid, imei, userInfo) VALUES (@0,@1,@2,@3,@4,@5,@6,@7);";

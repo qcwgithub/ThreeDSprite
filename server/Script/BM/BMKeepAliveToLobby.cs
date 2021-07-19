@@ -63,7 +63,7 @@ namespace Script
             else
             {
                 this.server.bmData.lobbyReady = true;
-                var resBattleAlive = this.server.castObject<ResBMAlive>(r.res);
+                var resBattleAlive = this.server.CastObject<ResBMAlive>(r.res);
                 if (resBattleAlive.requireBattleList)
                 {
                     alive.requireBattleList = true;

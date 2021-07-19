@@ -11,7 +11,7 @@ namespace Script
 
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgSendDestroyPlayer>(_msg);
+            var msg = this.server.CastObject<MsgSendDestroyPlayer>(_msg);
             var data = this.data;
             PMPlayer player = data.GetPlayerInfo(msg.playerId);
             if (player == null)

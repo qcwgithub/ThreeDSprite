@@ -8,7 +8,7 @@ namespace Script
         public override MsgType msgType => MsgType.LobbyPlayerExitBattle;
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgLobbyPlayerExitBattle>(_msg);
+            var msg = this.server.CastObject<MsgLobbyPlayerExitBattle>(_msg);
             LobbyPlayerInfo lobbyPlayerInfo;
             if (!this.server.lobbyData.playerInfos.TryGetValue(msg.playerId, out lobbyPlayerInfo))
             {

@@ -11,7 +11,7 @@ namespace Script
 
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgLogChangeChannel>(_msg);
+            var msg = this.server.CastObject<MsgLogChangeChannel>(_msg);
 
             var queryStr = "INSERT INTO account_changeChannel(playerId,channel1,channelUserId1,channel2,channelUserId2) VALUES (@0,@1,@2,@3,@4);";
             var param = this.makeParameters(msg.playerId, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2);

@@ -8,7 +8,7 @@ namespace Script
         public override MsgType msgType => MsgType.BMNewBattle;
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
-            var msg = this.server.castObject<MsgBMCreateBattle>(_msg);
+            var msg = this.server.CastObject<MsgBMCreateBattle>(_msg);
             if (null != this.server.bmData.GetBattle(msg.battleId))
             {
                 return ECode.BattleIdAlreadyExist.toTask();

@@ -65,7 +65,7 @@ namespace Script
             else
             {
                 this.data.aaaReady = true;
-                var resPMAlive = this.server.castObject<ResPMAlive>(r.res);
+                var resPMAlive = this.server.CastObject<ResPMAlive>(r.res);
                 if (resPMAlive.requirePlayerList)
                 {
                     alive.requirePlayerList = true;
