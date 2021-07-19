@@ -19,7 +19,7 @@ namespace Script
             return await this.queryDBPlayer(MsgType.DBQueryPlayerById, msg);
         }
 
-        private string createInsertQueryStr(PMPlayerInfo player, List<string> fields, List<object> values)
+        private string createInsertQueryStr(PMPlayer player, List<string> fields, List<object> values)
         {
             var L = fields.Count;
             if (L == 0)
@@ -57,7 +57,7 @@ namespace Script
             return queryStr;
         }
 
-        private string createUpdateQueryStr(PMPlayerInfo player, List<string> fields, List<object> values)
+        private string createUpdateQueryStr(PMPlayer player, List<string> fields, List<object> values)
         {
             var L = fields.Count;
             if (L == 0)
@@ -86,20 +86,20 @@ namespace Script
             return queryStr;
         }
 
-        private void saveFieldBatch(PMPlayerInfo player, List<string> fields, List<object> values)
+        private void saveFieldBatch(PMPlayer player, List<string> fields, List<object> values)
         {
             var msg = new MsgSavePlayer();
             this.queryDBPlayer(MsgType.DBSavePlayer, msg);
         }
 
-        public Task<MyResponse> saveFieldBatchAsync(PMPlayerInfo player, List<string> fields, List<object> values)
+        public Task<MyResponse> saveFieldBatchAsync(PMPlayer player, List<string> fields, List<object> values)
         {
             var msg = new MsgSavePlayer();
             return this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBSavePlayer, msg);
         }
 
         // 仅用于新玩家
-        public async Task<MyResponse> insertPlayerYield(PMPlayerInfo player)
+        public async Task<MyResponse> insertPlayerYield(PMPlayer player)
         {
             var msg = new MsgInsertPlayer
             {
@@ -129,7 +129,7 @@ namespace Script
             return await this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBInsertPayiOS, msg);
         }
 
-        private PMSqlHelpObject newHelpObject(PMPlayerInfo player)
+        private PMSqlHelpObject newHelpObject(PMPlayer player)
         {
             var obj = new PMSqlHelpObject();
             obj.player = player;
@@ -152,7 +152,7 @@ namespace Script
         //     return await this.saveFieldBatchYield(player, obj.fields, obj.values);
         // }
 
-        public PMSqlHelpObject beginSave(PMPlayerInfo player)
+        public PMSqlHelpObject beginSave(PMPlayer player)
         {
             var obj = this.newHelpObject(player);
             return obj;

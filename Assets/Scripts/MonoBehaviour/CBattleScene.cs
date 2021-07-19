@@ -38,7 +38,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     #endregion
     ////////////////////////////////////////////////////////////////////////////////////////
 
-    public BMBattleInfo battle;
+    public BMBattle battle;
     public BtBattle BtBattle { get; private set; }
 
     private BtBattle Map;
@@ -138,7 +138,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
         }
     }
 
-    public void ApplyBattle(BMBattleInfo battle)
+    public void ApplyBattle(BMBattle battle)
     {
         /////////////////////////////////////////////////////////////////////////////
 

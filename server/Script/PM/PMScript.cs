@@ -30,9 +30,9 @@ namespace Script
             return obj;
         }
 
-        public PMPlayerInfo decodePlayer(SqlTablePlayer sqlData)
+        public PMPlayer decodePlayer(SqlTablePlayer sqlData)
         {
-            var player = new PMPlayerInfo();
+            var player = new PMPlayer();
 
             // server only data
             player.id = sqlData.id;
@@ -41,7 +41,7 @@ namespace Script
             return player;
         }
 
-        public void setDestroyTimer(PMPlayerInfo player, string place)
+        public void setDestroyTimer(PMPlayer player, string place)
         {
             var SEC = this.pmData.playerDestroyTimeoutS;
             this.logger.InfoFormat("setDestroyTimer playerId({1}), seconds({2}), reason({3})", place, player.id, SEC, place);
@@ -52,7 +52,7 @@ namespace Script
                 new MsgSendDestroyPlayer { playerId = player.id });
         }
 
-        public void clearDestroyTimer(PMPlayerInfo player, bool log = true)
+        public void clearDestroyTimer(PMPlayer player, bool log = true)
         {
             if (log)
             {
@@ -65,7 +65,7 @@ namespace Script
             }
         }
 
-        public void setSaveTimer(PMPlayerInfo player)
+        public void setSaveTimer(PMPlayer player)
         {
             var SEC = this.pmData.playerSCSaveIntervalS;
             this.clearSaveTimer(player);
@@ -74,7 +74,7 @@ namespace Script
             this.server.setTimer(SEC, MsgType.PMPlayerSave, msg);
         }
 
-        public void clearSaveTimer(PMPlayerInfo player)
+        public void clearSaveTimer(PMPlayer player)
         {
             if (player.saveTimer > 0)
             {
@@ -94,7 +94,7 @@ namespace Script
         //     this.server.logSqlUtils.playerDiamond(player.id, reason, delta, player.diamond);
         // }
 
-        public void postHandlePayResult(PMPlayerInfo player, ResPay res)
+        public void postHandlePayResult(PMPlayer player, ResPay res)
         {
             // log...一次性记
             List<string> productIdsDiamond = new List<string>();

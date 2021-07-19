@@ -94,28 +94,28 @@ namespace Script
 
         #region bind player
 
-        public void bindPlayer(TcpClientData @this, PMPlayerInfo player, int clientTimestamp)
+        public void bindPlayer(TcpClientData @this, PMPlayer player, int clientTimestamp)
         {
             player.socket = @this;
             @this.Player = player;
             @this.clientTimestamp = clientTimestamp;
         }
 
-        public void unbindPlayer(TcpClientData @this, PMPlayerInfo player)
+        public void unbindPlayer(TcpClientData @this, PMPlayer player)
         {
             player.socket = null;
             @this.Player = null;
             @this.clientTimestamp = 0;
         }
 
-        public void bindPlayer(TcpClientData @this, BMPlayerInfo player, int clientTimestamp)
+        public void bindPlayer(TcpClientData @this, BMPlayer player, int clientTimestamp)
         {
             player.socket = @this;
             @this.Player = player;
             @this.clientTimestamp = clientTimestamp;
         }
 
-        public void unbindPlayer(TcpClientData @this, BMPlayerInfo player)
+        public void unbindPlayer(TcpClientData @this, BMPlayer player)
         {
             player.socket = null;
             @this.Player = null;

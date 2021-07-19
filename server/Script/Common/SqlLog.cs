@@ -19,13 +19,13 @@ namespace Script
             });
         }
 
-        public void player_login(PMPlayerInfo player)
+        public void player_login(PMPlayer player)
         {
             var msg = new MsgLogPlayerLogin { playerId = player.id };
             this.doQuery(MsgType.DBLogPlayerLogin, msg);
         }
 
-        public void player_logout(PMPlayerInfo player)
+        public void player_logout(PMPlayer player)
         {
             var msg = new MsgLogPlayerLogout { playerId = player.id };
             this.doQuery(MsgType.DBLogPlayerLogout, msg);

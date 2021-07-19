@@ -51,7 +51,7 @@ namespace MessagePack.Resolvers
         {
             lookup = new global::System.Collections.Generic.Dictionary<Type, int>(109)
             {
-                { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayerInfo>), 0 },
+                { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayer>), 0 },
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Data.btCharacter>), 1 },
                 { typeof(global::System.Collections.Generic.List<global::Data.LobbyBattleInfo>), 2 },
                 { typeof(global::System.Collections.Generic.List<global::Data.Loc>), 3 },
@@ -62,7 +62,7 @@ namespace MessagePack.Resolvers
                 { typeof(global::Data.btObjectType), 8 },
                 { typeof(global::Data.MsgType), 9 },
                 { typeof(global::Data._PRS), 10 },
-                { typeof(global::Data.BMBattleInfo), 11 },
+                { typeof(global::Data.BMBattle), 11 },
                 { typeof(global::Data.BMMsgAddCharacter), 12 },
                 { typeof(global::Data.BMMsgAddPlayer), 13 },
                 { typeof(global::Data.BMMsgBattle), 14 },
@@ -70,7 +70,7 @@ namespace MessagePack.Resolvers
                 { typeof(global::Data.BMMsgDebugGetCharacterPosition), 16 },
                 { typeof(global::Data.BMMsgMove), 17 },
                 { typeof(global::Data.BMMsgPlayerLogin), 18 },
-                { typeof(global::Data.BMPlayerInfo), 19 },
+                { typeof(global::Data.BMPlayer), 19 },
                 { typeof(global::Data.BMResDebugGetCharacterPosition), 20 },
                 { typeof(global::Data.btBattle), 21 },
                 { typeof(global::Data.btCharacter), 22 },
@@ -173,7 +173,7 @@ namespace MessagePack.Resolvers
 
             switch (key)
             {
-                case 0: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Data.BMPlayerInfo>();
+                case 0: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Data.BMPlayer>();
                 case 1: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Data.btCharacter>();
                 case 2: return new global::MessagePack.Formatters.ListFormatter<global::Data.LobbyBattleInfo>();
                 case 3: return new global::MessagePack.Formatters.ListFormatter<global::Data.Loc>();
@@ -431,10 +431,10 @@ namespace MessagePack.Formatters.Data
         }
     }
 
-    public sealed class BMBattleInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMBattleInfo>
+    public sealed class BMBattleInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMBattle>
     {
 
-        public void Serialize(ref MessagePackWriter writer, global::Data.BMBattleInfo value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Data.BMBattle value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -447,10 +447,10 @@ namespace MessagePack.Formatters.Data
             writer.Write(value.mapId);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Data.btCharacter>>().Serialize(ref writer, value.characters, options);
             writer.Write(value.battleId);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayerInfo>>().Serialize(ref writer, value.playerDict, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayer>>().Serialize(ref writer, value.playerDict, options);
         }
 
-        public global::Data.BMBattleInfo Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Data.BMBattle Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -461,7 +461,7 @@ namespace MessagePack.Formatters.Data
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __battleId__ = default(int);
-            var __playerDict__ = default(global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayerInfo>);
+            var __playerDict__ = default(global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayer>);
             var __mapId__ = default(int);
             var __characters__ = default(global::System.Collections.Generic.Dictionary<int, global::Data.btCharacter>);
 
@@ -473,7 +473,7 @@ namespace MessagePack.Formatters.Data
                         __battleId__ = reader.ReadInt32();
                         break;
                     case 3:
-                        __playerDict__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayerInfo>>().Deserialize(ref reader, options);
+                        __playerDict__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Data.BMPlayer>>().Deserialize(ref reader, options);
                         break;
                     case 0:
                         __mapId__ = reader.ReadInt32();
@@ -487,7 +487,7 @@ namespace MessagePack.Formatters.Data
                 }
             }
 
-            var ____result = new global::Data.BMBattleInfo();
+            var ____result = new global::Data.BMBattle();
             ____result.battleId = __battleId__;
             ____result.playerDict = __playerDict__;
             ____result.mapId = __mapId__;
@@ -558,7 +558,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::Data.BMPlayerInfo>().Serialize(ref writer, value.player, options);
+            formatterResolver.GetFormatterWithVerify<global::Data.BMPlayer>().Serialize(ref writer, value.player, options);
         }
 
         public global::Data.BMMsgAddPlayer Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -571,14 +571,14 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __player__ = default(global::Data.BMPlayerInfo);
+            var __player__ = default(global::Data.BMPlayer);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __player__ = formatterResolver.GetFormatterWithVerify<global::Data.BMPlayerInfo>().Deserialize(ref reader, options);
+                        __player__ = formatterResolver.GetFormatterWithVerify<global::Data.BMPlayer>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -606,7 +606,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::Data.BMBattleInfo>().Serialize(ref writer, value.battle, options);
+            formatterResolver.GetFormatterWithVerify<global::Data.BMBattle>().Serialize(ref writer, value.battle, options);
         }
 
         public global::Data.BMMsgBattle Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -619,14 +619,14 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __battle__ = default(global::Data.BMBattleInfo);
+            var __battle__ = default(global::Data.BMBattle);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __battle__ = formatterResolver.GetFormatterWithVerify<global::Data.BMBattleInfo>().Deserialize(ref reader, options);
+                        __battle__ = formatterResolver.GetFormatterWithVerify<global::Data.BMBattle>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -855,10 +855,10 @@ namespace MessagePack.Formatters.Data
         }
     }
 
-    public sealed class BMPlayerInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMPlayerInfo>
+    public sealed class BMPlayerInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMPlayer>
     {
 
-        public void Serialize(ref MessagePackWriter writer, global::Data.BMPlayerInfo value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Data.BMPlayer value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -871,7 +871,7 @@ namespace MessagePack.Formatters.Data
             writer.Write(value.battleId);
         }
 
-        public global::Data.BMPlayerInfo Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Data.BMPlayer Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -899,7 +899,7 @@ namespace MessagePack.Formatters.Data
                 }
             }
 
-            var ____result = new global::Data.BMPlayerInfo();
+            var ____result = new global::Data.BMPlayer();
             ____result.playerId = __playerId__;
             ____result.battleId = __battleId__;
             reader.Depth--;

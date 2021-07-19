@@ -10,13 +10,13 @@ namespace Script
         {
             var msg = this.server.castObject<MsgBMPlayerExit>(_msg);
             
-            BMBattleInfo battle = this.server.bmData.GetBattle(msg.battleId);
+            BMBattle battle = this.server.bmData.GetBattle(msg.battleId);
             if (battle == null)
             {
                 return ECode.BattleNotExist.toTask();
             }
 
-            BMPlayerInfo player = battle.GetPlayer(msg.playerId);
+            BMPlayer player = battle.GetPlayer(msg.playerId);
             if (player == null)
             {
                 return ECode.PlayerNotInBattle.toTask();

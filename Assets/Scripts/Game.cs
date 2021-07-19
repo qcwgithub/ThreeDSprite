@@ -7,10 +7,16 @@ using Data;
 
 public class Game : IProfileInput, IGameConfigs, IGameScripts
 {
-    //// IProfileInput
+    //////////////////////////////////////////////////////////////////////
+    #region IProfileInput
+
     public Profile profile { get; set; }
 
-    //// IGameConfigs
+    #endregion
+    //////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////
+    #region IGameConfigs
     public int minCharacterConfigId { get; set; }
     public int maxCharacterConfigId { get; set; }
     public Dictionary<int, CharacterConfig> characterConfigDict { get; set; }
@@ -20,9 +26,17 @@ public class Game : IProfileInput, IGameConfigs, IGameScripts
         return this.characterConfigDict.TryGetValue(characterId, out characterConfig) ? characterConfig : null;
     }
 
-    //// IGameScritps
+    #endregion
+    //////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////
+    #region IGameScritps
+
     public SCUtils scUtils { get; private set; }
     public GameScript gameScript { get; private set; }
+
+    #endregion
+    //////////////////////////////////////////////////////////////////////
 
     public void Load(Func<string, string> loadFileText)
     {

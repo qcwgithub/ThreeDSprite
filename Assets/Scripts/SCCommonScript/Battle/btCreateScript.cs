@@ -8,7 +8,7 @@ namespace Script
 {
     public class btCreateScript : btScriptBase
     {
-        void calcWorldBounds(BMBattleInfo battle, Vector3 parentOffset, btTileLayerData layerData, btShape includeShape, out Vector3 worldMin, out Vector3 worldMax)
+        void calcWorldBounds(BMBattle battle, Vector3 parentOffset, btTileLayerData layerData, btShape includeShape, out Vector3 worldMin, out Vector3 worldMax)
         {
             Vector3 min = Vector3.zero;
             Vector3 max = Vector3.zero;
@@ -40,9 +40,9 @@ namespace Script
             worldMax = max + parentOffset;
         }
 
-        public BMBattleInfo newBattle(int battleId, int mapId)
+        public BMBattle newBattle(int battleId, int mapId)
         {
-            var battle = new BMBattleInfo();
+            var battle = new BMBattle();
             battle.battleId = battleId;
             battle.mapId = mapId;
             battle.physicsScene = Qu3eApi.CreateScene();

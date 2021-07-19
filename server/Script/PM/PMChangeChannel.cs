@@ -21,7 +21,7 @@ namespace Script
             this.logger.InfoFormat("{0} playerId: {1}, ({2},{3}) -> ({4},{5})", this.msgName, player.id, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2);
 
             var resPM = new ResChangeChannel();
-            var err = this.server.gameScript.changeChannelCheck(player, msg, resPM);
+            var err = this.server.gameScript.ChangeChannelCheck(player, msg, resPM);
             if (err != ECode.Success)
             {
                 this.pmScript.playerOperError(this, player.id, err);
@@ -44,7 +44,7 @@ namespace Script
                 resPM.loginReward = 1;
             }
 
-            this.server.gameScript.changeChannelExecute(player, msg, resPM);
+            this.server.gameScript.ChangeChannelExecute(player, msg, resPM);
             return new MyResponse(ECode.Success, resPM);
         }
     }

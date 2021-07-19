@@ -53,7 +53,7 @@ namespace Script
         {
             foreach (var kv in this.bmData.battleDict)
             {
-                BMBattleInfo battle = kv.Value;
+                BMBattle battle = kv.Value;
                 this.updateScript.update(battle, dt);
             }
         }

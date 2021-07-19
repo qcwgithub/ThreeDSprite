@@ -10,7 +10,7 @@ public class OnBMAddPlayer : OnMessageBase
     {
         var res = this.CastMsg<BMMsgAddPlayer>(msg_);
         Debug.LogFormat("OnBMAddPlayer playerId({0})", res.player.playerId);
-        BMPlayerInfo p = res.player;
+        BMPlayer p = res.player;
         sc.battleScene.mainScript.addPlayer(sc.battleScene.battle, p.playerId, p.battleId);
     }
 }

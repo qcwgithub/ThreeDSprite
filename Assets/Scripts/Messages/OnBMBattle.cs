@@ -12,7 +12,7 @@ public class OnBMBattle : OnMessageBase
         var msg = this.CastMsg<BMMsgBattle>(msg_);
         Debug.LogFormat("OnBMBattle battleIdId({0})", msg.battle.battleId);
 
-        BMBattleInfo battle = msg.battle;
+        BMBattle battle = msg.battle;
 
         CBattleScene bs = sc.battleScene;
         bs.battleId = battle.battleId;
@@ -51,7 +51,7 @@ public class OnBMBattle : OnMessageBase
         bs.battle = bs.createScript.newBattle(battle.battleId, battle.mapId);
         foreach (var kv in battle.playerDict)
         {
-            BMPlayerInfo p = kv.Value;
+            BMPlayer p = kv.Value;
             bs.mainScript.addPlayer(bs.battle, p.playerId, p.battleId);
         }
 

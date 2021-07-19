@@ -8,7 +8,7 @@ namespace Script
 {
     public class btDestroyScript : btScriptBase
     {
-        public void destroyBattle(BMBattleInfo battle)
+        public void destroyBattle(BMBattle battle)
         {
             Qu3eApi.SceneDestroy(battle.physicsScene);
             battle.physicsScene = IntPtr.Zero;

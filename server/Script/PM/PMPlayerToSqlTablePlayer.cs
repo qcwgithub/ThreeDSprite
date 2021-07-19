@@ -6,7 +6,7 @@ namespace Script
     {
         public PMServer server { get; set; }
 
-        public SqlTablePlayer convert(PMPlayerInfo player)
+        public SqlTablePlayer convert(PMPlayer player)
         {
             var tb = new SqlTablePlayer();
             tb.id = player.id;

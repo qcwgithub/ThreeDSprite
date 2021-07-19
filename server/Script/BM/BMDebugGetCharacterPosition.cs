@@ -9,7 +9,7 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.castObject<BMMsgDebugGetCharacterPosition>(_msg);
-            BMPlayerInfo player = this.getPlayer(socket);
+            BMPlayer player = this.getPlayer(socket);
             if (player == null)
             {
                 this.logger.ErrorFormat("{0} player == null!!", this.msgName);

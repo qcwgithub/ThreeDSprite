@@ -6,15 +6,15 @@ using MessagePack;
 namespace Data
 {
     [MessagePackObject]
-    public partial class BMBattleInfo : btBattle
+    public partial class BMBattle : btBattle
     {
         [Key(2)]
         public int battleId;
         [Key(3)]
-        public Dictionary<int, BMPlayerInfo> playerDict = new Dictionary<int, BMPlayerInfo>();
-        public BMPlayerInfo GetPlayer(int playerId)
+        public Dictionary<int, BMPlayer> playerDict = new Dictionary<int, BMPlayer>();
+        public BMPlayer GetPlayer(int playerId)
         {
-            BMPlayerInfo playerInfo;
+            BMPlayer playerInfo;
             return this.playerDict.TryGetValue(playerId, out playerInfo) ? playerInfo : null;
         }
     }

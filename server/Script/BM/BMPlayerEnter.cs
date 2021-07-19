@@ -12,13 +12,13 @@ namespace Script
             var msg = this.server.castObject<MsgBMPlayerEnter>(_msg);
             this.server.logger.Info(this.msgName + ", playerId: " + msg.playerId);
 
-            BMBattleInfo battle = this.server.bmData.GetBattle(msg.battleId);
+            BMBattle battle = this.server.bmData.GetBattle(msg.battleId);
             if (battle == null)
             {
                 return ECode.BattleNotExist.toTask();
             }
 
-            BMPlayerInfo player = battle.GetPlayer(msg.playerId);
+            BMPlayer player = battle.GetPlayer(msg.playerId);
             if (player != null)
             {
                 return ECode.BattleAlreadyContainsPlayer.toTask();
@@ -35,7 +35,7 @@ namespace Script
             return new MyResponse(ECode.Success, res).toTask();
         }
 
-        void broadcastAddPlayer(BMBattleInfo battle, BMPlayerInfo playerInfo)
+        void broadcastAddPlayer(BMBattle battle, BMPlayer playerInfo)
         {
             var msg = new BMMsgAddPlayer();
             msg.player = playerInfo;

@@ -10,10 +10,10 @@ namespace Script
         public PMSqlUtils pmSqlUtils { get { return this.server.pmSqlUtils; } }
         public SqlLog sqlLog { get { return this.server.sqlLog; } }
 
-        public PMPlayerInfo getPlayer(TcpClientData socket)
+        public PMPlayer getPlayer(TcpClientData socket)
         {
             object obj = this.server.tcpClientScript.getPlayer(socket);
-            return (obj == null ? null : (PMPlayerInfo)obj);
+            return (obj == null ? null : (PMPlayer)obj);
         }
     }
 }

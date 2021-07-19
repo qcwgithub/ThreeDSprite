@@ -14,10 +14,10 @@ namespace Data
     public sealed class BMData : ServerData, IBattleConfigs
     {
         // id -> BMBattleInfo
-        public Dictionary<int, BMBattleInfo> battleDict = new Dictionary<int, BMBattleInfo>();
-        public BMBattleInfo GetBattle(int id)
+        public Dictionary<int, BMBattle> battleDict = new Dictionary<int, BMBattle>();
+        public BMBattle GetBattle(int id)
         {
-            BMBattleInfo info;
+            BMBattle info;
             return this.battleDict.TryGetValue(id, out info) ? info : null;
         }
 

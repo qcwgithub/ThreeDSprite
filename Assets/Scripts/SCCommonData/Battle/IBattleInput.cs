@@ -5,6 +5,6 @@ namespace Data
 {
     public interface IBattleInput
     {
-        BMBattleInfo battle { get; }
+        BMBattle battle { get; }
     }
 }

@@ -6,7 +6,7 @@ using MessagePack;
 namespace Data
 {
     [MessagePackObject]
-    public partial class BMPlayerInfo
+    public partial class BMPlayer
     {
         [Key(0)]
         public int playerId;
@@ -14,7 +14,7 @@ namespace Data
         public int battleId;
 
         [IgnoreMember]
-        public BMBattleInfo battle;
+        public BMBattle battle;
         [IgnoreMember]
         public btCharacter character;
     }

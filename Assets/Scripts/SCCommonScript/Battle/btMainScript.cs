@@ -8,9 +8,9 @@ namespace Script
 {
     public class btMainScript : btScriptBase
     {
-        public BMPlayerInfo addPlayer(BMBattleInfo battleInfo, int playerId, int battleId)
+        public BMPlayer addPlayer(BMBattle battleInfo, int playerId, int battleId)
         {
-            var player = new BMPlayerInfo();
+            var player = new BMPlayer();
             // [0]
             player.playerId = playerId;
             // [1]
@@ -25,7 +25,7 @@ namespace Script
             return player;
         }
 
-        public btCharacter addCharacter(BMBattleInfo battle, int characterId, int playerId, int walkableId, Vector3 pos, Vector3 moveDir)
+        public btCharacter addCharacter(BMBattle battle, int characterId, int playerId, int walkableId, Vector3 pos, Vector3 moveDir)
         {
             btCharacter character = new btCharacter();
             // [0]
@@ -55,7 +55,7 @@ namespace Script
             return character;
         }
 
-        void addToPhysicsScene(BMBattleInfo battle, btObject obj)
+        void addToPhysicsScene(BMBattle battle, btObject obj)
         {
             Vector3 center = (obj.worldMin + obj.worldMax) / 2;
 
@@ -69,7 +69,7 @@ namespace Script
             Qu3eApi.BodyAddBox(obj.body, 0f, 0f, 0f, extends.x, extends.y, extends.z);
         }
 
-        public void addObject(BMBattleInfo battle, btObject obj)
+        public void addObject(BMBattle battle, btObject obj)
         {
             battle.objects.Add(obj.id, obj);
             if (obj is btCharacter character)

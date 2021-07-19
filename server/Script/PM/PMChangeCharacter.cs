@@ -11,7 +11,7 @@ namespace Script
         {
             var msg = this.server.castObject<MsgChangeCharacter>(_msg);
             
-            var player = this.getPlayer(socket);
+            PMPlayer player = this.getPlayer(socket);
             if (player == null)
             {
                 this.logger.ErrorFormat("{0} player == null!!", this.msgName);

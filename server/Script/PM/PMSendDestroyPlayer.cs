@@ -13,7 +13,7 @@ namespace Script
         {
             var msg = this.server.castObject<MsgSendDestroyPlayer>(_msg);
             var data = this.data;
-            PMPlayerInfo player = data.GetPlayerInfo(msg.playerId);
+            PMPlayer player = data.GetPlayerInfo(msg.playerId);
             if (player == null)
             {
                 this.server.logger.ErrorFormat("{0} player not exit, playerId: {1}", this.msgName, msg.playerId);

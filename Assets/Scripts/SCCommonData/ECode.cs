@@ -114,5 +114,6 @@ namespace Data
         CharacterNotExist = 117,
         PlayerHasNoCharacter = 118,
         BattleIdAlreadyExist = 119,
+        CharacterConfigNotExist = 120,
     }
 }

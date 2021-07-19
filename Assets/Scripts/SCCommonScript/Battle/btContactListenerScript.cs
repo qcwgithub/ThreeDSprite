@@ -8,7 +8,7 @@ namespace Script
 {
     public class btContactListenerScript : btScriptBase
     {
-        public void initListner(BMBattleInfo battle)
+        public void initListner(BMBattle battle)
         {
             battle.onBeginContactDel = new Qu3eApi.ContactDelegate(
                 (IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB) => this.onBeginContact(battle, bodyA, boxA, bodyB, boxB));
@@ -19,7 +19,7 @@ namespace Script
             Qu3eApi.SceneSetContactListener(battle.physicsScene, battle.onBeginContactDel, battle.onEndContactDel);
         }
 
-        void onBeginContact(BMBattleInfo battle, IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
+        void onBeginContact(BMBattle battle, IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
         {
             btObject objectA;
             if (!battle.body2Objects.TryGetValue(bodyA, out objectA))
@@ -37,7 +37,7 @@ namespace Script
             objectB.collidings.Add(objectA);
         }
 
-        void onEndContact(BMBattleInfo battle, IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
+        void onEndContact(BMBattle battle, IntPtr bodyA, IntPtr boxA, IntPtr bodyB, IntPtr boxB)
         {
             // Debug.LogWarning(string.Format("OnEndContact"));
 

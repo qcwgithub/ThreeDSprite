@@ -3,7 +3,7 @@ using MessagePack;
 
 namespace Data
 {
-    public partial class BMBattleInfo
+    public partial class BMBattle
     {
         [IgnoreMember]
         public int nextCharacterId = 10000;

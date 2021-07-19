@@ -11,11 +11,11 @@ namespace Script
             ParseCharacters(_this, loadFileText("characters.csv"));
         }
 
-        static void ParseCharacters(IGameConfigs _this, string text)
+        static void ParseCharacters(IGameConfigs _, string text)
         {
-            _this.minCharacterConfigId = -1;
-            _this.maxCharacterConfigId = -1;
-            _this.characterConfigDict = new Dictionary<int, CharacterConfig>();
+            _.minCharacterConfigId = -1;
+            _.maxCharacterConfigId = -1;
+            _.characterConfigDict = new Dictionary<int, CharacterConfig>();
             
             CsvHelper helper = CsvUtils.Parse(text);
             while (helper.ReadRow())
@@ -25,15 +25,15 @@ namespace Script
                 c.name = helper.ReadString("name");
                 c.prefab = helper.ReadString("prefab");
 
-                _this.characterConfigDict.Add(c.id, c);
+                _.characterConfigDict.Add(c.id, c);
 
-                if (_this.minCharacterConfigId == -1 || c.id < _this.minCharacterConfigId)
+                if (_.minCharacterConfigId == -1 || c.id < _.minCharacterConfigId)
                 {
-                    _this.minCharacterConfigId = c.id;
+                    _.minCharacterConfigId = c.id;
                 }
-                if (_this.maxCharacterConfigId == -1 || c.id > _this.maxCharacterConfigId)
+                if (_.maxCharacterConfigId == -1 || c.id > _.maxCharacterConfigId)
                 {
-                    _this.maxCharacterConfigId = c.id;
+                    _.maxCharacterConfigId = c.id;
                 }
             }
         }

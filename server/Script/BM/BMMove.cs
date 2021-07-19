@@ -10,7 +10,7 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.castObject<BMMsgMove>(_msg);
-            BMPlayerInfo player = this.getPlayer(socket);
+            BMPlayer player = this.getPlayer(socket);
             if (player == null)
             {
                 this.logger.ErrorFormat("{0} player == null!!", this.msgName);
@@ -43,7 +43,7 @@ namespace Script
             return ECode.Success.toTask();
         }
 
-        void broadcastCharcterMove(BMBattleInfo battle, int characterId, Vector3 moveDir)
+        void broadcastCharcterMove(BMBattle battle, int characterId, Vector3 moveDir)
         {
             var res = new BMMsgCharacterMove();
             res.characterId = characterId;

@@ -8,7 +8,7 @@ namespace Script
         public abstract int setHours(int timeMs, int hour, int minute, int second);
 
 
-        public ECode changeChannelCheck(IProfileInput input, MsgChangeChannel msg, ResChangeChannel res)
+        public ECode ChangeChannelCheck(IProfileInput input, MsgChangeChannel msg, ResChangeChannel res)
         {
             if (!MyChannels.isValidChannel(msg.channel1) || !MyChannels.isValidChannel(msg.channel2))
             {
@@ -30,7 +30,7 @@ namespace Script
             return ECode.Success;
         }
 
-        public void changeChannelExecute(IProfileInput input, MsgChangeChannel msg, ResChangeChannel res)
+        public void ChangeChannelExecute(IProfileInput input, MsgChangeChannel msg, ResChangeChannel res)
         {
             // if (res.loginReward > 0) {
             //     input.profile.loginReward = res.loginReward;

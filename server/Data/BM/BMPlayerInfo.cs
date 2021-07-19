@@ -2,7 +2,7 @@ using MessagePack;
 
 namespace Data
 {
-    public partial class BMPlayerInfo
+    public partial class BMPlayer
     {
         [IgnoreMember]
         public string token;

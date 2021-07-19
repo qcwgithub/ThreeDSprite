@@ -23,14 +23,14 @@ namespace Data
     public class BMMsgBattle
     {
         [Key(0)]
-        public BMBattleInfo battle;
+        public BMBattle battle;
     }
 
     [MessagePackObject]
     public class BMMsgAddPlayer
     {
         [Key(0)]
-        public BMPlayerInfo player;
+        public BMPlayer player;
     }
 
     [MessagePackObject]

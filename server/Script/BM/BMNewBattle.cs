@@ -19,7 +19,7 @@ namespace Script
                 return ECode.MapDataNotExist.toTask();
             }
 
-            BMBattleInfo battle = this.server.createScript.newBattle(msg.battleId, msg.mapId);
+            BMBattle battle = this.server.createScript.newBattle(msg.battleId, msg.mapId);
             this.server.bmData.battleDict.Add(msg.battleId, battle);
 
             return ECode.Success.toTask();

@@ -21,7 +21,7 @@ namespace Script
 
             if (socket.oppositeIsClient)
             {
-                var player = (PMPlayerInfo) this.server.tcpClientScript.getPlayer(socket);
+                var player = (PMPlayer) this.server.tcpClientScript.getPlayer(socket);
                 if (player == null)
                 {
                     return ECode.Success;

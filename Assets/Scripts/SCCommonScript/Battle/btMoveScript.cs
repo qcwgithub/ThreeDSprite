@@ -8,7 +8,7 @@ namespace Script
 {
     public class btMoveScript : btScriptBase
     {
-        public ECode characterMove(BMBattleInfo battle, int characterId, Vector3 moveDir)
+        public ECode characterMove(BMBattle battle, int characterId, Vector3 moveDir)
         {
             if (!(moveDir.x >= -1f && moveDir.x <= 1f && moveDir.y >= -1f && moveDir.y <= 1f && moveDir.z >= -1f && moveDir.z <= 1f))
             {
@@ -52,7 +52,7 @@ namespace Script
             }
         }
 
-        public void setObjectPosition(BMBattleInfo battle, btIHasPosition iHasPos, Vector3 pos)
+        public void setObjectPosition(BMBattle battle, btIHasPosition iHasPos, Vector3 pos)
         {
             iHasPos.prePos = iHasPos.pos;
             iHasPos.pos = pos;
@@ -67,7 +67,7 @@ namespace Script
             }
         }
 
-        public void update(BMBattleInfo battle, float dt)
+        public void update(BMBattle battle, float dt)
         {
             foreach (var kv in battle.characters)
             {

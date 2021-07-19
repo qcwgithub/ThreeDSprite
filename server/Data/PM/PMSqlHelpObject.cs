@@ -4,7 +4,7 @@ namespace Data
 {
     public class PMSqlHelpObject
     {
-        public PMPlayerInfo player;
+        public PMPlayer player;
         public List<string> fields;
         public List<object> values;
 
