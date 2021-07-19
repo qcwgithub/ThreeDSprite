@@ -49,12 +49,17 @@ namespace Script
 
         public string loadGameText(string f)
         {
-            return File.ReadAllText("./gameConfig/" + f, Encoding.UTF8);
+            return File.ReadAllText("./Assets_Configs/" + f, Encoding.UTF8);
+        }
+
+        public string loadImportedText(string f)
+        {
+            return File.ReadAllText("./Assets_Resources_Imported/" + f, Encoding.UTF8);
         }
 
         T loadGameJson<T>(string f)
         {
-            return JsonUtils.parse<T>(File.ReadAllText("./gameConfig/" + f, Encoding.UTF8));
+            return JsonUtils.parse<T>(File.ReadAllText("./Assets_Configs/" + f, Encoding.UTF8));
         }
 
         SqlConfig initSqlConfig(string name)
@@ -147,8 +152,8 @@ namespace Script
         public void loadMap(IBattleConfigs configs, int mapId)
         {
             BattleScript.loadMap(configs, mapId,
-                mapId => this.loadGameText("Imported/Egzd/map" + mapId + ".tmx.json"),
-                tileset => this.loadGameText("Imported/Egzd/" + tileset + ".json"));
+                mapId => this.loadImportedText("Egzd/map" + mapId + ".tmx.json"),
+                tileset => this.loadImportedText("Egzd/" + tileset + ".json"));
         }
     }
 }
