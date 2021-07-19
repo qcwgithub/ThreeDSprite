@@ -7,10 +7,12 @@ namespace Data
     [MessagePackObject]
     public class Profile
     {
+        #region Profile Auto
+
         [Key(0)]
         public int level;
         [Key(1)]
-        public int money;
+        public BigInteger money;
         [Key(2)]
         public int diamond;
         [Key(3)]
@@ -19,6 +21,8 @@ namespace Data
         public string userName;
         [Key(5)]
         public int characterConfigId;
+
+        #endregion Profile Auto
 
         public static Profile Ensure(Profile obj)
         {

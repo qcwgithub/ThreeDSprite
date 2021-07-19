@@ -186,10 +186,33 @@ namespace Data
         public string channel2;
         [Key(4)]
         public string channelUserId2;
+        [Key(5)]
+        public int? abcdtest;
     }
 
     [MessagePackObject]
-    public class MsgSavePlayer { }
+    public class MsgSavePlayer
+    {
+        [Key(0)]
+        public int playerId;
+
+        #region MsgSavePlayer Auto
+
+        [Key(1)]
+        public int? level;
+        [Key(2)]
+        public string money;
+        [Key(3)]
+        public int? diamond;
+        [Key(4)]
+        public string portrait;
+        [Key(5)]
+        public string userName;
+        [Key(6)]
+        public int? characterConfigId;
+
+        #endregion MsgSavePlayer Auto
+    }
 
     [MessagePackObject]
     public class MsgInsertPlayer

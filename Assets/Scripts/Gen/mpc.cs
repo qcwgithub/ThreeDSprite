@@ -117,7 +117,7 @@ namespace MessagePack.Resolvers
                 case 2: return new global::MessagePack.Formatters.ListFormatter<global::Data.PurchasedItem>();
                 case 3: return new global::MessagePack.Formatters.ListFormatter<int>();
                 case 4: return new MessagePack.Formatters.Data.btObjectTypeFormatter();
-                case 5: return new MessagePack.Formatters.Data.BMBattleInfoFormatter();
+                case 5: return new MessagePack.Formatters.Data.BMBattleFormatter();
                 case 6: return new MessagePack.Formatters.Data.BMMsgAddCharacterFormatter();
                 case 7: return new MessagePack.Formatters.Data.BMMsgAddPlayerFormatter();
                 case 8: return new MessagePack.Formatters.Data.BMMsgBattleFormatter();
@@ -125,7 +125,7 @@ namespace MessagePack.Resolvers
                 case 10: return new MessagePack.Formatters.Data.BMMsgDebugGetCharacterPositionFormatter();
                 case 11: return new MessagePack.Formatters.Data.BMMsgMoveFormatter();
                 case 12: return new MessagePack.Formatters.Data.BMMsgPlayerLoginFormatter();
-                case 13: return new MessagePack.Formatters.Data.BMPlayerInfoFormatter();
+                case 13: return new MessagePack.Formatters.Data.BMPlayerFormatter();
                 case 14: return new MessagePack.Formatters.Data.BMResDebugGetCharacterPositionFormatter();
                 case 15: return new MessagePack.Formatters.Data.btBattleFormatter();
                 case 16: return new MessagePack.Formatters.Data.btCharacterFormatter();
@@ -242,7 +242,7 @@ namespace MessagePack.Formatters.Data
     using System.Buffers;
     using MessagePack;
 
-    public sealed class BMBattleInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMBattle>
+    public sealed class BMBattleFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMBattle>
     {
 
         public void Serialize(ref MessagePackWriter writer, global::Data.BMBattle value, global::MessagePack.MessagePackSerializerOptions options)
@@ -666,7 +666,7 @@ namespace MessagePack.Formatters.Data
         }
     }
 
-    public sealed class BMPlayerInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMPlayer>
+    public sealed class BMPlayerFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Data.BMPlayer>
     {
 
         public void Serialize(ref MessagePackWriter writer, global::Data.BMPlayer value, global::MessagePack.MessagePackSerializerOptions options)
@@ -1672,7 +1672,7 @@ namespace MessagePack.Formatters.Data
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(6);
             writer.Write(value.level);
-            writer.Write(value.money);
+            formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Serialize(ref writer, value.money, options);
             writer.Write(value.diamond);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.portrait, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.userName, options);
@@ -1690,7 +1690,7 @@ namespace MessagePack.Formatters.Data
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __level__ = default(int);
-            var __money__ = default(int);
+            var __money__ = default(global::System.Numerics.BigInteger);
             var __diamond__ = default(int);
             var __portrait__ = default(string);
             var __userName__ = default(string);
@@ -1704,7 +1704,7 @@ namespace MessagePack.Formatters.Data
                         __level__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __money__ = reader.ReadInt32();
+                        __money__ = formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Deserialize(ref reader, options);
                         break;
                     case 2:
                         __diamond__ = reader.ReadInt32();

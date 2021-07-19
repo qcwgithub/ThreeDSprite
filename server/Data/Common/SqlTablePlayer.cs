@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MessagePack;
+using System.Numerics;
 
 namespace Data
 {
@@ -9,10 +10,21 @@ namespace Data
         [Key(0)]
         public int id;
 
-        //#region autoSqlTablePlayer >>>>>>>>自动生成区域开始
-        [Key(1)]
-        public string userName; //49/51
+        #region SqlTablePlayer Auto
 
-        //#endregion autoSqlTablePlayer <<<<<<<<自动生成区域结束
+        [Key(1)]
+        public int level;
+        [Key(2)]
+        public string money;
+        [Key(3)]
+        public int diamond;
+        [Key(4)]
+        public string portrait;
+        [Key(5)]
+        public string userName;
+        [Key(6)]
+        public int characterConfigId;
+
+        #endregion SqlTablePlayer Auto
     }
 }

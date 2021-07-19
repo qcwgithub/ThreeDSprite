@@ -5,19 +5,19 @@
             "name": "CodeGen",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildCodeGen",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/CodeGen/bin/Debug/netcoreapp3.1/CodeGen.dll",
             "args": [
-                "${workspaceFolder}/../Assets/Scripts/Gen/mpc.cs",
-                "${workspaceFolder}/../Assets/Scripts/Gen/MessageCode.cs",
-                "${workspaceFolder}/../Assets/Scripts/Gen/BinaryMessagePackerGen.cs",
+                "Assets/Scripts/Gen/mpc.cs",
+                "Assets/Scripts/Gen/MessageCode.cs",
+                "Assets/Scripts/Gen/BinaryMessagePackerGen.cs",
                 
-                "${workspaceFolder}/Script/Common/Gen/mpc.cs",
-                "${workspaceFolder}/Data/Common/Gen/MessageCode.cs",
-                "${workspaceFolder}/Script/Common/Gen/BinaryMessagePackerGen.cs"
+                "server/Script/Common/Gen/mpc.cs",
+                "server/Data/Common/Gen/MessageCode.cs",
+                "server/Script/Common/Gen/BinaryMessagePackerGen.cs"
             ],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/../",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

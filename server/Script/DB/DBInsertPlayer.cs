@@ -12,7 +12,7 @@ namespace Script
         {
             var msg = this.server.CastObject<MsgInsertPlayer>(_msg);
             string queryStr = "INSERT INTO player (id) VALUES (@0);";
-            MySqlParameter[] param = this.makeParameters(msg.player.id);
+            MySqlParameter[] param = this.MakeParameters(msg.player.id);
 
             int affectedRows = await MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, queryStr, param);
             if (affectedRows == 1)

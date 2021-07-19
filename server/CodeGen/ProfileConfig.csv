@@ -1,0 +1,7 @@
+comment,type,field,dataManagement,sql
+等级,int_,level,server,INT NOT NULL
+金钱,BigInteger,money,server,TEXT
+钻石,int_,diamond,server,INT NOT NULL DEFAULT 0
+头像,string_,portrait,server,VARCHAR(8)
+昵称,string_,userName,server,VARCHAR(32)
+角色Id,int_,characterConfigId,server,INT NOT NULL

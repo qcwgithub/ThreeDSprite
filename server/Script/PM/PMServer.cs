@@ -12,8 +12,9 @@ namespace Script
             }
         }
         public PMScript pmScript;
+        public PMSqlTableToPlayer pmSqlTableToPlayer;
+        public PMPlayerToSqlTable pmPlayerToSqlTable;
         public PMSqlUtils pmSqlUtils;
-        public PMPlayerToSqlTablePlayer pmPlayerToSqlTablePlayer;
         public PMScriptCreateNewPlayer pmScriptCreateNewPlayer;
 
         public SCUtils scUtils { get; set; }
@@ -25,8 +26,9 @@ namespace Script
             base.AddHandler<PMServer>();
 
             this.pmScript = new PMScript { server = this };
+            this.pmSqlTableToPlayer = new PMSqlTableToPlayer { server = this };
+            this.pmPlayerToSqlTable = new PMPlayerToSqlTable { server = this };
             this.pmSqlUtils = new PMSqlUtils { server = this };
-            this.pmPlayerToSqlTablePlayer = new PMPlayerToSqlTablePlayer { server = this };
             this.pmScriptCreateNewPlayer = new PMScriptCreateNewPlayer { server = this };
 
             this.gameScript = new GameScriptServer();

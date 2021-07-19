@@ -21,12 +21,36 @@ namespace Script
             // first reset
             this.server.pmScript.clearDestroyTimer(player);
 
-            var obj = this.server.pmSqlUtils.beginSave(player);
-            List<string> buffer = null;
-            var last = player.lastProfile;
-            var curr = this.server.pmPlayerToSqlTablePlayer.Convert(player);
+            MsgSavePlayer msgSave = new MsgSavePlayer();
+            msgSave.playerId = player.id;
 
-            this.server.pmSqlUtils.endSave(obj);
+            List<string> buffer = null;
+            SqlTablePlayer last = player.lastProfile;
+            SqlTablePlayer curr = this.server.pmPlayerToSqlTable.Convert(player);
+
+            #region PMPlayerSave Auto
+
+            if (last.level != curr.level)
+                msgSave.level = curr.level;
+
+            if (last.money != curr.money)
+                msgSave.money = curr.money;
+
+            if (last.diamond != curr.diamond)
+                msgSave.diamond = curr.diamond;
+
+            if (last.portrait != curr.portrait)
+                msgSave.portrait = curr.portrait;
+
+            if (last.userName != curr.userName)
+                msgSave.userName = curr.userName;
+
+            if (last.characterConfigId != curr.characterConfigId)
+                msgSave.characterConfigId = curr.characterConfigId;
+
+
+            #endregion PMPlayerSave Auto
+
             player.lastProfile = curr; // 先假设一定成功吧
 
             string fieldsStr = "";

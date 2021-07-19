@@ -14,7 +14,7 @@ namespace Script
             var msg = this.server.CastObject<MsgLogPlayerLogout>(_msg);
 
             var queryStr = "INSERT INTO player_logout (playerId,level) VALUES (@0,1);";
-            var param = this.makeParameters(msg.playerId);
+            var param = this.MakeParameters(msg.playerId);
 
             int affectedRows = await MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, queryStr, param);
             return new MyResponse(ECode.Success, null);

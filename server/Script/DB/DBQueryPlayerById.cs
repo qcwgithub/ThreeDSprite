@@ -12,7 +12,7 @@ namespace Script
         {
             var msg = this.server.CastObject<MsgQueryPlayerById>(_msg);
             string queryStr = "SELECT * FROM player WHERE id=@0;";
-            MySqlParameter[] param = this.makeParameters(msg.playerId);
+            MySqlParameter[] param = this.MakeParameters(msg.playerId);
 
             MySqlDataReader reader = await MySqlHelper.ExecuteReaderAsync(this.dbData.connectionString, queryStr, param);
             var res = new ResQueryPlayer();

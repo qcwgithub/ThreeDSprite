@@ -29,7 +29,10 @@ namespace CodeGen
 
         public static void Main(string[] args)
         {
-            List<string> client = MatchMpc(args[0]);
+            int A = 0;
+            ProfileProgram.Do();
+
+            List<string> client = MatchMpc(args[A++]);
             for (int i = 0; i < client.Count; i++)
             {
                 Console.WriteLine("[Client] {0} of {1} {2}", i+1, client.Count, client[i]);
@@ -41,10 +44,10 @@ namespace CodeGen
             // var clientSb = new StringBuilder();
             // var serverSb = new StringBuilder();
 
-            CreateFile.GenMessageCode(client, args[1]);
-            CreateFile.GenBinaryMessagePackerGen(client, args[2]);
+            CreateFile.GenMessageCode(client, args[A++]);
+            CreateFile.GenBinaryMessagePackerGen(client, args[A++]);
 
-            List<string> all = MatchMpc(args[3]);
+            List<string> all = MatchMpc(args[A++]);
             List<string> server = new List<string>();
             server.AddRange(client);
             int j = 0;
@@ -58,8 +61,8 @@ namespace CodeGen
                     j++;
                 }
             }
-            CreateFile.GenMessageCode(server, args[4]);
-            CreateFile.GenBinaryMessagePackerGen(server, args[5]);
+            CreateFile.GenMessageCode(server, args[A++]);
+            CreateFile.GenBinaryMessagePackerGen(server, args[A++]);
         }
     }
 }

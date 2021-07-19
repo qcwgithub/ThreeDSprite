@@ -4,7 +4,7 @@ namespace Data
     {
         #region AUTO
         btObjectType,
-        BMBattleInfo,
+        BMBattle,
         BMMsgAddCharacter,
         BMMsgAddPlayer,
         BMMsgBattle,
@@ -12,7 +12,7 @@ namespace Data
         BMMsgDebugGetCharacterPosition,
         BMMsgMove,
         BMMsgPlayerLogin,
-        BMPlayerInfo,
+        BMPlayer,
         BMResDebugGetCharacterPosition,
         btBattle,
         btCharacter,

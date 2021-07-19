@@ -8,7 +8,7 @@ namespace Script
 {
     public class PMSqlUtils : SqlUtils<PMServer>
     {
-        private Task<MyResponse> queryDBPlayer(MsgType msgType, object msg)
+        private Task<MyResponse> QueryDBPlayer(MsgType msgType, object msg)
         {
             return this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, msgType, msg);
         }
@@ -16,7 +16,7 @@ namespace Script
         public async Task<MyResponse> queryPlayerAsync(int playerId)
         {
             var msg = new MsgQueryPlayerById { playerId = playerId };
-            return await this.queryDBPlayer(MsgType.DBQueryPlayerById, msg);
+            return await this.QueryDBPlayer(MsgType.DBQueryPlayerById, msg);
         }
 
         private string createInsertQueryStr(PMPlayer player, List<string> fields, List<object> values)
@@ -57,53 +57,23 @@ namespace Script
             return queryStr;
         }
 
-        private string createUpdateQueryStr(PMPlayer player, List<string> fields, List<object> values)
+        public void SavePlayer(PMPlayer player, MsgSavePlayer msg)
         {
-            var L = fields.Count;
-            if (L == 0)
-            {
-                return null;
-            }
-            if (L != values.Count)
-            {
-                this.server.logger.Error("saveFieldBatch fields.length != values.length");
-                return null;
-            }
-
-            List<string> buffer = new List<string>();
-            buffer.Add("UPDATE player SET ");
-            for (int i = 0; i < L; i++)
-            {
-                buffer.Add(fields[i] + "=@" + i);
-                if (i < L - 1)
-                {
-                    buffer.Add(",");
-                }
-            }
-            buffer.Add(" WHERE id=" + player.id);
-
-            var queryStr = string.Join(null, buffer.ToArray());
-            return queryStr;
+            this.QueryDBPlayer(MsgType.DBSavePlayer, msg);
         }
 
-        private void saveFieldBatch(PMPlayer player, List<string> fields, List<object> values)
+        public Task<MyResponse> SavePlayerAsync(PMPlayer player, MsgSavePlayer msg)
         {
-            var msg = new MsgSavePlayer();
-            this.queryDBPlayer(MsgType.DBSavePlayer, msg);
-        }
-
-        public Task<MyResponse> saveFieldBatchAsync(PMPlayer player, List<string> fields, List<object> values)
-        {
-            var msg = new MsgSavePlayer();
             return this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBSavePlayer, msg);
         }
 
         // 仅用于新玩家
-        public async Task<MyResponse> insertPlayerYield(PMPlayer player)
+        public async Task<MyResponse> InsertPlayerAsync(PMPlayer player)
         {
             var msg = new MsgInsertPlayer
             {
-                player = new SqlTablePlayer{
+                player = new SqlTablePlayer
+                {
                     id = player.id,
                 }
             };
@@ -129,7 +99,7 @@ namespace Script
             return await this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBInsertPayiOS, msg);
         }
 
-        private PMSqlHelpObject newHelpObject(PMPlayer player)
+        private PMSqlHelpObject NewHelpObject(PMPlayer player)
         {
             var obj = new PMSqlHelpObject();
             obj.player = player;
@@ -151,20 +121,5 @@ namespace Script
         //     fun(obj);
         //     return await this.saveFieldBatchYield(player, obj.fields, obj.values);
         // }
-
-        public PMSqlHelpObject beginSave(PMPlayer player)
-        {
-            var obj = this.newHelpObject(player);
-            return obj;
-        }
-        public void endSave(PMSqlHelpObject obj)
-        {
-            this.saveFieldBatch(obj.player, obj.fields, obj.values);
-        }
-
-        public async Task<MyResponse> endSaveAsync(PMSqlHelpObject obj)
-        {
-            return await this.saveFieldBatchAsync(obj.player, obj.fields, obj.values);
-        }
     }
 }

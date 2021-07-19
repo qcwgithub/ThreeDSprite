@@ -30,17 +30,6 @@ namespace Script
             return obj;
         }
 
-        public PMPlayer decodePlayer(SqlTablePlayer sqlData)
-        {
-            var player = new PMPlayer();
-
-            // server only data
-            player.id = sqlData.id;
-            var p = player.profile = new Profile();
-            // Profile.Ensure(p);
-            return player;
-        }
-
         public void setDestroyTimer(PMPlayer player, string place)
         {
             var SEC = this.pmData.playerDestroyTimeoutS;

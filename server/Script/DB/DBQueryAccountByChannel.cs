@@ -12,7 +12,7 @@ namespace Script
         {
             var msg = this.server.CastObject<MsgQueryAccountByChannel>(_msg);
             string queryStr = "SELECT * FROM account WHERE channel=@0 AND channelUserId=@1";
-            MySqlParameter[] param = this.makeParameters(msg.channel, msg.channelUserId);
+            MySqlParameter[] param = this.MakeParameters(msg.channel, msg.channelUserId);
 
             MySqlDataReader reader = await MySqlHelper.ExecuteReaderAsync(this.dbData.connectionString, queryStr, param);
             var res = new ResQueryAccount();

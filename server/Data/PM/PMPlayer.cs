@@ -24,10 +24,6 @@ namespace Data
 
         public int saveTimer = 0;
 
-        //// 1 ////
-        public List<int> dataChanged = new List<int>();
-        public List<int> dataLast = new List<int>();
-
         //// 2 ////
         public SqlTablePlayer lastProfile = null;
     }

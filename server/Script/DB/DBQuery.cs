@@ -11,7 +11,7 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.DBQuery; } }
         
-        protected MySqlParameter[] makeParameters(params object[] values)
+        protected MySqlParameter[] MakeParameters(params object[] values)
         {
             var array = new MySqlParameter[values.Length];
             for (int i = 0; i < values.Length; i++)

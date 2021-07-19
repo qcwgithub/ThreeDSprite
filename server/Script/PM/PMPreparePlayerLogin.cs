@@ -64,7 +64,7 @@ namespace Script
                     player = this.server.pmScriptCreateNewPlayer.newPlayer(msg.playerId, msg.channel, msg.channelUserId, msg.userName);
 
                     // insert to database
-                    r = await this.pmSqlUtils.insertPlayerYield(player);
+                    r = await this.pmSqlUtils.InsertPlayerAsync(player);
                     if (r.err != ECode.Success)
                     {
                         return r;
@@ -74,22 +74,17 @@ namespace Script
                 {
                     // decode playerInfo
                     var sqlTablePlayer = resPlayers.list[0];
-                    player = script.decodePlayer(sqlTablePlayer);
+                    player = this.server.pmSqlTableToPlayer.DecodePlayer(sqlTablePlayer);
                 }
 
                 //// runtime 初始化
-                for (int i = 0; i < (int)PMProfileType.Count; i++)
-                {
-                    player.dataChanged.Add(0);
-                    player.dataLast.Add(0);
-                }
                 data.playerInfos.Add(player.id, player);
             }
 
             if (player.lastProfile == null)
             {
                 // 有值就不能再赋值了，不然玩家上线下线就错了
-                player.lastProfile = this.server.pmPlayerToSqlTablePlayer.Convert(player);
+                player.lastProfile = this.server.pmPlayerToSqlTable.Convert(player);
             }
 
             player.channel = msg.channel;
