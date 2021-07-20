@@ -95,5 +95,10 @@ public class ProfileProgram
         {
             new Mark { startMark = "#region DBSavePlayer Auto", text = GenDBSavePlayer.Do(configs) }
         });
+
+        ReplaceFile("server/Script/DB/DBInsertPlayer.cs", new Mark[]
+        {
+            new Mark { startMark = "#region DBInsertPlayer Auto", text = GenDBInsertPlayer.Do(configs) }
+        });
     }
 }
