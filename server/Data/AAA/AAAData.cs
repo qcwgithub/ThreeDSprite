@@ -20,12 +20,12 @@ namespace Data
             return this.playerDict.TryGetValue(playerId, out info) ? info : null;
         }
 
-        // player manager info
-        public Dictionary<int, AAAPlayerManagerInfo> playerManagerInfos = new Dictionary<int, AAAPlayerManagerInfo>();
-        public AAAPlayerManagerInfo GetPlayerManagerInfo(int pmId)
+        // player manager
+        public Dictionary<int, AAAPlayerManager> playerManagerDict = new Dictionary<int, AAAPlayerManager>();
+        public AAAPlayerManager GetPlayerManager(int pmId)
         {
-            AAAPlayerManagerInfo info;
-            return this.playerManagerInfos.TryGetValue(pmId, out info) ? info : null;
+            AAAPlayerManager pm;
+            return this.playerManagerDict.TryGetValue(pmId, out pm) ? pm : null;
         }
 
         // 0 means not ready

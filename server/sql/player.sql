@@ -4,63 +4,19 @@ CREATE TABLE player (
     
     misc TEXT,
 
-    #region autoSql
-    # a
-    adReward TEXT, #0/30
-    auth TEXT, #1/30
+    #region player.sql Auto
 
-    # b
-    badge BIGINT NOT NULL DEFAULT 0, #2/30
-    badgeC BIGINT NOT NULL DEFAULT 0, #3/30
-    badgeAct INT NOT NULL DEFAULT 0, #4/30
-    bank TEXT, #5/30
-    battle TEXT, #6/30
+    level INT NOT NULL,
+    money TEXT,
+    diamond INT NOT NULL DEFAULT 0,
+    portrait VARCHAR(8),
+    userName VARCHAR(32),
+    characterConfigId INT NOT NULL,
 
-    # d
-    dailyReward TEXT, #7/30
-    diamond INT NOT NULL DEFAULT 0, #8/30
+    #endregion player.sql Auto
 
-    # g
-    giftVoucher INT NOT NULL DEFAULT 0, #10/30
-
-    # l
-    loginReward INT NOT NULL DEFAULT 0, #11/30
-
-    # m
-    money TEXT, #12/30
-
-    # n
-    numbers TEXT, #14/30
-
-    # o
-    offlineBonus TEXT, #15/30
-
-    # p
-    portrait VARCHAR(8), #16/30
-
-    # s
-    statistics TEXT, #17/30
-    star INT NOT NULL DEFAULT 0, #18/30
-    skinVoucher INT NOT NULL DEFAULT 0, #19/30
-    subscribe TEXT, #20/30
-    skin TEXT, #21/30
-
-    # t
-    task TEXT, #22/30
-    totalGameTimeMs BIGINT NOT NULL DEFAULT 0, #23/30
-    totalLoginTimes INT NOT NULL DEFAULT 0, #24/30
-    town TEXT, #25/30
-    tutorial TEXT, #26/30
-
-    # u
-    userID VARCHAR(64), #27/30
-    userName VARCHAR(32), #28/30
-
-    #endregion autoSql
-
-    PRIMARY KEY (id),
+    PRIMARY KEY (playerId),
     KEY (userName),
-    KEY (userID),
     INDEX (createTime)
 );
 

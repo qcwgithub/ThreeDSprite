@@ -1,1 +1,0 @@
-dotnet ./Data.dll scriptDll=./Script.dll ids=[102] purpose=iOS &

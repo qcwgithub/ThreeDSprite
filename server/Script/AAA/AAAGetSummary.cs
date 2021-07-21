@@ -21,7 +21,7 @@ namespace Script
             { "serverId", this.baseData.serverId.ToString() },
             { "name", Utils.numberId2stringId(this.baseData.serverId) },
             { "playerInfos_size", data.playerDict.Count.ToString() },
-            { "playerManagerInfos_size", data.playerManagerInfos.Count.ToString() },
+            { "playerManagerInfos_size", data.playerManagerDict.Count.ToString() },
             { "nextPlayerId", data.nextPlayerId.ToString() },
             { "error", this.baseData.errorCount.ToString() },
             { "uncauchtException", this.server.dataEntry.processData.uncaughtExceptionCount.ToString() },

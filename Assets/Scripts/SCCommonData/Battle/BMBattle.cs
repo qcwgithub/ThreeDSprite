@@ -14,8 +14,8 @@ namespace Data
         public Dictionary<int, BMPlayer> playerDict = new Dictionary<int, BMPlayer>();
         public BMPlayer GetPlayer(int playerId)
         {
-            BMPlayer playerInfo;
-            return this.playerDict.TryGetValue(playerId, out playerInfo) ? playerInfo : null;
+            BMPlayer player;
+            return this.playerDict.TryGetValue(playerId, out player) ? player : null;
         }
     }
 }

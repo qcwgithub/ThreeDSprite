@@ -13,7 +13,7 @@ namespace Data
     {
         // playerId -> PlayerData
         public Dictionary<int, PMPlayer> playerDict = new Dictionary<int, PMPlayer>();
-        public PMPlayer GetPlayerInfo(int playerId)
+        public PMPlayer GetPlayer(int playerId)
         {
             PMPlayer player;
             return this.playerDict.TryGetValue(playerId, out player) ? player : null;

@@ -30,7 +30,7 @@ namespace Script
                 return ECode.ServerNotReady;
             }
 
-            var player = data.GetPlayerInfo(msg.playerId);
+            var player = data.GetPlayer(msg.playerId);
             if (player != null)
             {
                 var oldSocket = player.socket;
@@ -72,7 +72,7 @@ namespace Script
                 }
                 else
                 {
-                    // decode playerInfo
+                    // decode player
                     var sqlTablePlayer = resPlayers.list[0];
                     player = this.server.pmSqlTableToPlayer.DecodePlayer(sqlTablePlayer);
                 }

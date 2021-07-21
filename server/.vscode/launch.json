@@ -34,7 +34,7 @@
             "program": "${workspaceFolder}/Data/bin/Debug/netcoreapp3.1/Data.dll",
             "args": [
                 "scriptDll=${workspaceFolder}/Script/bin/Debug/netcoreapp3.1/Script.dll",
-                "purpose=Test",
+                "purpose=tds_test",
                 "ids=all"
             ],
             "cwd": "${workspaceFolder}",

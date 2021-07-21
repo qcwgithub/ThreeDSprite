@@ -18,7 +18,7 @@ namespace Script
                 return ECode.InvalidParam.toTask();
             }
 
-            var player = this.data.GetPlayerInfo(msg.playerId);
+            var player = this.data.GetPlayer(msg.playerId);
             if (player == null)
             {
                 // 客户端遇到这个错误会转连AAA

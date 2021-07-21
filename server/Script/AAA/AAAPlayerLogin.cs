@@ -116,7 +116,7 @@ namespace Script
             // 检查版本号
             if (msg.platform == "android")
             {
-                if (this.server.dataEntry.purpose != Purpose.Test && // 测试版本不检查版本号
+                if (this.server.dataEntry.purpose != Purpose.tds_test && // 测试版本不检查版本号
                     (msg.version != this.server.dataEntry.androidVersion))
                 {
                     return ECode.LowVersion;
@@ -124,7 +124,7 @@ namespace Script
             }
             else if (msg.platform == "ios")
             {
-                if (this.server.dataEntry.purpose != Purpose.Test && // 测试版本不检查版本号
+                if (this.server.dataEntry.purpose != Purpose.tds_test && // 测试版本不检查版本号
                     (msg.version != this.server.dataEntry.iOSVersion))
                 {
                     return ECode.LowVersion;
@@ -234,13 +234,13 @@ namespace Script
             // this.baseScript.removePending(socket.id);
 
             // 分配PM
-            AAAPlayerManagerInfo pm = null;
+            AAAPlayerManager pm = null;
             if (player.pmId == 0)
             {
                 logger.Info("alloc pm for playerId: " + player.playerId);
 
                 // 查找人数最少的pm
-                foreach (var kv in aaaData.playerManagerInfos)
+                foreach (var kv in aaaData.playerManagerDict)
                 {
                     var v = kv.Value;
                     if (!v.allowNewPlayer)
@@ -257,7 +257,7 @@ namespace Script
             }
             else
             {
-                pm = aaaData.GetPlayerManagerInfo(player.pmId);
+                pm = aaaData.GetPlayerManager(player.pmId);
                 if (pm == null)
                 {
                     this.server.logger.Error("playerPM == null, pmId: " + player.pmId);

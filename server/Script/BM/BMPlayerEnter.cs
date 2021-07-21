@@ -35,10 +35,10 @@ namespace Script
             return new MyResponse(ECode.Success, res).toTask();
         }
 
-        void broadcastAddPlayer(BMBattle battle, BMPlayer playerInfo)
+        void broadcastAddPlayer(BMBattle battle, BMPlayer player)
         {
             var msg = new BMMsgAddPlayer();
-            msg.player = playerInfo;
+            msg.player = player;
             this.broadcast(battle, MsgType.BMAddPlayer, msg);
         }
     }

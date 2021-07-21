@@ -57,10 +57,10 @@ namespace Script
             //         // this.logger.warn("%s auto wrap %s...%s", this.msgName, S, E);
             //     }
 
-            // var fun: (server: Server, PMPlayerInfo player) => void = eval(script)[0];
+            // var fun: (server: Server, PMPlayer player) => void = eval(script)[0];
             // for (int i = 0; i < msg.playerRunScript.playerIds.length; i++) {
             //     var playerId = msg.playerRunScript.playerIds[i];
-            //     var player = pmData.playerInfos.get(playerId);
+            //     var player = pmData.players.get(playerId);
             //     if (player == null) {
             //         this.logger.info("%s playerRunScript player==null, playerId: %d", this.msgName, playerId);
             //         continue;

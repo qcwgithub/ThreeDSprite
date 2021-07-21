@@ -15,9 +15,9 @@ namespace Script
             player.playerId = playerId;
             // [1]
             player.battleId = battleId;
-            // playerInfo.token = "";
+            // player.token = "";
             // init
-            // playerInfo.socket = null;
+            // player.socket = null;
             player.battle = null;
             player.character = null;
 

@@ -15,14 +15,14 @@ namespace Script
         {
             foreach (var kv in battle.playerDict)
             {
-                BMPlayer playerInfo = kv.Value;
-                if (excludePlayerId > 0 && playerInfo.playerId == excludePlayerId)
+                BMPlayer player = kv.Value;
+                if (excludePlayerId > 0 && player.playerId == excludePlayerId)
                 {
                     continue;
                 }
-                if (playerInfo.socket != null && playerInfo.socket.isConnected())
+                if (player.socket != null && player.socket.isConnected())
                 {
-                    playerInfo.socket.send(msgType, msg_, null);
+                    player.socket.send(msgType, msg_, null);
                 }
             }
         }

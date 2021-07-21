@@ -55,7 +55,7 @@ public class ServerConst
     public static void initPorts(Purpose purpose)
     {
         inited = true;
-        if (purpose == Purpose.Test)
+        if (purpose == Purpose.tds_test)
         {
             // [3001, 3009]
             // [8001, 8009]
@@ -93,7 +93,7 @@ public class ServerConst
         //     this.PM_START_PORT = 8015;
         //     this.AAA_IVY_NOTIFY_PORT = 8016;
         // }
-        else if (purpose == Purpose.iOS)
+        else if (purpose == Purpose.tds_ios)
         {
             // [3021, 3050] 如被占用则换一个
             // [8021, 8100] 如被占用：非PM则换一个，PM则不使用那个ID的PM
@@ -115,7 +115,7 @@ public class ServerConst
             // [8039, 8046] cn -> SH2
             PM_START_OUT_PORT = 8031;
         }
-        else if (purpose == Purpose.Android)
+        else if (purpose == Purpose.tds_android)
         {
             // [3051, 3100] 如被占用则换一个
             // [8101, 8200] 如被占用：非PM则换一个，PM则不使用那个ID的PM
@@ -135,7 +135,7 @@ public class ServerConst
 
             PM_START_OUT_PORT = 8111;
         }
-        else if (purpose == Purpose.AndroidEn)
+        else if (purpose == Purpose.tds_android_en)
         {
             // [3101, 3199] 如被占用则换一个
             // [8201, 8399] 如被占用：非PM则换一个，PM则不使用那个ID的PM

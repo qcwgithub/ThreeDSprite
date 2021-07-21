@@ -24,7 +24,7 @@ namespace Script
                 return ECode.PlayerNotInBattle.toTask();
             }
 
-            // if (msg.token != playerInfo.token)
+            // if (msg.token != player.token)
             // {
             //     return ECode.InvalidToken.toTask();
             // }
@@ -48,7 +48,7 @@ namespace Script
                 Vector3 chPos;
                 this.server.moveScript.randomWalkable(battle, out chWalkable, out chPos);
 
-                // playerInfo.characterId = this
+                // player.characterId = this
                 player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId, ((btObject)chWalkable).id, chPos, Vector3.zero);
 
                 this.broadcastAddCharacter(battle, player);

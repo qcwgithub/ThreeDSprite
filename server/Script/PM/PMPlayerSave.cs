@@ -11,7 +11,7 @@ namespace Script
         public override Task<MyResponse> handle(TcpClientData socket/* null */, object _msg)
         {
             var msg = this.server.CastObject<MsgPlayerSCSave>(_msg);
-            var player = this.data.GetPlayerInfo(msg.playerId);
+            var player = this.data.GetPlayer(msg.playerId);
             if (player == null)
             {
                 this.logger.ErrorFormat("{0} place: {1}, playerId: {2}, player == null!!", this.msgName, msg.place, msg.playerId);
@@ -67,7 +67,7 @@ namespace Script
         public override MyResponse postHandle(object socket, object _msg, MyResponse r)
         {
             var msg = this.server.CastObject<MsgPlayerSCSave>(_msg);
-            var player = this.data.GetPlayerInfo(msg.playerId);
+            var player = this.data.GetPlayer(msg.playerId);
             if (player != null)
             {
                 this.server.pmScript.setSaveTimer(player);

@@ -100,5 +100,10 @@ public class ProfileProgram
         {
             new Mark { startMark = "#region DBInsertPlayer Auto", text = GenDBInsertPlayer.Do(configs) }
         });
+
+        ReplaceFile("server/sql/player.sql", new Mark[]
+        {
+            new Mark { startMark = "#region player.sql Auto", text = GenPlayerSql.Do(configs) }
+        });
     }
 }

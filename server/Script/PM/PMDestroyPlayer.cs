@@ -19,7 +19,7 @@ namespace Script
 
             this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, data.playerDict.Count);
 
-            PMPlayer player = data.GetPlayerInfo(msg.playerId);
+            PMPlayer player = data.GetPlayer(msg.playerId);
             if (player == null)
             {
                 logger.InfoFormat("{0} player not exit, playerId: {1}", this.msgName, msg.playerId);

@@ -1,6 +1,6 @@
 namespace Data
 {
-    public sealed class AAAPlayerManagerInfo
+    public sealed class AAAPlayerManager
     {
         public int pmId;
         public int playerCount;

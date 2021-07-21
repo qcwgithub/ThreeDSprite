@@ -64,14 +64,14 @@ namespace Script
 
         SqlConfig initSqlConfig(string name)
         {
-            string purposeLowerCase = purpose.ToString().ToLower();
+            string _purpose = purpose.ToString().ToLower();
 
             return new SqlConfig
             {
                 connectionLimit = 10,
-                user = $"user_{purposeLowerCase}_{name}",
-                password = $"gbits*{purposeLowerCase}*{name}*user*2020",
-                database = $"{purposeLowerCase}_{name}",
+                user = $"user_{_purpose}_{name}",
+                password = $"gbits*{_purpose}*{name}*user*2020",
+                database = $"{_purpose}_{name}",
             };
         }
 

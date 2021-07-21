@@ -23,8 +23,8 @@ namespace Script
             //     return ECode.PlayerLock.toTask();
             // }
 
-            AAAPlayer playerInfo = aaaData.GetPlayer(msg.playerId);
-            if (playerInfo == null)
+            AAAPlayer player = aaaData.GetPlayer(msg.playerId);
+            if (player == null)
             {
                 this.server.logger.ErrorFormat("{0} player not exit, playerId: {1}", this.msgName, msg.playerId);
                 return new MyResponse(ECode.PlayerNotExist).toTask();
@@ -32,17 +32,17 @@ namespace Script
 
             aaaData.playerDict.Remove(msg.playerId);
 
-            if (playerInfo.pmId > 0)
+            if (player.pmId > 0)
             {
-                var pmInfo = aaaData.GetPlayerManagerInfo(playerInfo.pmId);
-                if (pmInfo != null)
+                var pm = aaaData.GetPlayerManager(player.pmId);
+                if (pm != null)
                 {
-                    var msgPm = new MsgDestroyPlayer { playerId = playerInfo.playerId, place = msg.place };
-                    this.server.tcpClientScript.sendToServer(pmInfo.pmId, MsgType.PMDestroyPlayer, msgPm, null);
+                    var msgPm = new MsgDestroyPlayer { playerId = player.playerId, place = msg.place };
+                    this.server.tcpClientScript.sendToServer(pm.pmId, MsgType.PMDestroyPlayer, msgPm, null);
                 }
                 else
                 {
-                    this.server.logger.ErrorFormat("{0} player pm is null, playerId: {1}, pmId: {2}", this.msgName, msg.playerId, playerInfo.pmId);
+                    this.server.logger.ErrorFormat("{0} player pm is null, playerId: {1}, pmId: {2}", this.msgName, msg.playerId, player.pmId);
                 }
             }
 

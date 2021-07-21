@@ -35,7 +35,7 @@ namespace Script
                         this.logger.InfoFormat("{0} playerRunScript player==null, playerId: {1}", this.msgName, playerId);
                         continue;
                     }
-                    var pm = aaaData.GetPlayerManagerInfo(player.pmId);
+                    var pm = aaaData.GetPlayerManager(player.pmId);
                     if (pm == null)
                     {
                         this.logger.InfoFormat("{0} playerRunScript pm==null, playerId: {1}, pmId: {2}", this.msgName, playerId, player.pmId);

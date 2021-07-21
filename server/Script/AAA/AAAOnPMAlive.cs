@@ -23,15 +23,15 @@ namespace Script
             this.server.data.otherServerSockets[msg.pmId] = socket;
 
             var newAdd = false;
-            var pm = data.GetPlayerManagerInfo(msg.pmId);
+            var pm = data.GetPlayerManager(msg.pmId);
             if (pm == null)
             {
                 logger.Info("pm connected, pmId: " + msg.pmId);
                 newAdd = true;
 
-                pm = new AAAPlayerManagerInfo();
+                pm = new AAAPlayerManager();
                 pm.pmId = msg.pmId;
-                data.playerManagerInfos.Add(msg.pmId, pm);
+                data.playerManagerDict.Add(msg.pmId, pm);
             }
 
             // 如果AAA挂，尝试恢复玩家数据
