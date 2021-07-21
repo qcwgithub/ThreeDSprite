@@ -17,9 +17,7 @@ public class GenSqlTableToPlayer
             if (config.dataManagement == DataManagement.server ||
                 config.dataManagement == DataManagement.server_client)
             {
-                f.PushTab();
-                f.Push("profile.", config.field, " = ", config.type.SqlTableToPlayer("sql", config.field));
-                f.Push(";").PushLine();
+                f.PushTab().Push(string.Format("profile.{0} = {1};", config.field, config.type.SqlTableToPlayer("sql", config.field))).PushLine();
             }
         }
 

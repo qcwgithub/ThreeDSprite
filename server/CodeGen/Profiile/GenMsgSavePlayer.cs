@@ -18,9 +18,8 @@ public class GenMsgSavePlayer
             if (config.dataManagement == DataManagement.server ||
                 config.dataManagement == DataManagement.server_client)
             {
-                f.PushTab().Push("[Key(", (i + 1).ToString(), ")]").PushLine();
-                f.PushTab().Push("public ", config.type.MsgSavePlayerString());
-                f.Push(" ", config.field, ";").PushLine();
+                f.PushTab().Push(string.Format("[Key({0})]", i + 1)).PushLine();
+                f.PushTab().Push(string.Format("public {0} {1};", config.type.MsgSavePlayerString(), config.field)).PushLine();
             }
         }
 

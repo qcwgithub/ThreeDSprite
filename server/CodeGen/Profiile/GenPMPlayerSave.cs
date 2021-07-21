@@ -18,18 +18,11 @@ public class GenPMPlayerSave
             if (config.dataManagement == DataManagement.server ||
                 config.dataManagement == DataManagement.server_client)
             {
-                f.PushTab().Push("if (last.", config.field, " != curr.", config.field, ")").PushLine();
-
+                f.PushTab().Push(string.Format("if (last.{0} != curr.{0})", config.field)).PushLine();
+                
                 f.AddTab(1);
-                f.PushTab().Push("msgSave.", config.field, " = curr.", config.field, ";").PushLine();
+                f.PushTab().Push(string.Format("msgSave.{0} = curr.{0};", config.field)).PushLine();
                 f.AddTab(-1);
-
-                // switch (config.serializeType)
-                // {
-                //     case SerializeType.raw:
-                //         f.Push(config.type);
-                //         break;
-                // }
                 f.PushLine();
             }
         }

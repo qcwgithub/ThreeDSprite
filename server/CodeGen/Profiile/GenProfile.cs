@@ -15,28 +15,8 @@ public class GenProfile
         for (int i = 0; i < configs.Count; i++)
         {
             ProfileConfig config = configs[i];
-            // if (alpha == (char)0 || alpha != config.field[0])
-            // {
-            //     if (alpha != (char)0)
-            //     {
-            //         f.PushLine();
-            //     }
-            //     f.PushTab();
-            //     alpha = config.field[0];
-            //     f.Push("//// ", alpha.ToString());
-            //     f.PushLine();
-            // }
-
-            f.PushTab().Push("[Key(", i.ToString(), ")]").PushLine();
-
-            f.PushTab();
-            if (config.dataManagement == DataManagement.delete)
-            {
-                f.Push("private ");
-            }
-
-            f.Push("public ", config.type.ProfileTypeString(), " ", config.field, ";");
-            f.PushLine();
+            f.PushTab().Push(string.Format("[Key({0})]", i)).PushLine();
+            f.PushTab().Push(string.Format("public {0} {1};", config.type.ProfileTypeString(), config.field)).PushLine();
         }
 
         string str = f.GetString();

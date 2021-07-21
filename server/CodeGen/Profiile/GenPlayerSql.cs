@@ -17,7 +17,7 @@ public class GenPlayerSql
             if (config.dataManagement == DataManagement.server ||
                 config.dataManagement == DataManagement.server_client)
             {
-                f.PushTab().Push(config.field, " ", config.sql, ",").PushLine();
+                f.PushTab().Push(string.Format("{0} {1},", config.field, config.sql)).PushLine();
             }
         }
 
