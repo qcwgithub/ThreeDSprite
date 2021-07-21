@@ -23,7 +23,7 @@ namespace Script
             values.Add(msg.player.level);
 
             fields.Add("money");
-            values.Add(msg.player.money);
+            values.Add(msg.player.money.ToString());
 
             fields.Add("diamond");
             values.Add(msg.player.diamond);

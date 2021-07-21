@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GenDBInsertPlayer
+public class GenPMScriptCreateNewPlayer
 {
     public static string Do(List<ProfileConfig> configs)
     {
@@ -15,13 +15,8 @@ public class GenDBInsertPlayer
         for (int i = 0; i < configs.Count; i++)
         {
             ProfileConfig config = configs[i];
-            if (config.dataManagement == DataManagement.server ||
-                config.dataManagement == DataManagement.server_client)
-            {
-                f.PushTab().Push(string.Format("fields.Add(\"{0}\");", config.field)).PushLine();
-                f.PushTab().Push(string.Format("values.Add({0});", config.type.ToDB("msg.player", config.field))).PushLine();
-                f.PushLine();
-            }
+            f.PushTab().Push(string.Format("profile.{0} = {1};", config.field, 
+                !string.IsNullOrEmpty(config.defaultValueExp) ? config.defaultValueExp : config.type.defaultValueExp())).PushLine();
         }
 
         string str = f.GetString();

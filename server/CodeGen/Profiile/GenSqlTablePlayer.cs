@@ -19,7 +19,7 @@ public class GenSqlTablePlayer
                 config.dataManagement == DataManagement.server_client)
             {
                 f.PushTab().Push(string.Format("[Key({0})]", i + 1)).PushLine();
-                f.PushTab().Push(string.Format("public {0} {1};", config.type.SqlTablePlayerTypeString(), config.field)).PushLine();
+                f.PushTab().Push(string.Format("public {0} {1};", config.type.ToSqlTablePlayer(), config.field)).PushLine();
             }
         }
 

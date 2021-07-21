@@ -16,7 +16,7 @@ public class GenProfile
         {
             ProfileConfig config = configs[i];
             f.PushTab().Push(string.Format("[Key({0})]", i)).PushLine();
-            f.PushTab().Push(string.Format("public {0} {1};", config.type.ProfileTypeString(), config.field)).PushLine();
+            f.PushTab().Push(string.Format("public {0} {1};", config.type.ToProfile(), config.field)).PushLine();
         }
 
         string str = f.GetString();

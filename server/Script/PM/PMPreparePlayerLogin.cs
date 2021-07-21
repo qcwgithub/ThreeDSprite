@@ -61,7 +61,7 @@ namespace Script
                 {
                     logger.Info($"player {msg.playerId} not exist, create a new one!");
                     // player not exist, create player now!
-                    player = this.server.pmScriptCreateNewPlayer.newPlayer(msg.playerId, msg.channel, msg.channelUserId, msg.userName);
+                    player = this.server.pmScriptCreateNewPlayer.NewPlayer(msg.playerId, msg.channel, msg.channelUserId, msg.userName);
 
                     // insert to database
                     r = await this.pmSqlUtils.InsertPlayerAsync(player);

@@ -17,7 +17,7 @@ namespace Script
             MySqlDataReader reader = await MySqlHelper.ExecuteReaderAsync(this.dbData.connectionString, queryStr, param);
             var res = new ResQueryPlayer();
             res.list = new List<SqlTablePlayer>();
-            await this.decodeSqlTablePlayer(reader, res.list);
+            await this.DecodeSqlTablePlayer(reader, res.list);
             await reader.CloseAsync();
 
             return new MyResponse(ECode.Success, res);

@@ -5,5 +5,6 @@ public class ProfileConfig
     public FieldType type;
     public EnsureType ensureType;
     public DataManagement dataManagement;
+    public string defaultValueExp;
     public string sql;
 }

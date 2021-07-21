@@ -1,7 +1,7 @@
-comment,type,field,dataManagement,sql
-绛夌骇,int_,level,server,INT NOT NULL
-閲戦挶,BigInteger,money,server,TEXT
-閽荤煶,int_,diamond,server,INT NOT NULL DEFAULT 0
-澶村儚,string_,portrait,server,VARCHAR(8)
-鏄电О,string_,userName,server,VARCHAR(32)
-瑙掕壊Id,int_,characterConfigId,server,INT NOT NULL
+comment,type,field,dataManagement,defaultValueExp,sql
+等级,int_,level,server,1,INT NOT NULL
+金钱,BigInteger,money,server,0,TEXT
+钻石,int_,diamond,server,0,INT NOT NULL DEFAULT 0
+头像,string_,portrait,server,,VARCHAR(8)
+昵称,string_,userName,server,,VARCHAR(32)
+角色Id,int_,characterConfigId,server,1,INT NOT NULL

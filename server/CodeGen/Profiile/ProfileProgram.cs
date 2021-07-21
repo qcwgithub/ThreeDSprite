@@ -55,6 +55,7 @@ public class ProfileProgram
             c.field = helper.ReadString("field");
             c.type = helper.ReadEnum<FieldType>("type");
             c.dataManagement = helper.ReadEnum<DataManagement>("dataManagement");
+            c.defaultValueExp = helper.ReadString("defaultValueExp");
             c.sql = helper.ReadString("sql");
 
             configs.Add(c);
@@ -90,6 +91,11 @@ public class ProfileProgram
         {
             new Mark { startMark = "#region PMPlayerSave Auto", text = GenPMPlayerSave.Do(configs) }
         });
+        
+        ReplaceFile("server/Script/PM/PMScriptCreateNewPlayer.cs", new Mark[]
+        {
+            new Mark { startMark = "#region PMScriptCreateNewPlayer Auto", text = GenPMScriptCreateNewPlayer.Do(configs) }
+        });
 
         ReplaceFile("server/Script/DB/DBSavePlayer.cs", new Mark[]
         {
@@ -99,6 +105,11 @@ public class ProfileProgram
         ReplaceFile("server/Script/DB/DBInsertPlayer.cs", new Mark[]
         {
             new Mark { startMark = "#region DBInsertPlayer Auto", text = GenDBInsertPlayer.Do(configs) }
+        });
+
+        ReplaceFile("server/Script/DB/DBQueryPlayer.cs", new Mark[]
+        {
+            new Mark { startMark = "#region DBQueryPlayer Auto", text = GenDBQueryPlayer.Do(configs) }
         });
 
         ReplaceFile("server/sql/player.sql", new Mark[]

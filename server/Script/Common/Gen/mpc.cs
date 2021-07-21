@@ -4224,7 +4224,7 @@ namespace MessagePack.Formatters.Data
             writer.WriteArrayHeader(7);
             writer.Write(value.playerId);
             formatterResolver.GetFormatterWithVerify<int?>().Serialize(ref writer, value.level, options);
-            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.money, options);
+            formatterResolver.GetFormatterWithVerify<System.Numerics.BigInteger>().Serialize(ref writer, value.money, options);
             formatterResolver.GetFormatterWithVerify<int?>().Serialize(ref writer, value.diamond, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.portrait, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.userName, options);
@@ -4243,7 +4243,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __playerId__ = default(int);
             var __level__ = default(int?);
-            var __money__ = default(string);
+            var __money__ = default(System.Numerics.BigInteger);
             var __diamond__ = default(int?);
             var __portrait__ = default(string);
             var __userName__ = default(string);
@@ -4260,7 +4260,7 @@ namespace MessagePack.Formatters.Data
                         __level__ = formatterResolver.GetFormatterWithVerify<int?>().Deserialize(ref reader, options);
                         break;
                     case 2:
-                        __money__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        __money__ = formatterResolver.GetFormatterWithVerify<System.Numerics.BigInteger>().Deserialize(ref reader, options);
                         break;
                     case 3:
                         __diamond__ = formatterResolver.GetFormatterWithVerify<int?>().Deserialize(ref reader, options);
@@ -6008,7 +6008,7 @@ namespace MessagePack.Formatters.Data
             writer.WriteArrayHeader(7);
             writer.Write(value.playerId);
             writer.Write(value.level);
-            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.money, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Serialize(ref writer, value.money, options);
             writer.Write(value.diamond);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.portrait, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.userName, options);
@@ -6027,7 +6027,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __playerId__ = default(int);
             var __level__ = default(int);
-            var __money__ = default(string);
+            var __money__ = default(global::System.Numerics.BigInteger);
             var __diamond__ = default(int);
             var __portrait__ = default(string);
             var __userName__ = default(string);
@@ -6044,7 +6044,7 @@ namespace MessagePack.Formatters.Data
                         __level__ = reader.ReadInt32();
                         break;
                     case 2:
-                        __money__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        __money__ = formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Deserialize(ref reader, options);
                         break;
                     case 3:
                         __diamond__ = reader.ReadInt32();

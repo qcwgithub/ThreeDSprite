@@ -16,7 +16,7 @@ namespace Script
             #region PMSqlTableToPlayer Auto
 
             profile.level = sql.level;
-            profile.money = BigInteger.Parse(sql.money);
+            profile.money = sql.money;
             profile.diamond = sql.diamond;
             profile.portrait = sql.portrait;
             profile.userName = sql.userName;

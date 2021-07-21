@@ -32,14 +32,8 @@ namespace Script
         // 仅用于新玩家
         public async Task<MyResponse> InsertPlayerAsync(PMPlayer player)
         {
-            var msg = new MsgInsertPlayer
-            {
-                player = new SqlTablePlayer
-                {
-                    playerId = player.playerId,
-                }
-            };
-
+            var msg = new MsgInsertPlayer();
+            msg.player = this.server.pmPlayerToSqlTable.Convert(player);
             return await this.server.tcpClientScript.sendToServerAsync(ServerConst.DB_PLAYER_ID, MsgType.DBInsertPlayer, msg);
         }
 

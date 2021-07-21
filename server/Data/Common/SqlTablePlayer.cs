@@ -15,7 +15,7 @@ namespace Data
         [Key(1)]
         public int level;
         [Key(2)]
-        public string money;
+        public BigInteger money;
         [Key(3)]
         public int diamond;
         [Key(4)]

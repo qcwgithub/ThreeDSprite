@@ -69,8 +69,6 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     Vector3 lastInputDir = Vector3.zero;
     protected void Start()
     {
-        Application.targetFrameRate = 60;
-
         this.myPlayerId = sc.pmServer.playerId;
 
         // BMMsgBattle msg = sc.bmServer.resBM;

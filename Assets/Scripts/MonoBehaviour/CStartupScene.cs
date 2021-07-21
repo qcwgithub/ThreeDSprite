@@ -43,6 +43,7 @@ public class CStartupScene : CSceneBase
 
     protected override void Awake()
     {
+        Application.targetFrameRate = 60;
         MessagePackInitializer.Initialize();
 
         sc.pmServer = new PMServer();

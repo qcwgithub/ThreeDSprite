@@ -17,7 +17,7 @@ namespace Script
             #region PMPlayerToSqlTable Auto
 
             sql.level = profile.level;
-            sql.money = profile.money.ToString();
+            sql.money = profile.money;
             sql.diamond = profile.diamond;
             sql.portrait = profile.portrait;
             sql.userName = profile.userName;
