@@ -22,8 +22,8 @@ namespace Script
 
             this.pmScript.clearDestroyTimer(player, false);
             
-            this.logger.Info("send destroy playerId: " + player.id);
-            MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.id, place = "pmDestroyTimer" };
+            this.logger.Info("send destroy playerId: " + player.playerId);
+            MsgDestroyPlayer msgDestroy = new MsgDestroyPlayer { playerId = player.playerId, place = "pmDestroyTimer" };
             this.server.tcpClientScript.sendToServer(ServerConst.AAA_ID, MsgType.AAADestroyPlayer, msgDestroy, null);
             return ECode.Success.toTask();
         }

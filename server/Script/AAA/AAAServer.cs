@@ -21,9 +21,9 @@ namespace Script
         // public AAAChannel_Leiting channelLeiting;
         public AAAChannel_Ivy channelIvy;
 
-        public override void OnLoad(DataEntry dataEntry, int id, int version)
+        public override void OnLoad(DataEntry dataEntry, int serverId, int version)
         {
-            base.OnLoad(dataEntry, id, version);
+            base.OnLoad(dataEntry, serverId, version);
             base.AddHandler<AAAServer>();
 
             this.aaaScript = new AAAScript { server = this };

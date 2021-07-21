@@ -20,9 +20,9 @@ namespace Script
         public SCUtils scUtils { get; set; }
         public GameScript gameScript { get; private set; }
 
-        public override void OnLoad(DataEntry dataEntry, int id, int version)
+        public override void OnLoad(DataEntry dataEntry, int serverId, int version)
         {
-            base.OnLoad(dataEntry, id, version);
+            base.OnLoad(dataEntry, serverId, version);
             base.AddHandler<PMServer>();
 
             this.pmScript = new PMScript { server = this };

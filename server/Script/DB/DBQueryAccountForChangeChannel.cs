@@ -12,7 +12,7 @@ namespace Script
         {
             var msg = this.server.CastObject<MsgQueryAccountForChangeChannel>(_msg);
             string queryStr = "SELECT * FROM account WHERE channel=@0 AND channelUserId=@1 AND NOT EXISTS(SELECT * FROM account WHERE channel=@2 AND channelUserId=@3);";
-            MySqlParameter[] param = this.MakeParameters(msg.channel, msg.channelUserId, msg.notExistChannel, msg.notExistChannelUserId);
+            MySqlParameter[] param = this.MakeParameters(new List<object> { msg.channel, msg.channelUserId, msg.notExistChannel, msg.notExistChannelUserId });
 
             MySqlDataReader reader = await MySqlHelper.ExecuteReaderAsync(this.dbData.connectionString, queryStr, param);
             var res = new ResQueryAccount();

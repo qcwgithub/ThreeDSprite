@@ -363,7 +363,7 @@ namespace Data
     public class MsgPMAlive
     {
         [Key(0)]
-        public int id;
+        public int pmId;
         [Key(1)]
         public int playerCount;
         [Key(2)]
@@ -413,7 +413,7 @@ namespace Data
     public class MsgLocBroadcast
     {
         [Key(0)]
-        public List<int> ids;
+        public List<int> serverIds;
         [Key(1)]
         public MsgType msgType;
         public virtual object getMsg() { return null; }
@@ -442,7 +442,7 @@ namespace Data
     public class MsgLocReportLoc
     {
         [Key(0)]
-        public int id;
+        public int serverId;
         [Key(1)]
         public Loc loc;
     }
@@ -451,7 +451,7 @@ namespace Data
     public class MsgLocRequestLoc
     {
         [Key(0)]
-        public List<int> ids;
+        public List<int> serverIds;
     }
 
     [MessagePackObject]

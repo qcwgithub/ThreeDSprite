@@ -110,7 +110,7 @@ namespace Data
     public class ResLoginPM
     {
         [Key(0)]
-        public int id;
+        public int playerId;
         [Key(1)]
         public bool keepSyncProfile;
         [Key(2)]

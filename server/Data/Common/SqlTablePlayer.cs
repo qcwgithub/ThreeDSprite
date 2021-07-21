@@ -8,7 +8,7 @@ namespace Data
     public class SqlTablePlayer
     {
         [Key(0)]
-        public int id;
+        public int playerId;
 
         #region SqlTablePlayer Auto
 

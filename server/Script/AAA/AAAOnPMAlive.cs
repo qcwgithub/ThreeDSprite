@@ -20,45 +20,45 @@ namespace Script
 
             this.server.addKnownLoc(msg.loc);
 
-            this.server.data.otherServerSockets[msg.id] = socket;
+            this.server.data.otherServerSockets[msg.pmId] = socket;
 
             var newAdd = false;
-            var pm = data.GetPlayerManagerInfo(msg.id);
+            var pm = data.GetPlayerManagerInfo(msg.pmId);
             if (pm == null)
             {
-                logger.Info("pm connected, id: " + msg.id);
+                logger.Info("pm connected, pmId: " + msg.pmId);
                 newAdd = true;
 
                 pm = new AAAPlayerManagerInfo();
-                pm.id = msg.id;
-                data.playerManagerInfos.Add(msg.id, pm);
+                pm.pmId = msg.pmId;
+                data.playerManagerInfos.Add(msg.pmId, pm);
             }
 
             // 如果AAA挂，尝试恢复玩家数据
             if (msg.playerList != null)
             {
-                logger.InfoFormat("recover player ids from pm{0}, count {1}", pm.id, msg.playerList.Count);
+                logger.InfoFormat("recover player ids from pm{0}, count {1}", pm.pmId, msg.playerList.Count);
 
                 for (int i = 0; i < msg.playerList.Count; i++)
                 {
                     var playerId = msg.playerList[i];
-                    var player = data.GetPlayerInfo(playerId);
-                    if (player != null && player.pmId > 0 && player.pmId != pm.id)
+                    var player = data.GetPlayer(playerId);
+                    if (player != null && player.pmId > 0 && player.pmId != pm.pmId)
                     {
-                        this.server.logger.ErrorFormat("player pm conflict, player.pmId: {0}, pm.id: {1}", player.pmId, pm.id);
+                        this.server.logger.ErrorFormat("player pm conflict, player.pmId: {0}, pmId: {1}", player.pmId, pm.pmId);
                         // 这种情况不修正 player.pmId，错了就错了，问题也不大
                     }
                     else
                     {
-                        logger.WarnFormat("recover playerId: {0}, pmId: {1}", playerId, pm.id);
+                        logger.WarnFormat("recover playerId: {0}, pmId: {1}", playerId, pm.pmId);
                         if (player == null)
                         {
-                            player = new AAAPlayerInfo();
-                            player.id = playerId;
+                            player = new AAAPlayer();
+                            player.playerId = playerId;
                             // player.socket = null;
-                            data.playerInfos.Add(playerId, player);
+                            data.playerDict.Add(playerId, player);
                         }
-                        player.pmId = pm.id;
+                        player.pmId = pm.pmId;
                     }
                 }
             }

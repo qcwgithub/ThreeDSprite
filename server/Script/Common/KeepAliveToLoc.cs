@@ -18,13 +18,13 @@ namespace Script
 
             if (this.baseData.needReportToLoc)
             {
-                int id = this.server.myLoc().id;
-                this.server.logger.Info("Keep alive to loc " + id);
+                int serverId = this.server.myLoc().serverId;
+                this.server.logger.Info("Keep alive to loc " + serverId);
                 this.baseData.needReportToLoc = false;
 
                 var r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.LOC_ID, 
                     MsgType.LocReportLoc,
-                    new MsgLocReportLoc { id = this.baseData.id, loc = this.server.myLoc() }
+                    new MsgLocReportLoc { serverId = this.baseData.serverId, loc = this.server.myLoc() }
                 );
                 if (r.err != ECode.Success)
                 {

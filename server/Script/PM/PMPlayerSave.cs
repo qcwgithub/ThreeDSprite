@@ -22,7 +22,7 @@ namespace Script
             this.server.pmScript.clearDestroyTimer(player);
 
             MsgSavePlayer msgSave = new MsgSavePlayer();
-            msgSave.playerId = player.id;
+            msgSave.playerId = player.playerId;
 
             List<string> buffer = null;
             SqlTablePlayer last = player.lastProfile;
@@ -58,7 +58,7 @@ namespace Script
             {
                 fieldsStr = string.Join(null, buffer.ToArray());
             }
-            this.logger.InfoFormat("{0} place: {1}, playerId: {2}, fields: [{3}]", this.msgName, msg.place, player.id, fieldsStr);
+            this.logger.InfoFormat("{0} place: {1}, playerId: {2}, fields: [{3}]", this.msgName, msg.place, player.playerId, fieldsStr);
 
             //// reply
             return ECode.Success.toTask();

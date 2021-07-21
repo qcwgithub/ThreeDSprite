@@ -13,9 +13,9 @@ namespace Script
         }
         public LocScript locScript;
 
-        public override void OnLoad(DataEntry dataEntry, int id, int version)
+        public override void OnLoad(DataEntry dataEntry, int serverId, int version)
         {
-            base.OnLoad(dataEntry, id, version);
+            base.OnLoad(dataEntry, serverId, version);
             base.AddHandler<LocServer>();
 
             this.locScript = new LocScript { server = this };

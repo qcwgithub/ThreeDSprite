@@ -12,18 +12,18 @@ namespace Script
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.CastObject<MsgLocRequestLoc>(_msg);
-            this.logger.Info("LocRequestLoc ids: " + JsonUtils.stringify(msg.ids));
+            this.logger.Info("LocRequestLoc ids: " + JsonUtils.stringify(msg.serverIds));
 
-            if (msg.ids == null)
+            if (msg.serverIds == null)
             {
-                msg.ids = new List<int>();
+                msg.serverIds = new List<int>();
                 foreach (var kv in this.locData.map)
                 {
-                    msg.ids.Add(kv.Key);
+                    msg.serverIds.Add(kv.Key);
                 }
             }
 
-            if (msg.ids.Count == 0)
+            if (msg.serverIds.Count == 0)
             {
                 return ECode.Success;
             }
@@ -34,9 +34,9 @@ namespace Script
             res.locs = new List<Loc>();
             while (true)
             {
-                int id = msg.ids[index];
+                int serverId = msg.serverIds[index];
                 LocServerInfo info;
-                if (!this.locData.map.TryGetValue(id, out info))
+                if (!this.locData.map.TryGetValue(serverId, out info))
                 {
                     await this.server.waitAsync(1000);
                 }
@@ -44,7 +44,7 @@ namespace Script
                 {
                     res.locs.Add(info.loc);
                     index++;
-                    if (index == msg.ids.Count)
+                    if (index == msg.serverIds.Count)
                     {
                         break;
                     }

@@ -162,52 +162,52 @@ public class ServerConst
         }
     }
 
-    public static int getOutPortByServerId(int id)
+    public static int getOutPortByServerId(int serverId)
     {
-        if (id == AAA_ID)
+        if (serverId == AAA_ID)
         {
             return AAA_OUT_PORT;
         }
-        else if (id >= PM_START_ID && id <= PM_END_ID)
+        else if (serverId >= PM_START_ID && serverId <= PM_END_ID)
         {
-            return PM_START_OUT_PORT + (id - PM_START_ID);
+            return PM_START_OUT_PORT + (serverId - PM_START_ID);
         }
-        else if (id >= BM_START_ID && id <= BM_END_ID)
+        else if (serverId >= BM_START_ID && serverId <= BM_END_ID)
         {
-            return BM_START_OUT_PORT + (id - BM_START_ID);
+            return BM_START_OUT_PORT + (serverId - BM_START_ID);
         }
         else
         {
             return 0;
         }
     }
-    public static int getInPortByServerId(int id)
+    public static int getInPortByServerId(int serverId)
     {
-        if (id == LOC_ID)
+        if (serverId == LOC_ID)
         {
             return LOC_PORT;
         }
-        else if (id == AAA_ID)
+        else if (serverId == AAA_ID)
         {
             return AAA_IN_PORT;
         }
-        else if (id == WEB_ID)
+        else if (serverId == WEB_ID)
         {
             return WEB_PORT;
         }
-        else if (id == DB_ACCOUNT_ID)
+        else if (serverId == DB_ACCOUNT_ID)
         {
             return DB_ACCOUNT_PORT;
         }
-        else if (id == DB_PLAYER_ID)
+        else if (serverId == DB_PLAYER_ID)
         {
             return DB_PLAYER_PORT;
         }
-        else if (id == DB_LOG_ID)
+        else if (serverId == DB_LOG_ID)
         {
             return DB_LOG_PORT;
         }
-        else if (id == LOBBY_ID)
+        else if (serverId == LOBBY_ID)
         {
             return LOBBY_IN_PORT;
         }

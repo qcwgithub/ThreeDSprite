@@ -10,7 +10,7 @@ namespace Data
         public bool grantedToStart = false;
 
         // id: 所有服务器都不同
-        public int id;
+        public int serverId;
         public ITcpListenerCallback tcpListenerCallback;
         public ITcpClientCallback tcpClientCallback;
 

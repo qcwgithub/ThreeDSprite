@@ -19,44 +19,6 @@ namespace Script
             return await this.QueryDBPlayer(MsgType.DBQueryPlayerById, msg);
         }
 
-        private string createInsertQueryStr(PMPlayer player, List<string> fields, List<object> values)
-        {
-            var L = fields.Count;
-            if (L == 0)
-            {
-                return null;
-            }
-            if (L != values.Count)
-            {
-                this.server.logger.Error("createInsertQueryStr fields.length != values.length");
-                return null;
-            }
-
-            List<string> buffer = new List<string>();
-            buffer.Add("INSERT INTO player (id,");//) VALUES (" + player.id + ",");
-            for (int i = 0; i < L; i++)
-            {
-                buffer.Add(fields[i]);
-                if (i < L - 1)
-                {
-                    buffer.Add(",");
-                }
-            }
-            buffer.Add(") VALUES (" + player.id + ",");
-            for (int i = 0; i < L; i++)
-            {
-                buffer.Add("@" + i);
-                if (i < L - 1)
-                {
-                    buffer.Add(",");
-                }
-            }
-            buffer.Add(")");
-
-            var queryStr = string.Join(null, buffer.ToArray());
-            return queryStr;
-        }
-
         public void SavePlayer(PMPlayer player, MsgSavePlayer msg)
         {
             this.QueryDBPlayer(MsgType.DBSavePlayer, msg);
@@ -74,7 +36,7 @@ namespace Script
             {
                 player = new SqlTablePlayer
                 {
-                    id = player.id,
+                    playerId = player.playerId,
                 }
             };
 

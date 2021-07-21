@@ -6,11 +6,11 @@ namespace Data
     {
         public int battleId = 0;
 
-        public Dictionary<int, LobbyPlayerInfo> playerInfos = new Dictionary<int, LobbyPlayerInfo>();
-        public LobbyPlayerInfo GetPlayerInfo(int id)
+        public Dictionary<int, LobbyPlayer> playerDict = new Dictionary<int, LobbyPlayer>();
+        public LobbyPlayer GetPlayer(int playerId)
         {
-            LobbyPlayerInfo info;
-            return this.playerInfos.TryGetValue(id, out info) ? info : null;
+            LobbyPlayer player;
+            return this.playerDict.TryGetValue(playerId, out player) ? player : null;
         }
         
         public Dictionary<int, LobbyBMInfo> bmInfos = new Dictionary<int, LobbyBMInfo>();

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Data
 {
-    public sealed class LobbyPlayerInfo : ServerData
+    public sealed class LobbyPlayer
     {
         public int playerId;
         public int bmId;

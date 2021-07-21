@@ -18,7 +18,7 @@ namespace Script
                 return ECode.PlayerNotExist;
             }
             
-            this.server.logger.Info(this.msgName + ", playerId: " + player.id);
+            this.server.logger.Info(this.msgName + ", playerId: " + player.playerId);
 
             if (!this.server.tcpClientScript.isServerConnected(ServerConst.LOBBY_ID))
             {
@@ -26,7 +26,7 @@ namespace Script
             }
 
             var lobbyMsg = new MsgLobbyPlayerEnterBattle();
-            lobbyMsg.playerId = player.id;
+            lobbyMsg.playerId = player.playerId;
             MyResponse r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.LOBBY_ID, MsgType.LobbyPlayerEnterBattle, lobbyMsg);
             if (r.err != ECode.Success)
             {

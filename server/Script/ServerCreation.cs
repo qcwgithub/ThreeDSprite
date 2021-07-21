@@ -19,65 +19,65 @@ namespace Script
             var list = new List<Server>();
             for (int i = 0; i < dataEntry.serverIds.Count; i++)
             {
-                int id = dataEntry.serverIds[i];
+                int serverId = dataEntry.serverIds[i];
 
-                if (id == ServerConst.LOC_ID)
+                if (serverId == ServerConst.LOC_ID)
                 {
                     var s = new LocServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
-                else if (id == ServerConst.AAA_ID)
+                else if (serverId == ServerConst.AAA_ID)
                 {
                     var s = new AAAServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
-                else if (id == ServerConst.WEB_ID)
+                else if (serverId == ServerConst.WEB_ID)
                 {
                     continue;
                 }
-                else if (id == ServerConst.MONITOR_ID)
+                else if (serverId == ServerConst.MONITOR_ID)
                 {                    
                     var s = new MonitorServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                     continue;
                 }
-                else if (id == ServerConst.DB_ACCOUNT_ID)
+                else if (serverId == ServerConst.DB_ACCOUNT_ID)
                 {
                     var s = new DBServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
-                else if (id == ServerConst.DB_PLAYER_ID)
+                else if (serverId == ServerConst.DB_PLAYER_ID)
                 {
                     var s = new DBServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
-                else if (id == ServerConst.DB_LOG_ID)
+                else if (serverId == ServerConst.DB_LOG_ID)
                 {
                     var s = new DBServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
-                else if (id >= ServerConst.PM_START_ID && id <= ServerConst.PM_END_ID)
+                else if (serverId >= ServerConst.PM_START_ID && serverId <= ServerConst.PM_END_ID)
                 {
                     var s = new PMServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
-                else if (id == ServerConst.LOBBY_ID)
+                else if (serverId == ServerConst.LOBBY_ID)
                 {
                     var s = new LobbyServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
-                else if (id >= ServerConst.BM_START_ID && id <= ServerConst.BM_END_ID)
+                else if (serverId >= ServerConst.BM_START_ID && serverId <= ServerConst.BM_END_ID)
                 {
                     var s = new BMServer();
-                    s.OnLoad(dataEntry, id, version);
+                    s.OnLoad(dataEntry, serverId, version);
                     list.Add(s);
                 }
                 else

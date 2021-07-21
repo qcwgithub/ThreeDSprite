@@ -18,7 +18,7 @@ namespace Script
                 return ECode.PlayerNotExist;
             }
             
-            this.server.logger.Info(this.msgName + ", playerId: " + player.id);
+            this.server.logger.Info(this.msgName + ", playerId: " + player.playerId);
             
             var res = new ResChangeCharacter();
             ECode e = this.server.gameScript.ChangeCharacterCheck(player, msg, res);

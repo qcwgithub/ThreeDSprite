@@ -21,19 +21,19 @@ namespace Script
             while (helper.ReadRow())
             {
                 CharacterConfig c = new CharacterConfig();
-                c.id = helper.ReadInt("id");
+                c.characterId = helper.ReadInt("characterId");
                 c.name = helper.ReadString("name");
                 c.prefab = helper.ReadString("prefab");
 
-                _.characterConfigDict.Add(c.id, c);
+                _.characterConfigDict.Add(c.characterId, c);
 
-                if (_.minCharacterConfigId == -1 || c.id < _.minCharacterConfigId)
+                if (_.minCharacterConfigId == -1 || c.characterId < _.minCharacterConfigId)
                 {
-                    _.minCharacterConfigId = c.id;
+                    _.minCharacterConfigId = c.characterId;
                 }
-                if (_.maxCharacterConfigId == -1 || c.id > _.maxCharacterConfigId)
+                if (_.maxCharacterConfigId == -1 || c.characterId > _.maxCharacterConfigId)
                 {
-                    _.maxCharacterConfigId = c.id;
+                    _.maxCharacterConfigId = c.characterId;
                 }
             }
         }

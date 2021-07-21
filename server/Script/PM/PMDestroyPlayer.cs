@@ -17,7 +17,7 @@ namespace Script
             var script = this.pmScript;
             var logger = this.logger;
 
-            this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, data.playerInfos.Count);
+            this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, data.playerDict.Count);
 
             PMPlayer player = data.GetPlayerInfo(msg.playerId);
             if (player == null)
@@ -35,10 +35,10 @@ namespace Script
 
             // 保存一次
             script.clearSaveTimer(player);
-            var msgSave = new MsgPlayerSCSave { playerId = player.id, place = this.msgName };
+            var msgSave = new MsgPlayerSCSave { playerId = player.playerId, place = this.msgName };
             this.server.proxyDispatch(null, MsgType.PMPlayerSave, msgSave, null);
 
-            data.playerInfos.Remove(msg.playerId);
+            data.playerDict.Remove(msg.playerId);
             return ECode.Success.toTask();
         }
     }

@@ -12,7 +12,7 @@ namespace Script
         {
             var msg = this.server.CastObject<MsgDBChangeChannel>(_msg);
             string queryStr = "UPDATE account SET channel=@0, channelUserId=@1, userInfo=@2 WHERE channel=@3 AND channelUserId=@4;";
-            MySqlParameter[] param = this.MakeParameters(msg.channel2, msg.channelUserId2, msg.userInfo, msg.channel1, msg.channelUserId1);
+            MySqlParameter[] param = this.MakeParameters(new List<object> { msg.channel2, msg.channelUserId2, msg.userInfo, msg.channel1, msg.channelUserId1 });
 
             int affectedRow = await MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, queryStr, param);
             return new MyResponse(ECode.Success, null);

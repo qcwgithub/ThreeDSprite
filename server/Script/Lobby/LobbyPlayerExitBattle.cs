@@ -9,8 +9,8 @@ namespace Script
         public override async Task<MyResponse> handle(TcpClientData socket, object _msg)
         {
             var msg = this.server.CastObject<MsgLobbyPlayerExitBattle>(_msg);
-            LobbyPlayerInfo lobbyPlayerInfo;
-            if (!this.server.lobbyData.playerInfos.TryGetValue(msg.playerId, out lobbyPlayerInfo))
+            LobbyPlayer lobbyPlayerInfo;
+            if (!this.server.lobbyData.playerDict.TryGetValue(msg.playerId, out lobbyPlayerInfo))
             {
                 return ECode.PlayerNotInBattle;
             }
@@ -28,7 +28,7 @@ namespace Script
             LobbyBattleInfo battleInfo = bmInfo.battles[lobbyPlayerInfo.battleId];
             battleInfo.playerIds.Remove(msg.playerId);
 
-            this.server.lobbyData.playerInfos.Remove(msg.playerId);
+            this.server.lobbyData.playerDict.Remove(msg.playerId);
             return ECode.Success;
         }
     }

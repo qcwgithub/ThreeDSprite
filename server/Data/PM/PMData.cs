@@ -12,11 +12,11 @@ namespace Data
     public sealed class PMData : ServerData, IGameConfigs
     {
         // playerId -> PlayerData
-        public Dictionary<int, PMPlayer> playerInfos = new Dictionary<int, PMPlayer>();
-        public PMPlayer GetPlayerInfo(int id)
+        public Dictionary<int, PMPlayer> playerDict = new Dictionary<int, PMPlayer>();
+        public PMPlayer GetPlayerInfo(int playerId)
         {
-            PMPlayer info;
-            return this.playerInfos.TryGetValue(id, out info) ? info : null;
+            PMPlayer player;
+            return this.playerDict.TryGetValue(playerId, out player) ? player : null;
         }
 
         public _PMActive alive = new _PMActive

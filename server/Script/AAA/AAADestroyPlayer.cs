@@ -14,7 +14,7 @@ namespace Script
             var msg = this.server.CastObject<MsgDestroyPlayer>(_msg);
             var aaaData = this.aaaData;
             var aaaScript = this.aaaScript;
-            this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, aaaData.playerInfos.Count);
+            this.logger.InfoFormat("{0} place: {1}, playerId: {2}, preCount: {3}", this.msgName, msg.place, msg.playerId, aaaData.playerDict.Count);
 
             var playerlock = "player_" + msg.playerId;
             // if (this.baseScript.isLocked(playerlock))
@@ -23,22 +23,22 @@ namespace Script
             //     return ECode.PlayerLock.toTask();
             // }
 
-            AAAPlayerInfo playerInfo = aaaData.GetPlayerInfo(msg.playerId);
+            AAAPlayer playerInfo = aaaData.GetPlayer(msg.playerId);
             if (playerInfo == null)
             {
                 this.server.logger.ErrorFormat("{0} player not exit, playerId: {1}", this.msgName, msg.playerId);
                 return new MyResponse(ECode.PlayerNotExist).toTask();
             }
 
-            aaaData.playerInfos.Remove(msg.playerId);
+            aaaData.playerDict.Remove(msg.playerId);
 
             if (playerInfo.pmId > 0)
             {
                 var pmInfo = aaaData.GetPlayerManagerInfo(playerInfo.pmId);
                 if (pmInfo != null)
                 {
-                    var msgPm = new MsgDestroyPlayer { playerId = playerInfo.id, place = msg.place };
-                    this.server.tcpClientScript.sendToServer(pmInfo.id, MsgType.PMDestroyPlayer, msgPm, null);
+                    var msgPm = new MsgDestroyPlayer { playerId = playerInfo.playerId, place = msg.place };
+                    this.server.tcpClientScript.sendToServer(pmInfo.pmId, MsgType.PMDestroyPlayer, msgPm, null);
                 }
                 else
                 {

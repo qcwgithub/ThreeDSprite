@@ -61,7 +61,7 @@ namespace Script
                 return ECode.Success;
             }
 
-            string queryStr = string.Format("UPDATE player SET {0} WHERE id={1};", string.Join(",", fields), msg.playerId);
+            string queryStr = string.Format("UPDATE player SET {0} WHERE playerId={1};", string.Join(",", fields), msg.playerId);
             MySqlParameter[] param = this.MakeParameters(values);
 
             int affectedRows = await MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, queryStr, param);

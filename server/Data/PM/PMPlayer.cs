@@ -13,7 +13,7 @@ namespace Data
         public string channel = null;
         public string channelUserId = null;
         public string token = null;
-        public int id = 0;
+        public int playerId = 0;
         public int destroyTimer = 0;
 
         public int onlineTimeMs = 0;

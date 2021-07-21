@@ -11,10 +11,10 @@ namespace Script
     {
         public override MsgType msgType { get { return MsgType.DBQuery; } }
         
-        protected MySqlParameter[] MakeParameters(params object[] values)
+        protected MySqlParameter[] MakeParameters(List<object> values)
         {
-            var array = new MySqlParameter[values.Length];
-            for (int i = 0; i < values.Length; i++)
+            var array = new MySqlParameter[values.Count];
+            for (int i = 0; i < values.Count; i++)
             {
                 array[i] = new MySqlParameter("@" + i, values[i]);
             }

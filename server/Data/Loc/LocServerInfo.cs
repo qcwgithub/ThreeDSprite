@@ -2,7 +2,7 @@ namespace Data
 {
     public sealed class LocServerInfo
     {
-        public int id;
+        public int serverId;
         public Loc loc;
     }
 }

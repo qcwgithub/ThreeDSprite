@@ -1346,7 +1346,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(6);
-            writer.Write(value.id);
+            writer.Write(value.serverId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.inIp, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.outIp, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.outDomain, options);
@@ -1364,7 +1364,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __id__ = default(int);
+            var __serverId__ = default(int);
             var __inIp__ = default(string);
             var __outIp__ = default(string);
             var __outDomain__ = default(string);
@@ -1376,7 +1376,7 @@ namespace MessagePack.Formatters.Data
                 switch (i)
                 {
                     case 0:
-                        __id__ = reader.ReadInt32();
+                        __serverId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __inIp__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
@@ -1400,7 +1400,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.Loc();
-            ____result.id = __id__;
+            ____result.serverId = __serverId__;
             ____result.inIp = __inIp__;
             ____result.outIp = __outIp__;
             ____result.outDomain = __outDomain__;
@@ -2670,7 +2670,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.ids, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.serverIds, options);
             formatterResolver.GetFormatterWithVerify<global::Data.MsgType>().Serialize(ref writer, value.msgType, options);
         }
 
@@ -2684,7 +2684,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __ids__ = default(global::System.Collections.Generic.List<int>);
+            var __serverIds__ = default(global::System.Collections.Generic.List<int>);
             var __msgType__ = default(global::Data.MsgType);
 
             for (int i = 0; i < length; i++)
@@ -2692,7 +2692,7 @@ namespace MessagePack.Formatters.Data
                 switch (i)
                 {
                     case 0:
-                        __ids__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
+                        __serverIds__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
                         break;
                     case 1:
                         __msgType__ = formatterResolver.GetFormatterWithVerify<global::Data.MsgType>().Deserialize(ref reader, options);
@@ -2704,7 +2704,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.MsgLocBroadcast();
-            ____result.ids = __ids__;
+            ____result.serverIds = __serverIds__;
             ____result.msgType = __msgType__;
             reader.Depth--;
             return ____result;
@@ -2724,7 +2724,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(3);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.ids, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.serverIds, options);
             formatterResolver.GetFormatterWithVerify<global::Data.MsgType>().Serialize(ref writer, value.msgType, options);
             formatterResolver.GetFormatterWithVerify<global::Data.MsgAAAAction>().Serialize(ref writer, value.msg, options);
         }
@@ -2740,7 +2740,7 @@ namespace MessagePack.Formatters.Data
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __msg__ = default(global::Data.MsgAAAAction);
-            var __ids__ = default(global::System.Collections.Generic.List<int>);
+            var __serverIds__ = default(global::System.Collections.Generic.List<int>);
             var __msgType__ = default(global::Data.MsgType);
 
             for (int i = 0; i < length; i++)
@@ -2751,7 +2751,7 @@ namespace MessagePack.Formatters.Data
                         __msg__ = formatterResolver.GetFormatterWithVerify<global::Data.MsgAAAAction>().Deserialize(ref reader, options);
                         break;
                     case 0:
-                        __ids__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
+                        __serverIds__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
                         break;
                     case 1:
                         __msgType__ = formatterResolver.GetFormatterWithVerify<global::Data.MsgType>().Deserialize(ref reader, options);
@@ -2764,7 +2764,7 @@ namespace MessagePack.Formatters.Data
 
             var ____result = new global::Data.MsgLocBroadcastMsgAAAAction();
             ____result.msg = __msg__;
-            ____result.ids = __ids__;
+            ____result.serverIds = __serverIds__;
             ____result.msgType = __msgType__;
             reader.Depth--;
             return ____result;
@@ -2784,7 +2784,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(3);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.ids, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.serverIds, options);
             formatterResolver.GetFormatterWithVerify<global::Data.MsgType>().Serialize(ref writer, value.msgType, options);
             formatterResolver.GetFormatterWithVerify<global::Data.MsgPMAction>().Serialize(ref writer, value.msg, options);
         }
@@ -2800,7 +2800,7 @@ namespace MessagePack.Formatters.Data
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __msg__ = default(global::Data.MsgPMAction);
-            var __ids__ = default(global::System.Collections.Generic.List<int>);
+            var __serverIds__ = default(global::System.Collections.Generic.List<int>);
             var __msgType__ = default(global::Data.MsgType);
 
             for (int i = 0; i < length; i++)
@@ -2811,7 +2811,7 @@ namespace MessagePack.Formatters.Data
                         __msg__ = formatterResolver.GetFormatterWithVerify<global::Data.MsgPMAction>().Deserialize(ref reader, options);
                         break;
                     case 0:
-                        __ids__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
+                        __serverIds__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
                         break;
                     case 1:
                         __msgType__ = formatterResolver.GetFormatterWithVerify<global::Data.MsgType>().Deserialize(ref reader, options);
@@ -2824,7 +2824,7 @@ namespace MessagePack.Formatters.Data
 
             var ____result = new global::Data.MsgLocBroadcastMsgPMAction();
             ____result.msg = __msg__;
-            ____result.ids = __ids__;
+            ____result.serverIds = __serverIds__;
             ____result.msgType = __msgType__;
             reader.Depth--;
             return ____result;
@@ -2844,7 +2844,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
-            writer.Write(value.id);
+            writer.Write(value.serverId);
             formatterResolver.GetFormatterWithVerify<global::Data.Loc>().Serialize(ref writer, value.loc, options);
         }
 
@@ -2858,7 +2858,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __id__ = default(int);
+            var __serverId__ = default(int);
             var __loc__ = default(global::Data.Loc);
 
             for (int i = 0; i < length; i++)
@@ -2866,7 +2866,7 @@ namespace MessagePack.Formatters.Data
                 switch (i)
                 {
                     case 0:
-                        __id__ = reader.ReadInt32();
+                        __serverId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __loc__ = formatterResolver.GetFormatterWithVerify<global::Data.Loc>().Deserialize(ref reader, options);
@@ -2878,7 +2878,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.MsgLocReportLoc();
-            ____result.id = __id__;
+            ____result.serverId = __serverId__;
             ____result.loc = __loc__;
             reader.Depth--;
             return ____result;
@@ -2898,7 +2898,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.ids, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.serverIds, options);
         }
 
         public global::Data.MsgLocRequestLoc Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -2911,14 +2911,14 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __ids__ = default(global::System.Collections.Generic.List<int>);
+            var __serverIds__ = default(global::System.Collections.Generic.List<int>);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __ids__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
+                        __serverIds__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -2927,7 +2927,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.MsgLocRequestLoc();
-            ____result.ids = __ids__;
+            ____result.serverIds = __serverIds__;
             reader.Depth--;
             return ____result;
         }
@@ -3724,7 +3724,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(5);
-            writer.Write(value.id);
+            writer.Write(value.pmId);
             writer.Write(value.playerCount);
             formatterResolver.GetFormatterWithVerify<global::Data.Loc>().Serialize(ref writer, value.loc, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.playerList, options);
@@ -3741,7 +3741,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __id__ = default(int);
+            var __pmId__ = default(int);
             var __playerCount__ = default(int);
             var __loc__ = default(global::Data.Loc);
             var __playerList__ = default(global::System.Collections.Generic.List<int>);
@@ -3752,7 +3752,7 @@ namespace MessagePack.Formatters.Data
                 switch (i)
                 {
                     case 0:
-                        __id__ = reader.ReadInt32();
+                        __pmId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __playerCount__ = reader.ReadInt32();
@@ -3773,7 +3773,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.MsgPMAlive();
-            ____result.id = __id__;
+            ____result.pmId = __pmId__;
             ____result.playerCount = __playerCount__;
             ____result.loc = __loc__;
             ____result.playerList = __playerList__;
@@ -4220,7 +4220,15 @@ namespace MessagePack.Formatters.Data
                 return;
             }
 
-            writer.WriteArrayHeader(0);
+            IFormatterResolver formatterResolver = options.Resolver;
+            writer.WriteArrayHeader(7);
+            writer.Write(value.playerId);
+            formatterResolver.GetFormatterWithVerify<int?>().Serialize(ref writer, value.level, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.money, options);
+            formatterResolver.GetFormatterWithVerify<int?>().Serialize(ref writer, value.diamond, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.portrait, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.userName, options);
+            formatterResolver.GetFormatterWithVerify<int?>().Serialize(ref writer, value.characterConfigId, options);
         }
 
         public global::Data.MsgSavePlayer Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -4231,12 +4239,41 @@ namespace MessagePack.Formatters.Data
             }
 
             options.Security.DepthStep(ref reader);
+            IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __playerId__ = default(int);
+            var __level__ = default(int?);
+            var __money__ = default(string);
+            var __diamond__ = default(int?);
+            var __portrait__ = default(string);
+            var __userName__ = default(string);
+            var __characterConfigId__ = default(int?);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
+                    case 0:
+                        __playerId__ = reader.ReadInt32();
+                        break;
+                    case 1:
+                        __level__ = formatterResolver.GetFormatterWithVerify<int?>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __money__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __diamond__ = formatterResolver.GetFormatterWithVerify<int?>().Deserialize(ref reader, options);
+                        break;
+                    case 4:
+                        __portrait__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 5:
+                        __userName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 6:
+                        __characterConfigId__ = formatterResolver.GetFormatterWithVerify<int?>().Deserialize(ref reader, options);
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -4244,6 +4281,13 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.MsgSavePlayer();
+            ____result.playerId = __playerId__;
+            ____result.level = __level__;
+            ____result.money = __money__;
+            ____result.diamond = __diamond__;
+            ____result.portrait = __portrait__;
+            ____result.userName = __userName__;
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -5262,7 +5306,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(10);
-            writer.Write(value.id);
+            writer.Write(value.playerId);
             writer.Write(value.keepSyncProfile);
             formatterResolver.GetFormatterWithVerify<global::Data.Profile>().Serialize(ref writer, value.profile, options);
             writer.Write(value.timeMs);
@@ -5284,7 +5328,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __id__ = default(int);
+            var __playerId__ = default(int);
             var __keepSyncProfile__ = default(bool);
             var __profile__ = default(global::Data.Profile);
             var __timeMs__ = default(int);
@@ -5300,7 +5344,7 @@ namespace MessagePack.Formatters.Data
                 switch (i)
                 {
                     case 0:
-                        __id__ = reader.ReadInt32();
+                        __playerId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __keepSyncProfile__ = reader.ReadBoolean();
@@ -5336,7 +5380,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.ResLoginPM();
-            ____result.id = __id__;
+            ____result.playerId = __playerId__;
             ____result.keepSyncProfile = __keepSyncProfile__;
             ____result.profile = __profile__;
             ____result.timeMs = __timeMs__;
@@ -5962,7 +6006,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(7);
-            writer.Write(value.id);
+            writer.Write(value.playerId);
             writer.Write(value.level);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.money, options);
             writer.Write(value.diamond);
@@ -5981,7 +6025,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __id__ = default(int);
+            var __playerId__ = default(int);
             var __level__ = default(int);
             var __money__ = default(string);
             var __diamond__ = default(int);
@@ -5994,7 +6038,7 @@ namespace MessagePack.Formatters.Data
                 switch (i)
                 {
                     case 0:
-                        __id__ = reader.ReadInt32();
+                        __playerId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __level__ = reader.ReadInt32();
@@ -6021,7 +6065,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.SqlTablePlayer();
-            ____result.id = __id__;
+            ____result.playerId = __playerId__;
             ____result.level = __level__;
             ____result.money = __money__;
             ____result.diamond = __diamond__;

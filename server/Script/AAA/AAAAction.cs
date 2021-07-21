@@ -29,7 +29,7 @@ namespace Script
                 for (int i = 0; i < msg.pmPlayerRunScript.playerIds.Count; i++)
                 {
                     var playerId = msg.pmPlayerRunScript.playerIds[i];
-                    var player = aaaData.GetPlayerInfo(playerId);
+                    var player = aaaData.GetPlayer(playerId);
                     if (player == null)
                     {
                         this.logger.InfoFormat("{0} playerRunScript player==null, playerId: {1}", this.msgName, playerId);
@@ -49,7 +49,7 @@ namespace Script
                             script = msg.pmPlayerRunScript.script,
                         }
                     };
-                    await this.server.tcpClientScript.sendToServerAsync(pm.id, MsgType.ServerAction, msgAction);
+                    await this.server.tcpClientScript.sendToServerAsync(pm.pmId, MsgType.ServerAction, msgAction);
                     await this.server.waitAsync(10);
                 }
             }
@@ -58,14 +58,14 @@ namespace Script
             {
                 while (true)
                 {
-                    this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, aaaData.playerInfos.Count);
-                    if (aaaData.playerInfos.Count == 0)
+                    this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, aaaData.playerDict.Count);
+                    if (aaaData.playerDict.Count == 0)
                     {
                         break;
                     }
 
                     int playerId = 0;
-                    foreach (var kv in aaaData.playerInfos)
+                    foreach (var kv in aaaData.playerDict)
                     {
                         playerId = kv.Key;
                         break;
@@ -83,7 +83,7 @@ namespace Script
                 {
                     this.logger.InfoFormat("{0} destroyPlayerIds left {1}", this.msgName, msg.destroyPlayerIds.Count - i);
                     var playerId = msg.destroyPlayerIds[i];
-                    if (!aaaData.playerInfos.ContainsKey(playerId))
+                    if (!aaaData.playerDict.ContainsKey(playerId))
                     {
                         continue;
                     }

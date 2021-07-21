@@ -33,19 +33,19 @@ namespace Script
         public void setDestroyTimer(PMPlayer player, string place)
         {
             var SEC = this.pmData.playerDestroyTimeoutS;
-            this.logger.InfoFormat("setDestroyTimer playerId({1}), seconds({2}), reason({3})", place, player.id, SEC, place);
+            this.logger.InfoFormat("setDestroyTimer playerId({1}), seconds({2}), reason({3})", place, player.playerId, SEC, place);
             this.clearDestroyTimer(player, false);
 
             player.destroyTimer = this.server.setTimer(
                 SEC, MsgType.PMSendDestroyPlayer, 
-                new MsgSendDestroyPlayer { playerId = player.id });
+                new MsgSendDestroyPlayer { playerId = player.playerId });
         }
 
         public void clearDestroyTimer(PMPlayer player, bool log = true)
         {
             if (log)
             {
-                this.logger.InfoFormat("clearDestroyTimer playerId({0})", player.id);
+                this.logger.InfoFormat("clearDestroyTimer playerId({0})", player.playerId);
             }
             if (player.destroyTimer > 0)
             {
@@ -59,7 +59,7 @@ namespace Script
             var SEC = this.pmData.playerSCSaveIntervalS;
             this.clearSaveTimer(player);
 
-            MsgPlayerSCSave msg = new MsgPlayerSCSave { playerId = player.id, place = "timer" };
+            MsgPlayerSCSave msg = new MsgPlayerSCSave { playerId = player.playerId, place = "timer" };
             this.server.setTimer(SEC, MsgType.PMPlayerSave, msg);
         }
 
@@ -71,17 +71,6 @@ namespace Script
                 player.saveTimer = 0;
             }
         }
-
-        // addDiamond_save_log(PMPlayerInfo player, reason: AddDiamondReason, int delta) {
-        //     // execute
-        //     player.diamond += delta;
-
-        //     // save
-        //     this.server.pmSqlUtils.saveField(player.id, "diamond", player.diamond);
-
-        //     // log
-        //     this.server.logSqlUtils.playerDiamond(player.id, reason, delta, player.diamond);
-        // }
 
         public void postHandlePayResult(PMPlayer player, ResPay res)
         {

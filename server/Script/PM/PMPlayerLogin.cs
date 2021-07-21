@@ -31,7 +31,7 @@ namespace Script
                 return ECode.InvalidToken.toTask();
             }
 
-            this.logger.InfoFormat("{0} playerId: {1}, preCount: {2}", this.msgName, player.id, this.data.playerInfos.Count);
+            this.logger.InfoFormat("{0} playerId: {1}, preCount: {2}", this.msgName, player.playerId, this.data.playerDict.Count);
 
             // if (this.baseScript.isMessageListenerAdded(socket)) {
             //     this.logger.info("PMPlayerLogin playerId: " + msg2.playerId + " MessageListenerAdded");
@@ -44,7 +44,7 @@ namespace Script
             {
                 // 情况1 同一个客户端意外地登录2次
                 // 情况2 客户端A已经登录，B再登录
-                this.logger.InfoFormat("2 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, oldSocket.getSocketId());
+                this.logger.InfoFormat("2 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.playerId, oldSocket.getSocketId());
                 var resMisc = new ResMisc
                 {
                     oldSocketTimestamp = this.server.tcpClientScript.getClientTimestamp(oldSocket),
@@ -57,7 +57,7 @@ namespace Script
             {
                 // 情况1 同一个客户端意外地登录2次
                 // 情况2 客户端A已经登录，B再登录
-                this.logger.ErrorFormat("playerId {0}, ECode.OldPlayer {1}", player.id, oldPlayer.id);
+                this.logger.ErrorFormat("playerId {0}, ECode.OldPlayer {1}", player.playerId, oldPlayer.playerId);
                 return ECode.OldPlayer.toTask();
             }
 
@@ -89,7 +89,7 @@ namespace Script
             var locAAA = this.server.getKnownLoc(ServerConst.AAA_ID);
             var res = new ResLoginPM
             {
-                id = player.id,
+                playerId = player.playerId,
                 keepSyncProfile = true,
                 // profile = (msg.isReconnect ? null : player.profile), // 重连不用发送 profile，省流量，同时客户端在重连时并不需要使用
                 timeMs = this.server.gameScript.getTimeS(),

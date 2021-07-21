@@ -18,17 +18,17 @@ namespace Script
                 return ECode.PlayerNotExist;
             }
 
-            this.logger.InfoFormat("{0} playerId: {1}, ({2},{3}) -> ({4},{5})", this.msgName, player.id, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2);
+            this.logger.InfoFormat("{0} playerId: {1}, ({2},{3}) -> ({4},{5})", this.msgName, player.playerId, msg.channel1, msg.channelUserId1, msg.channel2, msg.channelUserId2);
 
             var resPM = new ResChangeChannel();
             var err = this.server.gameScript.ChangeChannelCheck(player, msg, resPM);
             if (err != ECode.Success)
             {
-                this.pmScript.playerOperError(this, player.id, err);
+                this.pmScript.playerOperError(this, player.playerId, err);
                 return err;
             }
 
-            msg.playerId = player.id;
+            msg.playerId = player.playerId;
 
             var r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.AAA_ID, MsgType.AAAChangeChannel, msg);
             if (r.err != ECode.Success)

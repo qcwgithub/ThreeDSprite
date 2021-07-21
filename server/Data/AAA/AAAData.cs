@@ -13,19 +13,19 @@ namespace Data
         // accountInfos: Dictionary<string, AAAAccountInfo> = new Dictionary<string, AAAAccountInfo>();
 
         // player infos
-        public Dictionary<int, AAAPlayerInfo> playerInfos = new Dictionary<int, AAAPlayerInfo>();
-        public AAAPlayerInfo GetPlayerInfo(int id)
+        public Dictionary<int, AAAPlayer> playerDict = new Dictionary<int, AAAPlayer>();
+        public AAAPlayer GetPlayer(int playerId)
         {
-            AAAPlayerInfo info;
-            return this.playerInfos.TryGetValue(id, out info) ? info : null;
+            AAAPlayer info;
+            return this.playerDict.TryGetValue(playerId, out info) ? info : null;
         }
 
         // player manager info
         public Dictionary<int, AAAPlayerManagerInfo> playerManagerInfos = new Dictionary<int, AAAPlayerManagerInfo>();
-        public AAAPlayerManagerInfo GetPlayerManagerInfo(int id)
+        public AAAPlayerManagerInfo GetPlayerManagerInfo(int pmId)
         {
             AAAPlayerManagerInfo info;
-            return this.playerManagerInfos.TryGetValue(id, out info) ? info : null;
+            return this.playerManagerInfos.TryGetValue(pmId, out info) ? info : null;
         }
 
         // 0 means not ready

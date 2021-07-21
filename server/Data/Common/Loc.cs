@@ -5,7 +5,7 @@ namespace Data
     public sealed class Loc
     {
         [Key(0)]
-        public int id;
+        public int serverId;
         [Key(1)]
         public string inIp;
         [Key(2)]

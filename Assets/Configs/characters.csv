@@ -1,4 +1,4 @@
-id,name,prefab
+characterId,name,prefab
 1,alpha,Characters_UI/alpha
 2,ahpple,Characters_UI/ahpple
 3,gina,Characters_UI/gina

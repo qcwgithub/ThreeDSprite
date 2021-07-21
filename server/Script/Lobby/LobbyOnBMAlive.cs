@@ -45,8 +45,8 @@ namespace Script
 
                     foreach (var playerId in battleInfo.playerIds)
                     {
-                        this.server.lobbyData.playerInfos.Add(playerId, 
-                            new LobbyPlayerInfo{ playerId = playerId, bmId = msg.bmId, battleId = battleInfo.battleId });
+                        this.server.lobbyData.playerDict.Add(playerId, 
+                            new LobbyPlayer{ playerId = playerId, bmId = msg.bmId, battleId = battleInfo.battleId });
                     }
                 }
             }

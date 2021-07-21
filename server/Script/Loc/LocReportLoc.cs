@@ -17,27 +17,27 @@ namespace Script
             // }
             // this.logger.Info("bbbccc");
 
-            if (msg.id == ServerConst.LOC_ID)
+            if (msg.serverId == ServerConst.LOC_ID)
             {
                 // loc 不允许再次启动
                 return ECode.ServerIdUsed.toTask();
             }
 
             LocServerInfo info;
-            if (this.locData.map.TryGetValue(msg.id, out info) && this.server.tcpClientScript.isServerConnected(info.id))
+            if (this.locData.map.TryGetValue(msg.serverId, out info) && this.server.tcpClientScript.isServerConnected(info.serverId))
             {
-                this.server.logger.Error("server id used, id: " + msg.id);
+                this.server.logger.Error("server id used, id: " + msg.serverId);
                 return ECode.ServerIdUsed.toTask();
             }
 
-            this.logger.Info("+" + msg.id);
+            this.logger.Info("+" + msg.serverId);
             // add to dict
-            this.server.data.otherServerSockets[msg.id] = socket;
+            this.server.data.otherServerSockets[msg.serverId] = socket;
 
             info = new LocServerInfo();
-            info.id = msg.id;
+            info.serverId = msg.serverId;
             info.loc = msg.loc;
-            this.locData.map[info.id] = info;
+            this.locData.map[info.serverId] = info;
             return ECode.Success.toTask();
         }
     }

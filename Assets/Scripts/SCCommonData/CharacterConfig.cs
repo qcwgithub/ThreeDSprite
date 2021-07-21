@@ -2,7 +2,7 @@ namespace Data
 {
     public class CharacterConfig
     {
-        public int id;
+        public int characterId;
         public string name;
         public string prefab;
     }

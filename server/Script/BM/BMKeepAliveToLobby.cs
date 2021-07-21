@@ -50,7 +50,7 @@ namespace Script
 
             var msgAlive = new MsgBMAlive()
             {
-                bmId = this.baseData.id,
+                bmId = this.baseData.serverId,
                 loc = this.server.myLoc(),
                 allowNewBattle = this.server.bmData.allowNewBattle,
             };

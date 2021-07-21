@@ -8,7 +8,7 @@ namespace Script
     // Server 提供给 IScript 数据、其他脚本的访问
     public abstract partial class Server
     {
-        public int id;
+        public int serverId;
         public int scriptDllVersion;
         public DataEntry dataEntry;
         public ServerData data { get; private set; }
@@ -35,15 +35,15 @@ namespace Script
             this.dispatcher.addHandler(new KeepServerConnections() { server = this });
         }
 
-        public virtual void OnLoad(DataEntry dataEntry, int id, int scriptDllVersion)
+        public virtual void OnLoad(DataEntry dataEntry, int serverId, int scriptDllVersion)
         {
-            this.id = id;
+            this.serverId = serverId;
             this.scriptDllVersion = scriptDllVersion;
             this.dataEntry = dataEntry;
-            this.data = this.dataEntry.serverDatas[this.id];
+            this.data = this.dataEntry.serverDatas[this.serverId];
             this.logger = this.data.logger;
 
-            Console.WriteLine("**** {0}.OnLoad, V{1}", Utils.numberId2stringId(this.id), this.scriptDllVersion);
+            Console.WriteLine("**** {0}.OnLoad, V{1}", Utils.numberId2stringId(this.serverId), this.scriptDllVersion);
 
             this.tcpListenerScript = new TcpListenerScript { server = this };
             this.tcpClientScript = new TcpClientScriptS { server = this };
@@ -68,13 +68,13 @@ namespace Script
 
             if (data.tcpListenerForServer != null)
             {
-                data.tcpListenerForServer.listen(data.knownLocs[data.id].inPort);
+                data.tcpListenerForServer.listen(data.knownLocs[data.serverId].inPort);
                 data.tcpListenerForServer.accept();
             }
 
             if (data.tcpListenerForClient != null)
             {
-                data.tcpListenerForClient.listen(data.knownLocs[data.id].outPort);
+                data.tcpListenerForClient.listen(data.knownLocs[data.serverId].outPort);
                 data.tcpListenerForClient.accept();
             }
 
@@ -90,7 +90,7 @@ namespace Script
 
         public virtual void OnUnload()
         {
-            Console.WriteLine("**** {0}.OnUnload, V{1}", Utils.numberId2stringId(this.id), this.scriptDllVersion);
+            Console.WriteLine("**** {0}.OnUnload, V{1}", Utils.numberId2stringId(this.serverId), this.scriptDllVersion);
 
             // 这个不需要unload，等着被换掉
             // this.baseData.scriptProxy = null;

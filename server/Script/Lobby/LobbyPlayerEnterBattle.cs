@@ -128,13 +128,13 @@ namespace Script
             MyResponse r = null;
             bool alreadyInBattle = false;
 
-            LobbyPlayerInfo lobbyPlayerInfo;
-            if (this.server.lobbyData.playerInfos.TryGetValue(msg.playerId, out lobbyPlayerInfo))
+            LobbyPlayer lobbyPlayer;
+            if (this.server.lobbyData.playerDict.TryGetValue(msg.playerId, out lobbyPlayer))
             {
                 // 玩家已在游戏中
                 alreadyInBattle = true;
-                bmInfo = this.server.lobbyData.bmInfos[lobbyPlayerInfo.bmId];
-                battleInfo = bmInfo.battles[lobbyPlayerInfo.battleId];
+                bmInfo = this.server.lobbyData.bmInfos[lobbyPlayer.bmId];
+                battleInfo = bmInfo.battles[lobbyPlayer.battleId];
             }
             else
             {
@@ -157,17 +157,17 @@ namespace Script
                     return r;
                 }
 
-                lobbyPlayerInfo = new LobbyPlayerInfo();
-                lobbyPlayerInfo.playerId = msg.playerId;
-                lobbyPlayerInfo.bmId = bmInfo.bmId;
-                lobbyPlayerInfo.battleId = battleInfo.battleId;
-                this.server.lobbyData.playerInfos.Add(msg.playerId, lobbyPlayerInfo);
+                lobbyPlayer = new LobbyPlayer();
+                lobbyPlayer.playerId = msg.playerId;
+                lobbyPlayer.bmId = bmInfo.bmId;
+                lobbyPlayer.battleId = battleInfo.battleId;
+                this.server.lobbyData.playerDict.Add(msg.playerId, lobbyPlayer);
             }
 
             var res = new ResLobbyPlayerEnterBattle();
             res.alreadyInBattle = alreadyInBattle;
             res.bmId = bmInfo.bmId;
-            res.battleId = lobbyPlayerInfo.battleId;
+            res.battleId = lobbyPlayer.battleId;
             res.bmIp = this.server.getKnownLoc(bmInfo.bmId).outIp;
             res.bmPort = this.server.getKnownLoc(bmInfo.bmId).outPort;
             res.mapId = battleInfo.mapId;

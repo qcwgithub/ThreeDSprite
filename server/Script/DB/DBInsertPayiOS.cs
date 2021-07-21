@@ -14,7 +14,7 @@ namespace Script
             var msg = this.server.CastObject<MsgInsertPayiOS>(_msg);
 
             string queryStr = "INSERT INTO payios (playerId,env,id,productId,bundleId,quantity,transactionId,originalTransactionId,purchaseDate,expiresDate) VALUES (@0,@1,@2,@3,@4,@5,@6,@7,@8,@9)";
-            var param = this.MakeParameters(msg.playerId, msg.env, msg.id, msg.productId, msg.bundleId, msg.quantity, msg.transactionId, msg.originalTransactionId, msg.purchaseDateMs, msg.expiresDateMs);
+            var param = this.MakeParameters(new List<object> { msg.playerId, msg.env, msg.id, msg.productId, msg.bundleId, msg.quantity, msg.transactionId, msg.originalTransactionId, msg.purchaseDateMs, msg.expiresDateMs });
 
             int affectedRows = await MySqlHelper.ExecuteNonQueryAsync(this.dbData.connectionString, queryStr, param);
             return new MyResponse(ECode.Success, null);

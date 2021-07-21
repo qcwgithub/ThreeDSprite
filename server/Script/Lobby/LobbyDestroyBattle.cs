@@ -27,7 +27,7 @@ namespace Script
 
             foreach (var playerId in battleInfo.playerIds)
             {
-                this.server.lobbyData.playerInfos.Remove(playerId);
+                this.server.lobbyData.playerDict.Remove(playerId);
             }
 
             bmInfo.battles.Remove(msg.battleId);

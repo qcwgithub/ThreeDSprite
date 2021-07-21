@@ -7,7 +7,7 @@ namespace Data
 {
     public class TimerInfo
     {
-        public int id;
+        public int timerId;
         public int timeoutS;
         public int nextTimeS;
         public MsgType msgType;
@@ -28,8 +28,8 @@ namespace Data
         public int nextId = 1;
         public ServerData serverData;
 
-        public SortedDictionary<int, List<TimerInfo>> triggerMap = new SortedDictionary<int, List<TimerInfo>>(new TimerDataComparer());
-        public Dictionary<int, TimerInfo> timerMap = new Dictionary<int, TimerInfo>();
+        public SortedDictionary<int, List<TimerInfo>> triggerDict = new SortedDictionary<int, List<TimerInfo>>(new TimerDataComparer());
+        public Dictionary<int, TimerInfo> timerDict = new Dictionary<int, TimerInfo>();
 
         public DateTime baseDate = new DateTime(1970, 1, 1);
         public int minTimeS = int.MaxValue;

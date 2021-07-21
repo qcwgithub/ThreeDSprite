@@ -12,7 +12,7 @@ namespace Script
         public PMPlayer newPlayer(int playerId, string channel, string channelUserId, string userName)
         {
             var player = new PMPlayer();
-            player.id = playerId;
+            player.playerId = playerId;
             return player;
         }
     }

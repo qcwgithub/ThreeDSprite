@@ -12,20 +12,20 @@ namespace Script
     {
         void InitBaseData(ServerData data, int serverId, List<int> connectToServerIds)
         {
-            data.id = serverId;
+            data.serverId = serverId;
 
-            data.knownLocs[this.dataEntry.locLoc.id] = dataEntry.locLoc;
+            data.knownLocs[this.dataEntry.locLoc.serverId] = dataEntry.locLoc;
             
             var selfLoc = new Loc
             {
-                id = serverId,
+                serverId = serverId,
                 inIp = this.dataEntry.thisMachineConfig.inIp,
                 outIp = this.dataEntry.thisMachineConfig.outIp,
                 outDomain = this.dataEntry.thisMachineConfig.outDomain,
                 inPort = ServerConst.getInPortByServerId(serverId),
                 outPort = ServerConst.getOutPortByServerId(serverId),
             };
-            data.knownLocs[selfLoc.id] = selfLoc;
+            data.knownLocs[selfLoc.serverId] = selfLoc;
 
             data.logger = this.log4NetCreation.getLogger(Utils.numberId2stringId(serverId));
             data.timerSData = new Data.TimerSData { serverData = data };
@@ -41,18 +41,18 @@ namespace Script
             data.tcpListenerForClient = new TcpListenerData() { isForClient = true, serverData = data };
         }
 
-        LocData CreateLocData(int id)
+        LocData CreateLocData(int serverId)
         {
             var data = new LocData();
-            InitBaseData(data, id, new List<int>());
+            InitBaseData(data, serverId, new List<int>());
             InitListenForServer(data);
             return data;
         }
 
-        AAAData CreateAAAData(int id)
+        AAAData CreateAAAData(int serverId)
         {
             var data = new AAAData();
-            InitBaseData(data, id, new List<int>
+            InitBaseData(data, serverId, new List<int>
             {
                 ServerConst.LOC_ID,
                 ServerConst.DB_ACCOUNT_ID,
@@ -67,15 +67,15 @@ namespace Script
             return data;
         }
 
-        DBData CreateDBData(int id)
+        DBData CreateDBData(int serverId)
         {
             var data = new DBData();
-            InitBaseData(data, id, new List<int> { ServerConst.LOC_ID });
-            if (id == ServerConst.DB_ACCOUNT_ID)
+            InitBaseData(data, serverId, new List<int> { ServerConst.LOC_ID });
+            if (serverId == ServerConst.DB_ACCOUNT_ID)
             {
                 data.sqlConfig = this.configLoader.AccountSqlConfig;
             }
-            else if (id == ServerConst.DB_PLAYER_ID)
+            else if (serverId == ServerConst.DB_PLAYER_ID)
             {
                 data.sqlConfig = this.configLoader.PlayerSqlConfig;
             }
@@ -85,7 +85,7 @@ namespace Script
             }
 
             data.connectionString = string.Format("server={0};user={1};database={2};password={3}",
-                data.knownLocs[data.id].inIp,
+                data.knownLocs[data.serverId].inIp,
                 data.sqlConfig.user,
                 data.sqlConfig.database,
                 data.sqlConfig.password);
@@ -95,10 +95,10 @@ namespace Script
             return data;
         }
 
-        PMData CreatePMData(int id)
+        PMData CreatePMData(int serverId)
         {
             var data = new PMData();
-            InitBaseData(data, id, new List<int> {
+            InitBaseData(data, serverId, new List<int> {
                 ServerConst.LOC_ID,
                 ServerConst.AAA_ID,
                 ServerConst.DB_PLAYER_ID,
@@ -114,18 +114,18 @@ namespace Script
             return data;
         }
 
-        LobbyData CreateLobbyData(int id)
+        LobbyData CreateLobbyData(int serverId)
         {
             var data = new LobbyData();
-            InitBaseData(data, id, new List<int>());
+            InitBaseData(data, serverId, new List<int>());
             InitListenForServer(data);
             return data;
         }
 
-        BMData CreateBMData(int id)
+        BMData CreateBMData(int serverId)
         {
             var data = new BMData();
-            InitBaseData(data, id, new List<int> 
+            InitBaseData(data, serverId, new List<int> 
             {
                 ServerConst.LOBBY_ID,
             });
@@ -135,10 +135,10 @@ namespace Script
             return data;
         }
 
-        MonitorData CreateMonitorData(int id)
+        MonitorData CreateMonitorData(int serverId)
         {
             var data = new MonitorData();
-            InitBaseData(data, id, new List<int> { ServerConst.LOC_ID });
+            InitBaseData(data, serverId, new List<int> { ServerConst.LOC_ID });
 
             // start watch file
             data.inputFileName = @"./input/input.txt";
@@ -152,41 +152,41 @@ namespace Script
             return data;
         }
 
-        ServerData CreateServerData(int id)
+        ServerData CreateServerData(int serverId)
         {
-            if (id == ServerConst.LOC_ID)
+            if (serverId == ServerConst.LOC_ID)
             {
-                return CreateLocData(id);
+                return CreateLocData(serverId);
             }
-            else if (id == ServerConst.AAA_ID)
+            else if (serverId == ServerConst.AAA_ID)
             {
-                return CreateAAAData(id);
+                return CreateAAAData(serverId);
             }
-            else if (id == ServerConst.WEB_ID)
+            else if (serverId == ServerConst.WEB_ID)
             {
 
             }
-            else if (id == ServerConst.MONITOR_ID)
+            else if (serverId == ServerConst.MONITOR_ID)
             {
-                return CreateMonitorData(id);
+                return CreateMonitorData(serverId);
             }
-            else if (id == ServerConst.DB_ACCOUNT_ID ||
-                id == ServerConst.DB_PLAYER_ID ||
-                id == ServerConst.DB_LOG_ID)
+            else if (serverId == ServerConst.DB_ACCOUNT_ID ||
+                serverId == ServerConst.DB_PLAYER_ID ||
+                serverId == ServerConst.DB_LOG_ID)
             {
-                return CreateDBData(id);
+                return CreateDBData(serverId);
             }
-            else if (id >= ServerConst.PM_START_ID && id <= ServerConst.PM_END_ID)
+            else if (serverId >= ServerConst.PM_START_ID && serverId <= ServerConst.PM_END_ID)
             {
-                return CreatePMData(id);
+                return CreatePMData(serverId);
             }
-            else if (id == ServerConst.LOBBY_ID)
+            else if (serverId == ServerConst.LOBBY_ID)
             {
-                return CreateLobbyData(id);
+                return CreateLobbyData(serverId);
             }
-            else if (id >= ServerConst.BM_START_ID && id <= ServerConst.BM_END_ID)
+            else if (serverId >= ServerConst.BM_START_ID && serverId <= ServerConst.BM_END_ID)
             {
-                return CreateBMData(id);
+                return CreateBMData(serverId);
             }
 
             return null;
@@ -215,7 +215,7 @@ namespace Script
             dataEntry.thisMachineConfig = configLoader.ThisMachineConfig;
             dataEntry.locLoc = new Loc()
             {
-                id = ServerConst.LOC_ID,
+                serverId = ServerConst.LOC_ID,
                 inIp = configLoader.LocConfig.host,
                 outIp = null,
                 outDomain = null,

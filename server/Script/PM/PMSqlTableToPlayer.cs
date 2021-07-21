@@ -10,7 +10,7 @@ namespace Script
         public PMPlayer DecodePlayer(SqlTablePlayer sql)
         {
             var player = new PMPlayer();
-            player.id = sql.id;
+            player.playerId = sql.playerId;
             var profile = player.profile = new Profile();
 
             #region PMSqlTableToPlayer Auto

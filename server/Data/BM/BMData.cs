@@ -13,12 +13,12 @@ namespace Data
 
     public sealed class BMData : ServerData, IBattleConfigs
     {
-        // id -> BMBattleInfo
+        // battleId -> BMBattle
         public Dictionary<int, BMBattle> battleDict = new Dictionary<int, BMBattle>();
-        public BMBattle GetBattle(int id)
+        public BMBattle GetBattle(int battleId)
         {
-            BMBattle info;
-            return this.battleDict.TryGetValue(id, out info) ? info : null;
+            BMBattle battle;
+            return this.battleDict.TryGetValue(battleId, out battle) ? battle : null;
         }
 
         public _BMActive alive = new _BMActive

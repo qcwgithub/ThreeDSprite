@@ -13,7 +13,7 @@ namespace Script
             while (await helper.ReadRow())
             {
                 var table = new SqlTablePlayer();
-                table.id = helper.GetInt32("id");
+                table.playerId = helper.GetInt32("id");
                 // ..........
                 list.Add(table);
             }

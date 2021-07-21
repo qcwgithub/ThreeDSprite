@@ -20,9 +20,9 @@ namespace Script
         public btDestroyScript destroyScript { get; set; }
         public btUpdateScript updateScript { get; set; }
 
-        public override void OnLoad(DataEntry dataEntry, int id, int version)
+        public override void OnLoad(DataEntry dataEntry, int serverId, int version)
         {
-            base.OnLoad(dataEntry, id, version);
+            base.OnLoad(dataEntry, serverId, version);
             base.AddHandler<BMServer>();
             
             this.dispatcher.addHandler(new BMKeepAliveToLobby { server = this });

@@ -42,7 +42,7 @@ namespace Script
                 this.logger.Info("alive.requirePlayerList = true");
                 alive.requirePlayerList = false;
                 playerList = new List<int>();
-                foreach (var kv in pmData.playerInfos)
+                foreach (var kv in pmData.playerDict)
                 {
                     playerList.Add(kv.Key);
                 }
@@ -50,8 +50,8 @@ namespace Script
 
             var msgAlive = new MsgPMAlive()
             {
-                id = this.baseData.id,
-                playerCount = pmData.playerInfos.Count,
+                pmId = this.baseData.serverId,
+                playerCount = pmData.playerDict.Count,
                 loc = this.server.myLoc(),
                 playerList = playerList,
                 allowNewPlayer = pmData.allowNewPlayer,

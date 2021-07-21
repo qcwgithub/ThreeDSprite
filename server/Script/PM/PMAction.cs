@@ -23,8 +23,8 @@ namespace Script
 
                 var msgAlive = new MsgPMAlive
                 {
-                    id = this.baseData.id,
-                    playerCount = pmData.playerInfos.Count,
+                    pmId = this.baseData.serverId,
+                    playerCount = pmData.playerDict.Count,
                     loc = this.server.myLoc(),
                     playerList = null,
                     allowNewPlayer = pmData.allowNewPlayer,
@@ -73,13 +73,13 @@ namespace Script
             {
                 while (true)
                 {
-                    this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, pmData.playerInfos.Count);
-                    if (pmData.playerInfos.Count == 0)
+                    this.logger.InfoFormat("{0} destroyAllPlayers left {1}", this.msgName, pmData.playerDict.Count);
+                    if (pmData.playerDict.Count == 0)
                     {
                         break;
                     }
                     int playerId = 0;
-                    foreach (var kv in pmData.playerInfos)
+                    foreach (var kv in pmData.playerDict)
                     {
                         playerId = kv.Key;
                         break;
@@ -97,7 +97,7 @@ namespace Script
                 {
                     this.logger.InfoFormat("{0} destroyPlayerIds left {1}", this.msgName, msg.destroyPlayerIds.Count - i);
                     var playerId = msg.destroyPlayerIds[i];
-                    if (!pmData.playerInfos.ContainsKey(playerId))
+                    if (!pmData.playerDict.ContainsKey(playerId))
                     {
                         continue;
                     }

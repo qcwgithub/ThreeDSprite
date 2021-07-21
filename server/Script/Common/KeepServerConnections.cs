@@ -15,7 +15,7 @@ namespace Script
             this.logger.Info("requestLoc " + JsonUtils.stringify(ids));
             var r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.LOC_ID,
                     MsgType.LocRequestLoc,
-                    new MsgLocRequestLoc { ids = ids });
+                    new MsgLocRequestLoc { serverIds = ids });
 
             if (r.err != ECode.Success)
             {

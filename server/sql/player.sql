@@ -1,5 +1,5 @@
 CREATE TABLE player (
-    id INT NOT NULL,
+    playerId INT NOT NULL,
     createTime DATETIME,
     
     misc TEXT,

@@ -448,7 +448,7 @@ public class PMServer : ClientServer
                     {
                         //Debug.Log(">LoginToPM - success, r.res: " + JSON.stringify(r.res));
                         // _this.onSuccess(r.res as ResLoginPM);
-                        Debug.Log(">LoginToPM - success, resPM.id: " + (r.res as ResLoginPM).id);
+                        Debug.Log(">LoginToPM - success, resPM.id: " + (r.res as ResLoginPM).playerId);
                     }
                 }, 10000);
             }

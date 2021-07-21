@@ -12,10 +12,10 @@ namespace Script
 
         private void broadcast(MsgLocBroadcast msg)
         {
-            int selfIndex = msg.ids.IndexOf(ServerConst.MONITOR_ID);
+            int selfIndex = msg.serverIds.IndexOf(ServerConst.MONITOR_ID);
             if (selfIndex >= 0)
             {
-                msg.ids.RemoveAt(selfIndex);
+                msg.serverIds.RemoveAt(selfIndex);
             }
 
             if (this.server.tcpClientScript.isServerConnected(ServerConst.LOC_ID))
@@ -28,7 +28,7 @@ namespace Script
             }
             else
             {
-                if (msg.ids.Count > 0)
+                if (msg.serverIds.Count > 0)
                 {
                     this.server.logger.Info("broadcast failed, loc is not connected");
                 }
@@ -140,27 +140,27 @@ namespace Script
             {
                 case RELOAD_SCRIPT:
                     {
-                        this.broadcast(new MsgLocBroadcast { ids = ids, msgType = MsgType.ReloadScript });
+                        this.broadcast(new MsgLocBroadcast { serverIds = ids, msgType = MsgType.ReloadScript });
                     }
                     break;
 
                 case SHUT_DOWN:
                     {
-                        this.broadcast(new MsgLocBroadcast { ids = ids, msgType = MsgType.Shutdown });
+                        this.broadcast(new MsgLocBroadcast { serverIds = ids, msgType = MsgType.Shutdown });
                     }
                     break;
 
                 case PM_ACTION:
                     {
                         var msg = JsonUtils.parse<MsgPMAction>(param);
-                        this.broadcast(new MsgLocBroadcastMsgPMAction { ids = ids, msgType = MsgType.ServerAction, msg = msg });
+                        this.broadcast(new MsgLocBroadcastMsgPMAction { serverIds = ids, msgType = MsgType.ServerAction, msg = msg });
                     }
                     break;
 
                 case AAA_ACTION:
                     {
                         var msg = JsonUtils.parse<MsgAAAAction>(param);
-                        this.broadcast(new MsgLocBroadcastMsgAAAAction { ids = ids, msgType = MsgType.ServerAction, msg = msg });
+                        this.broadcast(new MsgLocBroadcastMsgAAAAction { serverIds = ids, msgType = MsgType.ServerAction, msg = msg });
                     }
                     break;
                 default:

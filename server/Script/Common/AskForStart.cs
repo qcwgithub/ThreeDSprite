@@ -18,7 +18,7 @@ namespace Script
                 return ECode.Success;
             }
 
-            Console.WriteLine("**** {0} {1}", Utils.numberId2stringId(this.server.id), this.msgName);
+            Console.WriteLine("**** {0} {1}", Utils.numberId2stringId(this.server.serverId), this.msgName);
 
             if (!data.timerSData.started)
             {
@@ -40,7 +40,7 @@ namespace Script
 
             bool connected = locSocket.isConnected();
             bool connecting = locSocket.isConnecting();
-            bool isLocAndConnectLocFail = (data.id == ServerConst.LOC_ID && !connected && !connecting && connectLocCount > 0);
+            bool isLocAndConnectLocFail = (data.serverId == ServerConst.LOC_ID && !connected && !connecting && connectLocCount > 0);
             if (!isLocAndConnectLocFail)
             {
                 if (!connected)
@@ -59,29 +59,29 @@ namespace Script
                 var r = await this.server.tcpClientScript.sendToServerAsync(
                         ServerConst.LOC_ID,
                         MsgType.LocReportLoc,
-                        new MsgLocReportLoc { id = this.baseData.id, loc = this.server.myLoc() }
+                        new MsgLocReportLoc { serverId = this.baseData.serverId, loc = this.server.myLoc() }
                     );
 
                 if (r.err != ECode.Success)
                 {
                     // console.error("!canStart: " + r.err);
                     // process.exit(1);
-                    Console.WriteLine("**** {0} {1} error: {2}, exit now.", Utils.numberId2stringId(this.server.id), this.msgName, r.err);
+                    Console.WriteLine("**** {0} {1} error: {2}, exit now.", Utils.numberId2stringId(this.server.serverId), this.msgName, r.err);
                     Environment.Exit(0);
                     return ECode.Success;
                 }
             }
 
-            if (data.id == ServerConst.LOC_ID)
+            if (data.serverId == ServerConst.LOC_ID)
             {
                 if (connected)
                 {
                     locSocket.close("loc dose not need to connect to loc");
                 }
-                data.otherServerSockets.Remove(data.id);
+                data.otherServerSockets.Remove(data.serverId);
             }
 
-            Console.WriteLine("**** {0} {1} OK!", Utils.numberId2stringId(this.server.id), this.msgName);
+            Console.WriteLine("**** {0} {1} OK!", Utils.numberId2stringId(this.server.serverId), this.msgName);
             data.grantedToStart = true;
             data.needReportToLoc = false;
             this.server.proxyDispatch(null, MsgType.Start, null, null);

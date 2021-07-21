@@ -10,7 +10,7 @@ namespace Script
         public SqlTablePlayer Convert(PMPlayer player)
         {
             var sql = new SqlTablePlayer();
-            sql.id = player.id;
+            sql.playerId = player.playerId;
 
             var profile = player.profile;
 

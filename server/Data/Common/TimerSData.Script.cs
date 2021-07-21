@@ -7,7 +7,7 @@ namespace Data
     {
         void onTick()
         {
-            if (this.triggerMap.Count == 0)
+            if (this.triggerDict.Count == 0)
             {
                 return;
             }
@@ -18,8 +18,8 @@ namespace Data
                 return;
             }
 
-            List<TimerInfo> list = this.triggerMap[this.minTimeS];
-            this.triggerMap.Remove(this.minTimeS);
+            List<TimerInfo> list = this.triggerDict[this.minTimeS];
+            this.triggerDict.Remove(this.minTimeS);
 
             foreach (TimerInfo info in list)
             {
@@ -30,7 +30,7 @@ namespace Data
             this.minTimeS = int.MaxValue;
 
             // update minTimeS
-            foreach (var kv in this.triggerMap)
+            foreach (var kv in this.triggerDict)
             {
                 this.minTimeS = kv.Key;
                 break;
@@ -40,7 +40,7 @@ namespace Data
             {
                 if (!info.loop)
                 {
-                    this.clearTimer(info.id);
+                    this.clearTimer(info.timerId);
                 }
                 else
                 {
@@ -64,10 +64,10 @@ namespace Data
             }
 
             List<TimerInfo> list;
-            if (!this.triggerMap.TryGetValue(info.nextTimeS, out list))
+            if (!this.triggerDict.TryGetValue(info.nextTimeS, out list))
             {
                 list = new List<TimerInfo>();
-                this.triggerMap.Add(info.nextTimeS, list);
+                this.triggerDict.Add(info.nextTimeS, list);
             }
             list.Add(info);
         }
@@ -86,31 +86,31 @@ namespace Data
 
             var info = new TimerInfo
             {
-                id = this.nextId++,
+                timerId = this.nextId++,
                 timeoutS = timeoutS,
                 nextTimeS = this.getTimeS() + timeoutS,
                 msgType = msgType,
                 msg = msg,
                 loop = loop
             };
-            this.timerMap.Add(info.id, info);
+            this.timerDict.Add(info.timerId, info);
 
             this.addTrigger(info);
 
-            return info.id;
+            return info.timerId;
         }
 
-        public void clearTimer(int id)
+        public void clearTimer(int timerId)
         {
             TimerInfo info;
-            if (this.timerMap.TryGetValue(id, out info))
+            if (this.timerDict.TryGetValue(timerId, out info))
             {
-                this.timerMap.Remove(info.id);
+                this.timerDict.Remove(info.timerId);
 
                 List<TimerInfo> list;
-                if (this.triggerMap.TryGetValue(info.nextTimeS, out list))
+                if (this.triggerDict.TryGetValue(info.nextTimeS, out list))
                 {
-                    int index = list.FindIndex(ele => ele.id == id);
+                    int index = list.FindIndex(ele => ele.timerId == timerId);
                     if (index >= 0)
                     {
                         list.RemoveAt(index);

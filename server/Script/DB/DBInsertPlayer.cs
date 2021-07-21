@@ -15,7 +15,7 @@ namespace Script
             List<object> values = new List<object>();
 
             fields.Add("playerId");
-            values.Add(msg.player.id);
+            values.Add(msg.player.playerId);
 
             #region DBInsertPlayer Auto
 
@@ -36,6 +36,7 @@ namespace Script
 
             fields.Add("characterConfigId");
             values.Add(msg.player.characterConfigId);
+
 
             #endregion DBInsertPlayer Auto
 

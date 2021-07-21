@@ -13,9 +13,9 @@ namespace Script
             }
         }
 
-        public override void OnLoad(DataEntry dataEntry, int id, int version)
+        public override void OnLoad(DataEntry dataEntry, int serverId, int version)
         {
-            base.OnLoad(dataEntry, id, version);
+            base.OnLoad(dataEntry, serverId, version);
             base.AddHandler<MonitorServer>();
 
             // this.dispatcher.addHandler(new MonitorStart { server = this });

@@ -11,11 +11,11 @@ namespace Script
     {
         public void addKnownLoc(Loc loc)
         {
-            this.data.knownLocs[loc.id] = loc;
+            this.data.knownLocs[loc.serverId] = loc;
         }
         public Loc myLoc()
         {
-            return this.data.knownLocs[this.data.id];
+            return this.data.knownLocs[this.data.serverId];
         }
         public Loc getKnownLoc(int id)
         {
@@ -77,7 +77,7 @@ namespace Script
                 if (canExit)
                 {
                     this.logger.Info("Exit now...");
-                    Console.WriteLine("{0} exit now...", Utils.numberId2stringId(this.id));
+                    Console.WriteLine("{0} exit now...", Utils.numberId2stringId(this.serverId));
                     Environment.Exit(0);
                 }
             }

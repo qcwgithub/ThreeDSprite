@@ -45,52 +45,6 @@ namespace Script
             return new MyResponse(ECode.Success, accountInfo);
         }
 
-
-        // 仅 debug 使用
-        // *devAuth(string id) {
-        //     // 暂不限制
-        //     // if (!this.baseScript.isLocalhost()) {
-        //     //     return MyResponse.create(ECode.TestIdIsAllowedOnLocalhost);
-        //     // }
-
-        //     MyResponse r = null;
-        //     SqlTableAccount accountInfo = null;
-
-        //     if (this.baseScript.isNumber(id)) {
-        //         // 纯数字当做 playerId，登录已有账号
-        //         var playerId = parseInt(id);
-
-        //         r = r = await this.server.aaaSqlUtils.queryAccountByPlayerIdYield(playerId);
-        //         if (r.err != ECode.Success) {
-        //             return r.err;
-        //         }
-
-        //         accountInfo = r.res;
-        //         if (accountInfo == null) {
-        //             return MyResponse.create(ECode.PlayerNotExist);
-        //         }
-        //     }
-        //     else {
-        //         var channel = "test";
-        //         var channelUserId = id;
-        //         r = r = await this.server.aaaSqlUtils.queryAccountYield(channel, channelUserId);
-        //         if (r.err != ECode.Success) {
-        //             return r.err;
-        //         }
-
-        //         accountInfo = r.res;
-        //         if (accountInfo == null) {
-        //             r = r = await this.newAccount(channel, channelUserId);
-        //             if (r.err != ECode.Success) {
-        //                 return r.err;
-        //             }
-        //             accountInfo = r.res;
-        //         }
-        //     }
-
-        //     return new MyResponse(ECode.Success, accountInfo);
-        // }
-
         // *verifyLogin_leiting(string channel, string userlId, string token, string game) {
         //     if (!this.baseScript.checkArgs("SSSS", token, game, channel, channelUserId)) {
         //         return MyResponse.create(ECode.InvalidParam);
@@ -257,13 +211,13 @@ namespace Script
             //     return MyResponse.create(ECode.PlayerLock);
             // }
 
-            var player = aaaData.GetPlayerInfo(accountInfo.playerId);
+            var player = aaaData.GetPlayer(accountInfo.playerId);
             if (player == null)
             {
-                player = new AAAPlayerInfo();
-                player.id = accountInfo.playerId;
+                player = new AAAPlayer();
+                player.playerId = accountInfo.playerId;
                 player.pmId = 0;
-                aaaData.playerInfos.Add(accountInfo.playerId, player);
+                aaaData.playerDict.Add(accountInfo.playerId, player);
             }
 
             // if (player.socket != null && player.socket != socket) {
@@ -283,7 +237,7 @@ namespace Script
             AAAPlayerManagerInfo pm = null;
             if (player.pmId == 0)
             {
-                logger.Info("alloc pm for playerId: " + player.id);
+                logger.Info("alloc pm for playerId: " + player.playerId);
 
                 // 查找人数最少的pm
                 foreach (var kv in aaaData.playerManagerInfos)
@@ -291,7 +245,7 @@ namespace Script
                     var v = kv.Value;
                     if (!v.allowNewPlayer)
                         continue;
-                    if (!this.server.tcpClientScript.isServerConnected(v.id))
+                    if (!this.server.tcpClientScript.isServerConnected(v.pmId))
                         continue;
 
                     if (pm == null || v.playerCount < pm.playerCount)
@@ -299,7 +253,7 @@ namespace Script
                 }
 
                 if (pm != null)
-                    player.pmId = pm.id;
+                    player.pmId = pm.pmId;
             }
             else
             {
@@ -320,19 +274,19 @@ namespace Script
             var token = DateTime.Now.ToString();
             MsgPreparePlayerLogin pmMsg = new MsgPreparePlayerLogin
             {
-                playerId = player.id,
+                playerId = player.playerId,
                 token = token,
                 channel = msg.channel,
                 channelUserId = msg.channelUserId,
                 userName = aaaUserInfo.userName,
             };
-            r = await this.server.tcpClientScript.sendToServerAsync(pm.id, MsgType.PMPreparePlayerLogin, pmMsg);
+            r = await this.server.tcpClientScript.sendToServerAsync(pm.pmId, MsgType.PMPreparePlayerLogin, pmMsg);
             if (r.err != ECode.Success)
             {
                 return r;
             }
 
-            var pmLoc = this.server.getKnownLoc(pm.id);
+            var pmLoc = this.server.getKnownLoc(pm.pmId);
             // string pmUrl = "";
             // if (msg.platform == "ios")
             // {
@@ -348,8 +302,8 @@ namespace Script
             {
                 channel = msg.channel,
                 channelUserId = msg.channelUserId,
-                playerId = player.id,
-                pmId = pm.id,
+                playerId = player.playerId,
+                pmId = pm.pmId,
                 // pmUrl = pmUrl,
                 pmIp = pmLoc.outIp,
                 pmPort = pmLoc.outPort,

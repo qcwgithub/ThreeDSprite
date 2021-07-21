@@ -38,7 +38,7 @@ namespace Script
                 {
                     // 情况1 同一个客户端意外地登录2次
                     // 情况2 客户端A已经登录，B再登录
-                    this.logger.InfoFormat("1 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.id, oldSocket.getSocketId());
+                    this.logger.InfoFormat("1 playerId: {0}, ECode.OldSocket oldSocket: {1}", player.playerId, oldSocket.getSocketId());
 
                     var resMisc = new ResMisc
                     {
@@ -78,7 +78,7 @@ namespace Script
                 }
 
                 //// runtime 初始化
-                data.playerInfos.Add(player.id, player);
+                data.playerDict.Add(player.playerId, player);
             }
 
             if (player.lastProfile == null)

@@ -2227,7 +2227,7 @@ namespace MessagePack.Formatters.Data
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(10);
-            writer.Write(value.id);
+            writer.Write(value.playerId);
             writer.Write(value.keepSyncProfile);
             formatterResolver.GetFormatterWithVerify<global::Data.Profile>().Serialize(ref writer, value.profile, options);
             writer.Write(value.timeMs);
@@ -2249,7 +2249,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __id__ = default(int);
+            var __playerId__ = default(int);
             var __keepSyncProfile__ = default(bool);
             var __profile__ = default(global::Data.Profile);
             var __timeMs__ = default(int);
@@ -2265,7 +2265,7 @@ namespace MessagePack.Formatters.Data
                 switch (i)
                 {
                     case 0:
-                        __id__ = reader.ReadInt32();
+                        __playerId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __keepSyncProfile__ = reader.ReadBoolean();
@@ -2301,7 +2301,7 @@ namespace MessagePack.Formatters.Data
             }
 
             var ____result = new global::Data.ResLoginPM();
-            ____result.id = __id__;
+            ____result.playerId = __playerId__;
             ____result.keepSyncProfile = __keepSyncProfile__;
             ____result.profile = __profile__;
             ____result.timeMs = __timeMs__;
