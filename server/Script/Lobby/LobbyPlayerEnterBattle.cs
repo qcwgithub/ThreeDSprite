@@ -99,12 +99,13 @@ namespace Script
             return new MyResponse(ECode.Success, res);
         }
 
-        async Task<MyResponse> enterBattle(LobbyBMInfo bmInfo, LobbyBattleInfo battleInfo, int playerId)
+        async Task<MyResponse> enterBattle(LobbyBMInfo bmInfo, LobbyBattleInfo battleInfo, int playerId, int characterConfigId)
         {
-            var bmMsg = new MsgBMPlayerEnter();
-            bmMsg.playerId = playerId;
-            bmMsg.battleId = battleInfo.battleId;
-            var r = await this.server.tcpClientScript.sendToServerAsync(bmInfo.bmId, MsgType.BMPlayerEnter, bmMsg);
+            var msg = new MsgBMPlayerEnter();
+            msg.playerId = playerId;
+            msg.battleId = battleInfo.battleId;
+            msg.characterConfigId = characterConfigId;
+            var r = await this.server.tcpClientScript.sendToServerAsync(bmInfo.bmId, MsgType.BMPlayerEnter, msg);
             if (r.err != ECode.Success)
             {
                 return r;
@@ -151,7 +152,7 @@ namespace Script
                     battleInfo = bmInfo.battles[resLobbyCreateBattle.battleId];
                 }
 
-                r = await this.enterBattle(bmInfo, battleInfo, msg.playerId);
+                r = await this.enterBattle(bmInfo, battleInfo, msg.playerId, msg.characterConfigId);
                 if (r.err != ECode.Success)
                 {
                     return r;

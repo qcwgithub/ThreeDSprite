@@ -14,7 +14,7 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
     public CCameraFollow cameraFollow;
     public float Speed = 5f;
     public CInputManager InputManager;
-    public GameObject characterPrefab;
+    public Transform characterParent;
 
     ////////////////////////////////////////////////////////////////////////////////////////
     #region IBattleConfigs
@@ -163,9 +163,18 @@ public class CBattleScene : CSceneBase, IBattleScripts, IBattleConfigs
 
     public void ApplyCharacter(btCharacter character)
     {
+        CharacterConfig characterConfig = sc.game.GetCharacterConfig(character.characterConfigId);
+        
+        GameObject prefab = Resources.Load<GameObject>(characterConfig.prefab_battle);
+        if (prefab == null)
+        {
+            // Debug.LogError("character prefab not exist: " + characterConfig.prefab_battle);
+            return;
+        }
+
         ////
-        GameObject char_go = GameObject.Instantiate(this.characterPrefab);
-        char_go.transform.SetParent(this.characterPrefab.transform.parent, false);
+        GameObject char_go = GameObject.Instantiate(prefab);
+        char_go.transform.SetParent(this.characterParent, false);
         BtCharacter char_mono = char_go.GetComponent<BtCharacter>();
         char_mono.Apply(character, this.BtBattle);
         char_go.SetActive(true);

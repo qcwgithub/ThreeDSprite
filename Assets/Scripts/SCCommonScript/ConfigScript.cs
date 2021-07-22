@@ -23,7 +23,8 @@ namespace Script
                 CharacterConfig c = new CharacterConfig();
                 c.characterId = helper.ReadInt("characterId");
                 c.name = helper.ReadString("name");
-                c.prefab = helper.ReadString("prefab");
+                c.prefab_ui = helper.ReadString("prefab_ui");
+                c.prefab_battle = helper.ReadString("prefab_battle");
 
                 _.characterConfigDict.Add(c.characterId, c);
 

@@ -52,13 +52,13 @@ public class OnBMBattle : OnMessageBase
         foreach (var kv in battle.playerDict)
         {
             BMPlayer p = kv.Value;
-            bs.mainScript.addPlayer(bs.battle, p.playerId, p.battleId);
+            bs.mainScript.addPlayer(bs.battle, p.playerId, p.battleId, p.characterConfigId);
         }
 
         foreach (var kv in battle.characters)
         {
             btCharacter c = kv.Value;
-            btCharacter c2 = bs.mainScript.addCharacter(bs.battle, c.id, c.playerId, c.walkableId, c.pos, c.moveDir);
+            btCharacter c2 = bs.mainScript.addCharacter(bs.battle, c.id, c.playerId, c.characterConfigId, c.walkableId, c.pos, c.moveDir);
 
             if (c.playerId == bs.myPlayerId)
             {

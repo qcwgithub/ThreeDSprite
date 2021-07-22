@@ -8,13 +8,15 @@ namespace Script
 {
     public class btMainScript : btScriptBase
     {
-        public BMPlayer addPlayer(BMBattle battleInfo, int playerId, int battleId)
+        public BMPlayer addPlayer(BMBattle battleInfo, int playerId, int battleId, int characterConfigId)
         {
             var player = new BMPlayer();
             // [0]
             player.playerId = playerId;
             // [1]
             player.battleId = battleId;
+            // [2]
+            player.characterConfigId = characterConfigId;
             // player.token = "";
             // init
             // player.socket = null;
@@ -25,7 +27,7 @@ namespace Script
             return player;
         }
 
-        public btCharacter addCharacter(BMBattle battle, int characterId, int playerId, int walkableId, Vector3 pos, Vector3 moveDir)
+        public btCharacter addCharacter(BMBattle battle, int characterId, int playerId, int characterConfigId, int walkableId, Vector3 pos, Vector3 moveDir)
         {
             btCharacter character = new btCharacter();
             // [0]
@@ -35,10 +37,12 @@ namespace Script
             // [2]
             character.playerId = playerId;
             // [3]
-            character.walkableId = walkableId;
+            character.characterConfigId = characterConfigId;
             // [4]
-            character.pos = pos;
+            character.walkableId = walkableId;
             // [5]
+            character.pos = pos;
+            // [6]
             character.moveDir = moveDir;
             
             character.bodyType = q3BodyType.eDynamicBody;

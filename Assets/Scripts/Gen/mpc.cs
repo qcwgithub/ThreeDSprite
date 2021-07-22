@@ -677,9 +677,10 @@ namespace MessagePack.Formatters.Data
                 return;
             }
 
-            writer.WriteArrayHeader(2);
+            writer.WriteArrayHeader(3);
             writer.Write(value.playerId);
             writer.Write(value.battleId);
+            writer.Write(value.characterConfigId);
         }
 
         public global::Data.BMPlayer Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -693,6 +694,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __playerId__ = default(int);
             var __battleId__ = default(int);
+            var __characterConfigId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -704,6 +706,9 @@ namespace MessagePack.Formatters.Data
                     case 1:
                         __battleId__ = reader.ReadInt32();
                         break;
+                    case 2:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -713,6 +718,7 @@ namespace MessagePack.Formatters.Data
             var ____result = new global::Data.BMPlayer();
             ____result.playerId = __playerId__;
             ____result.battleId = __battleId__;
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -832,10 +838,11 @@ namespace MessagePack.Formatters.Data
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(6);
+            writer.WriteArrayHeader(7);
             formatterResolver.GetFormatterWithVerify<global::Data.btObjectType>().Serialize(ref writer, value.type, options);
             writer.Write(value.id);
             writer.Write(value.playerId);
+            writer.Write(value.characterConfigId);
             writer.Write(value.walkableId);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.pos, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.moveDir, options);
@@ -853,6 +860,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __pos__ = default(global::UnityEngine.Vector3);
             var __playerId__ = default(int);
+            var __characterConfigId__ = default(int);
             var __walkableId__ = default(int);
             var __moveDir__ = default(global::UnityEngine.Vector3);
             var __type__ = default(global::Data.btObjectType);
@@ -862,16 +870,19 @@ namespace MessagePack.Formatters.Data
             {
                 switch (i)
                 {
-                    case 4:
+                    case 5:
                         __pos__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
                     case 2:
                         __playerId__ = reader.ReadInt32();
                         break;
                     case 3:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
+                    case 4:
                         __walkableId__ = reader.ReadInt32();
                         break;
-                    case 5:
+                    case 6:
                         __moveDir__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
                     case 0:
@@ -889,6 +900,7 @@ namespace MessagePack.Formatters.Data
             var ____result = new global::Data.btCharacter();
             ____result.pos = __pos__;
             ____result.playerId = __playerId__;
+            ____result.characterConfigId = __characterConfigId__;
             ____result.walkableId = __walkableId__;
             ____result.moveDir = __moveDir__;
             ____result.type = __type__;

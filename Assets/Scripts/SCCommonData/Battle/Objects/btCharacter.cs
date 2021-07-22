@@ -15,6 +15,9 @@ namespace Data
         public int playerId;
 
         [Key(3)]
+        public int characterConfigId;
+
+        [Key(4)]
         public int walkableId;
 
         [IgnoreMember]
@@ -38,10 +41,10 @@ namespace Data
         [IgnoreMember]
         public Vector3 prePos { get; set; }
 
-        [Key(4)]
+        [Key(5)]
         public Vector3 pos { get; set; }
 
-        [Key(5)]
+        [Key(6)]
         public Vector3 moveDir;
     }
 }

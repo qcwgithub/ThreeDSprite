@@ -1,4 +1,4 @@
-characterId,name,prefab
-1,alpha,Characters_UI/alpha
-2,ahpple,Characters_UI/ahpple
-3,gina,Characters_UI/gina
+characterId,name,prefab_ui,prefab_battle
+1,alpha,Characters_UI/alpha,Characters/alpha
+2,ahpple,Characters_UI/ahpple,Characters/ahpple
+3,gina,Characters_UI/gina,Characters/gina

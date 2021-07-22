@@ -531,6 +531,8 @@ namespace Data
     {
         [Key(0)]
         public int playerId;
+        [Key(1)]
+        public int characterConfigId;
     }
     
     [MessagePackObject]
@@ -566,6 +568,8 @@ namespace Data
         public int playerId;
         [Key(1)]
         public int battleId;
+        [Key(2)]
+        public int characterConfigId;
     }
     
     [MessagePackObject]

@@ -866,9 +866,10 @@ namespace MessagePack.Formatters.Data
                 return;
             }
 
-            writer.WriteArrayHeader(2);
+            writer.WriteArrayHeader(3);
             writer.Write(value.playerId);
             writer.Write(value.battleId);
+            writer.Write(value.characterConfigId);
         }
 
         public global::Data.BMPlayer Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -882,6 +883,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __playerId__ = default(int);
             var __battleId__ = default(int);
+            var __characterConfigId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -893,6 +895,9 @@ namespace MessagePack.Formatters.Data
                     case 1:
                         __battleId__ = reader.ReadInt32();
                         break;
+                    case 2:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -902,6 +907,7 @@ namespace MessagePack.Formatters.Data
             var ____result = new global::Data.BMPlayer();
             ____result.playerId = __playerId__;
             ____result.battleId = __battleId__;
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -1021,10 +1027,11 @@ namespace MessagePack.Formatters.Data
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(6);
+            writer.WriteArrayHeader(7);
             formatterResolver.GetFormatterWithVerify<global::Data.btObjectType>().Serialize(ref writer, value.type, options);
             writer.Write(value.id);
             writer.Write(value.playerId);
+            writer.Write(value.characterConfigId);
             writer.Write(value.walkableId);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.pos, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.moveDir, options);
@@ -1042,6 +1049,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __pos__ = default(global::UnityEngine.Vector3);
             var __playerId__ = default(int);
+            var __characterConfigId__ = default(int);
             var __walkableId__ = default(int);
             var __moveDir__ = default(global::UnityEngine.Vector3);
             var __type__ = default(global::Data.btObjectType);
@@ -1051,16 +1059,19 @@ namespace MessagePack.Formatters.Data
             {
                 switch (i)
                 {
-                    case 4:
+                    case 5:
                         __pos__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
                     case 2:
                         __playerId__ = reader.ReadInt32();
                         break;
                     case 3:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
+                    case 4:
                         __walkableId__ = reader.ReadInt32();
                         break;
-                    case 5:
+                    case 6:
                         __moveDir__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
                     case 0:
@@ -1078,6 +1089,7 @@ namespace MessagePack.Formatters.Data
             var ____result = new global::Data.btCharacter();
             ____result.pos = __pos__;
             ____result.playerId = __playerId__;
+            ____result.characterConfigId = __characterConfigId__;
             ____result.walkableId = __walkableId__;
             ____result.moveDir = __moveDir__;
             ____result.type = __type__;
@@ -1702,9 +1714,10 @@ namespace MessagePack.Formatters.Data
                 return;
             }
 
-            writer.WriteArrayHeader(2);
+            writer.WriteArrayHeader(3);
             writer.Write(value.playerId);
             writer.Write(value.battleId);
+            writer.Write(value.characterConfigId);
         }
 
         public global::Data.MsgBMPlayerEnter Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1718,6 +1731,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __playerId__ = default(int);
             var __battleId__ = default(int);
+            var __characterConfigId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -1729,6 +1743,9 @@ namespace MessagePack.Formatters.Data
                     case 1:
                         __battleId__ = reader.ReadInt32();
                         break;
+                    case 2:
+                        __characterConfigId__ = reader.ReadInt32();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -1738,6 +1755,7 @@ namespace MessagePack.Formatters.Data
             var ____result = new global::Data.MsgBMPlayerEnter();
             ____result.playerId = __playerId__;
             ____result.battleId = __battleId__;
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -2576,8 +2594,9 @@ namespace MessagePack.Formatters.Data
                 return;
             }
 
-            writer.WriteArrayHeader(1);
+            writer.WriteArrayHeader(2);
             writer.Write(value.playerId);
+            writer.Write(value.characterConfigId);
         }
 
         public global::Data.MsgLobbyPlayerEnterBattle Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -2590,6 +2609,7 @@ namespace MessagePack.Formatters.Data
             options.Security.DepthStep(ref reader);
             var length = reader.ReadArrayHeader();
             var __playerId__ = default(int);
+            var __characterConfigId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -2597,6 +2617,9 @@ namespace MessagePack.Formatters.Data
                 {
                     case 0:
                         __playerId__ = reader.ReadInt32();
+                        break;
+                    case 1:
+                        __characterConfigId__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();
@@ -2606,6 +2629,7 @@ namespace MessagePack.Formatters.Data
 
             var ____result = new global::Data.MsgLobbyPlayerEnterBattle();
             ____result.playerId = __playerId__;
+            ____result.characterConfigId = __characterConfigId__;
             reader.Depth--;
             return ____result;
         }
@@ -4224,7 +4248,7 @@ namespace MessagePack.Formatters.Data
             writer.WriteArrayHeader(7);
             writer.Write(value.playerId);
             formatterResolver.GetFormatterWithVerify<int?>().Serialize(ref writer, value.level, options);
-            formatterResolver.GetFormatterWithVerify<System.Numerics.BigInteger>().Serialize(ref writer, value.money, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Serialize(ref writer, value.money, options);
             formatterResolver.GetFormatterWithVerify<int?>().Serialize(ref writer, value.diamond, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.portrait, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.userName, options);
@@ -4243,7 +4267,7 @@ namespace MessagePack.Formatters.Data
             var length = reader.ReadArrayHeader();
             var __playerId__ = default(int);
             var __level__ = default(int?);
-            var __money__ = default(System.Numerics.BigInteger);
+            var __money__ = default(global::System.Numerics.BigInteger);
             var __diamond__ = default(int?);
             var __portrait__ = default(string);
             var __userName__ = default(string);
@@ -4260,7 +4284,7 @@ namespace MessagePack.Formatters.Data
                         __level__ = formatterResolver.GetFormatterWithVerify<int?>().Deserialize(ref reader, options);
                         break;
                     case 2:
-                        __money__ = formatterResolver.GetFormatterWithVerify<System.Numerics.BigInteger>().Deserialize(ref reader, options);
+                        __money__ = formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Deserialize(ref reader, options);
                         break;
                     case 3:
                         __diamond__ = formatterResolver.GetFormatterWithVerify<int?>().Deserialize(ref reader, options);

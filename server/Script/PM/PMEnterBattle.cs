@@ -27,6 +27,7 @@ namespace Script
 
             var lobbyMsg = new MsgLobbyPlayerEnterBattle();
             lobbyMsg.playerId = player.playerId;
+            lobbyMsg.characterConfigId = player.profile.characterConfigId;
             MyResponse r = await this.server.tcpClientScript.sendToServerAsync(ServerConst.LOBBY_ID, MsgType.LobbyPlayerEnterBattle, lobbyMsg);
             if (r.err != ECode.Success)
             {

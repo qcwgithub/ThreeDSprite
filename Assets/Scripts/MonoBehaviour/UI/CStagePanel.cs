@@ -25,10 +25,10 @@ public class CStagePanel : MonoBehaviour
         int characterConfigId = sc.profile.characterConfigId;
         // load character prefab
         CharacterConfig config = sc.game.GetCharacterConfig(characterConfigId);
-        GameObject prefab = Resources.Load<GameObject>(config.prefab);
+        GameObject prefab = Resources.Load<GameObject>(config.prefab_ui);
         if (prefab == null)
         {
-            Debug.LogError("character prefab not exist: " + config.prefab);
+            Debug.LogError("character prefab not exist: " + config.prefab_ui);
             return;
         }
 

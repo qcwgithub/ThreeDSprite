@@ -24,7 +24,7 @@ namespace Script
                 return ECode.BattleAlreadyContainsPlayer.toTask();
             }
 
-            player = this.server.mainScript.addPlayer(battle, msg.playerId, battle.battleId);
+            player = this.server.mainScript.addPlayer(battle, msg.playerId, battle.battleId, msg.characterConfigId);
             player.token = "";
             player.socket = null;
 

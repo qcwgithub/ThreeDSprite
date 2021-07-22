@@ -49,7 +49,7 @@ namespace Script
                 this.server.moveScript.randomWalkable(battle, out chWalkable, out chPos);
 
                 // player.characterId = this
-                player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId, ((btObject)chWalkable).id, chPos, Vector3.zero);
+                player.character = this.server.mainScript.addCharacter(battle, battle.nextCharacterId++, player.playerId, player.characterConfigId, ((btObject)chWalkable).id, chPos, Vector3.zero);
 
                 this.broadcastAddCharacter(battle, player);
             }
